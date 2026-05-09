@@ -4850,55 +4850,6 @@
                     "tooltip"
                   ]
                 },
-                "optimal_rotation_action": {
-                  "type": "object",
-                  "properties": {
-                    "label": {
-                      "type": "string"
-                    },
-                    "tooltip": {
-                      "type": "string"
-                    },
-                    "wrath_weave": {
-                      "type": "object",
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tooltip": {
-                          "type": "string"
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "tooltip"
-                      ]
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "label",
-                    "tooltip",
-                    "wrath_weave"
-                  ]
-                },
-                "guardian_hotw_dps_rotation": {
-                  "type": "object",
-                  "properties": {
-                    "label": {
-                      "type": "string"
-                    },
-                    "tooltip": {
-                      "type": "string"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "label",
-                    "tooltip"
-                  ]
-                },
                 "warlock_cast_assigned_curse": {
                   "type": "object",
                   "properties": {
@@ -4942,8 +4893,6 @@
                 "item_swap",
                 "move",
                 "custom_rotation",
-                "optimal_rotation_action",
-                "guardian_hotw_dps_rotation",
                 "warlock_cast_assigned_curse"
               ]
             },
@@ -6507,38 +6456,6 @@
                     "tooltip"
                   ]
                 },
-                "cat_excess_energy": {
-                  "type": "object",
-                  "properties": {
-                    "label": {
-                      "type": "string"
-                    },
-                    "tooltip": {
-                      "type": "string"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "label",
-                    "tooltip"
-                  ]
-                },
-                "cat_new_savage_roar_duration": {
-                  "type": "object",
-                  "properties": {
-                    "label": {
-                      "type": "string"
-                    },
-                    "tooltip": {
-                      "type": "string"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "label",
-                    "tooltip"
-                  ]
-                },
                 "warlock_assigned_curse_is_active": {
                   "type": "object",
                   "properties": {
@@ -6808,8 +6725,6 @@
                 "sequence_is_ready",
                 "sequence_time_to_ready",
                 "totem_remaining_time",
-                "cat_excess_energy",
-                "cat_new_savage_roar_duration",
                 "warlock_assigned_curse_is_active",
                 "warlock_is_assigned_curse",
                 "protection_paladin_damage_taken_last_global",
@@ -6999,9 +6914,6 @@
                 "feral_druid": {
                   "type": "string"
                 },
-                "guardian_druid": {
-                  "type": "string"
-                },
                 "shaman": {
                   "type": "string"
                 },
@@ -7067,7 +6979,6 @@
                 "sequences",
                 "misc",
                 "feral_druid",
-                "guardian_druid",
                 "shaman",
                 "warlock",
                 "mage",
@@ -7660,87 +7571,126 @@
                     "rake_trick",
                     "maintain_faerie_fire"
                   ]
+                },
+                "feral_bear": {
+                  "type": "object",
+                  "properties": {
+                    "maul_rage_threshold": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "tooltip": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "tooltip"
+                      ]
+                    },
+                    "swipe_usage": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "tooltip": {
+                          "type": "string"
+                        },
+                        "values": {
+                          "type": "object",
+                          "properties": {
+                            "never": {
+                              "type": "string"
+                            },
+                            "with_enough_ap": {
+                              "type": "string"
+                            },
+                            "spam": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": false,
+                          "required": [
+                            "never",
+                            "with_enough_ap",
+                            "spam"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "tooltip",
+                        "values"
+                      ]
+                    },
+                    "swipe_ap_threshold": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "tooltip": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "tooltip"
+                      ]
+                    },
+                    "maintain_demo_roar": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "tooltip": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "tooltip"
+                      ]
+                    },
+                    "maintain_faerie_fire": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "tooltip": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "label",
+                        "tooltip"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "maul_rage_threshold",
+                    "swipe_usage",
+                    "swipe_ap_threshold",
+                    "maintain_demo_roar",
+                    "maintain_faerie_fire"
+                  ]
                 }
               },
               "additionalProperties": false,
               "required": [
-                "feral_cat"
-              ]
-            },
-            "guardian": {
-              "type": "object",
-              "properties": {
-                "maintain_faerie_fire": {
-                  "type": "object",
-                  "properties": {
-                    "label": {
-                      "type": "string"
-                    },
-                    "tooltip": {
-                      "type": "string"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "label",
-                    "tooltip"
-                  ]
-                },
-                "maintain_demo_roar": {
-                  "type": "object",
-                  "properties": {
-                    "label": {
-                      "type": "string"
-                    },
-                    "tooltip": {
-                      "type": "string"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "label",
-                    "tooltip"
-                  ]
-                },
-                "demo_roar_refresh_leeway": {
-                  "type": "object",
-                  "properties": {
-                    "label": {
-                      "type": "string"
-                    },
-                    "tooltip": {
-                      "type": "string"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "label",
-                    "tooltip"
-                  ]
-                },
-                "pulverize_refresh_leeway": {
-                  "type": "object",
-                  "properties": {
-                    "label": {
-                      "type": "string"
-                    },
-                    "tooltip": {
-                      "type": "string"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "label",
-                    "tooltip"
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "maintain_faerie_fire",
-                "maintain_demo_roar",
-                "demo_roar_refresh_leeway",
-                "pulverize_refresh_leeway"
+                "feral_cat",
+                "feral_bear"
               ]
             },
             "rogue": {
@@ -8108,7 +8058,6 @@
           "additionalProperties": false,
           "required": [
             "druid",
-            "guardian",
             "rogue",
             "shaman",
             "warlock",
