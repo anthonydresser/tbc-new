@@ -853,36 +853,36 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-PendantofFrozenFlame-24092"
  value: {
-  dps: 1807.84491
-  tps: 1721.95739
+  dps: 1807.41591
+  tps: 1721.60918
  }
 }
 dps_results: {
  key: "TestEnhancement-AllItems-PendantofShadow'sEnd-24097"
  value: {
-  dps: 1807.84491
-  tps: 1721.95739
+  dps: 1807.41591
+  tps: 1721.60918
  }
 }
 dps_results: {
  key: "TestEnhancement-AllItems-PendantofThawing-24093"
  value: {
-  dps: 1807.84491
-  tps: 1721.95739
+  dps: 1807.41591
+  tps: 1721.60918
  }
 }
 dps_results: {
  key: "TestEnhancement-AllItems-PendantofWithering-24095"
  value: {
-  dps: 1807.84491
-  tps: 1721.95739
+  dps: 1807.41591
+  tps: 1721.60918
  }
 }
 dps_results: {
  key: "TestEnhancement-AllItems-PendantoftheNullRune-24098"
  value: {
-  dps: 1807.84491
-  tps: 1721.95739
+  dps: 1807.41591
+  tps: 1721.60918
  }
 }
 dps_results: {
