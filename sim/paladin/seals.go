@@ -768,21 +768,18 @@ func (paladin *Paladin) registerSealOfVengeance() {
 				dot.Snapshot(target, 30+dot.Spell.BonusDamage(attackTable)*0.034*float64(dot.GetStacks()))
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				hitResult := dot.Spell.CalcOutcome(sim, target, dot.Spell.OutcomeMagicHit)
-				if hitResult.Landed() {
-					dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)
-				} else {
-					dot.Spell.DealOutcome(sim, hitResult)
-				}
+				dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)
 			},
 		},
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+			hitResult := spell.CalcOutcome(sim, target, spell.OutcomeMagicHit)
+			if !hitResult.Landed() {
+				spell.DealOutcome(sim, hitResult)
+				return
+			}
+
 			dot := spell.Dot(target)
 			if dot.IsActive() {
-				if dot.GetStacks() == 5 {
-					procSpell.Cast(sim, target)
-				}
-
 				dot.AddStack(sim)
 				dot.TakeSnapshot(sim)
 				dot.Refresh(sim)
@@ -803,6 +800,11 @@ func (paladin *Paladin) registerSealOfVengeance() {
 		Outcome:         core.OutcomeLanded,
 		DPM:             paladin.NewStaticLegacyPPMManager(15, core.ProcMaskMeleeWhiteHit),
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			dot := holyVengeanceDot.Dot(result.Target)
+			if dot.IsActive() && dot.GetStacks() == 5 {
+				procSpell.Cast(sim, result.Target)
+			}
+
 			holyVengeanceDot.Cast(sim, result.Target)
 		},
 	})
