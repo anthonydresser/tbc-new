@@ -706,9 +706,13 @@ func registerStaticImbue(agent Agent, imbueId int32, isMH bool) {
 				character.AutoAttacks.MH().BaseDamageMin += 12
 			}
 		}
-
+		if character.AutoAttacks.Ranged() != nil {
+			character.AutoAttacks.Ranged().BaseDamageMin += 12
+			character.AutoAttacks.Ranged().BaseDamageMax += 12
+		}
 		// Keep Ranged Crit the same
 		character.AddStat(stats.RangedCritPercent, -(14 / PhysicalCritRatingPerCritPercent))
+
 	case 34340: // Addy Weightstone
 		character.AddStat(stats.MeleeCritRating, 14)
 		sharpTypes := []proto.WeaponType{proto.WeaponType_WeaponTypeAxe, proto.WeaponType_WeaponTypeDagger, proto.WeaponType_WeaponTypeSword}
