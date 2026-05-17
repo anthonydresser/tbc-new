@@ -159,8 +159,11 @@ func (spell *Spell) makeCastFunc(config CastConfig) CastSuccessFunc {
 			return spell.castFailureHelper(sim, "casting/channeling %v for %s, curTime = %s", hc.ActionID, hc.Expires-sim.CurrentTime, sim.CurrentTime)
 		}
 
-		if effectiveTime := spell.CurCast.EffectiveTime(); effectiveTime != 0 {
+		if (spell.Flags&SpellFlagCanCastWhileMoving == 0) && (spell.CurCast.CastTime > 0) && spell.Unit.Moving {
+			return spell.castFailureHelper(sim, "casting/channeling while moving not allowed!")
+		}
 
+		if effectiveTime := spell.CurCast.EffectiveTime(); effectiveTime != 0 {
 			// do not add channeled time here as they have variable cast length
 			// cast time for channels is handled in dot.OnExpire
 			if !spell.Flags.Matches(SpellFlagChanneled) {
@@ -168,10 +171,6 @@ func (spell *Spell) makeCastFunc(config CastConfig) CastSuccessFunc {
 			}
 
 			spell.Unit.SetGCDTimer(sim, max(sim.CurrentTime+effectiveTime, spell.Unit.NextGCDAt()))
-		}
-
-		if (spell.Flags&SpellFlagCanCastWhileMoving == 0) && (spell.CurCast.CastTime > 0) && spell.Unit.Moving {
-			return spell.castFailureHelper(sim, "casting/channeling while moving not allowed!")
 		}
 
 		// Hardcasts
