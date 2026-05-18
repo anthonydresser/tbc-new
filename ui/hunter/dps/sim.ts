@@ -261,13 +261,16 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 			value: { const: { val: `${timeToWeave}ms` } },
 		});
 
-		rotation.valueVariables[0] = viperStartManaPercentValue;
-		rotation.valueVariables[1] = viperStopManaPercentValue;
-		rotation.valueVariables[2] = meleeWeaveValue;
-		rotation.valueVariables[3] = weaveOnlyRaptorValue;
-		rotation.valueVariables[4] = timeToWeaveValue;
-		rotation.valueVariables[5] = useMultiValue;
-		rotation.valueVariables[6] = useArcaneValue;
+		const overrides: Record<string, APLValueVariable> = {
+			'Viper start': viperStartManaPercentValue,
+			'Viper stop': viperStopManaPercentValue,
+			'Melee weave': meleeWeaveValue,
+			'Raptor only': weaveOnlyRaptorValue,
+			'Time to weave': timeToWeaveValue,
+			'Use Multi-Shot': useMultiValue,
+			'Use Arcane Shot': useArcaneValue,
+		};
+		rotation.valueVariables = rotation.valueVariables.map(v => overrides[v.name] ?? v);
 
 		return APLRotation.create({
 			prepullActions: rotation.prepullActions,
