@@ -99,6 +99,7 @@ type Consumable struct {
 	BuffDuration             time.Duration
 	CooldownDuration         time.Duration
 	CategoryCooldownDuration time.Duration
+	CategoryId               int32
 	EffectIds                []int32
 }
 
@@ -112,6 +113,7 @@ func ConsumableFromProto(consumable *proto.Consumable) Consumable {
 		BuffDuration:             time.Second * time.Duration(consumable.BuffDuration),
 		CooldownDuration:         time.Second * time.Duration(consumable.CooldownDuration),
 		CategoryCooldownDuration: time.Second * time.Duration(consumable.CategoryCooldownDuration),
+		CategoryId:               consumable.CategoryId,
 		EffectIds:                consumable.EffectIds,
 	}
 }

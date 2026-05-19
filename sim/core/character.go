@@ -707,6 +707,9 @@ func (character *Character) GetMetricsProto() *proto.UnitMetrics {
 func (character *Character) GetDefensiveTrinketCD() *Timer {
 	return character.GetOrInitSpellCategoryTimer(1190)
 }
+func (character *Character) GetCombatConsumableCD() *Timer {
+	return character.GetOrInitSpellCategoryTimer(1153)
+}
 func (character *Character) GetOffensiveTrinketCD() *Timer {
 	return character.GetOrInitSpellCategoryTimer(1141)
 }

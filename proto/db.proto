@@ -60,6 +60,7 @@ message Consumable {
 	int32 cooldown_duration = 9;
 	//In seconds
 	int32 category_cooldown_duration = 10;
+	int32 category_id = 11;
 	repeated int32 effect_ids = 8;
 }
 

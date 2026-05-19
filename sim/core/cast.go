@@ -58,7 +58,7 @@ type Cast struct {
 	NonEmpty bool
 }
 
-func (cast *Cast) EffectiveTime() time.Duration {
+func (cast *Cast) GCDTime() time.Duration {
 	gcd := max(0, cast.GCD)
 	if cast.GCD > 0 {
 		if cast.GCDMin != 0 {
@@ -67,7 +67,11 @@ func (cast *Cast) EffectiveTime() time.Duration {
 			gcd = max(GCDMin, gcd)
 		}
 	}
-	return max(gcd, cast.CastTime)
+	return gcd
+}
+
+func (cast *Cast) EffectiveTime() time.Duration {
+	return max(cast.GCDTime(), cast.CastTime)
 }
 
 type CastFunc func(*Simulation, *Unit)
@@ -155,8 +159,11 @@ func (spell *Spell) makeCastFunc(config CastConfig) CastSuccessFunc {
 			return spell.castFailureHelper(sim, "casting/channeling %v for %s, curTime = %s", hc.ActionID, hc.Expires-sim.CurrentTime, sim.CurrentTime)
 		}
 
-		if effectiveTime := spell.CurCast.EffectiveTime(); effectiveTime != 0 {
+		if (spell.Flags&SpellFlagCanCastWhileMoving == 0) && (spell.CurCast.CastTime > 0) && spell.Unit.Moving {
+			return spell.castFailureHelper(sim, "casting/channeling while moving not allowed!")
+		}
 
+		if effectiveTime := spell.CurCast.EffectiveTime(); effectiveTime != 0 {
 			// do not add channeled time here as they have variable cast length
 			// cast time for channels is handled in dot.OnExpire
 			if !spell.Flags.Matches(SpellFlagChanneled) {
@@ -166,15 +173,11 @@ func (spell *Spell) makeCastFunc(config CastConfig) CastSuccessFunc {
 			spell.Unit.SetGCDTimer(sim, max(sim.CurrentTime+effectiveTime, spell.Unit.NextGCDAt()))
 		}
 
-		if (spell.Flags&SpellFlagCanCastWhileMoving == 0) && (spell.CurCast.CastTime > 0) && spell.Unit.Moving {
-			return spell.castFailureHelper(sim, "casting/channeling while moving not allowed!")
-		}
-
 		// Hardcasts
 		if spell.CurCast.CastTime > 0 {
 			if sim.Log != nil && !spell.Flags.Matches(SpellFlagNoLogs) {
-				spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, Effective Time = %s)",
-					spell.ActionID, max(0, spell.CurCast.Cost), spell.CurCast.CastTime, spell.CurCast.EffectiveTime())
+				spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, GCD = %s, Effective Time = %s)",
+					spell.ActionID, max(0, spell.CurCast.Cost), spell.CurCast.CastTime, max(0, spell.CurCast.GCDTime()), spell.CurCast.EffectiveTime())
 			}
 
 			spell.Unit.Hardcast = Hardcast{
@@ -220,8 +223,8 @@ func (spell *Spell) makeCastFunc(config CastConfig) CastSuccessFunc {
 		}
 
 		if sim.Log != nil && !spell.Flags.Matches(SpellFlagNoLogs) {
-			spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, Effective Time = %s)",
-				spell.ActionID, max(0, spell.CurCast.Cost), spell.CurCast.CastTime, spell.CurCast.EffectiveTime())
+			spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, GCD = %s, Effective Time = %s)",
+				spell.ActionID, max(0, spell.CurCast.Cost), spell.CurCast.CastTime, max(0, spell.CurCast.GCDTime()), spell.CurCast.EffectiveTime())
 			spell.Unit.Log(sim, "Completed cast %s", spell.ActionID)
 		}
 
@@ -304,8 +307,8 @@ func (spell *Spell) makeCastFuncSimple() CastSuccessFunc {
 		}
 
 		if sim.Log != nil && !spell.Flags.Matches(SpellFlagNoLogs) {
-			spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, Effective Time = %s)",
-				spell.ActionID, 0.0, "0s", "0s")
+			spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, GCD = %s, Effective Time = %s)",
+				spell.ActionID, 0.0, "0s", "0s", "0s")
 			spell.Unit.Log(sim, "Completed cast %s", spell.ActionID)
 		}
 
@@ -334,8 +337,8 @@ func (spell *Spell) makeCastFuncSimple() CastSuccessFunc {
 func (spell *Spell) makeCastFuncAutosOrProcs() CastSuccessFunc {
 	return func(sim *Simulation, target *Unit) bool {
 		if sim.Log != nil && !spell.Flags.Matches(SpellFlagNoLogs) {
-			spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, Effective Time = %s)",
-				spell.ActionID, 0.0, "0s", "0s")
+			spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, GCD = %s, Effective Time = %s)",
+				spell.ActionID, 0.0, "0s", "0s", "0s")
 			spell.Unit.Log(sim, "Completed cast %s", spell.ActionID)
 		}
 
@@ -354,8 +357,8 @@ func (spell *Spell) makeCastFuncAutosOrProcs() CastSuccessFunc {
 // Can be used for spells that proc off other spells and are the same spell id
 func (spell *Spell) Proc(sim *Simulation, target *Unit) {
 	if sim.Log != nil && !spell.Flags.Matches(SpellFlagNoLogs) {
-		spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, Effective Time = %s)",
-			spell.ActionID, 0.0, "0s", "0s")
+		spell.Unit.Log(sim, "Casting %s (Cost = %0.03f, Cast Time = %s, GCD = %s, Effective Time = %s)",
+			spell.ActionID, 0.0, "0s", "0s", "0s")
 		spell.Unit.Log(sim, "Completed cast %s", spell.ActionID)
 	}
 

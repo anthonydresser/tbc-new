@@ -960,12 +960,14 @@ export class MajorCooldownUsedLog extends SimLog {
 export class CastBeganLog extends SimLog {
 	readonly manaCost: number;
 	readonly castTime: number;
+	readonly gcd: number;
 	readonly effectiveTime: number;
 
-	constructor(params: SimLogParams, manaCost: number, castTime: number, effectiveTime: number) {
+	constructor(params: SimLogParams, manaCost: number, castTime: number, gcd: number, effectiveTime: number) {
 		super(params);
 		this.manaCost = manaCost;
 		this.castTime = castTime;
+		this.gcd = gcd;
 		this.effectiveTime = effectiveTime;
 	}
 
@@ -979,21 +981,27 @@ export class CastBeganLog extends SimLog {
 	}
 
 	static parse(params: SimLogParams): Promise<CastBeganLog> | null {
-		const match = params.raw.match(/Casting (.*) \(Cost = (\d+\.?\d*), Cast Time = (\d+\.?\d*)(m?s), Effective Time = (\d+\.?\d*)(m?s)\)/);
+		const match = params.raw.match(
+			/Casting (.*) \(Cost = (\d+\.?\d*), Cast Time = (\d+\.?\d*)(m?s), GCD = (\d+\.?\d*)(m?s), Effective Time = (\d+\.?\d*)(m?s)\)/,
+		);
 		if (match) {
 			let castTime = parseFloat(match[3]);
 			if (match[4] == 'ms') {
 				castTime /= 1000;
 			}
-			let effectiveTime = parseFloat(match[5]);
+			let gcd = parseFloat(match[5]);
 			if (match[6] == 'ms') {
+				gcd /= 1000;
+			}
+			let effectiveTime = parseFloat(match[7]);
+			if (match[8] == 'ms') {
 				effectiveTime /= 1000;
 			}
 			return ActionId.fromLogString(match[1])
 				.fill(params.source?.index)
 				.then(castId => {
 					params.actionId = castId;
-					return new CastBeganLog(params, parseFloat(match[2]), castTime, effectiveTime);
+					return new CastBeganLog(params, parseFloat(match[2]), castTime, gcd, effectiveTime);
 				});
 		} else {
 			return null;
@@ -1064,41 +1072,55 @@ export class CastCompletedLog extends SimLog {
 	}
 }
 
-// AutoDelayLog records the gap between when a ranged auto-attack would
-// naturally have fired and when it actually did, emitted from the ranged
-// auto's ApplyEffects when the delay exceeds 1ms. Attached to the matching
+// AutoDelayLog records the gap between when an auto-attack would
+// naturally have fired and when it actually did, emitted from the auto's
+// ApplyEffects when the delay exceeds 1ms. Attached to the matching
 // CastLog at construction time.
 export class AutoDelayLog extends SimLog {
 	readonly delay: number; // seconds, used for block width math
 	readonly delayText: string; // pre-formatted for display: rounded ms below 1s, 2-decimal s at 1s+
+	readonly readyAtLogText: string; // pre-formatted for display in log view
+	readonly readyAtTooltip: string; // pre-formatted for display in tooltip
 
-	constructor(params: SimLogParams, delay: number, delayText: string) {
+	constructor(params: SimLogParams, delay: number, delayText: string, readyAtLogText: string, readyAtTooltip: string) {
 		super(params);
 		this.delay = delay;
 		this.delayText = delayText;
+		this.readyAtLogText = readyAtLogText;
+		this.readyAtTooltip = readyAtTooltip;
 	}
 
 	toHTML(includeTimestamp = true) {
 		return this.cacheOutput(includeTimestamp, () => (
 			<>
-				{this.toPrefix(includeTimestamp)} {this.newActionIdLink()} delayed by {this.delayText}.
+				{this.toPrefix(includeTimestamp)} {this.newActionIdLink()} delayed by {this.delayText}, was ready at {this.readyAtLogText}.
 			</>
 		));
 	}
 
 	static parse(params: SimLogParams): Promise<AutoDelayLog> | null {
-		const match = params.raw.match(/] (.*?) delayed by (\d+\.?\d*)(m?s)/);
+		const match = params.raw.match(/] (.*?) delayed by (\d+\.?\d*)(m?s), was ready at (\d*?m?)(\d+\.?\d*)(m?s)/);
 		if (match) {
 			let delay = parseFloat(match[2]);
 			if (match[3] == 'ms') {
 				delay /= 1000;
 			}
 			const delayText = delay >= 1 ? `${delay.toFixed(2)}s` : `${Math.round(delay * 1000)}ms`;
+
+			let readyAtMinute = match[4];
+			let readyAtSeconds = parseFloat(match[5]);
+			let readyAtTotal = readyAtSeconds;
+			if (readyAtMinute && readyAtMinute.endsWith('m')) {
+				readyAtTotal = parseFloat(readyAtMinute.slice(0, -1)) * 60 + readyAtSeconds;
+			}
+			const readyAtLogText = readyAtTotal >= 1 ? `${readyAtMinute}${readyAtSeconds.toFixed(2)}s` : `${Math.round(readyAtTotal * 1000)}ms`;
+			const readyAtTooltip = readyAtTotal >= 1 ? `${readyAtTotal.toFixed(2)}s` : `${Math.round(readyAtTotal * 1000)}ms`;
+
 			return ActionId.fromLogString(match[1])
 				.fill(params.source?.index)
 				.then(castId => {
 					params.actionId = castId;
-					return new AutoDelayLog(params, delay, delayText);
+					return new AutoDelayLog(params, delay, delayText, readyAtLogText, readyAtTooltip);
 				});
 		} else {
 			return null;
@@ -1108,11 +1130,13 @@ export class AutoDelayLog extends SimLog {
 
 export class CastLog extends SimLog {
 	readonly castTime: number;
+	readonly gcd: number;
 	readonly effectiveTime: number;
 	readonly travelTime: number;
 	readonly cancelTime: number;
 	readonly delay: number;
 	readonly delayText: string;
+	readonly readyAtText: string;
 
 	readonly castBeganLog: CastBeganLog;
 	readonly castCancelledLog: CastCancelledLog | null;
@@ -1139,10 +1163,12 @@ export class CastLog extends SimLog {
 			threat: castCompletedLog?.threat || castCancelledLog?.threat || castBeganLog.threat,
 		});
 		this.castTime = castBeganLog.castTime;
+		this.gcd = castBeganLog.gcd;
 		this.effectiveTime = castBeganLog.effectiveTime;
 		this.cancelTime = castCancelledLog?.cancelTime || 0;
 		this.delay = autoDelayLog?.delay ?? 0;
 		this.delayText = autoDelayLog?.delayText ?? '';
+		this.readyAtText = autoDelayLog?.readyAtTooltip ?? '';
 
 		this.castBeganLog = castBeganLog;
 		this.castCompletedLog = castCompletedLog;
@@ -1151,7 +1177,6 @@ export class CastLog extends SimLog {
 
 		if (this.castCompletedLog && this.castBeganLog) {
 			this.castTime = this.castCompletedLog.timestamp - this.castBeganLog.timestamp;
-			this.effectiveTime = this.castCompletedLog.timestamp - this.castBeganLog.timestamp;
 		}
 		if (this.castCancelledLog) {
 			this.cancelTime = this.castCancelledLog.cancelTime;
@@ -1193,6 +1218,9 @@ export class CastLog extends SimLog {
 				// spell than it started (if stacks drop).
 				// Also handle Shadow's Cascade for bouncing
 				return actionId.toStringIgnoringTag();
+			} else if (actionId.spellId === 27014) {
+				// Raptor Strike should be grouped with regular melee swings
+				return 'other-3-1';
 			} else {
 				return actionId.toString();
 			}

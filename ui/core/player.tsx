@@ -52,8 +52,6 @@ import {
 	UIGem as Gem,
 	UIItem as Item,
 	UIItem_FactionRestriction,
-	IndividualSimSettings,
-	ReforgeSettings,
 } from './proto/ui';
 import { ActionId } from './proto_utils/action_id';
 import { Database } from './proto_utils/database';

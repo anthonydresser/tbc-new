@@ -266,7 +266,7 @@ export const UnleashedRage = makeBooleanIndividualBuffInput({
 	label: 'Unleashed Rage',
 });
 export const ShadowPriestDPS = makeMultistateIndividualBuffInput({
-	actionId: () => ActionId.fromSpellId(34914),
+	actionId: () => ActionId.fromSpellId(34917),
 	numStates: 1500,
 	fieldName: 'shadowPriestDps',
 	label: 'Vampiric Touch',
@@ -446,7 +446,7 @@ export const PARTY_BUFFS_CONFIG = [
 		picker: IconPicker,
 		stats: [Stat.StatShadowResistance],
 	},
-    {
+	{
 		config: AspectOfTheWild,
 		picker: IconPicker,
 		stats: [Stat.StatNatureResistance],
