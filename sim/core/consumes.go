@@ -427,8 +427,8 @@ func makeConjuredActivationSpellInternal(conjured Consumable, character *Charact
 			Duration: cooldownDuration,
 		},
 		SharedCD: Cooldown{
-			Timer:    character.GetConjuredCD(),
-			Duration: cooldownDuration,
+			Timer:    character.GetOrInitSpellCategoryTimer(conjured.CategoryId),
+			Duration: time.Minute * 2,
 		},
 	}
 
