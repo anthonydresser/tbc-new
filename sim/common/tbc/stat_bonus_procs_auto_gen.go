@@ -3671,7 +3671,9 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// https://www.wowhead.com/tbc/spell=39599
+	// Sometimes heals bearer of 120 damage when damaging an enemy in melee and chance on ranged hit to restore
+	// 172 mana to the bearer.
+	// https://www.wowhead.com/tbc/spell=33504
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 	//	Callback:           core.CallbackEmpty,
 	//	ProcMask:           core.ProcMaskUnknown,
@@ -6352,9 +6354,8 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Release all accumulated Holy Energy to instantly heal current friendly target by the amount of Holy Energy
-	// accumulated.
-	// https://www.wowhead.com/tbc/spell=45064
+	// Collects 100 Holy Energy from healing spells you cast. Cannot collect more than 2000 Holy Energy.
+	// https://www.wowhead.com/tbc/spell=45062
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 	//	Callback:           core.CallbackEmpty,
 	//	ProcMask:           core.ProcMaskUnknown,
@@ -7200,9 +7201,9 @@ func RegisterAllProcs() {
 	// 50 for 8s.
 	// https://www.wowhead.com/tbc/spell=25768
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-		Callback:           core.CallbackOnSpellHitDealt,
+		Callback:           core.CallbackOnCastComplete,
 		ProcMask:           core.ProcMaskSpellDamage,
-		Outcome:            core.OutcomeLanded,
+		Outcome:            core.OutcomeEmpty,
 		RequireDamageDealt: false,
 	}, []shared.ItemVariant{
 		{ItemID: 21128, ItemName: "Staff of the Qiraji Prophets"},
@@ -7212,9 +7213,9 @@ func RegisterAllProcs() {
 	// for 10s.
 	// https://www.wowhead.com/tbc/spell=25907
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-		Callback:           core.CallbackOnSpellHitDealt,
+		Callback:           core.CallbackOnCastComplete,
 		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellDamageProc,
-		Outcome:            core.OutcomeLanded,
+		Outcome:            core.OutcomeEmpty,
 		RequireDamageDealt: false,
 	}, []shared.ItemVariant{
 		{ItemID: 21190, ItemName: "Wrath of Cenarius"},
@@ -7227,6 +7228,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskSpellDamage,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: false,
+		ClassSpellsOnly:    true,
 	}, []shared.ItemVariant{
 		{ItemID: 24122, ItemName: "Coronet of Verdant Flame"},
 	})
@@ -7238,6 +7240,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskSpellDamage,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: false,
+		ClassSpellsOnly:    true,
 	}, []shared.ItemVariant{
 		{ItemID: 24123, ItemName: "Circlet of Arcane Might"},
 	})
@@ -7245,10 +7248,11 @@ func RegisterAllProcs() {
 	// Your harmful spells have a chance to increase your spell haste rating by 320 for 6 secs.
 	// https://www.wowhead.com/tbc/spell=33370
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-		Callback:           core.CallbackOnSpellHitDealt,
+		Callback:           core.CallbackOnCastComplete,
 		ProcMask:           core.ProcMaskSpellDamage,
-		Outcome:            core.OutcomeLanded,
+		Outcome:            core.OutcomeEmpty,
 		RequireDamageDealt: false,
+		ClassSpellsOnly:    true,
 	}, []shared.ItemVariant{
 		{ItemID: 27683, ItemName: "Quagmirran's Eye"},
 	})
@@ -7261,6 +7265,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskSpellHealing,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: false,
+		ClassSpellsOnly:    true,
 	}, []shared.ItemVariant{
 		{ItemID: 28190, ItemName: "Scarab of the Infinite Cycle"},
 	})
@@ -7272,6 +7277,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellHealing | core.ProcMaskSpellDamageProc,
 		Outcome:            core.OutcomeCrit,
 		RequireDamageDealt: false,
+		ClassSpellsOnly:    true,
 	}, []shared.ItemVariant{
 		{ItemID: 28418, ItemName: "Shiffar's Nexus-Horn"},
 	})
@@ -7338,6 +7344,7 @@ func RegisterAllProcs() {
 		ProcMask:           core.ProcMaskSpellDamage,
 		Outcome:            core.OutcomeLanded,
 		RequireDamageDealt: false,
+		ClassSpellsOnly:    true,
 	}, []shared.ItemVariant{
 		{ItemID: 28578, ItemName: "Masquerade Gown"},
 	})
@@ -7346,9 +7353,9 @@ func RegisterAllProcs() {
 	// 130 for 10s.
 	// https://www.wowhead.com/tbc/spell=34597
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-		Callback:           core.CallbackOnSpellHitDealt,
+		Callback:           core.CallbackOnCastComplete,
 		ProcMask:           core.ProcMaskSpellDamage | core.ProcMaskSpellDamageProc,
-		Outcome:            core.OutcomeLanded,
+		Outcome:            core.OutcomeEmpty,
 		RequireDamageDealt: false,
 	}, []shared.ItemVariant{
 		{ItemID: 28602, ItemName: "Robe of the Elder Scribes"},
@@ -7379,9 +7386,9 @@ func RegisterAllProcs() {
 	// Your offensive spells have a chance on hit to increase your spell damage by 95 for 10 secs.
 	// https://www.wowhead.com/tbc/spell=35084
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-		Callback:           core.CallbackOnSpellHitDealt,
+		Callback:           core.CallbackOnCastComplete,
 		ProcMask:           core.ProcMaskSpellDamage,
-		Outcome:            core.OutcomeLanded,
+		Outcome:            core.OutcomeEmpty,
 		RequireDamageDealt: false,
 	}, []shared.ItemVariant{
 		{ItemID: 29305, ItemName: "Band of the Eternal Sage"},
@@ -7457,10 +7464,11 @@ func RegisterAllProcs() {
 	// Your harmful spells have a chance to increase your spell haste rating by 280 for 6 secs.
 	// https://www.wowhead.com/tbc/spell=38317
 	shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-		Callback:           core.CallbackOnSpellHitDealt,
+		Callback:           core.CallbackOnCastComplete,
 		ProcMask:           core.ProcMaskSpellDamage,
-		Outcome:            core.OutcomeLanded,
+		Outcome:            core.OutcomeEmpty,
 		RequireDamageDealt: false,
+		ClassSpellsOnly:    true,
 	}, []shared.ItemVariant{
 		{ItemID: 31336, ItemName: "Blade of Wizardry"},
 	})

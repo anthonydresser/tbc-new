@@ -544,9 +544,9 @@ func JudgementOfWisdomAura(target *Unit) *Aura {
 		ActionID:        actionId,
 		MetricsActionID: actionId,
 		Duration:        time.Second * 20,
-		ProcChance: 0.5,
-		ProcMask:   ProcMaskDirect,
-		Callback:   CallbackOnSpellHitTaken,
+		ProcChance:      0.5,
+		ProcMask:        ProcMaskDirect,
+		Callback:        CallbackOnSpellHitTaken,
 		Handler: func(sim *Simulation, spell *Spell, result *SpellResult) {
 			// Melee claim that wisdom can proc on misses.
 			if !spell.ProcMask.Matches(ProcMaskMeleeOrRanged) && !result.Landed() {

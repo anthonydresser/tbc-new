@@ -183,8 +183,8 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-BandoftheEternalSage-29305"
  value: {
-  dps: 954.05691
-  tps: 1715.89752
+  dps: 955.87756
+  tps: 1719.40936
   dtps: 1311.587
  }
 }
@@ -295,9 +295,9 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-BladeofWizardry-31336"
  value: {
-  dps: 898.97249
-  tps: 1608.04699
-  dtps: 1287.32825
+  dps: 899.95848
+  tps: 1610.19956
+  dtps: 1286.901
  }
 }
 dps_results: {
@@ -1257,9 +1257,9 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-Quagmirran'sEye-27683"
  value: {
-  dps: 914.22136
-  tps: 1638.49467
-  dtps: 1276.16142
+  dps: 912.98139
+  tps: 1635.29991
+  dtps: 1277.57729
  }
 }
 dps_results: {
@@ -1281,8 +1281,8 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-RobeoftheElderScribes-28602"
  value: {
-  dps: 931.20515
-  tps: 1672.13741
+  dps: 934.08916
+  tps: 1677.69671
   dtps: 1361.40613
  }
 }
@@ -1658,8 +1658,8 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-WrathofCenarius-21190"
  value: {
-  dps: 940.15637
-  tps: 1689.20792
+  dps: 943.17488
+  tps: 1695.02045
   dtps: 1311.587
  }
 }

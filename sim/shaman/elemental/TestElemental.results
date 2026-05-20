@@ -167,8 +167,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-BandoftheEternalSage-29305"
  value: {
-  dps: 1794.14072
-  tps: 1397.58235
+  dps: 1794.03949
+  tps: 1397.49624
  }
 }
 dps_results: {
@@ -937,7 +937,7 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-Quagmirran'sEye-27683"
  value: {
-  dps: 1749.92038
+  dps: 1749.879
   tps: 1423.3112
  }
 }
@@ -958,8 +958,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-RobeoftheElderScribes-28602"
  value: {
-  dps: 1743.94058
-  tps: 1359.31876
+  dps: 1744.10804
+  tps: 1359.49707
  }
 }
 dps_results: {
@@ -1351,8 +1351,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-WrathofCenarius-21190"
  value: {
-  dps: 1747.47892
-  tps: 1362.59486
+  dps: 1747.76692
+  tps: 1362.70914
  }
 }
 dps_results: {
@@ -1470,43 +1470,43 @@ dps_results: {
 dps_results: {
  key: "TestElemental-Settings-Draenei-p3-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2705.84327
-  tps: 2512.61128
+  dps: 2705.21347
+  tps: 2512.29191
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Draenei-p3-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2280.8435
-  tps: 1784.71492
+  dps: 2281.02604
+  tps: 1784.89249
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Draenei-p3-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2649.99682
-  tps: 2076.67434
+  dps: 2650.12158
+  tps: 2076.78438
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Draenei-p3-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 1127.69871
-  tps: 864.73647
+  dps: 1127.6801
+  tps: 864.72289
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Draenei-p3-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1041.86201
-  tps: 800.02091
+  dps: 1041.7973
+  tps: 799.95185
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Draenei-p3-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1887.70082
-  tps: 1446.02514
+  dps: 1887.6889
+  tps: 1446.01189
  }
 }
 dps_results: {
@@ -1680,43 +1680,43 @@ dps_results: {
 dps_results: {
  key: "TestElemental-Settings-Orc-p3-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2734.59292
-  tps: 2534.79326
+  dps: 2733.96311
+  tps: 2534.47389
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p3-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2306.62891
-  tps: 1805.32324
+  dps: 2306.81146
+  tps: 1805.50081
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p3-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2696.50594
-  tps: 2112.63841
+  dps: 2696.63071
+  tps: 2112.74845
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p3-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 1135.51442
-  tps: 871.33534
+  dps: 1135.46624
+  tps: 871.28806
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p3-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1045.49304
-  tps: 803.26273
+  dps: 1045.51108
+  tps: 803.25648
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p3-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1923.8836
-  tps: 1477.30418
+  dps: 1923.79632
+  tps: 1477.22445
  }
 }
 dps_results: {
@@ -1890,43 +1890,43 @@ dps_results: {
 dps_results: {
  key: "TestElemental-Settings-Troll-p3-Standard-default-FullBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 2715.61039
-  tps: 2525.21248
+  dps: 2715.20004
+  tps: 2524.98039
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p3-Standard-default-FullBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 2285.84361
-  tps: 1787.98831
+  dps: 2285.88423
+  tps: 1788.05292
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p3-Standard-default-FullBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 2721.44063
-  tps: 2133.39063
+  dps: 2721.47528
+  tps: 2133.4212
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p3-Standard-default-NoBuffs-0.0yards-LongMultiTarget"
  value: {
-  dps: 1100.77128
-  tps: 850.51095
+  dps: 1100.7913
+  tps: 850.54385
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p3-Standard-default-NoBuffs-0.0yards-LongSingleTarget"
  value: {
-  dps: 1028.01554
-  tps: 791.57095
+  dps: 1027.99147
+  tps: 791.55988
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p3-Standard-default-NoBuffs-0.0yards-ShortSingleTarget"
  value: {
-  dps: 1936.15579
-  tps: 1490.34314
+  dps: 1936.0898
+  tps: 1490.31543
  }
 }
 dps_results: {

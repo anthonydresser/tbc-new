@@ -67,17 +67,18 @@ var ItemSetVoidheartRaiment = core.NewItemSet(core.ItemSet{
 		2: func(agent core.Agent, setBonusAura *core.Aura) {
 			warlock := agent.(WarlockAgent).GetWarlock()
 			// Your shadow damage spells have a chance to grant you 135 bonus shadow damage for 15 sec.
-			// Shadowflame - 37377
-			shadowBonus := warlock.NewTemporaryStatsAura("Shadowflame", core.ActionID{SpellID: 37377}, stats.Stats{stats.ShadowDamage: 135}, time.Second*15)
+			// Flameshadow - 37379
+			shadowBonus := warlock.NewTemporaryStatsAura("Flameshadow", core.ActionID{SpellID: 37379}, stats.Stats{stats.ShadowDamage: 135}, time.Second*15)
 
 			// Your fire damage spells have a chance to grant you 135 bonus fire damage for 15 sec.
 			// Hellfire - 39437
-			fireBonus := warlock.NewTemporaryStatsAura("Shadowflame Hellfire", core.ActionID{SpellID: 39437}, stats.Stats{stats.FireDamage: 135}, time.Second*15)
+			fireBonus := warlock.NewTemporaryStatsAura("Hellfire", core.ActionID{SpellID: 39437}, stats.Stats{stats.FireDamage: 135}, time.Second*15)
 
 			setBonusAura.AttachProcTrigger(core.ProcTrigger{
-				Name:       "Voidheart Raiment 2pc",
-				ProcChance: 0.05,
-				Callback:   core.CallbackOnCastComplete,
+				Name:               "Voidheart Raiment 2pc",
+				ProcChance:         0.05,
+				Callback:           core.CallbackOnSpellHitDealt,
+				RequireDamageDealt: true,
 				Handler: func(sim *core.Simulation, spell *core.Spell, _ *core.SpellResult) {
 					if spell.SpellSchool.Matches(core.SpellSchoolShadow) {
 						shadowBonus.Activate(sim)

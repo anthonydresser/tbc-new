@@ -167,8 +167,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-BandoftheEternalSage-29305"
  value: {
-  dps: 1807.16986
-  tps: 1720.88321
+  dps: 1807.33158
+  tps: 1721.02495
  }
 }
 dps_results: {
@@ -930,8 +930,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-Quagmirran'sEye-27683"
  value: {
-  dps: 1801.51458
-  tps: 1716.92021
+  dps: 1804.99305
+  tps: 1720.58014
  }
 }
 dps_results: {
@@ -951,8 +951,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-RobeoftheElderScribes-28602"
  value: {
-  dps: 1773.66985
-  tps: 1685.97246
+  dps: 1773.85638
+  tps: 1685.91279
  }
 }
 dps_results: {
@@ -1337,8 +1337,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-WrathofCenarius-21190"
  value: {
-  dps: 1805.40896
-  tps: 1718.76512
+  dps: 1806.15423
+  tps: 1719.21236
  }
 }
 dps_results: {
