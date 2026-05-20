@@ -370,8 +370,8 @@ dps_results: {
 dps_results: {
  key: "TestRogue-AllItems-Deathmantle"
  value: {
-  dps: 1791.71672
-  tps: 1272.11887
+  dps: 1763.14062
+  tps: 1251.82984
  }
 }
 dps_results: {
