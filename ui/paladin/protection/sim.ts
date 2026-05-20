@@ -187,6 +187,8 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 		showExecuteProportion: false,
 	},
 
+	defaultBuild: Presets.MAGTHERIDON_PRESET_BUILD,
+
 	presets: {
 		epWeights: [Presets.P4_EP_PRESET],
 		// Preset talents that the user can quickly select.
@@ -195,7 +197,13 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 		rotations: [Presets.APL_SIMPLE, Presets.APL_PRESET],
 		// Preset gear configurations that the user can quickly select.
 		gear: [Presets.P1_GEAR_PRESET, Presets.P2_GEAR_PRESET, Presets.P3_GEAR_PRESET, Presets.P4_GEAR_PRESET, Presets.P5_GEAR_PRESET],
-		builds: [],
+		builds: [
+			Presets.DEFAULT_PRESET_BUILD,
+			Presets.KARAZHAN_PRESET_BUILD,
+			Presets.MAGTHERIDON_PRESET_BUILD,
+			Presets.MOROGRIM_PRESET_BUILD,
+			Presets.HYDROSS_PRESET_BUILD,
+		],
 	},
 
 	autoRotation: (_player: Player<Spec.SpecProtectionPaladin>): APLRotation => {
