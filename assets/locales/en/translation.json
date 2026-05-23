@@ -36,6 +36,13 @@
 			"4": "Phase 3.5 (2.3 - ZA)",
 			"5": "Phase 4 (2.4 - SWP)"
 		},
+		"phase_names": {
+			"1": "Phase 1",
+			"2": "Phase 2",
+			"3": "Phase 3",
+			"4": "Phase 3.5",
+			"5": "Phase 4"
+		},
 		"tanks": {
 			"title": "Tanks",
 			"main_tank": "Main Tank",
