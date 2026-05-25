@@ -284,7 +284,7 @@ func (rogue *Rogue) registerMasterOfSubtlety() {
 		Label:    "Master of Subtlety",
 		ActionID: core.ActionID{SpellID: 31223},
 		Duration: time.Second * 6,
-	}).AttachAdditivePseudoStatBuff(&rogue.PseudoStats.DamageDealtMultiplier, 1+bonus)
+	}).AttachMultiplicativePseudoStatBuff(&rogue.PseudoStats.DamageDealtMultiplier, 1+bonus)
 
 	// Activated in stealth.go
 }
