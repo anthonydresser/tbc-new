@@ -802,18 +802,18 @@ export class Player<SpecType extends Spec> {
 		const meleeCrit = (this.currentStats.finalStats?.pseudoStats[PseudoStat.PseudoStatMeleeCritPercent] || 0) + debuffCrit;
 		const meleeHit = (this.currentStats.finalStats?.pseudoStats[PseudoStat.PseudoStatMeleeHitPercent] || 0) + debuffHit;
 		const expertise = (this.currentStats.finalStats?.stats[Stat.StatExpertiseRating] || 0) / Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION / 4;
-		const critSuppression = [0, 1, 2, 4.8][this.sim.encounter.primaryTarget.level - Mechanics.CHARACTER_LEVEL];
-		const hitSuppression = [0, 0, 0, 1][this.sim.encounter.primaryTarget.level - Mechanics.CHARACTER_LEVEL];
-		const glancing = [6, 12, 18, 24][this.sim.encounter.primaryTarget.level - Mechanics.CHARACTER_LEVEL];
-		const oneHandHitCap = [5, 6, 7, 8][this.sim.encounter.primaryTarget.level - Mechanics.CHARACTER_LEVEL] + hitSuppression;
+		const critSuppression = { 68: 0, 70: 0, 71: 1, 72: 2, 73: 4.8 }[this.sim.encounter.primaryTarget.level] ?? 0;
+		const hitSuppression = { 68: 0, 70: 0, 71: 0, 72: 0, 73: 1 }[this.sim.encounter.primaryTarget.level] ?? 0;
+		const glancing = { 68: 0, 70: 6, 71: 12, 72: 18, 73: 24 }[this.sim.encounter.primaryTarget.level] ?? 0;
+
+		let oneHandHitCap = ({ 68: 4, 70: 5, 71: 6, 72: 7, 73: 8 }[this.sim.encounter.primaryTarget.level] ?? 4) + hitSuppression;
 		// DW Penalty is a fixed 19%
 		const dualWieldHitCap = oneHandHitCap + 19;
-
 		const hasOffhandWeapon = this.getGear().getEquippedItem(ItemSlot.ItemSlotOffHand)?.item.weaponSpeed !== undefined;
 		// Due to warrior HS bug, hit cap for crit cap calculation should be 8% instead of 27%
 		const meleeHitCap = hasOffhandWeapon && this.getClass() != Class.ClassWarrior ? dualWieldHitCap : oneHandHitCap;
-		const dodgeCap = [5, 5.5, 6, 6.5][this.sim.encounter.primaryTarget.level - Mechanics.CHARACTER_LEVEL];
-		const parryCap = this.getInFrontOfTarget() ? [5, 5.5, 6, 14][this.sim.encounter.primaryTarget.level - Mechanics.CHARACTER_LEVEL] : 0;
+		const dodgeCap = { 68: 4, 70: 5, 71: 5.5, 72: 6, 73: 6.5 }[this.sim.encounter.primaryTarget.level] ?? 4;
+		const parryCap = this.getInFrontOfTarget() ? ({ 68: 4, 70: 5, 71: 5.5, 72: 6, 73: 14 }[this.sim.encounter.primaryTarget.level] ?? 4) : 0;
 		const expertiseCap = dodgeCap + parryCap;
 
 		const remainingMeleeHitCap = Math.max(meleeHitCap - meleeHit, 0.0);
