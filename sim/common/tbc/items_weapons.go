@@ -398,4 +398,10 @@ func init() {
 		},
 	})
 
+	// Frostscythe of Lord Ahune - https://www.wowhead.com/tbc/spell=46643
+	core.NewItemEffect(35514, func(_ core.Agent) {})
+	core.NewItemEffect(278952, func(_ core.Agent) {})
+	core.NewItemEffect(278953, func(_ core.Agent) {})
+	core.NewItemEffect(278954, func(_ core.Agent) {})
+	core.NewItemEffect(278955, func(_ core.Agent) {})
 }
