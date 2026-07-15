@@ -223,7 +223,6 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 			viperStartManaPercent = 0.05,
 			viperStopManaPercent = 0.25,
 			meleeWeave = player.getEquippedItem(ItemSlot.ItemSlotMainHand)?.item.handType === HandType.HandTypeTwoHand,
-			weaveOnlyRaptor = false,
 			useMulti = true,
 			useArcane = true,
 			timeToWeave = 400,
@@ -242,11 +241,6 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 		const meleeWeaveValue = APLValueVariable.fromJson({
 			name: 'Melee weave',
 			value: { const: { val: String(meleeWeave) } },
-		});
-
-		const weaveOnlyRaptorValue = APLValueVariable.fromJson({
-			name: 'Raptor only',
-			value: { const: { val: String(weaveOnlyRaptor) } },
 		});
 
 		const useMultiValue = APLValueVariable.fromJson({
@@ -268,7 +262,6 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 			'Viper start': viperStartManaPercentValue,
 			'Viper stop': viperStopManaPercentValue,
 			'Melee weave': meleeWeaveValue,
-			'Raptor only': weaveOnlyRaptorValue,
 			'Time to weave': timeToWeaveValue,
 			'Use Multi-Shot': useMultiValue,
 			'Use Arcane Shot': useArcaneValue,

@@ -1895,10 +1895,6 @@
 					"label": "Melee Weaving",
 					"tooltip": "Uses melee weaving in the rotation."
 				},
-				"weave_only_raptor": {
-					"label": "Only Raptor Strike (no white hits)",
-					"tooltip": "Only perform a melee weave if Raptor Strike is ready."
-				},
 				"time_to_weave": {
 					"label": "Time to weave (ms)",
 					"tooltip": "Amount of time, in milliseconds, between when you start moving towards the boss and when you re-engage your ranged autos. Capped at 100ms."
