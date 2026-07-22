@@ -399,7 +399,7 @@ func HemorrhageAura(target *Unit, uptime float64) *Aura {
 	hasAura := target.HasAura("Hemorrhage")
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Hemorrhage",
-		ActionID: ActionID{SpellID: 33876},
+		ActionID: ActionID{SpellID: 26864},
 		Duration: time.Second * 15,
 	})
 
