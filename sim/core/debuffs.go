@@ -274,7 +274,30 @@ func DemoralizingShoutAura(target *Unit, boomingVoicePoints int32, improvedDemoS
 	apReduction := 300.0 * (1 + 0.1*float64(improvedDemoShoutPoints))
 	duration := time.Duration(float64(time.Second*30) * (1 + 0.1*float64(boomingVoicePoints)))
 
-	return statsDebuff(target, 0, "Demoralizing Shout", 25203, stats.Stats{stats.AttackPower: -apReduction}, duration)
+	aura := target.GetOrRegisterAura(Aura{
+		Label:    "Demoralizing Shout",
+		ActionID: ActionID{SpellID: 25203},
+		Duration: duration,
+	})
+
+	effect := aura.NewExclusiveEffect("DemoralizingShout", true, ExclusiveEffect{
+		Priority: apReduction,
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.AttackPower, -ee.Priority)
+		},
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.AttackPower, ee.Priority)
+		},
+	})
+
+	if effect.Priority < apReduction {
+		effect.Priority = apReduction
+	}
+	if aura.Duration < duration {
+		aura.Duration = duration
+	}
+
+	return aura
 }
 
 func SlowAura(target *Unit) *Aura {
