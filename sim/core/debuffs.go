@@ -26,7 +26,7 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 	}
 
 	if debuffs.DemoralizingRoar != proto.TristateEffect_TristateEffectMissing {
-		MakePermanent(DemoralizingRoarAura(target, IsImproved(debuffs.DemoralizingRoar)))
+		MakePermanent(DemoralizingRoarAura(target, GetTristateValueInt32(debuffs.DemoralizingRoar, 0, 5)))
 	}
 
 	if debuffs.DemoralizingShout != proto.TristateEffect_TristateEffectMissing {
@@ -244,20 +244,60 @@ func CurseOfRecklessnessAura(target *Unit, casterIndex int32) *Aura {
 	return aura
 }
 
-func DemoralizingRoarAura(target *Unit, improved bool) *Aura {
-	apReduction := 248.0
-	if improved {
-		apReduction *= 1.4
+func DemoralizingRoarAura(target *Unit, feralAggressionPoints int32) *Aura {
+	apReduction := 248.0 * (1 + 0.08*float64(feralAggressionPoints))
+
+	aura := target.GetOrRegisterAura(Aura{
+		Label:    "Demoralizing Roar",
+		ActionID: ActionID{SpellID: 26998},
+		Duration: time.Second * 30,
+	})
+
+	effect := aura.NewExclusiveEffect(DemoralizingEffectCategory, true, ExclusiveEffect{
+		Priority: apReduction,
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.AttackPower, -ee.Priority)
+		},
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.AttackPower, ee.Priority)
+		},
+	})
+
+	if effect.Priority < apReduction {
+		effect.Priority = apReduction
 	}
 
-	return statsDebuff(target, 0, "Demoralizing Roar", 26998, stats.Stats{stats.AttackPower: -apReduction}, time.Second*30)
+	return aura
 }
 
 func DemoralizingShoutAura(target *Unit, boomingVoicePoints int32, improvedDemoShoutPoints int32) *Aura {
 	apReduction := 300.0 * (1 + 0.1*float64(improvedDemoShoutPoints))
 	duration := time.Duration(float64(time.Second*30) * (1 + 0.1*float64(boomingVoicePoints)))
 
-	return statsDebuff(target, 0, "Demoralizing Shout", 25203, stats.Stats{stats.AttackPower: -apReduction}, duration)
+	aura := target.GetOrRegisterAura(Aura{
+		Label:    "Demoralizing Shout",
+		ActionID: ActionID{SpellID: 25203},
+		Duration: duration,
+	})
+
+	effect := aura.NewExclusiveEffect(DemoralizingEffectCategory, true, ExclusiveEffect{
+		Priority: apReduction,
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.AttackPower, -ee.Priority)
+		},
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.AttackPower, ee.Priority)
+		},
+	})
+
+	if effect.Priority < apReduction {
+		effect.Priority = apReduction
+	}
+	if aura.Duration < duration {
+		aura.Duration = duration
+	}
+
+	return aura
 }
 
 func SlowAura(target *Unit) *Aura {
@@ -359,7 +399,7 @@ func HemorrhageAura(target *Unit, uptime float64) *Aura {
 	hasAura := target.HasAura("Hemorrhage")
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Hemorrhage",
-		ActionID: ActionID{SpellID: 33876},
+		ActionID: ActionID{SpellID: 26864},
 		Duration: time.Second * 15,
 	})
 
@@ -585,10 +625,10 @@ func MangleAura(target *Unit) *Aura {
 	aura.NewExclusiveEffect("Mangle", true, ExclusiveEffect{
 		Priority: multiplier,
 		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
-			ee.Aura.Unit.PseudoStats.PeriodicPhysicalDamageTakenMultiplier *= multiplier
+			ee.Aura.Unit.PseudoStats.PeriodicPhysicalDamageTakenMultiplier *= ee.Priority
 		},
 		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
-			ee.Aura.Unit.PseudoStats.PeriodicPhysicalDamageTakenMultiplier /= multiplier
+			ee.Aura.Unit.PseudoStats.PeriodicPhysicalDamageTakenMultiplier /= ee.Priority
 		},
 	})
 
@@ -677,6 +717,10 @@ func StormstrikeAura(target *Unit, uptime float64) *Aura {
 }
 
 var MajorArmorReductionEffectCategory = "MajorArmorReduction"
+
+// Demoralizing Roar and Demoralizing Shout are mutually exclusive; other AP
+// reduction debuffs (Screech, Curse of Recklessness, ...) stack with them.
+var DemoralizingEffectCategory = "Demoralizing"
 
 func ExposeArmorAura(target *Unit, getComboPoints func() int32, talents int32) *Aura {
 
