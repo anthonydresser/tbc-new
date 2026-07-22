@@ -305,25 +305,28 @@ func ExposeWeaknessAura(target *Unit, agilityFunc ExposeWeaknessAgiFunc) *Aura {
 
 func FaerieFireAura(target *Unit, improvedPoints float64) *Aura {
 	armorValue := 610.0
-	priority := armorValue + improvedPoints
 
-	var effect *ExclusiveEffect
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Faerie Fire",
 		ActionID: ActionID{SpellID: 26993},
 		Duration: time.Second * 40,
-		OnGain: func(aura *Aura, sim *Simulation) {
-			effect.SetPriority(sim, priority)
-		},
-	}).AttachStatBuff(stats.Armor, -armorValue)
-
-	if improvedPoints > 0 {
-		aura.AttachAdditivePseudoStatBuff(&target.PseudoStats.ReducedPhysicalHitTakenChance, -1*improvedPoints)
-	}
-
-	effect = aura.NewExclusiveEffect("FaerieFireAura", true, ExclusiveEffect{
-		Priority: priority,
 	})
+
+	effect := aura.NewExclusiveEffect("FaerieFireAura", true, ExclusiveEffect{
+		Priority: improvedPoints,
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.Armor, -armorValue)
+			ee.Aura.Unit.PseudoStats.ReducedPhysicalHitTakenChance -= ee.Priority
+		},
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.AddStatDynamic(sim, stats.Armor, armorValue)
+			ee.Aura.Unit.PseudoStats.ReducedPhysicalHitTakenChance += ee.Priority
+		},
+	})
+
+	if effect.Priority < improvedPoints {
+		effect.Priority = improvedPoints
+	}
 
 	return aura
 }
@@ -571,11 +574,25 @@ func JudgementOfWisdomAura(target *Unit) *Aura {
 }
 
 func MangleAura(target *Unit) *Aura {
-	return target.GetOrRegisterAura(Aura{
+	multiplier := 1.3
+
+	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Mangle",
 		ActionID: ActionID{SpellID: 33876},
 		Duration: time.Second * 12,
-	}).AttachMultiplicativePseudoStatBuff(&target.PseudoStats.PeriodicPhysicalDamageTakenMultiplier, 1.3)
+	})
+
+	aura.NewExclusiveEffect("Mangle", true, ExclusiveEffect{
+		Priority: multiplier,
+		OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.PseudoStats.PeriodicPhysicalDamageTakenMultiplier *= multiplier
+		},
+		OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
+			ee.Aura.Unit.PseudoStats.PeriodicPhysicalDamageTakenMultiplier /= multiplier
+		},
+	})
+
+	return aura
 }
 
 func MiseryAura(target *Unit, ranks int32) *Aura {
