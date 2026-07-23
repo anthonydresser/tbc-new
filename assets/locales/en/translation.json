@@ -945,6 +945,61 @@
 			"description_line2": "To import, upload the file or paste the text below, then click, 'Import'."
 		}
 	},
+	"upgrade_tab": {
+		"title": "Upgrade Finder",
+		"description": "Add items you are considering and sim each one individually against your current gear to find the biggest single-item DPS upgrade.",
+		"tabs": {
+			"setup": "Setup",
+			"results": "Results"
+		},
+		"actions": {
+			"import_favorites": "Import Favorites",
+			"clear_items": "Clear Items",
+			"simulate": "Find Upgrades"
+		},
+		"settings": {
+			"fallback_gems": "Fallback Gems",
+			"iterations": "Iterations",
+			"sim_count": "{{count}} candidate sims",
+			"sim_count_singular": "1 candidate sim",
+			"optimize_gems": {
+				"label": "Optimize gems per item",
+				"tooltip": "Re-solve the optimal gem configuration for each candidate item before simming. Slower, but more accurate when a new item changes gemming choices."
+			}
+		},
+		"progress": {
+			"baseline": "Running baseline simulation",
+			"item": "Simming {{itemName}}",
+			"optimize_gems": "Optimizing gems for {{itemName}}"
+		},
+		"notifications": {
+			"item_duplicate": "That item is already in the upgrade list.",
+			"item_not_found": "Item could not be found in the database.",
+			"item_not_equippable": "That item cannot be equipped by this character.",
+			"sim_cancelled": "Upgrade finder cancelled."
+		},
+		"picker": {
+			"no_items": "No items selected. Add items using the search box above.",
+			"add_enchant": "Add enchant"
+		},
+		"results": {
+			"run_simulation": "Run a simulation to view results",
+			"rank": "Rank",
+			"item": "Item",
+			"slot": "Slot",
+			"dps": "DPS",
+			"delta": "Delta",
+			"source": "Source",
+			"action": "Action",
+			"equip_button": "Equip",
+			"diff_button": "Diff",
+			"gear_equipped": "Upgrade equipped!",
+			"current_gear": "Current Gear",
+			"gear_diff_title": "Gear changes with {{itemName}}",
+			"gear_diff_empty": "No gear changes detected.",
+			"empty_slot": "Empty"
+		}
+	},
 	"rotation_tab": {
 		"title": "Rotation",
 		"common": {
@@ -2365,6 +2420,8 @@
 				"hard_cap_info": "If you want to hard cap a stat make sure to put the EP for that stat higher.",
 				"edit_weights": "Edit weights",
 				"freeze_item_slots": "Freeze item slots",
+				"freeze_gem_sockets": "Freeze gem sockets",
+				"freeze_gem_sockets_tooltip": "Flag individual gem sockets to be \"frozen\", preventing the optimizer from changing the gem in those sockets. This is applied to Optimize Gems, Batch Sim, and Upgrade Finder.",
 				"max_gem_phase": "Max Gem Phase",
 				"max_gem_quality": "Max Gem Quality",
 				"disable_unique_gems": "Disable Unique Gems"

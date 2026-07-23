@@ -5,6 +5,7 @@ import { DetailedResults } from './components/detailed_results';
 import { EncounterPickerConfig } from './components/encounter_picker';
 import * as IconInputs from './components/icon_inputs';
 import { BulkTab } from './components/individual_sim_ui/bulk_tab';
+import { UpgradeTab } from './components/individual_sim_ui/upgrade_tab';
 import {
 	Individual60UEPExporter,
 	IndividualCLIExporter,
@@ -352,6 +353,7 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 		}
 
 		this.bt = this.addBulkTab();
+		this.addUpgradeTab();
 
 		this.sim.waitForInit().then(() => {
 			this.addTopbarComponents();
@@ -441,6 +443,10 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 		//	bulkTab.navLink.hidden = !this.sim.getShowExperimental();
 		//});
 		return bulkTab;
+	}
+
+	private addUpgradeTab(): UpgradeTab {
+		return new UpgradeTab(this.simTabContentsContainer, this);
 	}
 
 	private addSettingsTab() {

@@ -347,6 +347,12 @@ message ReforgeSettings {
 	int32 max_gem_phase = 7;
 	ItemQuality max_gem_quality = 8;
 	bool disable_unique_gems = 9;
+	repeated GemSocket frozen_gem_sockets = 10;
+}
+
+message GemSocket {
+	ItemSlot slot = 1;
+	int32 socket_idx = 2;
 }
 
 message StatCapConfig {

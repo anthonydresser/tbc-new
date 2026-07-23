@@ -273,6 +273,27 @@ export class Gear extends BaseGear {
 		return this;
 	}
 
+	fillSocketsWithGems(gemsByColor: Map<GemColor, Gem | null>, frozenSockets?: Set<string>): Gear {
+		let curGear: Gear = this;
+
+		for (const slot of this.getItemSlots()) {
+			const item = this.getEquippedItem(slot);
+			if (!item) continue;
+
+			for (const [socketIdx, socketColor] of item.curSocketColors().entries()) {
+				if (frozenSockets?.has(`${slot}_${socketIdx}`)) {
+					continue;
+				}
+				const defaultGem = gemsByColor.get(socketColor);
+				if (defaultGem) {
+					curGear = curGear.withGem(slot, socketIdx, defaultGem);
+				}
+			}
+		}
+
+		return curGear;
+	}
+
 	withSingleGemSubstitution(oldGem: Gem | null, newGem: Gem | null): Gear {
 		for (const slot of this.getItemSlots()) {
 			const item = this.getEquippedItem(slot);
@@ -336,7 +357,7 @@ export class Gear extends BaseGear {
 		}
 	}
 
-	withoutGems(ignoreSlots?: Set<ItemSlot>, ignoreMeta?: boolean): Gear {
+	withoutGems(ignoreSlots?: Set<ItemSlot>, ignoreMeta?: boolean, ignoreSockets?: Set<string>): Gear {
 		let curGear: Gear = this;
 		const metaGem = this.getMetaGem();
 
@@ -344,7 +365,17 @@ export class Gear extends BaseGear {
 			const item = this.getEquippedItem(slot);
 
 			if (item && !ignoreSlots?.has(slot)) {
-				curGear = curGear.withEquippedItem(slot, item.removeAllGems());
+				if (ignoreSockets) {
+					const keepSockets = new Set<number>();
+					item.curGems().forEach((_, socketIdx) => {
+						if (ignoreSockets.has(`${slot}_${socketIdx}`)) {
+							keepSockets.add(socketIdx);
+						}
+					});
+					curGear = curGear.withEquippedItem(slot, item.removeGemsExcept(keepSockets));
+				} else {
+					curGear = curGear.withEquippedItem(slot, item.removeAllGems());
+				}
 			}
 		}
 

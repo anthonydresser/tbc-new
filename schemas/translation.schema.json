@@ -3347,6 +3347,196 @@
 				"import_modal"
 			]
 		},
+		"upgrade_tab": {
+			"type": "object",
+			"properties": {
+				"title": {
+					"type": "string"
+				},
+				"description": {
+					"type": "string"
+				},
+				"tabs": {
+					"type": "object",
+					"properties": {
+						"setup": {
+							"type": "string"
+						},
+						"results": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["setup", "results"]
+				},
+				"actions": {
+					"type": "object",
+					"properties": {
+						"import_favorites": {
+							"type": "string"
+						},
+						"clear_items": {
+							"type": "string"
+						},
+						"simulate": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["import_favorites", "clear_items", "simulate"]
+				},
+				"settings": {
+					"type": "object",
+					"properties": {
+						"fallback_gems": {
+							"type": "string"
+						},
+						"iterations": {
+							"type": "string"
+						},
+						"sim_count": {
+							"type": "string"
+						},
+						"sim_count_singular": {
+							"type": "string"
+						},
+						"optimize_gems": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						}
+					},
+					"additionalProperties": false,
+					"required": ["fallback_gems", "iterations", "sim_count", "sim_count_singular", "optimize_gems"]
+				},
+				"progress": {
+					"type": "object",
+					"properties": {
+						"baseline": {
+							"type": "string"
+						},
+						"item": {
+							"type": "string"
+						},
+						"optimize_gems": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["baseline", "item", "optimize_gems"]
+				},
+				"notifications": {
+					"type": "object",
+					"properties": {
+						"item_duplicate": {
+							"type": "string"
+						},
+						"item_not_found": {
+							"type": "string"
+						},
+						"item_not_equippable": {
+							"type": "string"
+						},
+						"sim_cancelled": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["item_duplicate", "item_not_found", "item_not_equippable", "sim_cancelled"]
+				},
+				"picker": {
+					"type": "object",
+					"properties": {
+						"no_items": {
+							"type": "string"
+						},
+						"add_enchant": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["no_items", "add_enchant"]
+				},
+				"results": {
+					"type": "object",
+					"properties": {
+						"run_simulation": {
+							"type": "string"
+						},
+						"rank": {
+							"type": "string"
+						},
+						"item": {
+							"type": "string"
+						},
+						"slot": {
+							"type": "string"
+						},
+						"dps": {
+							"type": "string"
+						},
+						"delta": {
+							"type": "string"
+						},
+						"action": {
+							"type": "string"
+						},
+						"equip_button": {
+							"type": "string"
+						},
+						"gear_equipped": {
+							"type": "string"
+						},
+						"current_gear": {
+							"type": "string"
+						},
+						"source": {
+							"type": "string"
+						},
+						"diff_button": {
+							"type": "string"
+						},
+						"gear_diff_title": {
+							"type": "string"
+						},
+						"gear_diff_empty": {
+							"type": "string"
+						},
+						"empty_slot": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": [
+						"run_simulation",
+						"rank",
+						"item",
+						"slot",
+						"dps",
+						"delta",
+						"action",
+						"equip_button",
+						"gear_equipped",
+						"current_gear",
+						"source",
+						"diff_button",
+						"gear_diff_title",
+						"gear_diff_empty",
+						"empty_slot"
+					]
+				}
+			},
+			"additionalProperties": false,
+			"required": ["title", "description", "tabs", "actions", "settings", "progress", "notifications", "picker", "results"]
+		},
 		"rotation_tab": {
 			"type": "object",
 			"properties": {
@@ -8311,6 +8501,12 @@
 								"freeze_item_slots": {
 									"type": "string"
 								},
+								"freeze_gem_sockets": {
+									"type": "string"
+								},
+								"freeze_gem_sockets_tooltip": {
+									"type": "string"
+								},
 								"max_gem_phase": {
 									"type": "string"
 								},
@@ -8347,6 +8543,8 @@
 								"hard_cap_info",
 								"edit_weights",
 								"freeze_item_slots",
+								"freeze_gem_sockets",
+								"freeze_gem_sockets_tooltip",
 								"max_gem_phase",
 								"max_gem_quality",
 								"disable_unique_gems"
@@ -8719,6 +8917,7 @@
 		"settings_tab",
 		"talents_tab",
 		"bulk_tab",
+		"upgrade_tab",
 		"rotation_tab",
 		"results_tab",
 		"import",

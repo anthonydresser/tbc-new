@@ -148,11 +148,15 @@ export default defineConfig(({ command, mode }) => {
 			...baseConfig.build,
 			rollupOptions: {
 				input: {
-					...glob.sync(path.resolve(BASE_PATH, '**/index.html').replace(/\\/g, '/')).reduce<Record<string, string>>((acc, cur) => {
-						const name = path.relative(__dirname, cur).split(path.sep).join('/');
-						acc[name] = cur;
-						return acc;
-					}, {}),
+					...glob
+						.sync(path.resolve(BASE_PATH, '**/index.html').replace(/\\/g, '/'), {
+							ignore: ['**/dist/**', '**/node_modules/**'],
+						})
+						.reduce<Record<string, string>>((acc, cur) => {
+							const name = path.relative(__dirname, cur).split(path.sep).join('/');
+							acc[name] = cur;
+							return acc;
+						}, {}),
 					// Add shared.scss as a separate entry if needed or handle it separately
 				},
 				output: {

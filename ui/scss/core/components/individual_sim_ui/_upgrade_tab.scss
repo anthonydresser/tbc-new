@@ -1,0 +1,190 @@
+#upgrade-tab {
+	padding: 0;
+
+	.tab-pane-content-container {
+		.upgrade-tab-left {
+			padding-top: calc(var(--gap-width) - $nav-link-padding-y);
+			grid-template-columns: auto;
+		}
+	}
+
+	.upgrade-settings-outer-container {
+		position: sticky;
+		top: var(--sim-header-height);
+		padding-top: var(--gap-width);
+	}
+
+	.upgrade-settings-container {
+		padding: var(--spacer-3);
+		border: var(--border-default);
+		display: grid;
+		gap: var(--gap-width);
+		background: var(--bs-body-bg);
+
+		.upgrade-optimize-gems {
+			.form-check {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.upgrade-combinations-count {
+		margin-bottom: 0;
+		display: flex;
+		align-items: center;
+		gap: var(--spacer-2);
+
+		@include media-breakpoint-between(xl, xxl) {
+			flex-wrap: wrap;
+		}
+
+		small {
+			font-size: var(--bs-body-font-size);
+		}
+	}
+
+	.fallback-gem-container {
+		display: flex;
+		flex-direction: column;
+
+		.gem-socket-container {
+			height: 30px;
+			width: 30px;
+		}
+
+		.gem-icon {
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+		}
+
+		.sockets-container {
+			display: flex;
+			gap: 3px;
+		}
+	}
+}
+
+#upgradeSetupTab {
+	gap: var(--gap-width);
+
+	&.active {
+		display: grid;
+	}
+
+	.upgrade-gear-actions {
+		display: flex;
+		grid-auto-flow: column;
+		gap: var(--block-spacer);
+	}
+
+	.upgrade-search-container {
+		.bulk-item-search-root {
+			margin-bottom: 0;
+		}
+	}
+
+	.upgrade-no-items {
+		color: var(--bs-secondary-color);
+		font-style: italic;
+	}
+
+	.upgrade-candidate-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacer-2);
+	}
+
+	.upgrade-candidate-row {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		align-items: center;
+		gap: var(--spacer-2);
+		padding: var(--spacer-2);
+		border: var(--border-default);
+
+		.upgrade-candidate-meta {
+			display: flex;
+			flex-direction: column;
+			gap: var(--spacer-1);
+			align-items: flex-start;
+		}
+
+		.upgrade-candidate-slots {
+			color: var(--bs-secondary-color);
+		}
+
+		.upgrade-candidate-enchant-btn {
+			padding: 0.125rem 0.375rem;
+			font-size: 0.75rem;
+		}
+
+		.item-picker-root {
+			margin-bottom: 0 !important;
+		}
+	}
+}
+
+#upgradeResultsTab {
+	&.active {
+		display: grid;
+	}
+
+	.upgrade-results-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: var(--gap-width);
+	}
+
+	.upgrade-results-table {
+		margin-bottom: 0;
+
+		th,
+		td {
+			vertical-align: middle;
+		}
+
+		.upgrade-results-baseline {
+			border-top: 2px solid var(--bs-border-color);
+		}
+	}
+}
+
+.upgrade-gear-diff-modal {
+	.upgrade-gear-diff-body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacer-2);
+	}
+
+	.upgrade-diff-row {
+		display: grid;
+		grid-template-columns: 1fr 2fr auto 2fr;
+		align-items: center;
+		gap: var(--spacer-2);
+		padding: var(--spacer-2);
+		border: var(--border-default);
+	}
+
+	.upgrade-diff-slot {
+		font-weight: bold;
+	}
+
+	.upgrade-diff-arrow {
+		text-align: center;
+		font-size: 1.25rem;
+	}
+
+	.upgrade-diff-empty {
+		color: var(--bs-secondary-color);
+		font-style: italic;
+		text-align: center;
+		padding: var(--gap-width);
+	}
+
+	.item-picker-root {
+		margin-bottom: 0 !important;
+	}
+}

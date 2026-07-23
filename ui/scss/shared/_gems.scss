@@ -33,3 +33,28 @@
 	height: 100%;
 	inset: 0;
 }
+
+.gem-socket-container.frozen {
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.5);
+		border-radius: 100%;
+		z-index: 2;
+	}
+
+	&::before {
+		content: '\f023';
+		font-family: 'Font Awesome 6 Free';
+		font-weight: 900;
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: calc(var(--gem-width) / 2);
+		color: var(--bs-warning);
+		z-index: 3;
+	}
+}

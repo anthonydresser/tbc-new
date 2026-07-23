@@ -12,15 +12,14 @@ import { EventID, TypedEvent } from '../../../typed_event';
 import { ContentBlock } from '../../content_block';
 import { createNameDescriptionLabel } from '../../gear_picker/utils';
 import { NumberPicker } from '../../pickers/number_picker';
-import { BulkTab } from '../bulk_tab';
 import { translateBulkSlotName } from '../../../../i18n/localization';
-import { itemSlotToBulkSimItemSlot } from './utils';
+import { BulkItemSearchHost, itemSlotToBulkSimItemSlot } from './utils';
 
 const MAX_SEARCH_RESULTS = 21;
 
 export default class BulkItemSearch extends ContentBlock {
 	readonly simUI: IndividualSimUI<any>;
-	readonly bulkUI: BulkTab;
+	readonly bulkUI: BulkItemSearchHost;
 
 	// Can be used to remove any events in addEventListener
 	// https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#add_an_abortable_listener
@@ -39,7 +38,7 @@ export default class BulkItemSearch extends ContentBlock {
 	private minIlvl = 0;
 	private maxIlvl = 0;
 
-	constructor(parent: HTMLElement, simUI: IndividualSimUI<any>, bulkUI: BulkTab) {
+	constructor(parent: HTMLElement, simUI: IndividualSimUI<any>, bulkUI: BulkItemSearchHost) {
 		super(parent, 'bulk-item-search-root', { header: { title: i18n.t('bulk_tab.search.title') } });
 
 		this.simUI = simUI;

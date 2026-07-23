@@ -7,7 +7,7 @@ import i18n from '../../i18n/config.js';
 import { IndividualSimUI } from '../individual_sim_ui';
 import { Player } from '../player';
 import { Class, GemColor, ItemQuality, ItemSlot, Profession, PseudoStat, Race, Spec, Stat } from '../proto/common';
-import { UIGem as Gem, ReforgeSettings, StatCapType } from '../proto/ui';
+import { UIGem as Gem, GemSocket, ReforgeSettings, StatCapType } from '../proto/ui';
 import { EquippedItem } from '../proto_utils/equipped_item';
 import { Gear } from '../proto_utils/gear';
 import { gemColorsToMatchingSocket, gemMatchesSocket, getEmptyGemSocketIconUrl, getMetaGemCondition } from '../proto_utils/gems';
@@ -145,6 +145,7 @@ export class ReforgeOptimizer {
 	protected statSelectionPresets: ReforgeOptimizerOptions['statSelectionPresets'];
 	protected freezeItemSlots = false;
 	protected frozenItemSlots = new Set<ItemSlot>();
+	protected frozenGemSockets = new Set<string>();
 	protected maxGemPhase = CURRENT_PHASE;
 	protected maxGemQuality = ItemQuality.ItemQualityEpic;
 	protected disableUniqueGems = false;
@@ -160,6 +161,7 @@ export class ReforgeOptimizer {
 	readonly softCapBreakpointsChangeEmitter = new TypedEvent<void>('SoftCapBreakpoints');
 	readonly breakpointLimitsChangeEmitter = new TypedEvent<void>('BreakpointLimits');
 	readonly freezeItemSlotsChangeEmitter = new TypedEvent<void>('FreezeItemSlots');
+	readonly freezeGemSocketsChangeEmitter = new TypedEvent<void>('FreezeGemSockets');
 	readonly maxGemPhaseEmitter = new TypedEvent<void>('MaxGemPhase');
 	readonly maxGemQualityEmitter = new TypedEvent<void>('MaxGemQuality');
 	readonly disableUniqueGemsChangeEmitter = new TypedEvent<void>('DisableUniqueGems');
@@ -309,6 +311,7 @@ export class ReforgeOptimizer {
 				this.softCapBreakpointsChangeEmitter,
 				this.breakpointLimitsChangeEmitter,
 				this.freezeItemSlotsChangeEmitter,
+				this.freezeGemSocketsChangeEmitter,
 				this.maxGemPhaseEmitter,
 				this.maxGemQualityEmitter,
 				this.disableUniqueGemsChangeEmitter,
@@ -325,8 +328,7 @@ export class ReforgeOptimizer {
 
 		this.simUI.addWarning({
 			updateOn: TypedEvent.onAny([this.player.epWeightsChangeEmitter, this.useCustomEPValuesChangeEmitter]),
-			getContent: () =>
-				this.player.hasCustomEPWeights() && !this.useCustomEPValues ? i18n.t('sidebar.warnings.custom_ep_not_enabled') : '',
+			getContent: () => (this.player.hasCustomEPWeights() && !this.useCustomEPValues ? i18n.t('sidebar.warnings.custom_ep_not_enabled') : ''),
 		});
 	}
 
@@ -628,6 +630,32 @@ export class ReforgeOptimizer {
 		return this.frozenItemSlots.has(slot);
 	}
 
+	private static frozenGemSocketKey(slot: ItemSlot, socketIdx: number): string {
+		return `${slot}_${socketIdx}`;
+	}
+
+	setFrozenGemSocket(eventID: EventID, slot: ItemSlot, socketIdx: number, frozen: boolean) {
+		const key = ReforgeOptimizer.frozenGemSocketKey(slot, socketIdx);
+		if (this.frozenGemSockets.has(key) !== frozen) {
+			this.frozenGemSockets[frozen ? 'add' : 'delete'](key);
+			this.freezeGemSocketsChangeEmitter.emit(eventID);
+		}
+	}
+
+	setFrozenGemSockets(eventID: EventID, sockets: GemSocket[]) {
+		this.frozenGemSockets.clear();
+		sockets.forEach(({ slot, socketIdx }) => this.frozenGemSockets.add(ReforgeOptimizer.frozenGemSocketKey(slot, socketIdx)));
+		this.freezeGemSocketsChangeEmitter.emit(eventID);
+	}
+
+	getFrozenGemSocket(slot: ItemSlot, socketIdx: number): boolean {
+		return this.frozenGemSockets.has(ReforgeOptimizer.frozenGemSocketKey(slot, socketIdx));
+	}
+
+	getFrozenGemSockets(): Set<string> {
+		return new Set(this.frozenGemSockets);
+	}
+
 	setMaxGemPhase(eventID: EventID, phase: number): void {
 		this.maxGemPhase = phase;
 		this.maxGemPhaseEmitter.emit(eventID);
@@ -651,6 +679,7 @@ export class ReforgeOptimizer {
 			placement: 'right-start',
 			onShow: instance => {
 				trackPageView('Reforge Settings', 'reforge-settings');
+				const freezeGemSocketsTooltipRef = ref<HTMLButtonElement>();
 
 				const useCustomEPValuesInput = new BooleanPicker(null, this.player, {
 					extraCssClasses: ['mb-2'],
@@ -794,9 +823,22 @@ export class ReforgeOptimizer {
 						{maxGemQualityInput.rootElem}
 						{freezeItemSlotsInput.rootElem}
 						{this.buildFrozenSlotsInputs()}
+						<div className="d-flex mb-2">
+							<h6 className="content-block-title mb-0 me-1">{i18n.t('sidebar.buttons.suggest_reforges.freeze_gem_sockets')}</h6>
+							<button ref={freezeGemSocketsTooltipRef} className="d-inline">
+								<i className="fa-regular fa-circle-question" />
+							</button>
+						</div>
+						{this.buildFrozenGemSocketsInputs()}
 						{this.buildEPWeightsToggle({ useCustomEPValuesInput: useCustomEPValuesInput })}
 					</>,
 				);
+
+				if (freezeGemSocketsTooltipRef.value) {
+					tippy(freezeGemSocketsTooltipRef.value, {
+						content: i18n.t('sidebar.buttons.suggest_reforges.freeze_gem_sockets_tooltip'),
+					});
+				}
 			},
 			onHidden: () => {
 				instance.setContent(<></>);
@@ -843,6 +885,68 @@ export class ReforgeOptimizer {
 
 		this.freezeItemSlotsChangeEmitter.on(() => {
 			tableRef.value?.classList[this.freezeItemSlots ? 'remove' : 'add']('d-none');
+		});
+
+		return content;
+	}
+
+	buildFrozenGemSocketsInputs() {
+		const gear = this.player.getGear();
+		const slotsWithSockets = gear.getItemSlots().filter(slot => (gear.getEquippedItem(slot)?.numSockets() ?? 0) > 0);
+		const socketRefs = new Map<string, HTMLDivElement>();
+
+		const tableRef = ref<HTMLTableElement>();
+		const content = (
+			<table className="reforge-optimizer-frozen-gem-sockets-table mb-2" ref={tableRef}>
+				{slotsWithSockets.map(slot => {
+					const item = gear.getEquippedItem(slot);
+					if (!item) return null;
+
+					return (
+						<tr>
+							<td className="reforge-optimizer-frozen-gem-sockets-slot">{translateSlotName(slot)}</td>
+							<td className="reforge-optimizer-frozen-gem-sockets-cells">
+								{item.curSocketColors().map((socketColor, socketIdx) => {
+									const socketKey = ReforgeOptimizer.frozenGemSocketKey(slot, socketIdx);
+									const picker = new BooleanPicker(null, this.player, {
+										id: `reforge-optimizer-freeze-gem-${ItemSlot[slot]}-${socketIdx}`,
+										label: '',
+										inline: true,
+										changedEvent: () => this.freezeGemSocketsChangeEmitter,
+										getValue: () => this.getFrozenGemSocket(slot, socketIdx),
+										setValue: (eventID, _player, newValue) => {
+											this.setFrozenGemSocket(eventID, slot, socketIdx, newValue);
+										},
+									});
+									const gemContainer = (
+										<div
+											ref={(elem: HTMLDivElement) => {
+												socketRefs.set(socketKey, elem);
+											}}
+											className={clsx('gem-socket-container', this.getFrozenGemSocket(slot, socketIdx) && 'frozen')}
+											style={{
+												backgroundImage: `url(${getEmptyGemSocketIconUrl(socketColor)})`,
+											}}
+											attributes={{
+												'data-socket-key': socketKey,
+											}}>
+											{picker.rootElem}
+										</div>
+									);
+									return gemContainer;
+								})}
+							</td>
+						</tr>
+					);
+				})}
+			</table>
+		);
+
+		this.freezeGemSocketsChangeEmitter.on(() => {
+			socketRefs.forEach((elem, socketKey) => {
+				const [slot, socketIdx] = socketKey.split('_').map(Number);
+				elem.classList.toggle('frozen', this.getFrozenGemSocket(slot, socketIdx));
+			});
 		});
 
 		return content;
@@ -1180,7 +1284,7 @@ export class ReforgeOptimizer {
 
 		const previousGear = gear || this.player.getGear();
 
-		let updatedGear = previousGear.withoutGems(this.frozenItemSlots, true);
+		let updatedGear = previousGear.withoutGems(this.frozenItemSlots, true, this.frozenGemSockets);
 
 		const baseStats = await this.updateGear(updatedGear);
 
@@ -1301,6 +1405,19 @@ export class ReforgeOptimizer {
 		const variables = new Map<string, YalpsCoefficients>();
 		const gemsToInclude = this.buildGemOptions(preCapEPs, reforgeCaps, reforgeSoftCaps);
 
+		// Gems already locked in frozen sockets consume their global unique limit, so exclude them from
+		// being considered for any other socket.
+		const frozenGemIds = new Set<number>();
+		for (const slot of gear.getItemSlots()) {
+			const item = gear.getEquippedItem(slot);
+			if (!item) continue;
+			for (const [socketIdx, gem] of item.curGems().entries()) {
+				if (gem?.unique && this.getFrozenGemSocket(slot, socketIdx)) {
+					frozenGemIds.add(gem.id);
+				}
+			}
+		}
+
 		const metaGem = gear.getMetaGem();
 		let compareColorGreater = 0,
 			compareColorLesser = 0;
@@ -1330,6 +1447,24 @@ export class ReforgeOptimizer {
 			const distributedSocketBonus = socketBonusStats.scale(1.0 / socketBonusNormalization).getBuffedStats();
 			const fullSocketBonus = socketBonusStats.getBuffedStats();
 
+			// Determine whether frozen sockets already make the socket bonus impossible,
+			// or already satisfy some of the matching requirements.
+			let frozenSocketBonusImpossible = false;
+			let hasFrozenSockets = false;
+			const frozenMatchingSockets = new Set<number>();
+			for (const [socketIdx, socketColor] of socketColors.entries()) {
+				if (!this.getFrozenGemSocket(slot, socketIdx)) {
+					continue;
+				}
+				hasFrozenSockets = true;
+				const frozenGem = item.curGems()[socketIdx];
+				if (frozenGem && gemMatchesSocket(frozenGem, socketColor)) {
+					frozenMatchingSockets.add(socketIdx);
+				} else if (![GemColor.GemColorMeta].includes(socketColor)) {
+					frozenSocketBonusImpossible = true;
+				}
+			}
+
 			// First determine whether the socket bonus should be obviously matched in order to save on brute force computation.
 			let forceSocketBonus: boolean = false;
 			const socketBonusAsCoeff = new Map<string, number>();
@@ -1347,6 +1482,8 @@ export class ReforgeOptimizer {
 
 			if (socketBonusAsCoeff.size) {
 				if (
+					!hasFrozenSockets &&
+					!frozenSocketBonusImpossible &&
 					ReforgeOptimizer.includesStatWithCap(socketBonusAsCoeff, reforgeCaps, reforgeSoftCaps) &&
 					!ReforgeOptimizer.includesCappedStat(socketBonusAsCoeff, reforgeCaps, reforgeSoftCaps) &&
 					socketBonusNormalization > 1
@@ -1385,6 +1522,8 @@ export class ReforgeOptimizer {
 				const scoredDummyVariables = this.updateReforgeScores(dummyVariables, preCapEPs);
 
 				if (
+					!hasFrozenSockets &&
+					!frozenSocketBonusImpossible &&
 					scoredDummyVariables.get('matched')!.get('score')! > scoredDummyVariables.get('unmatched')!.get('score')! &&
 					(socketBonusNormalization > 1 ||
 						(ReforgeOptimizer.includesStatWithCap(socketBonusAsCoeff, reforgeCaps, reforgeSoftCaps) &&
@@ -1395,6 +1534,10 @@ export class ReforgeOptimizer {
 			}
 
 			socketColors.forEach((socketColor, socketIdx) => {
+				if (this.getFrozenGemSocket(slot, socketIdx)) {
+					return;
+				}
+
 				let gemColorKeys: GemColor[] = [];
 
 				if (socketColor === GemColor.GemColorPrismatic) {
@@ -1412,6 +1555,10 @@ export class ReforgeOptimizer {
 				const constraintKey = `${slot}_${socketIdx}`;
 				for (const gemColorKey of gemColorKeys) {
 					for (const gemData of gemsToInclude.get(gemColorKey)!) {
+						if (frozenGemIds.has(gemData.gem.id)) {
+							continue;
+						}
+
 						const variableKey = `${constraintKey}_${gemData.gem.id}`;
 						const coefficients = new Map<string, number>(gemData.coefficients);
 						coefficients.set(constraintKey, 1);
@@ -1436,7 +1583,7 @@ export class ReforgeOptimizer {
 				}
 			});
 
-			if (!forceSocketBonus && socketBonusNormalization > 0) {
+			if (!forceSocketBonus && !frozenSocketBonusImpossible && socketBonusNormalization > 0) {
 				const socketBonusKey = `SocketBonus_${slot}`;
 				const socketBonusCoefficients = new Map<string, number>();
 
@@ -1445,7 +1592,10 @@ export class ReforgeOptimizer {
 				}
 
 				socketColors.forEach((socketColor, socketIdx) => {
-					if ([GemColor.GemColorRed, GemColor.GemColorBlue, GemColor.GemColorYellow, GemColor.GemColorPrismatic].includes(socketColor)) {
+					if (
+						!this.getFrozenGemSocket(slot, socketIdx) &&
+						[GemColor.GemColorRed, GemColor.GemColorBlue, GemColor.GemColorYellow, GemColor.GemColorPrismatic].includes(socketColor)
+					) {
 						socketBonusCoefficients.set(`SocketBonusLink_${slot}_${socketIdx}`, 1);
 					}
 				});
@@ -1767,7 +1917,7 @@ export class ReforgeOptimizer {
 	}
 
 	async applyLPSolution(gear: Gear, solution: LPSolution): Promise<Gear> {
-		let updatedGear = gear.withoutGems(this.frozenItemSlots, true);
+		let updatedGear = gear.withoutGems(this.frozenItemSlots, true, this.frozenGemSockets);
 
 		for (const [variableKey, _coefficient] of solution.variables) {
 			const splitKey = variableKey.split('_');
@@ -1777,6 +1927,9 @@ export class ReforgeOptimizer {
 			if (equippedItem) {
 				if (splitKey.length > 2) {
 					const socketIdx = parseInt(splitKey[1]);
+					if (this.getFrozenGemSocket(slot, socketIdx)) {
+						continue;
+					}
 					const gemId = parseInt(splitKey[2]);
 					updatedGear = updatedGear.withGem(slot, socketIdx, this.sim.db.lookupGem(gemId));
 					continue;
@@ -1902,7 +2055,7 @@ export class ReforgeOptimizer {
 			for (const [socketIdx, socketColor] of newItem.curSocketColors().entries()) {
 				const socketKey = `${slot}_${socketIdx}`;
 
-				if (finalizedSocketKeys.includes(socketKey)) {
+				if (finalizedSocketKeys.includes(socketKey) || this.getFrozenGemSocket(slot, socketIdx)) {
 					continue;
 				}
 
@@ -1923,7 +2076,7 @@ export class ReforgeOptimizer {
 
 					const matchedSocketKey = `${matchedSlot}_${matchedSocketIdx}`;
 
-					if (finalizedSocketKeys.includes(matchedSocketKey)) {
+					if (finalizedSocketKeys.includes(matchedSocketKey) || this.getFrozenGemSocket(matchedSlot, matchedSocketIdx)) {
 						continue;
 					}
 
@@ -2120,6 +2273,7 @@ export class ReforgeOptimizer {
 			this.setUseSoftCapBreakpoints(eventID, proto.useSoftCapBreakpoints);
 			this.setFreezeItemSlots(eventID, proto.freezeItemSlots);
 			this.setFrozenItemSlots(eventID, proto.frozenItemSlots);
+			this.setFrozenGemSockets(eventID, proto.frozenGemSockets);
 			this.setBreakpointLimits(eventID, Stats.fromProto(proto.breakpointLimits));
 			this.setDisableUniqueGems(eventID, proto.disableUniqueGems);
 			this.setMaxGemPhase(eventID, proto.maxGemPhase || Phase.Phase1);
@@ -2133,6 +2287,10 @@ export class ReforgeOptimizer {
 			useSoftCapBreakpoints: this.useSoftCapBreakpoints,
 			freezeItemSlots: this.freezeItemSlots,
 			frozenItemSlots: [...this.frozenItemSlots],
+			frozenGemSockets: [...this.frozenGemSockets].map(key => {
+				const [slot, socketIdx] = key.split('_').map(Number);
+				return GemSocket.create({ slot, socketIdx });
+			}),
 			breakpointLimits: this.breakpointLimits.toProto(),
 			statCaps: this.statCaps.toProto(),
 			disableUniqueGems: this.disableUniqueGems,
@@ -2146,6 +2304,7 @@ export class ReforgeOptimizer {
 			this.setUseCustomEPValues(eventID, false);
 			this.setUseSoftCapBreakpoints(eventID, !!this.simUI.individualConfig.defaults.softCapBreakpoints?.length);
 			this.setFreezeItemSlots(eventID, false);
+			this.setFrozenGemSockets(eventID, []);
 			this.setStatCaps(eventID, this.simUI.individualConfig.defaults.statCaps || new Stats());
 			this.setBreakpointLimits(eventID, this.simUI.individualConfig.defaults.breakpointLimits || new Stats());
 			this.setSoftCapBreakpoints(eventID, this.simUI.individualConfig.defaults.softCapBreakpoints || []);

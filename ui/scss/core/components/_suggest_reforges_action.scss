@@ -137,3 +137,54 @@
 .reforge-optimizer-stat-cap-item-label {
 	white-space: nowrap;
 }
+
+.reforge-optimizer-frozen-gem-sockets-table {
+	border-collapse: collapse;
+	width: 100%;
+
+	tr {
+		d,
+		th {
+			padding-bottom: var(--spacer-1);
+		}
+	}
+
+	.reforge-optimizer-frozen-gem-sockets-slot {
+		white-space: nowrap;
+		padding-right: var(--spacer-2);
+		width: 0;
+	}
+
+	.reforge-optimizer-frozen-gem-sockets-cells {
+		display: flex;
+		gap: var(--spacer-1);
+		align-items: center;
+
+		.gem-socket-container {
+			cursor: pointer;
+
+			&::after {
+				border-radius: 0;
+			}
+
+			.form-check {
+				position: absolute;
+				inset: 0;
+				margin: 0;
+				padding: 0;
+				z-index: 4;
+
+				input {
+					position: absolute;
+					inset: 0;
+					width: 100%;
+					height: 100%;
+					margin: 0;
+					padding: 0;
+					opacity: 0;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
