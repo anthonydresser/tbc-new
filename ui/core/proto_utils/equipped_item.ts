@@ -237,6 +237,19 @@ export class EquippedItem {
 		return curItem;
 	}
 
+	removeGemsExcept(keepSocketIndices: Set<number>): EquippedItem {
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		let curItem: EquippedItem | null = this;
+
+		for (let i = 0; i < curItem._gems.length; i++) {
+			if (!keepSocketIndices.has(i)) {
+				curItem = curItem.withGemHelper(null, i);
+			}
+		}
+
+		return curItem;
+	}
+
 	withRandomSuffix(randomSuffix: ItemRandomSuffix | null): EquippedItem {
 		return new EquippedItem({
 			item: this._item,

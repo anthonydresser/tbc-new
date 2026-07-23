@@ -1,4 +1,8 @@
-import { ItemSlot } from '../../../proto/common';
+import { ItemSlot, ItemSpec } from '../../../proto/common';
+
+export interface BulkItemSearchHost {
+	addItem(item: ItemSpec): void;
+}
 
 // Combines Fingers 1 and 2 and Trinket 1 and 2 into single groups
 export enum BulkSimItemSlot {

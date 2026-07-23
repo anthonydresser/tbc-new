@@ -1247,13 +1247,9 @@ export class BulkTab extends SimTab {
 					}
 
 					reforgeGear = reforgeGear.withEquippedItem(itemSlot, updatedItem);
-
-					for (const [socketIdx, socketColor] of equippedItem.curSocketColors().entries()) {
-						if (defaultGemsByColor.get(socketColor)) {
-							reforgeGear = reforgeGear.withGem(itemSlot, socketIdx, defaultGemsByColor.get(socketColor)!);
-						}
-					}
 				}
+
+				reforgeGear = reforgeGear.fillSocketsWithGems(defaultGemsByColor, this.simUI.reforger?.getFrozenGemSockets());
 
 				candidateGearSets.push(reforgeGear);
 			}
