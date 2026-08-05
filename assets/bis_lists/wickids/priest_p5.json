@@ -1,0 +1,438 @@
+{
+  "name": "Wickids — Priest Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 10,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.705623+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34340,
+        "name": "Dark Conjuror's Collar",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 31064,
+        "name": "Hood of Absolution",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 34339,
+        "name": "Cowl of Light's Purity",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 31063,
+        "name": "Cowl of Absolution",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34204,
+        "name": "Amulet of Unfettered Magics",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 24121,
+        "name": "Chain of the Twilight Owl",
+        "note": "Jewelcrafting (AH)"
+      },
+      {
+        "id": 33281,
+        "name": "Brooch of Nature's Mercy",
+        "note": "Akil'zon — Zul'Aman"
+      },
+      {
+        "id": 34360,
+        "name": "Amulet of Flowing Life",
+        "note": "Jewelcrafting"
+      },
+      {
+        "id": 34184,
+        "name": "Brooch of the Highborne",
+        "note": "Felmyst — Sunwell Plateau"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31070,
+        "name": "Shoulderpads of Absolution",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 34210,
+        "name": "Amice of the Convoker",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 34202,
+        "name": "Shawl of Wonderment",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 31069,
+        "name": "Mantle of Absolution",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 30154,
+        "name": "Mantle of the Avatar",
+        "note": "Void Reaver — Tempest Keep"
+      }
+    ],
+    "back": [
+      {
+        "id": 34242,
+        "name": "Tattered Cape of Antonidas",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32590,
+        "name": "Nethervoid Cloak",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33592,
+        "name": "Cloak of Ancient Rituals",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      },
+      {
+        "id": 29989,
+        "name": "Sunshower Light Cloak",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34364,
+        "name": "Sunfire Robe",
+        "note": "Tailoring (Sunmote)"
+      },
+      {
+        "id": 34232,
+        "name": "Fel Conquerer Raiments",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 31065,
+        "name": "Shroud of Absolution",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 34233,
+        "name": "Robes of Faltered Light",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 34365,
+        "name": "Robe of Eternal Light",
+        "note": "Tailoring (Sunmote)"
+      },
+      {
+        "id": 31066,
+        "name": "Vestments of Absolution",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34434,
+        "name": "Bracers of Absolution",
+        "note": "Kalecgos — Sunwell Plateau"
+      },
+      {
+        "id": 32586,
+        "name": "Bracers of Nimble Thought",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 34435,
+        "name": "Cuffs of Absolution",
+        "note": "Kalecgos/Eredar Twins — Sunwell"
+      },
+      {
+        "id": 32584,
+        "name": "Swiftheal Wraps",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30871,
+        "name": "Bracers of Martyrdom",
+        "note": "Rage Winterchill — Hyjal Summit"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34344,
+        "name": "Handguards of Defiled Worlds",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 31061,
+        "name": "Handguards of Absolution",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 34342,
+        "name": "Handguards of the Dawn",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 34367,
+        "name": "Hands of Eternal Light",
+        "note": "Tailoring (Sunmote)"
+      },
+      {
+        "id": 31060,
+        "name": "Gloves of Absolution",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34528,
+        "name": "Cord of Absolution",
+        "note": "Brutallus — Sunwell Plateau"
+      },
+      {
+        "id": 32256,
+        "name": "Waistwrap of Infinity",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 34527,
+        "name": "Belt of Absolution",
+        "note": "Brutallus/Eredar Twins — Sunwell"
+      },
+      {
+        "id": 30895,
+        "name": "Angelista's Sash",
+        "note": "Kaz'rogal — Hyjal Summit"
+      },
+      {
+        "id": 32519,
+        "name": "Belt of Divine Guidance",
+        "note": "The Illidari Council — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34181,
+        "name": "Leggings of Calamity",
+        "note": "Brutallus — Sunwell Plateau"
+      },
+      {
+        "id": 34386,
+        "name": "Pantaloons of Growing Strife",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34170,
+        "name": "Pantaloons of Calming Strife",
+        "note": "Kalecgos — Sunwell Plateau"
+      },
+      {
+        "id": 30912,
+        "name": "Leggings of Eternity",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 33585,
+        "name": "Achromic Trousers of the Naaru",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34563,
+        "name": "Treads of Absolution",
+        "note": "Felmyst — Sunwell Plateau"
+      },
+      {
+        "id": 32239,
+        "name": "Slippers of the Seacaller",
+        "note": "Naj'entus — Black Temple"
+      },
+      {
+        "id": 34562,
+        "name": "Boots of Absolution",
+        "note": "Brutallus/Eredar Twins — Sunwell"
+      },
+      {
+        "id": 32609,
+        "name": "Boots of the Divine Light",
+        "note": "Trash — Hyjal/BT"
+      },
+      {
+        "id": 34926,
+        "name": "Slippers of Dutiful Mending",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34230,
+        "name": "Ring of Omnipotence",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32528,
+        "name": "Blessed Band of Karabor",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 34363,
+        "name": "Ring of Flowing Life",
+        "note": "Jewelcrafting (BoE)"
+      },
+      {
+        "id": 34166,
+        "name": "Band of Lucent Beams",
+        "note": "Kalecgos — Sunwell Plateau"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 34362,
+        "name": "Loop of Forged Power",
+        "note": "Jewelcrafting (BoE)"
+      },
+      {
+        "id": 33498,
+        "name": "Signet of the Quiet Forest",
+        "note": "Zul'Aman Timed Chest"
+      },
+      {
+        "id": 29309,
+        "name": "Band of the Eternal Restorer",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34429,
+        "name": "Shifting Naaru Sliver",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 38288,
+        "name": "Direbrew Hops",
+        "note": "Coren Direbrew — Brewfest"
+      },
+      {
+        "id": 35750,
+        "name": "Redeemer's Alchemist Stone",
+        "note": "Alchemy"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 33829,
+        "name": "Hex Shrunken Head",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      },
+      {
+        "id": 19288,
+        "name": "Darkmoon Card: Blue Dragon",
+        "note": "Darkmoon Beast Deck"
+      },
+      {
+        "id": 28823,
+        "name": "Eye of Gruul",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34182,
+        "name": "Grand Magister's Staff of Torrents",
+        "note": "Felmyst — Sunwell Plateau"
+      },
+      {
+        "id": 34336,
+        "name": "Sunflare",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32374,
+        "name": "Zhar'doom, Greatstaff of the Devourer",
+        "note": "Illidan — Black Temple"
+      },
+      {
+        "id": 34335,
+        "name": "Hammer of Sanctification",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 34199,
+        "name": "Archon's Gavel",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 32500,
+        "name": "Crystal Spire of Karabor",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 34179,
+        "name": "Heart of the Pit",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 33334,
+        "name": "Fetish of the Primal Gods",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      },
+      {
+        "id": 34206,
+        "name": "Book of Highborne Hymns",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 30911,
+        "name": "Scepter of Purification",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32350,
+        "name": "Touch of Inspiration",
+        "note": "Essence of Anger — Black Temple"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 34347,
+        "name": "Wand of the Demonsoul",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 34348,
+        "name": "Wand of Cleansing Light",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32363,
+        "name": "Naaru-Blessed Life Rod",
+        "note": "Essence of Anger — Black Temple"
+      },
+      {
+        "id": 30080,
+        "name": "Luminescent Rod of the Naaru",
+        "note": "Morogrim Tidewalker — SSC"
+      }
+    ]
+  }
+}

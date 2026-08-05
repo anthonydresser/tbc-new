@@ -1,0 +1,191 @@
+{
+  "name": "Wickids — Retribution Paladin Phase 3",
+  "source": "WickidsTBCBISTracker",
+  "spec": 9,
+  "phase": 3,
+  "generatedAt": "2026-08-01T17:52:52.702958+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32235,
+        "name": "Cursed Vision of Sargeras",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30989,
+        "name": "Lightbringer War-Helm",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32260,
+        "name": "Choker of Endless Nightmares",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 30022,
+        "name": "Pendant of the Perilous",
+        "note": "SSC Trash"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30055,
+        "name": "Shoulderpads of the Stranger",
+        "note": "Hydross the Unstable — SSC"
+      },
+      {
+        "id": 32581,
+        "name": "Swiftstrike Shoulders",
+        "note": "Leatherworking"
+      }
+    ],
+    "back": [
+      {
+        "id": 33122,
+        "name": "Cloak of Darkness",
+        "note": "Leatherworking (Violet Eye Exalted)"
+      },
+      {
+        "id": 30098,
+        "name": "Razor-Scale Battlecloak",
+        "note": "Morogrim Tidewalker — SSC"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30905,
+        "name": "Midnight Chestguard",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 30990,
+        "name": "Lightbringer Breastplate",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32574,
+        "name": "Bindings of Lightning Reflexes",
+        "note": "Leatherworking"
+      },
+      {
+        "id": 30057,
+        "name": "Bracers of Eradication",
+        "note": "The Lurker Below — SSC"
+      }
+    ],
+    "hands": [
+      {
+        "id": 32347,
+        "name": "Grips of Damnation",
+        "note": "Reliquary of Lost — Black Temple"
+      },
+      {
+        "id": 29947,
+        "name": "Gloves of the Searing Grip",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30106,
+        "name": "Belt of One-Hundred Deaths",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 32265,
+        "name": "Shadow-walker's Cord",
+        "note": "Shade of Akama — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30900,
+        "name": "Bow-stitched Leggings",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 30993,
+        "name": "Lightbringer Greaves",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32366,
+        "name": "Shadowmaster's Boots",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 30081,
+        "name": "Warboots of Obliteration",
+        "note": "Morogrim Tidewalker — SSC"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30834,
+        "name": "Shapeshifter's Signet",
+        "note": "Lower City — Exalted"
+      },
+      {
+        "id": 32526,
+        "name": "Band of Devastation",
+        "note": "BT Trash"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32335,
+        "name": "Unstoppable Aggressor's Ring",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      },
+      {
+        "id": 29301,
+        "name": "Band of the Eternal Champion",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 32505,
+        "name": "Madness of the Betrayer",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — 41 Badges of Justice"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32332,
+        "name": "Torch of the Damned",
+        "note": "Essence of Anger — Black Temple"
+      },
+      {
+        "id": 30902,
+        "name": "Cataclysm's Edge",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 27484,
+        "name": "Libram of Avengement",
+        "note": "Heroic Blood Furnace"
+      }
+    ]
+  }
+}

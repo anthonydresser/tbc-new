@@ -1,0 +1,231 @@
+{
+  "name": "Wickids — Feral Bear Druid Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 3,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.694030+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 8345,
+        "name": "Wolfshead Helm",
+        "note": "Leatherworking (AH)"
+      },
+      {
+        "id": 29098,
+        "name": "Stag-Helm of Malorne",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28796,
+        "name": "Mask of the Deceiver",
+        "note": "Aeonus — Heroic Black Morass"
+      }
+    ],
+    "neck": [
+      {
+        "id": 24114,
+        "name": "Braided Eternium Chain",
+        "note": "Jewelcrafting (AH)"
+      },
+      {
+        "id": 29381,
+        "name": "Choker of Vile Intent",
+        "note": "G'eras — Shattrath City (25 Badges)"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 29100,
+        "name": "Mantle of Malorne",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 27797,
+        "name": "Wastewalker Shoulderpads",
+        "note": "Avatar of Martyred — Heroic Auchenai"
+      }
+    ],
+    "back": [
+      {
+        "id": 28672,
+        "name": "Drape of the Dark Reavers",
+        "note": "Shade of Aran — Karazhan"
+      },
+      {
+        "id": 24259,
+        "name": "Vengeance Wrap",
+        "note": "Tailoring (AH)"
+      }
+    ],
+    "chest": [
+      {
+        "id": 29096,
+        "name": "Breastplate of Malorne",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 30730,
+        "name": "Terrorweave Tunic",
+        "note": "Doomwalker — World Boss"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29246,
+        "name": "Nightfall Wristguards",
+        "note": "Epoch Hunter — Heroic Old Hillsbrad"
+      },
+      {
+        "id": 25690,
+        "name": "Primalstrike Bracers",
+        "note": "Leatherworking (AH)"
+      },
+      {
+        "id": 32811,
+        "name": "Veteran's Dragonhide Bracers",
+        "note": "Honor Points (PvP)"
+      }
+    ],
+    "hands": [
+      {
+        "id": 28506,
+        "name": "Gloves of Dexterous Manipulation",
+        "note": "Attumen — Karazhan"
+      },
+      {
+        "id": 30644,
+        "name": "Grips of Deftness",
+        "note": "Karazhan Trash"
+      }
+    ],
+    "waist": [
+      {
+        "id": 29247,
+        "name": "Girdle of the Deathdealer",
+        "note": "Aeonus — Heroic Black Morass"
+      },
+      {
+        "id": 28750,
+        "name": "Girdle of Treachery",
+        "note": "Echo of Medivh — Karazhan (Chess)"
+      },
+      {
+        "id": 28828,
+        "name": "Gronn-Stitched Girdle",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "legs": [
+      {
+        "id": 28741,
+        "name": "Skulker's Greaves",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 31544,
+        "name": "Clefthoof Hide Leggings",
+        "note": "Quest: Showdown"
+      }
+    ],
+    "feet": [
+      {
+        "id": 28545,
+        "name": "Edgewalker Longboots",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 25686,
+        "name": "Fel Leather Boots",
+        "note": "Leatherworking (AH)"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30834,
+        "name": "Shapeshifter's Signet",
+        "note": "Lower City — Exalted"
+      },
+      {
+        "id": 28649,
+        "name": "Garona's Signet Ring",
+        "note": "The Curator — Karazhan"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28791,
+        "name": "Ring of the Recalcitrant",
+        "note": "Quest: Magtheridon"
+      },
+      {
+        "id": 29283,
+        "name": "Violet Signet of the Master Assassin",
+        "note": "The Violet Eye — Exalted"
+      },
+      {
+        "id": 29177,
+        "name": "Band of Anguish",
+        "note": "Quest: Heroic Black Morass"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 23206,
+        "name": "Mark of the Champion",
+        "note": "Quest: Naxxramas"
+      },
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      },
+      {
+        "id": 28034,
+        "name": "Hourglass of the Unraveller",
+        "note": "Temporus — Heroic Black Morass"
+      },
+      {
+        "id": 28288,
+        "name": "Abacus of Violent Odds",
+        "note": "Pathaleon — Heroic Mechanar"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28658,
+        "name": "Terestian's Stranglestaff",
+        "note": "Illhoof — Karazhan"
+      },
+      {
+        "id": 28476,
+        "name": "Gladiator's Maul",
+        "note": "Arena Vendor (Arena Points)"
+      },
+      {
+        "id": 29359,
+        "name": "Feral Staff of Lashing",
+        "note": "Warp Splinter — Heroic Botanica"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29390,
+        "name": "Everbloom Idol",
+        "note": "G'eras — Shattrath City (15 Badges)"
+      },
+      {
+        "id": 28372,
+        "name": "Idol of Feral Shadows",
+        "note": "Zereketh — The Arcatraz"
+      }
+    ]
+  }
+}

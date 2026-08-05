@@ -1,0 +1,448 @@
+{
+  "name": "Wickids — Priest Phase 3",
+  "source": "WickidsTBCBISTracker",
+  "spec": 10,
+  "phase": 3,
+  "generatedAt": "2026-08-01T17:52:52.704723+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 31064,
+        "name": "Hood of Absolution",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32525,
+        "name": "Cowl of the Illidari High Lord",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 31063,
+        "name": "Cowl of Absolution",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 30152,
+        "name": "Cowl of the Avatar",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 32329,
+        "name": "Cowl of Benevolence",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32349,
+        "name": "Translucent Spellthread Necklace",
+        "note": "Essence of Anger — Black Temple"
+      },
+      {
+        "id": 30666,
+        "name": "Ritssyn's Lost Pendant",
+        "note": "Karazhan Trash"
+      },
+      {
+        "id": 32370,
+        "name": "Nadina's Pendant of Purity",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 30018,
+        "name": "Lord Sanguinar's Claim",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 33922,
+        "name": "Vindicator's Pendant of Salvation",
+        "note": "Honor Points Vendor (Season 3)"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31070,
+        "name": "Shoulderpads of Absolution",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 32587,
+        "name": "Mantle of Nimble Thought",
+        "note": "Tailoring"
+      },
+      {
+        "id": 30884,
+        "name": "Hatefury Mantle",
+        "note": "Anetheron — Hyjal Summit"
+      },
+      {
+        "id": 31069,
+        "name": "Mantle of Absolution",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 32585,
+        "name": "Swiftheal Mantle",
+        "note": "Tailoring"
+      },
+      {
+        "id": 30154,
+        "name": "Mantle of the Avatar",
+        "note": "Void Reaver — Tempest Keep"
+      }
+    ],
+    "back": [
+      {
+        "id": 32590,
+        "name": "Nethervoid Cloak",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 29989,
+        "name": "Sunshower Light Cloak",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 32337,
+        "name": "Shroud of Forgiveness",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ],
+    "chest": [
+      {
+        "id": 31065,
+        "name": "Shroud of Absolution",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30107,
+        "name": "Vestments of the Sea-Witch",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 31066,
+        "name": "Vestments of Absolution",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30150,
+        "name": "Vestments of the Avatar",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 21875,
+        "name": "Primal Mooncloth Robe",
+        "note": "Tailoring (Primal Mooncloth)"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32586,
+        "name": "Bracers of Nimble Thought",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30870,
+        "name": "Cuffs of Devastation",
+        "note": "Rage Winterchill — Hyjal Summit"
+      },
+      {
+        "id": 32584,
+        "name": "Swiftheal Wraps",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30871,
+        "name": "Bracers of Martyrdom",
+        "note": "Rage Winterchill — Hyjal Summit"
+      },
+      {
+        "id": 32513,
+        "name": "Wristbands of Divine Influence",
+        "note": "Shade of Akama — Black Temple"
+      }
+    ],
+    "hands": [
+      {
+        "id": 31061,
+        "name": "Handguards of Absolution",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 28507,
+        "name": "Handwraps of Flowing Thought",
+        "note": "Attumen — Karazhan"
+      },
+      {
+        "id": 31060,
+        "name": "Gloves of Absolution",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 30151,
+        "name": "Gloves of the Avatar",
+        "note": "Leotheras the Blind — SSC"
+      },
+      {
+        "id": 32353,
+        "name": "Gloves of Unfailing Faith",
+        "note": "Essence of Anger — Black Temple"
+      }
+    ],
+    "waist": [
+      {
+        "id": 32256,
+        "name": "Waistwrap of Infinity",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 30038,
+        "name": "Belt of Blasting",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30895,
+        "name": "Angelista's Sash",
+        "note": "Kaz'rogal — Hyjal Summit"
+      },
+      {
+        "id": 32519,
+        "name": "Belt of Divine Guidance",
+        "note": "The Illidari Council — Black Temple"
+      },
+      {
+        "id": 30036,
+        "name": "Belt of the Long Road",
+        "note": "Tailoring (AH)"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30916,
+        "name": "Leggings of Channeled Elements",
+        "note": "Kaz'rogal — Hyjal Summit"
+      },
+      {
+        "id": 32367,
+        "name": "Leggings of Devastation",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 30912,
+        "name": "Leggings of Eternity",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 31068,
+        "name": "Breeches of Absolution",
+        "note": "The Illidari Council — BT"
+      },
+      {
+        "id": 30153,
+        "name": "Breeches of the Avatar",
+        "note": "Fathom-Lord Karathress — SSC"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32239,
+        "name": "Slippers of the Seacaller",
+        "note": "Naj'entus — Black Temple"
+      },
+      {
+        "id": 21870,
+        "name": "Frozen Shadoweave Boots",
+        "note": "Tailoring (Shadoweave)"
+      },
+      {
+        "id": 32609,
+        "name": "Boots of the Divine Light",
+        "note": "Trash — Hyjal/BT"
+      },
+      {
+        "id": 30100,
+        "name": "Soul-Strider Boots",
+        "note": "Fathom-Lord Karathress — SSC"
+      },
+      {
+        "id": 30035,
+        "name": "Boots of the Long Road",
+        "note": "Tailoring (BoP)"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32527,
+        "name": "Ring of Ancient Knowledge",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 32247,
+        "name": "Ring of Captured Storms",
+        "note": "Naj'entus — Black Temple"
+      },
+      {
+        "id": 32528,
+        "name": "Blessed Band of Karabor",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 29309,
+        "name": "Band of the Eternal Restorer",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29305,
+        "name": "Band of the Eternal Sage",
+        "note": "Scale of the Sands — Exalted"
+      },
+      {
+        "id": 30110,
+        "name": "Coral Band of the Revived",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 29290,
+        "name": "Violet Signet of the Grand Restorer",
+        "note": "The Violet Eye — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32483,
+        "name": "The Skull of Gul'dan",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 31856,
+        "name": "Darkmoon Card: Crusade",
+        "note": "Darkmoon Blessings Deck"
+      },
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 32496,
+        "name": "Memento of Tyrande",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 38288,
+        "name": "Direbrew Hops",
+        "note": "Coren Direbrew — Brewfest"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28823,
+        "name": "Eye of Gruul",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 19288,
+        "name": "Darkmoon Card: Blue Dragon",
+        "note": "Darkmoon Beast Deck"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32374,
+        "name": "Zhar'doom, Greatstaff of the Devourer",
+        "note": "Illidan — Black Temple"
+      },
+      {
+        "id": 32237,
+        "name": "The Maelstrom's Fury",
+        "note": "High Warlord Naj'entus — Black Temple"
+      },
+      {
+        "id": 32500,
+        "name": "Crystal Spire of Karabor",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33743,
+        "name": "Vengeful Gladiator's Salvation",
+        "note": "Arena Points Vendor (Season 3)"
+      },
+      {
+        "id": 30918,
+        "name": "Hammer of Atonement",
+        "note": "Kaz'rogal — Hyjal Summit"
+      },
+      {
+        "id": 30108,
+        "name": "Lightfathom Scepter",
+        "note": "Lady Vashj — SSC"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29272,
+        "name": "Orb of the Soul-Eater",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 30872,
+        "name": "Chronicle of Dark Secrets",
+        "note": "Rage Winterchill — Hyjal Summit"
+      },
+      {
+        "id": 30911,
+        "name": "Scepter of Purification",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32350,
+        "name": "Touch of Inspiration",
+        "note": "Essence of Anger — Black Temple"
+      },
+      {
+        "id": 29923,
+        "name": "Talisman of the Sun King",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29982,
+        "name": "Wand of the Forgotten Star",
+        "note": "High Astromancer Solarian — TK"
+      },
+      {
+        "id": 32343,
+        "name": "Wand of Prismatic Focus",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      },
+      {
+        "id": 32363,
+        "name": "Naaru-Blessed Life Rod",
+        "note": "Essence of Anger — Black Temple"
+      },
+      {
+        "id": 30080,
+        "name": "Luminescent Rod of the Naaru",
+        "note": "Morogrim Tidewalker — SSC"
+      },
+      {
+        "id": 28588,
+        "name": "Blue Diamond Witchwand",
+        "note": "Opera Event — Karazhan"
+      }
+    ]
+  }
+}

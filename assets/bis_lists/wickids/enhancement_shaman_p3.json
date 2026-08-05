@@ -1,0 +1,208 @@
+{
+  "name": "Wickids — Enhancement Shaman Phase 3",
+  "source": "WickidsTBCBISTracker",
+  "spec": 13,
+  "phase": 3,
+  "generatedAt": "2026-08-01T17:52:52.707805+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32235,
+        "name": "Cursed Vision of Sargeras",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 31015,
+        "name": "Skyshatter Cover",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32260,
+        "name": "Choker of Endless Nightmares",
+        "note": "Shade of Akama — Black Temple"
+      },
+      {
+        "id": 32591,
+        "name": "Choker of Serrated Blades",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 32581,
+        "name": "Swiftstrike Shoulders",
+        "note": "Leatherworking"
+      },
+      {
+        "id": 32377,
+        "name": "Mantle of Darkness",
+        "note": "Naj'entus — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 32323,
+        "name": "Shadowmoon Destroyer's Drape",
+        "note": "Teron Gorefiend — Black Temple"
+      },
+      {
+        "id": 33122,
+        "name": "Cloak of Darkness",
+        "note": "Leatherworking (Violet Eye Exalted)"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30905,
+        "name": "Midnight Chestguard",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32252,
+        "name": "Nether Shadow Tunic",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32574,
+        "name": "Bindings of Lightning Reflexes",
+        "note": "Leatherworking"
+      },
+      {
+        "id": 32324,
+        "name": "Insidious Bands",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "hands": [
+      {
+        "id": 32347,
+        "name": "Grips of Damnation",
+        "note": "Reliquary of Lost — Black Temple"
+      },
+      {
+        "id": 32234,
+        "name": "Fists of Mukoa",
+        "note": "Naj'entus — Black Temple"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30106,
+        "name": "Belt of One-Hundred Deaths",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 32265,
+        "name": "Shadow-walker's Cord",
+        "note": "Shade of Akama — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30900,
+        "name": "Bow-stitched Leggings",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 30192,
+        "name": "Cataclysm Legplates",
+        "note": "Fathom-Lord Karathress — SSC"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32366,
+        "name": "Shadowmaster's Boots",
+        "note": "Shade of Akama — Black Temple"
+      },
+      {
+        "id": 32510,
+        "name": "Softstep Boots of Tracking",
+        "note": "Kaz'rogal — Hyjal Summit"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32497,
+        "name": "Stormrage Signet Ring",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 29997,
+        "name": "Band of the Ranger-General",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29301,
+        "name": "Band of the Eternal Champion",
+        "note": "Scale of the Sands — Exalted"
+      },
+      {
+        "id": 30052,
+        "name": "Ring of Lethality",
+        "note": "Hydross the Unstable — SSC"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32505,
+        "name": "Madness of the Betrayer",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — 41 Badges of Justice"
+      },
+      {
+        "id": 30627,
+        "name": "Tsunami Talisman",
+        "note": "Leotheras the Blind — SSC"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32262,
+        "name": "Syphon of the Nathrezim",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 29996,
+        "name": "Rod of the Sun King",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 32944,
+        "name": "Talon of the Phoenix",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 27815,
+        "name": "Totem of the Astral Winds",
+        "note": "Heroic Mana-Tombs"
+      },
+      {
+        "id": 27984,
+        "name": "Stonebreaker's Totem",
+        "note": "Quest: Spirits of Auchindoun"
+      }
+    ]
+  }
+}

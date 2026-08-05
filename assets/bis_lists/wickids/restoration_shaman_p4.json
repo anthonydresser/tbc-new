@@ -1,0 +1,203 @@
+{
+  "name": "Wickids — Restoration Shaman Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 14,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.709484+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 31012,
+        "name": "Skyshatter Helmet",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32241,
+        "name": "Helm of Soothing Currents",
+        "note": "Naj'entus — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 33281,
+        "name": "Brooch of Nature's Mercy",
+        "note": "Akil'zon — Zul'Aman"
+      },
+      {
+        "id": 32370,
+        "name": "Nadina's Pendant of Purity",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31022,
+        "name": "Skyshatter Shoulderpads",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 32579,
+        "name": "Living Earth Shoulders",
+        "note": "Leatherworking"
+      }
+    ],
+    "back": [
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 34012,
+        "name": "Shroud of the Final Stand",
+        "note": "BT Trash"
+      }
+    ],
+    "chest": [
+      {
+        "id": 31016,
+        "name": "Skyshatter Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30164,
+        "name": "Cataclysm Chestguard",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32577,
+        "name": "Living Earth Bindings",
+        "note": "Leatherworking"
+      },
+      {
+        "id": 32584,
+        "name": "Swiftheal Wraps",
+        "note": "Tailoring (AH)"
+      }
+    ],
+    "hands": [
+      {
+        "id": 32328,
+        "name": "Botanist's Gloves of Growth",
+        "note": "Teron Gorefiend — Black Temple"
+      },
+      {
+        "id": 32275,
+        "name": "Spiritwalker Gauntlets",
+        "note": "Shade of Akama — Black Temple"
+      }
+    ],
+    "waist": [
+      {
+        "id": 32258,
+        "name": "Naturalist's Preserving Cinch",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 32339,
+        "name": "Belt of Primal Majesty",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 31019,
+        "name": "Skyshatter Leggings",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 33324,
+        "name": "Treads of the Life Path",
+        "note": "Zul'Aman"
+      },
+      {
+        "id": 30873,
+        "name": "Stillwater Boots",
+        "note": "Rage Winterchill — Hyjal Summit"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32528,
+        "name": "Blessed Band of Karabor",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 33498,
+        "name": "Signet of the Quiet Forest",
+        "note": "Zul'Aman Timed Chest"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29309,
+        "name": "Band of the Eternal Restorer",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32496,
+        "name": "Memento of Tyrande",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 38288,
+        "name": "Direbrew Hops",
+        "note": "Coren Direbrew — Brewfest"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 33828,
+        "name": "Tome of Diabolic Remedy",
+        "note": "Zul'Aman"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32500,
+        "name": "Crystal Spire of Karabor",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33468,
+        "name": "Dark Blessing",
+        "note": "Zul'Aman"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 30882,
+        "name": "Bastion of Light",
+        "note": "Black Temple"
+      },
+      {
+        "id": 32255,
+        "name": "Felstone Bulwark",
+        "note": "Black Temple"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28523,
+        "name": "Totem of Healing Rains",
+        "note": "Drop"
+      },
+      {
+        "id": 33505,
+        "name": "Totem of Living Water",
+        "note": "Zul'Aman"
+      }
+    ]
+  }
+}

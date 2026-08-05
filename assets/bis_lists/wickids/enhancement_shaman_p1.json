@@ -1,0 +1,213 @@
+{
+  "name": "Wickids — Enhancement Shaman Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 13,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.707307+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 29040,
+        "name": "Cyclone Helm",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28182,
+        "name": "Wastewalker Helm",
+        "note": "Warp Splinter — The Botanica"
+      }
+    ],
+    "neck": [
+      {
+        "id": 29381,
+        "name": "Choker of Vile Intent",
+        "note": "G'eras — 25 Badges of Justice"
+      },
+      {
+        "id": 28509,
+        "name": "Worgen Claw Necklace",
+        "note": "Attumen — Karazhan"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 29043,
+        "name": "Cyclone Shoulderplates",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 30740,
+        "name": "Ripfiend Shoulderplates",
+        "note": "Doom Lord Kazzak — World Boss"
+      }
+    ],
+    "back": [
+      {
+        "id": 24259,
+        "name": "Vengeance Wrap",
+        "note": "Tailoring"
+      },
+      {
+        "id": 30729,
+        "name": "Black-Iron Battlecloak",
+        "note": "Doomwalker — World Boss"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30730,
+        "name": "Terrorweave Tunic",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 29515,
+        "name": "Ebon Netherscale Breastplate",
+        "note": "Dragonscale Leatherworking"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29517,
+        "name": "Ebon Netherscale Bracers",
+        "note": "Dragonscale Leatherworking"
+      },
+      {
+        "id": 28795,
+        "name": "Bladespire Warbands",
+        "note": "High King Maulgar — Gruul's Lair"
+      }
+    ],
+    "hands": [
+      {
+        "id": 28776,
+        "name": "Liar's Tongue Gloves",
+        "note": "Magtheridon's Lair"
+      },
+      {
+        "id": 30644,
+        "name": "Grips of Deftness",
+        "note": "Karazhan Trash"
+      }
+    ],
+    "waist": [
+      {
+        "id": 29516,
+        "name": "Ebon Netherscale Belt",
+        "note": "Dragonscale Leatherworking"
+      },
+      {
+        "id": 28828,
+        "name": "Gronn-Stitched Girdle",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "legs": [
+      {
+        "id": 28741,
+        "name": "Skulker's Greaves",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 30257,
+        "name": "Shattrath Leggings",
+        "note": "Quest"
+      }
+    ],
+    "feet": [
+      {
+        "id": 28545,
+        "name": "Edgewalker Longboots",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 28608,
+        "name": "Ironstriders of Urgency",
+        "note": "Nightbane — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30834,
+        "name": "Shapeshifter's Signet",
+        "note": "Lower City — Exalted"
+      },
+      {
+        "id": 28649,
+        "name": "Garona's Signet Ring",
+        "note": "Curator — Karazhan"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28757,
+        "name": "Ring of a Thousand Marks",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 29283,
+        "name": "Violet Signet of the Master Assassin",
+        "note": "The Violet Eye — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28288,
+        "name": "Abacus of Violent Odds",
+        "note": "Heroic Mechanar"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — 41 Badges of Justice"
+      },
+      {
+        "id": 28034,
+        "name": "Hourglass of the Unraveller",
+        "note": "Temporus — The Black Morass"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28308,
+        "name": "Gladiator's Cleaver",
+        "note": "Arena PvP"
+      },
+      {
+        "id": 28729,
+        "name": "Spiteblade",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 28313,
+        "name": "Gladiator's Right Ripper",
+        "note": "Arena PvP"
+      },
+      {
+        "id": 28189,
+        "name": "Latro's Shifting Sword",
+        "note": "Aeonus — The Black Morass"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 27815,
+        "name": "Totem of the Astral Winds",
+        "note": "Heroic Mana-Tombs"
+      },
+      {
+        "id": 27984,
+        "name": "Stonebreaker's Totem",
+        "note": "Quest: Spirits of Auchindoun"
+      }
+    ]
+  }
+}

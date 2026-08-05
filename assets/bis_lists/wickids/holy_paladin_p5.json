@@ -1,0 +1,228 @@
+{
+  "name": "Wickids — Holy Paladin Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 7,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.700764+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34243,
+        "name": "Helm of Burning Righteousness",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 30988,
+        "name": "Lightbringer Greathelm",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32370,
+        "name": "Nadina's Pendant of Purity",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 34360,
+        "name": "Amulet of Flowing Life",
+        "note": "Jewelcrafting"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 34193,
+        "name": "Spaulders of the Thalassian Savior",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 30996,
+        "name": "Lightbringer Pauldrons",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 34205,
+        "name": "Shroud of Redeemed Souls",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34229,
+        "name": "Garments of Serene Shores",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 34379,
+        "name": "Sunblessed Breastplate",
+        "note": "Blacksmithing (Sunmote)"
+      },
+      {
+        "id": 30992,
+        "name": "Lightbringer Chestpiece",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34432,
+        "name": "Lightbringer Bracers",
+        "note": "Kalecgos — Sunwell Plateau"
+      },
+      {
+        "id": 30862,
+        "name": "Blessed Adamantite Bracers",
+        "note": "Rage Winterchill — Hyjal Summit"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34380,
+        "name": "Sunblessed Gauntlets",
+        "note": "Blacksmithing (Sunmote)"
+      },
+      {
+        "id": 30112,
+        "name": "Glorious Gauntlets of Crestfall",
+        "note": "Lady Vashj — SSC"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34487,
+        "name": "Lightbringer Belt",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 33446,
+        "name": "Girdle of Stromgarde's Hope",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34167,
+        "name": "Legplates of the Holy Juggernaut",
+        "note": "Kalecgos — Sunwell Plateau"
+      },
+      {
+        "id": 30994,
+        "name": "Lightbringer Leggings",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34559,
+        "name": "Lightbringer Treads",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32243,
+        "name": "Pearl Inlaid Boots",
+        "note": "Naj'entus — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34363,
+        "name": "Ring of Flowing Life",
+        "note": "Jewelcrafting (BoE)"
+      },
+      {
+        "id": 32528,
+        "name": "Blessed Band of Karabor",
+        "note": "Trash — Black Temple"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 34166,
+        "name": "Band of Lucent Beams",
+        "note": "Kalecgos — Sunwell Plateau"
+      },
+      {
+        "id": 32238,
+        "name": "Ring of Calming Waves",
+        "note": "Naj'entus — Black Temple"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34430,
+        "name": "Glimmering Naaru Sliver",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 32496,
+        "name": "Memento of Tyrande",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 35750,
+        "name": "Redeemer's Alchemist Stone",
+        "note": "Alchemy"
+      },
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34335,
+        "name": "Hammer of Sanctification",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 34199,
+        "name": "Archon's Gavel",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 32500,
+        "name": "Crystal Spire of Karabor",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 34231,
+        "name": "Aegis of Angelic Fortune",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 34206,
+        "name": "Book of Highborne Hymns",
+        "note": "Brutallus — Sunwell Plateau"
+      },
+      {
+        "id": 32255,
+        "name": "Felstone Bulwark",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28592,
+        "name": "Libram of Souls Redeemed",
+        "note": "Opera Event — Karazhan"
+      },
+      {
+        "id": 30063,
+        "name": "Libram of Absolute Truth",
+        "note": "The Lurker Below — SSC"
+      }
+    ]
+  }
+}

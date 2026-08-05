@@ -608,4 +608,5 @@ message BulkSettings {
 	int32 freeze_weapon_slot = 10;
 	repeated WeaponType freeze_mainhand_weapon_slots = 11;
 	repeated WeaponType freeze_offhand_weapon_slots = 12;
+	bool optimize_gems = 13;
 }

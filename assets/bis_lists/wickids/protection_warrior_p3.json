@@ -1,0 +1,178 @@
+{
+  "name": "Wickids — Protection Warrior Phase 3",
+  "source": "WickidsTBCBISTracker",
+  "spec": 17,
+  "phase": 3,
+  "generatedAt": "2026-08-01T17:52:52.713472+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32521,
+        "name": "Faceplate of the Impenetrable",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 30974,
+        "name": "Onslaught Greathelm",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32362,
+        "name": "Pendant of Titans",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30980,
+        "name": "Onslaught Shoulderguards",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 34010,
+        "name": "Pepe's Shroud of Pacification",
+        "note": "Hyjal Summit Trash"
+      },
+      {
+        "id": 29925,
+        "name": "Phoenix-Wing Cloak",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30976,
+        "name": "Onslaught Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30896,
+        "name": "Glory of the Defender",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32279,
+        "name": "The Seeker's Wristguards",
+        "note": "Teron Gorefiend — Black Temple"
+      },
+      {
+        "id": 32232,
+        "name": "Eternium Shell Bracers",
+        "note": "Black Temple Trash"
+      }
+    ],
+    "hands": [
+      {
+        "id": 32280,
+        "name": "Gauntlets of Enforcement",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "waist": [
+      {
+        "id": 32333,
+        "name": "Girdle of Stability",
+        "note": "Reliquary of Souls — Black Temple"
+      },
+      {
+        "id": 32342,
+        "name": "Girdle of Mighty Resolve",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30978,
+        "name": "Onslaught Legguards",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 32263,
+        "name": "Praetorian's Legguards",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32268,
+        "name": "Myrmidon's Treads",
+        "note": "Black Temple Trash"
+      },
+      {
+        "id": 32245,
+        "name": "Tide-stomper's Greaves",
+        "note": "High Warlord Naj'entus — BT"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30083,
+        "name": "Ring of Sundered Souls",
+        "note": "Morogrim Tidewalker — SSC"
+      },
+      {
+        "id": 32261,
+        "name": "Band of the Abyssal Lord",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29297,
+        "name": "Band of the Eternal Defender",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 31858,
+        "name": "Darkmoon Card: Vengeance",
+        "note": "Darkmoon Faire Quest"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 32501,
+        "name": "Shadowmoon Insignia",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 28528,
+        "name": "Moroes' Lucky Pocket Watch",
+        "note": "Moroes — Karazhan"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 30910,
+        "name": "Tempest of Chaos",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 32375,
+        "name": "Bulwark of Azzinoth",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30889,
+        "name": "Kaz'rogal's Hardened Heart",
+        "note": "Kaz'rogal — Hyjal Summit"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 32326,
+        "name": "Twisted Blades of Zarak",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ]
+  }
+}

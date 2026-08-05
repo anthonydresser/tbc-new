@@ -1,0 +1,206 @@
+{
+  "name": "Wickids — Retribution Paladin Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 9,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.702481+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 29073,
+        "name": "Justicar Crown",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30731,
+        "name": "Warpstalker Helm",
+        "note": "Doomwalker — World Boss"
+      }
+    ],
+    "neck": [
+      {
+        "id": 29381,
+        "name": "Choker of Vile Intent",
+        "note": "G'eras — 25 Badges of Justice"
+      },
+      {
+        "id": 28509,
+        "name": "Worgen Claw Necklace",
+        "note": "Attumen — Karazhan"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 29075,
+        "name": "Justicar Shoulderplates",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 30740,
+        "name": "Ripfiend Shoulderplates",
+        "note": "Doom Lord Kazzak — World Boss"
+      }
+    ],
+    "back": [
+      {
+        "id": 24259,
+        "name": "Vengeance Wrap",
+        "note": "Tailoring"
+      },
+      {
+        "id": 30729,
+        "name": "Black-Iron Battlecloak",
+        "note": "Doomwalker — World Boss"
+      }
+    ],
+    "chest": [
+      {
+        "id": 29071,
+        "name": "Justicar Breastplate",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 30730,
+        "name": "Terrorweave Tunic",
+        "note": "Doomwalker — World Boss"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 28795,
+        "name": "Bladespire Warbands",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 23537,
+        "name": "Black Felsteel Bracers",
+        "note": "Blacksmithing"
+      }
+    ],
+    "hands": [
+      {
+        "id": 30644,
+        "name": "Grips of Deftness",
+        "note": "Karazhan Trash"
+      },
+      {
+        "id": 28776,
+        "name": "Liar's Tongue Gloves",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28747,
+        "name": "Gauntlets of Martial Perfection",
+        "note": "Chess Event — Karazhan"
+      }
+    ],
+    "waist": [
+      {
+        "id": 28779,
+        "name": "Girdle of the Endless Pit",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28828,
+        "name": "Gronn-Stitched Girdle",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30257,
+        "name": "Shattrath Leggings",
+        "note": "Quest"
+      },
+      {
+        "id": 28741,
+        "name": "Skulker's Greaves",
+        "note": "Netherspite — Karazhan"
+      }
+    ],
+    "feet": [
+      {
+        "id": 28608,
+        "name": "Ironstriders of Urgency",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 28545,
+        "name": "Edgewalker Longboots",
+        "note": "Moroes — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30834,
+        "name": "Shapeshifter's Signet",
+        "note": "Lower City — Exalted"
+      },
+      {
+        "id": 28649,
+        "name": "Garona's Signet Ring",
+        "note": "Curator — Karazhan"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28757,
+        "name": "Ring of a Thousand Marks",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 29283,
+        "name": "Violet Signet of the Master Assassin",
+        "note": "The Violet Eye — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 32486,
+        "name": "Ashtongue Talisman of Zeal",
+        "note": "Quest"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — 41 Badges of Justice"
+      },
+      {
+        "id": 28288,
+        "name": "Abacus of Violent Odds",
+        "note": "Heroic Mechanar"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28429,
+        "name": "Lionheart Champion",
+        "note": "Weaponsmithing"
+      },
+      {
+        "id": 28773,
+        "name": "Gorehowl",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 27484,
+        "name": "Libram of Avengement",
+        "note": "Heroic Blood Furnace"
+      },
+      {
+        "id": 28296,
+        "name": "Libram of Divine Purpose",
+        "note": "Heroic Steamvault"
+      }
+    ]
+  }
+}

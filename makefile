@@ -143,6 +143,10 @@ devserver: sim/core/proto/api.pb.go sim/web/main.go binary_dist/dist.go
 		exit 1; \
 	fi
 
+.PHONY: bis-lists
+bis-lists:
+	python3 tools/bis_list_generator/generate_wickids.py
+
 .PHONY: air
 air:
 ifeq ($(WATCH), 1)

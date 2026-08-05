@@ -1,0 +1,163 @@
+{
+  "name": "Wickids — Holy Paladin Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 7,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.700552+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 30988,
+        "name": "Lightbringer Greathelm",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32370,
+        "name": "Nadina's Pendant of Purity",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30996,
+        "name": "Lightbringer Pauldrons",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33592,
+        "name": "Cloak of Ancient Rituals",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30992,
+        "name": "Lightbringer Chestpiece",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 30862,
+        "name": "Blessed Adamantite Bracers",
+        "note": "Rage Winterchill — Hyjal Summit"
+      }
+    ],
+    "hands": [
+      {
+        "id": 30112,
+        "name": "Glorious Gauntlets of Crestfall",
+        "note": "Lady Vashj — SSC"
+      }
+    ],
+    "waist": [
+      {
+        "id": 33446,
+        "name": "Girdle of Stromgarde's Hope",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      },
+      {
+        "id": 30897,
+        "name": "Girdle of Hope",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30994,
+        "name": "Lightbringer Leggings",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32243,
+        "name": "Pearl Inlaid Boots",
+        "note": "Naj'entus — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32528,
+        "name": "Blessed Band of Karabor",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 33498,
+        "name": "Signet of the Quiet Forest",
+        "note": "Zul'Aman Timed Chest"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32238,
+        "name": "Ring of Calming Waves",
+        "note": "Naj'entus — Black Temple"
+      },
+      {
+        "id": 29309,
+        "name": "Band of the Eternal Restorer",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32496,
+        "name": "Memento of Tyrande",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32500,
+        "name": "Crystal Spire of Karabor",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33468,
+        "name": "Dark Blessing",
+        "note": "Zul'jin — Zul'Aman"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 32255,
+        "name": "Felstone Bulwark",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 33332,
+        "name": "Enamelled Disc of Mojo",
+        "note": "Jan'alai — Zul'Aman"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28592,
+        "name": "Libram of Souls Redeemed",
+        "note": "Opera Event — Karazhan"
+      },
+      {
+        "id": 33502,
+        "name": "Libram of Mending",
+        "note": "G'eras — Badges of Justice"
+      }
+    ]
+  }
+}

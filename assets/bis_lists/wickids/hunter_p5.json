@@ -1,0 +1,208 @@
+{
+  "name": "Wickids — Hunter Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 5,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.698147+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34333,
+        "name": "Coif of Alleria",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 34244,
+        "name": "Duplicitous Guise",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34358,
+        "name": "Hard Khorium Choker",
+        "note": "Jewelcrafting"
+      },
+      {
+        "id": 34177,
+        "name": "Clutch of Demise",
+        "note": "Brutallus — Sunwell Plateau"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31006,
+        "name": "Gronnstalker's Spaulders",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 34194,
+        "name": "Mantle of the Golden Forest",
+        "note": "Eredar Twins — Sunwell Plateau"
+      }
+    ],
+    "back": [
+      {
+        "id": 34241,
+        "name": "Cloak of Unforgivable Sin",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32323,
+        "name": "Shadowmoon Destroyer's Drape",
+        "note": "Trash — Black Temple"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34397,
+        "name": "Bladed Chaos Tunic",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 34369,
+        "name": "Carapace of Sun and Shadow",
+        "note": "Leatherworking"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34443,
+        "name": "Gronnstalker's Bracers",
+        "note": "Kalecgos — Sunwell Plateau"
+      },
+      {
+        "id": 32324,
+        "name": "Insidious Bands",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34370,
+        "name": "Gloves of Immortal Dusk",
+        "note": "Leatherworking"
+      },
+      {
+        "id": 34343,
+        "name": "Thalassian Ranger Gauntlets",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34549,
+        "name": "Gronnstalker's Belt",
+        "note": "Brutallus — Sunwell Plateau"
+      },
+      {
+        "id": 32346,
+        "name": "Boneweave Girdle",
+        "note": "Reliquary of Souls — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34188,
+        "name": "Leggings of the Immortal Night",
+        "note": "Felmyst — Sunwell Plateau"
+      },
+      {
+        "id": 34168,
+        "name": "Starstalker Legguards",
+        "note": "Kalecgos — Sunwell Plateau"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34570,
+        "name": "Gronnstalker's Boots",
+        "note": "Felmyst — Sunwell Plateau"
+      },
+      {
+        "id": 32366,
+        "name": "Shadowmaster's Boots",
+        "note": "Trash — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34189,
+        "name": "Band of Ruinous Delight",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 34361,
+        "name": "Hard Khorium Band",
+        "note": "Jewelcrafting"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 34887,
+        "name": "Angelista's Revenge",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 33496,
+        "name": "Signet of Primal Wrath",
+        "note": "Timed Chest — Zul'Aman"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 34427,
+        "name": "Blackened Naaru Sliver",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 33831,
+        "name": "Berserker's Call",
+        "note": "Zul'jin — Zul'Aman"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34331,
+        "name": "Hand of the Deceiver",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 34329,
+        "name": "Crux of the Apocalypse",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 34197,
+        "name": "Shiv of Exsanguination",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 34951,
+        "name": "Vanir's Left Fist of Brutality",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 34334,
+        "name": "Thori'dal, the Stars' Fury",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 34196,
+        "name": "Golden Bow of Quel'Thalas",
+        "note": "Eredar Twins — Sunwell Plateau"
+      }
+    ]
+  }
+}

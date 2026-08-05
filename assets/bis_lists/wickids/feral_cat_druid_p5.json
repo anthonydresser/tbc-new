@@ -1,0 +1,251 @@
+{
+  "name": "Wickids — Feral Cat Druid Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 2,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.693740+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34244,
+        "name": "Duplicitous Guise",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 31039,
+        "name": "Thunderheart Cover",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32235,
+        "name": "Cursed Vision of Sargeras",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34358,
+        "name": "Hard Khorium Choker",
+        "note": "Jewelcrafting"
+      },
+      {
+        "id": 24114,
+        "name": "Braided Eternium Chain",
+        "note": "Jewelcrafting (AH)"
+      },
+      {
+        "id": 34177,
+        "name": "Clutch of Demise",
+        "note": "Brutallus — Sunwell Plateau"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 34392,
+        "name": "Demontooth Shoulderpads",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 31048,
+        "name": "Thunderheart Pauldrons",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 34195,
+        "name": "Shoulderpads of Vehemence",
+        "note": "Eredar Twins — Sunwell Plateau"
+      }
+    ],
+    "back": [
+      {
+        "id": 34241,
+        "name": "Cloak of Unforgivable Sin",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32323,
+        "name": "Shadowmoon Destroyer's Drape",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34397,
+        "name": "Bladed Chaos Tunic",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 34369,
+        "name": "Carapace of Sun and Shadow",
+        "note": "Leatherworking"
+      },
+      {
+        "id": 31042,
+        "name": "Thunderheart Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34444,
+        "name": "Thunderheart Wristguards",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32324,
+        "name": "Insidious Bands",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34370,
+        "name": "Gloves of Immortal Dusk",
+        "note": "Leatherworking (AH)"
+      },
+      {
+        "id": 34408,
+        "name": "Gloves of the Forest Drifter",
+        "note": "Vendor: Yrma (Sunwell)"
+      },
+      {
+        "id": 31034,
+        "name": "Thunderheart Gauntlets",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34556,
+        "name": "Thunderheart Waistguard",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 30106,
+        "name": "Belt of One-Hundred Deaths",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      },
+      {
+        "id": 34929,
+        "name": "Belt of the Silent Path",
+        "note": "Smith Hauthaa — Badge Vendor"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34188,
+        "name": "Leggings of the Immortal Night",
+        "note": "Felmyst — Sunwell Plateau"
+      },
+      {
+        "id": 31044,
+        "name": "Thunderheart Leggings",
+        "note": "The Illidari Council — Black Temple"
+      },
+      {
+        "id": 34385,
+        "name": "Leggings of the Immortal Beast",
+        "note": "Vendor: Yrma (Sunwell)"
+      }
+    ],
+    "feet": [
+      {
+        "id": 33222,
+        "name": "Nyn'jah's Tabi Boots",
+        "note": "G'eras — Badge Vendor"
+      },
+      {
+        "id": 34573,
+        "name": "Thunderheart Treads",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32366,
+        "name": "Shadowmaster's Boots",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32497,
+        "name": "Stormrage Signet Ring",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 34189,
+        "name": "Band of Ruinous Delight",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 34887,
+        "name": "Angelista's Revenge",
+        "note": "Smith Hauthaa — Badge Vendor"
+      },
+      {
+        "id": 33496,
+        "name": "Signet of Primal Wrath",
+        "note": "Zul'Aman Timed Chest (3rd)"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34472,
+        "name": "Shard of Contempt",
+        "note": "Priestess Delrissa — Heroic MgT"
+      },
+      {
+        "id": 34427,
+        "name": "Blackened Naaru Sliver",
+        "note": "M'uru — Sunwell Plateau"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 32505,
+        "name": "Madness of the Betrayer",
+        "note": "The Illidari Council — Black Temple"
+      },
+      {
+        "id": 30627,
+        "name": "Tsunami Talisman",
+        "note": "Leotheras the Blind — SSC"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34198,
+        "name": "Stanchion of Primal Instinct",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 34898,
+        "name": "Staff of the Forest Lord",
+        "note": "Smith Hauthaa — Badge Vendor"
+      },
+      {
+        "id": 35103,
+        "name": "Brutal Gladiator's Staff",
+        "note": "Arena Points (Season 4)"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29390,
+        "name": "Everbloom Idol",
+        "note": "G'eras — Shattrath City (15 Badges)"
+      },
+      {
+        "id": 32387,
+        "name": "Idol of the Raven Goddess",
+        "note": "Quest: Vanquish the Raven God (Heroic Sethekk)"
+      },
+      {
+        "id": 33509,
+        "name": "Idol of Terror",
+        "note": "G'eras — Badge Vendor"
+      }
+    ]
+  }
+}

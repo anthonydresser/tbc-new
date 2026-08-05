@@ -1,0 +1,203 @@
+{
+  "name": "Wickids — Enhancement Shaman Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 13,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.708286+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34244,
+        "name": "Duplicitous Guise",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32235,
+        "name": "Cursed Vision of Sargeras",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34358,
+        "name": "Hard Khorium Choker",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 34177,
+        "name": "Clutch of Demise",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 34392,
+        "name": "Demontooth Shoulderpads",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 32581,
+        "name": "Swiftstrike Shoulders",
+        "note": "Leatherworking"
+      }
+    ],
+    "back": [
+      {
+        "id": 34241,
+        "name": "Cloak of Unforgivable Sin",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32323,
+        "name": "Shadowmoon Destroyer's Drape",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34397,
+        "name": "Bladed Chaos Tunic",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 34369,
+        "name": "Carapace of Sun and Shadow",
+        "note": "Leatherworking (Sunmote)"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34439,
+        "name": "Skyshatter Wristguards",
+        "note": "Kalecgos — Sunwell Plateau"
+      },
+      {
+        "id": 32574,
+        "name": "Bindings of Lightning Reflexes",
+        "note": "Leatherworking"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34343,
+        "name": "Thalassian Ranger Gauntlets",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34370,
+        "name": "Gloves of Immortal Dusk",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34545,
+        "name": "Skyshatter Girdle",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 30106,
+        "name": "Belt of One-Hundred Deaths",
+        "note": "Lady Vashj — SSC"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34188,
+        "name": "Leggings of the Immortal Night",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 30900,
+        "name": "Bow-stitched Leggings",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34567,
+        "name": "Skyshatter Greaves",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32510,
+        "name": "Softstep Boots of Tracking",
+        "note": "Kaz'rogal — Hyjal Summit"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34189,
+        "name": "Band of Ruinous Delight",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34361,
+        "name": "Hard Khorium Band",
+        "note": "Blacksmithing"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32497,
+        "name": "Stormrage Signet Ring",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34427,
+        "name": "Blackened Naaru Sliver",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 34472,
+        "name": "Shard of Contempt",
+        "note": "Magisters' Terrace"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 32505,
+        "name": "Madness of the Betrayer",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34331,
+        "name": "Hand of the Deceiver",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32262,
+        "name": "Syphon of the Nathrezim",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 34346,
+        "name": "Mounting Vengeance",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32946,
+        "name": "Claw of Molten Fury",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 33507,
+        "name": "Stonebreaker's Totem",
+        "note": "Vendor"
+      }
+    ]
+  }
+}

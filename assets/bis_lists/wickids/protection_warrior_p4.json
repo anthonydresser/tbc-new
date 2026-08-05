@@ -1,0 +1,163 @@
+{
+  "name": "Wickids — Protection Warrior Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 17,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.713698+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32521,
+        "name": "Faceplate of the Impenetrable",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 33421,
+        "name": "Battleworn Tuskguard",
+        "note": "Zul'Aman"
+      }
+    ],
+    "neck": [
+      {
+        "id": 33296,
+        "name": "Brooch of Deftness",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30980,
+        "name": "Onslaught Shoulderguards",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 33593,
+        "name": "Slikk's Cloak of Placation",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 34010,
+        "name": "Pepe's Shroud of Pacification",
+        "note": "Hyjal Summit Trash"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30976,
+        "name": "Onslaught Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33473,
+        "name": "Chestguard of the Warlord",
+        "note": "Zul'Aman"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 33516,
+        "name": "Bracers of the Ancient Phalanx",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 32232,
+        "name": "Eternium Shell Bracers",
+        "note": "Black Temple Trash"
+      }
+    ],
+    "hands": [
+      {
+        "id": 32280,
+        "name": "Gauntlets of Enforcement",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "waist": [
+      {
+        "id": 32333,
+        "name": "Girdle of Stability",
+        "note": "Reliquary of Souls — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30978,
+        "name": "Onslaught Legguards",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32268,
+        "name": "Myrmidon's Treads",
+        "note": "Black Temple Trash"
+      },
+      {
+        "id": 33303,
+        "name": "Skullshatter Warboots",
+        "note": "Zul'Aman"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30083,
+        "name": "Ring of Sundered Souls",
+        "note": "Morogrim Tidewalker — SSC"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32261,
+        "name": "Band of the Abyssal Lord",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 31858,
+        "name": "Darkmoon Card: Vengeance",
+        "note": "Darkmoon Faire Quest"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 32501,
+        "name": "Shadowmoon Insignia",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 33476,
+        "name": "Cleaver of the Unforgiving",
+        "note": "Zul'Aman"
+      },
+      {
+        "id": 32254,
+        "name": "The Brutalizer",
+        "note": "Black Temple Trash"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 32375,
+        "name": "Bulwark of Azzinoth",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33326,
+        "name": "Bulwark of the Amani Empire",
+        "note": "Zul'Aman"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 33474,
+        "name": "Ancient Amani Longbow",
+        "note": "Zul'Aman"
+      }
+    ]
+  }
+}

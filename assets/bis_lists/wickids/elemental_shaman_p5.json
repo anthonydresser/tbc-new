@@ -1,0 +1,121 @@
+{
+  "name": "Wickids — Elemental Shaman Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 12,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.707087+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34332,
+        "name": "Cowl of Gul'dan",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34359,
+        "name": "Pendant of Sunfire",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31023,
+        "name": "Skyshatter Mantle",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 34242,
+        "name": "Tattered Cape of Antonidas",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "chest": [
+      {
+        "id": 31017,
+        "name": "Skyshatter Breastplate",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34437,
+        "name": "Skyshatter Bands",
+        "note": "Kalecgos — Sunwell Plateau"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34350,
+        "name": "Gauntlets of the Ancient Shadowmoon",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34542,
+        "name": "Skyshatter Cord",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "legs": [
+      {
+        "id": 31020,
+        "name": "Skyshatter Legguards",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34566,
+        "name": "Skyshatter Treads",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34362,
+        "name": "Loop of Forged Power",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32527,
+        "name": "Ring of Ancient Knowledge",
+        "note": "Black Temple"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32483,
+        "name": "The Skull of Gul'dan",
+        "note": "Black Temple"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 34429,
+        "name": "Shifting Naaru Sliver",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32374,
+        "name": "Zhar'doom, Greatstaff of the Devourer",
+        "note": "Illidan — Black Temple"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 32330,
+        "name": "Totem of Ancestral Guidance",
+        "note": "Black Temple"
+      }
+    ]
+  }
+}

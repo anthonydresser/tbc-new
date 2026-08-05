@@ -1,0 +1,543 @@
+{
+  "name": "Wickids — Priest Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 10,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.703692+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 24266,
+        "name": "Spellstrike Hood",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 28804,
+        "name": "Collar of Cho'gall",
+        "note": "Gruul's Lair"
+      },
+      {
+        "id": 29058,
+        "name": "Soul-Collar of the Incarnate",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 29049,
+        "name": "Light-Collar of the Incarnate",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 32090,
+        "name": "Cowl of Naaru Blessings",
+        "note": "G'eras — Shattrath City (50 Badges)"
+      },
+      {
+        "id": 24264,
+        "name": "Whitemend Hood",
+        "note": "Tailoring"
+      },
+      {
+        "id": 28756,
+        "name": "Headdress of the High Potentate",
+        "note": "Dust Covered Chest — Karazhan"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30666,
+        "name": "Ritssyn's Lost Pendant",
+        "note": "Karazhan Trash"
+      },
+      {
+        "id": 24121,
+        "name": "Chain of the Twilight Owl",
+        "note": "Jewelcrafting (AH)"
+      },
+      {
+        "id": 31693,
+        "name": "Natasha's Arcane Filament",
+        "note": "Quest"
+      },
+      {
+        "id": 30726,
+        "name": "Archaic Charm of Presence",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28822,
+        "name": "Teeth of Gruul",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28609,
+        "name": "Emberspur Talisman",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 29374,
+        "name": "Necklace of Eternal Hope",
+        "note": "G'eras — Shattrath City (25 Badges)"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 21869,
+        "name": "Frozen Shadoweave Shoulders",
+        "note": "Tailoring (Shadoweave)"
+      },
+      {
+        "id": 29060,
+        "name": "Soul-Mantle of the Incarnate",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 27778,
+        "name": "Spaulders of Oblivion",
+        "note": "Murmur — Shadow Labyrinth"
+      },
+      {
+        "id": 21874,
+        "name": "Primal Mooncloth Shoulders",
+        "note": "Tailoring (Primal Mooncloth)"
+      },
+      {
+        "id": 29054,
+        "name": "Light-Mantle of the Incarnate",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 28612,
+        "name": "Pauldrons of the Solace-Giver",
+        "note": "The Curator — Karazhan"
+      }
+    ],
+    "back": [
+      {
+        "id": 28570,
+        "name": "Shadow-Cloak of Dalaran",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 28766,
+        "name": "Ruby Drape of the Mysticant",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28797,
+        "name": "Brute Cloak of the Ogre-Magi",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 28765,
+        "name": "Stainless Cloak of the Pure Hearted",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 31329,
+        "name": "Lifegiving Cloak",
+        "note": "World Drop — Outlands"
+      },
+      {
+        "id": 29375,
+        "name": "Bishop's Cloak",
+        "note": "G'eras — Shattrath City (25 Badges)"
+      }
+    ],
+    "chest": [
+      {
+        "id": 21871,
+        "name": "Frozen Shadoweave Robe",
+        "note": "Tailoring (Shadoweave)"
+      },
+      {
+        "id": 29056,
+        "name": "Shroud of the Incarnate",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28232,
+        "name": "Robe of Oblivion",
+        "note": "Murmur — Shadow Labyrinth"
+      },
+      {
+        "id": 21875,
+        "name": "Primal Mooncloth Robe",
+        "note": "Tailoring (Primal Mooncloth)"
+      },
+      {
+        "id": 29050,
+        "name": "Robes of the Incarnate",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28578,
+        "name": "Masquerade Gown",
+        "note": "Julianne — Karazhan (Opera)"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 24250,
+        "name": "Bracers of Havok",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 28515,
+        "name": "Bands of Nefarious Deeds",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 28477,
+        "name": "Harbinger Bands",
+        "note": "Attumen the Huntsman — Karazhan"
+      },
+      {
+        "id": 29183,
+        "name": "Bindings of the Timewalker",
+        "note": "Keepers of Time — Exalted"
+      },
+      {
+        "id": 28511,
+        "name": "Bands of Indwelling",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 29249,
+        "name": "Bands of the Benevolent",
+        "note": "Talon King Ikiss — Heroic Sethekk Halls"
+      }
+    ],
+    "hands": [
+      {
+        "id": 28507,
+        "name": "Handwraps of Flowing Thought",
+        "note": "Attumen — Karazhan"
+      },
+      {
+        "id": 28780,
+        "name": "Soul-Eater's Handwraps",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 30725,
+        "name": "Anger-Spark Gloves",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 28508,
+        "name": "Gloves of Saintly Blessings",
+        "note": "Attumen the Huntsman — Karazhan"
+      },
+      {
+        "id": 29055,
+        "name": "Handwraps of the Incarnate",
+        "note": "The Curator — Karazhan"
+      },
+      {
+        "id": 27536,
+        "name": "Hallowed Handwraps",
+        "note": "Warchief Kargath — Shattered Halls"
+      }
+    ],
+    "waist": [
+      {
+        "id": 28799,
+        "name": "Belt of Divine Inspiration",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 24256,
+        "name": "Girdle of Ruination",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 21873,
+        "name": "Primal Mooncloth Belt",
+        "note": "Tailoring (Primal Mooncloth)"
+      },
+      {
+        "id": 28652,
+        "name": "Cincture of Will",
+        "note": "Terestian Illhoof — Karazhan"
+      },
+      {
+        "id": 29250,
+        "name": "Cord of Sanctification",
+        "note": "Epoch Hunter — Old Hillsbrad"
+      }
+    ],
+    "legs": [
+      {
+        "id": 24262,
+        "name": "Spellstrike Pants",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 28594,
+        "name": "Trial-Fire Trousers",
+        "note": "Opera Event — Karazhan"
+      },
+      {
+        "id": 30531,
+        "name": "Breeches of the Occultist",
+        "note": "Aeonus — Black Morass"
+      },
+      {
+        "id": 30727,
+        "name": "Gilded Trousers of Benediction",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 28742,
+        "name": "Pantaloons of Repentance",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 24261,
+        "name": "Whitemend Pants",
+        "note": "Tailoring (Whitemend)"
+      },
+      {
+        "id": 29053,
+        "name": "Trousers of the Incarnate",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "feet": [
+      {
+        "id": 21870,
+        "name": "Frozen Shadoweave Boots",
+        "note": "Tailoring (Shadoweave)"
+      },
+      {
+        "id": 28517,
+        "name": "Boots of Foretelling",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 28585,
+        "name": "Ruby Slippers",
+        "note": "Opera Event — Karazhan"
+      },
+      {
+        "id": 28663,
+        "name": "Boots of the Incorrupt",
+        "note": "Shade of Aran — Karazhan"
+      },
+      {
+        "id": 29251,
+        "name": "Boots of the Pious",
+        "note": "Pathaleon — Heroic Mechanar"
+      },
+      {
+        "id": 27411,
+        "name": "Slippers of Serenity",
+        "note": "Auchenai Crypts"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 28753,
+        "name": "Ring of Recurrence",
+        "note": "Chess Event — Karazhan"
+      },
+      {
+        "id": 29352,
+        "name": "Cobalt Band of Tyrigosa",
+        "note": "Heroic Mana-Tombs"
+      },
+      {
+        "id": 29287,
+        "name": "Violet Signet of the Archmage",
+        "note": "The Violet Eye — Exalted"
+      },
+      {
+        "id": 30736,
+        "name": "Ring of Flowing Light",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 29290,
+        "name": "Violet Signet of the Grand Restorer",
+        "note": "The Violet Eye — Exalted"
+      },
+      {
+        "id": 28763,
+        "name": "Jade Ring of the Everliving",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28793,
+        "name": "Band of Crimson Fury",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 29172,
+        "name": "Ashyen's Gift",
+        "note": "Cenarion Expedition — Exalted"
+      },
+      {
+        "id": 28555,
+        "name": "Seal of the Exorcist",
+        "note": "Spirit Sages — Badges of Justice"
+      },
+      {
+        "id": 28661,
+        "name": "Mender's Heart-Ring",
+        "note": "Terestian Illhoof — Karazhan"
+      },
+      {
+        "id": 28790,
+        "name": "Naaru Lightwarden's Band",
+        "note": "Quest: The Fall of Magtheridon"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28789,
+        "name": "Eye of Magtheridon",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 27683,
+        "name": "Quagmirran's Eye",
+        "note": "Heroic Slave Pens"
+      },
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      },
+      {
+        "id": 28590,
+        "name": "Ribbon of Sacrifice",
+        "note": "Opera Event — Karazhan"
+      },
+      {
+        "id": 30841,
+        "name": "Lower City Prayerbook",
+        "note": "Lower City — Revered"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29132,
+        "name": "Scryer's Bloodgem",
+        "note": "Scryers — Revered"
+      },
+      {
+        "id": 28823,
+        "name": "Eye of Gruul",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28190,
+        "name": "Scarab of the Infinite Cycle",
+        "note": "Aeonus — The Black Morass"
+      },
+      {
+        "id": 28370,
+        "name": "Bangle of Endless Blessings",
+        "note": "Warp Splinter — The Botanica"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28770,
+        "name": "Nathrezim Mindblade",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30723,
+        "name": "Talon of the Tempest",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 28297,
+        "name": "Gladiator's Spellblade",
+        "note": "PvP Vendor"
+      },
+      {
+        "id": 30832,
+        "name": "Gavel of Unearthed Secrets",
+        "note": "Lower City — Exalted"
+      },
+      {
+        "id": 28771,
+        "name": "Light's Justice",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28522,
+        "name": "Shard of the Virtuous",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 29175,
+        "name": "Gavel of Pure Light",
+        "note": "The Sha'tar — Exalted"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29272,
+        "name": "Orb of the Soul-Eater",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 29273,
+        "name": "Khadgar's Knapsack",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 29170,
+        "name": "Windcaller's Orb",
+        "note": "Cenarion Expedition — Exalted"
+      },
+      {
+        "id": 29274,
+        "name": "Tears of Heaven",
+        "note": "G'eras — Shattrath City (25 Badges)"
+      },
+      {
+        "id": 28728,
+        "name": "Aran's Soothing Sapphire",
+        "note": "Shade of Aran — Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29350,
+        "name": "The Black Stalk",
+        "note": "Heroic Underbog"
+      },
+      {
+        "id": 28673,
+        "name": "Tirisfal Wand of Ascendancy",
+        "note": "Karazhan"
+      },
+      {
+        "id": 28588,
+        "name": "Blue Diamond Witchwand",
+        "note": "Opera Event — Karazhan"
+      },
+      {
+        "id": 29779,
+        "name": "Rejuvenating Scepter",
+        "note": "Quest: Ar'kelos the Guardian"
+      },
+      {
+        "id": 27885,
+        "name": "Soul-Wand of the Aldor",
+        "note": "Ambassador Hellmaw — Shadow Labyrinth"
+      }
+    ]
+  }
+}

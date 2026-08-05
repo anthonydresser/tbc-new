@@ -26,6 +26,11 @@
 				margin-bottom: 0;
 			}
 		}
+
+		.upgrade-saved-runs {
+			border-top: var(--border-default);
+			padding-top: var(--gap-width);
+		}
 	}
 
 	.upgrade-combinations-count {

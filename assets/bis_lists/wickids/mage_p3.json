@@ -1,0 +1,188 @@
+{
+  "name": "Wickids — Mage Phase 3",
+  "source": "WickidsTBCBISTracker",
+  "spec": 6,
+  "phase": 3,
+  "generatedAt": "2026-08-01T17:52:52.698993+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32525,
+        "name": "Cowl of the Illidari High Lord",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30206,
+        "name": "Cowl of Tirisfal",
+        "note": "Lady Vashj — SSC"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32589,
+        "name": "Hellfire-Encased Pendant",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 30015,
+        "name": "The Sun King's Talisman",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 32349,
+        "name": "Translucent Spellthread Necklace",
+        "note": "Reliquary of the Lost — Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31059,
+        "name": "Mantle of the Tempest",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 30210,
+        "name": "Mantle of Tirisfal",
+        "note": "Void Reaver — Tempest Keep"
+      }
+    ],
+    "back": [
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 32331,
+        "name": "Cloak of the Illidari Council",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "chest": [
+      {
+        "id": 31057,
+        "name": "Robes of the Tempest",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30196,
+        "name": "Robes of Tirisfal",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32586,
+        "name": "Bracers of Nimble Thought",
+        "note": "Tailoring"
+      },
+      {
+        "id": 30870,
+        "name": "Cuffs of Devastation",
+        "note": "Hyjal Summit Trash"
+      }
+    ],
+    "hands": [
+      {
+        "id": 31055,
+        "name": "Gloves of the Tempest",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 30205,
+        "name": "Gloves of Tirisfal",
+        "note": "Leotheras the Blind — SSC"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30038,
+        "name": "Belt of Blasting",
+        "note": "Tailoring"
+      },
+      {
+        "id": 32256,
+        "name": "Waistwrap of Infinity",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 30888,
+        "name": "Anetheron's Noose",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "legs": [
+      {
+        "id": 31058,
+        "name": "Leggings of the Tempest",
+        "note": "Kaz'rogal — Hyjal Summit"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32239,
+        "name": "Slippers of the Seacaller",
+        "note": "High Warlord Naj'entus — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32527,
+        "name": "Ring of Ancient Knowledge",
+        "note": "Trash — Black Temple"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29305,
+        "name": "Band of the Eternal Sage",
+        "note": "The Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32483,
+        "name": "The Skull of Gul'dan",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 30720,
+        "name": "Serpent-Coil Braid",
+        "note": "Morogrim Tidewalker — SSC"
+      },
+      {
+        "id": 32488,
+        "name": "Ashtongue Talisman of Insight",
+        "note": "Ashtongue Deathsworn — Exalted"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32374,
+        "name": "Zhar'doom, Greatstaff of the Devourer",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 30872,
+        "name": "Chronicle of Dark Secrets",
+        "note": "Hyjal Summit Trash"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29982,
+        "name": "Wand of the Forgotten Star",
+        "note": "High Astromancer Solarian — Tempest Keep"
+      },
+      {
+        "id": 28783,
+        "name": "Eredar Wand of Obliteration",
+        "note": "Magtheridon — Magtheridon's Lair"
+      }
+    ]
+  }
+}

@@ -1,0 +1,268 @@
+{
+  "name": "Wickids — Restoration Druid Phase 3",
+  "source": "WickidsTBCBISTracker",
+  "spec": 4,
+  "phase": 3,
+  "generatedAt": "2026-08-01T17:52:52.696073+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 31037,
+        "name": "Thunderheart Helmet",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32329,
+        "name": "Cowl of Benevolence",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30018,
+        "name": "Lord Sanguinar's Claim",
+        "note": "Kael'thas — Tempest Keep (Quest)"
+      },
+      {
+        "id": 32370,
+        "name": "Nadina's Pendant of Purity",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31047,
+        "name": "Thunderheart Spaulders",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 32583,
+        "name": "Shoulderpads of Renewed Life",
+        "note": "Leatherworking (BoP)"
+      },
+      {
+        "id": 32585,
+        "name": "Swiftheal Mantle",
+        "note": "Tailoring (BoP)"
+      }
+    ],
+    "back": [
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 32337,
+        "name": "Shroud of Forgiveness",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      },
+      {
+        "id": 34012,
+        "name": "Shroud of the Final Stand",
+        "note": "Black Temple Trash"
+      }
+    ],
+    "chest": [
+      {
+        "id": 31041,
+        "name": "Thunderheart Tunic",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30216,
+        "name": "Nordrassil Chestguard",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 30868,
+        "name": "Rejuvenating Bracers",
+        "note": "Rage Winterchill — Hyjal Summit"
+      },
+      {
+        "id": 30871,
+        "name": "Bracers of Martyrdom",
+        "note": "Rage Winterchill — Hyjal Summit"
+      },
+      {
+        "id": 32584,
+        "name": "Swiftheal Wraps",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 32582,
+        "name": "Bracers of Renewed Life",
+        "note": "Leatherworking (AH)"
+      }
+    ],
+    "hands": [
+      {
+        "id": 32328,
+        "name": "Botanist's Gloves of Growth",
+        "note": "Teron Gorefiend — Black Temple"
+      },
+      {
+        "id": 32353,
+        "name": "Gloves of Unfailing Faith",
+        "note": "Essence of Anger — Black Temple"
+      },
+      {
+        "id": 31032,
+        "name": "Thunderheart Gloves",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30895,
+        "name": "Angelista's Sash",
+        "note": "Kaz'rogal — Hyjal Summit"
+      },
+      {
+        "id": 32339,
+        "name": "Belt of Primal Majesty",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      },
+      {
+        "id": 32519,
+        "name": "Belt of Divine Guidance",
+        "note": "High Nethermancer Zerevor — BT"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30912,
+        "name": "Leggings of Eternity",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32271,
+        "name": "Kilt of Immortal Nature",
+        "note": "Shade of Akama — Black Temple"
+      },
+      {
+        "id": 31045,
+        "name": "Thunderheart Legguards",
+        "note": "The Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32609,
+        "name": "Boots of the Divine Light",
+        "note": "Hyjal Summit Trash"
+      },
+      {
+        "id": 30737,
+        "name": "Gold-Leaf Wildboots",
+        "note": "Doom Lord Kazzak — World Boss"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32528,
+        "name": "Blessed Band of Karabor",
+        "note": "Black Temple Trash"
+      },
+      {
+        "id": 30110,
+        "name": "Coral Band of the Revived",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29309,
+        "name": "Band of the Eternal Restorer",
+        "note": "Scale of the Sands — Exalted"
+      },
+      {
+        "id": 28763,
+        "name": "Jade Ring of the Everliving",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      },
+      {
+        "id": 32496,
+        "name": "Memento of Tyrande",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 38288,
+        "name": "Direbrew Hops",
+        "note": "Coren Direbrew — Brewfest"
+      },
+      {
+        "id": 32486,
+        "name": "Ashtongue Talisman of Equilibrium",
+        "note": "Ashtongue Deathsworn — Exalted"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32500,
+        "name": "Crystal Spire of Karabor",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30918,
+        "name": "Hammer of Atonement",
+        "note": "Kaz'rogal — Hyjal Summit"
+      },
+      {
+        "id": 30908,
+        "name": "Apostle of Argus",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32344,
+        "name": "Staff of Immaculate Recovery",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 30911,
+        "name": "Scepter of Purification",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32350,
+        "name": "Touch of Inspiration",
+        "note": "Essence of Anger — Black Temple"
+      },
+      {
+        "id": 29274,
+        "name": "Tears of Heaven",
+        "note": "G'eras — Shattrath City (25 Badges)"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 27886,
+        "name": "Idol of the Emerald Queen",
+        "note": "Shadow Labyrinth"
+      },
+      {
+        "id": 32387,
+        "name": "Idol of the Raven Goddess",
+        "note": "Quest: Vanquish the Raven God (Heroic Sethekk)"
+      },
+      {
+        "id": 25643,
+        "name": "Harold's Rejuvenating Broach",
+        "note": "Quest: Ultimate Bloodsport"
+      }
+    ]
+  }
+}

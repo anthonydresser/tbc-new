@@ -3107,6 +3107,19 @@
 						"fallback_gems": {
 							"type": "string"
 						},
+						"optimize_gems": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
 						"inherit_upgrades": {
 							"type": "object",
 							"properties": {
@@ -3182,6 +3195,7 @@
 						"combination_singular",
 						"iterations",
 						"fallback_gems",
+						"optimize_gems",
 						"inherit_upgrades",
 						"freeze_ring",
 						"freeze_trinket",
@@ -3348,6 +3362,9 @@
 						"import_favorites": {
 							"type": "string"
 						},
+						"import_bis_list": {
+							"type": "string"
+						},
 						"clear_items": {
 							"type": "string"
 						},
@@ -3356,7 +3373,79 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": ["import_favorites", "clear_items", "simulate"]
+					"required": ["import_favorites", "import_bis_list", "clear_items", "simulate"]
+				},
+				"import_bis_list": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						},
+						"instructions": {
+							"type": "string"
+						},
+						"example_summary": {
+							"type": "string"
+						},
+						"replace_existing": {
+							"type": "string"
+						},
+						"imported": {
+							"type": "string"
+						},
+						"imported_with_skipped": {
+							"type": "string"
+						},
+						"imported_with_warnings": {
+							"type": "string"
+						},
+						"more_errors": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": [
+						"title",
+						"description",
+						"instructions",
+						"example_summary",
+						"replace_existing",
+						"imported",
+						"imported_with_skipped",
+						"imported_with_warnings",
+						"more_errors"
+					]
+				},
+				"presets": {
+					"type": "object",
+					"properties": {
+						"label": {
+							"type": "string"
+						},
+						"select_phase": {
+							"type": "string"
+						},
+						"phase_option": {
+							"type": "string"
+						},
+						"load": {
+							"type": "string"
+						},
+						"loaded": {
+							"type": "string"
+						},
+						"load_failed": {
+							"type": "string"
+						},
+						"loaded_with_warnings": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["label", "select_phase", "phase_option", "load", "loaded", "load_failed", "loaded_with_warnings"]
 				},
 				"settings": {
 					"type": "object",
@@ -3389,6 +3478,28 @@
 					},
 					"additionalProperties": false,
 					"required": ["fallback_gems", "iterations", "sim_count", "sim_count_singular", "optimize_gems"]
+				},
+				"saved_runs": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"run": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						},
+						"save": {
+							"type": "string"
+						},
+						"loaded": {
+							"type": "string"
+						}
+					},
+					"additionalProperties": false,
+					"required": ["title", "run", "name", "save", "loaded"]
 				},
 				"progress": {
 					"type": "object",
@@ -3477,6 +3588,12 @@
 						"diff_button": {
 							"type": "string"
 						},
+						"remove_tooltip": {
+							"type": "string"
+						},
+						"item_removed": {
+							"type": "string"
+						},
 						"gear_diff_title": {
 							"type": "string"
 						},
@@ -3501,6 +3618,8 @@
 						"current_gear",
 						"source",
 						"diff_button",
+						"remove_tooltip",
+						"item_removed",
 						"gear_diff_title",
 						"gear_diff_empty",
 						"empty_slot"
@@ -3508,7 +3627,20 @@
 				}
 			},
 			"additionalProperties": false,
-			"required": ["title", "description", "tabs", "actions", "settings", "progress", "notifications", "picker", "results"]
+			"required": [
+				"title",
+				"description",
+				"tabs",
+				"actions",
+				"import_bis_list",
+				"presets",
+				"settings",
+				"saved_runs",
+				"progress",
+				"notifications",
+				"picker",
+				"results"
+			]
 		},
 		"rotation_tab": {
 			"type": "object",

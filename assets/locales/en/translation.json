@@ -879,6 +879,10 @@
 			"combination_singular": "1 Combination",
 			"iterations": "Iterations",
 			"fallback_gems": "Fallback Gems",
+			"optimize_gems": {
+				"label": "Optimize gems per combination",
+				"tooltip": "Re-solve the optimal gem and reforge configuration for each combination before simming. Slower, but more accurate when gear changes affect gemming or reforge choices."
+			},
 			"inherit_upgrades": {
 				"label": "Inherit Upgrades",
 				"tooltip": "When enabled, items will inherit upgrades from the equipped item. Otherwise, items will be simmed without any upgrades."
@@ -946,8 +950,29 @@
 		},
 		"actions": {
 			"import_favorites": "Import Favorites",
+			"import_bis_list": "Import BiS List",
 			"clear_items": "Clear Items",
 			"simulate": "Find Upgrades"
+		},
+		"import_bis_list": {
+			"title": "Import BiS List",
+			"description": "Import a curated Best-in-Slot list with multiple item options per slot. Each imported item becomes an upgrade candidate so you can sim and rank the best upgrades to prioritize.",
+			"instructions": "Paste or upload a JSON object with a \"slots\" key mapping each equipment slot to an array of item entries. Each entry should have an \"id\" (item ID) or \"name\" (exact item name), and may include \"enchant\", \"gems\", and \"randomSuffix\".",
+			"example_summary": "Example BiS list format",
+			"replace_existing": "Replace existing candidates",
+			"imported": "Imported {{count}} BiS candidates.",
+			"imported_with_skipped": "Imported {{added}} BiS candidates ({{skipped}} duplicates skipped).",
+			"imported_with_warnings": "Imported {{count}} candidates with warnings:\n{{errors}}",
+			"more_errors": "... and {{count}} more issues"
+		},
+		"presets": {
+			"label": "BiS Preset",
+			"select_phase": "Select phase",
+			"phase_option": "Phase {{phase}}",
+			"load": "Load Preset",
+			"loaded": "Loaded {{count}} items from {{label}}.",
+			"load_failed": "Failed to load {{label}}.",
+			"loaded_with_warnings": "Loaded {{label}} with {{count}} warnings:\n{{errors}}"
 		},
 		"settings": {
 			"fallback_gems": "Fallback Gems",
@@ -958,6 +983,13 @@
 				"label": "Optimize gems per item",
 				"tooltip": "Re-solve the optimal gem configuration for each candidate item before simming. Slower, but more accurate when a new item changes gemming choices."
 			}
+		},
+		"saved_runs": {
+			"title": "Saved Runs",
+			"run": "Saved Run",
+			"name": "Run Name",
+			"save": "Save Run",
+			"loaded": "Loaded saved run \"{{name}}\"."
 		},
 		"progress": {
 			"baseline": "Running baseline simulation",
@@ -985,6 +1017,8 @@
 			"action": "Action",
 			"equip_button": "Equip",
 			"diff_button": "Diff",
+			"remove_tooltip": "Remove item from upgrade list",
+			"item_removed": "Removed {{itemName}} from the upgrade list.",
 			"gear_equipped": "Upgrade equipped!",
 			"current_gear": "Current Gear",
 			"gear_diff_title": "Gear changes with {{itemName}}",

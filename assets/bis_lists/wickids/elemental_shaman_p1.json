@@ -1,0 +1,213 @@
+{
+  "name": "Wickids — Elemental Shaman Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 12,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.706037+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 29035,
+        "name": "Cyclone Faceguard",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 24266,
+        "name": "Spellstrike Hood",
+        "note": "Tailoring"
+      }
+    ],
+    "neck": [
+      {
+        "id": 28762,
+        "name": "Adornment of Stolen Souls",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30723,
+        "name": "Brooch of Unquenchable Fury",
+        "note": "Doom Lord Kazzak — World Boss"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 29037,
+        "name": "Cyclone Shoulderguards",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 30725,
+        "name": "Spaulders of Oblivion",
+        "note": "Doomwalker — World Boss"
+      }
+    ],
+    "back": [
+      {
+        "id": 28797,
+        "name": "Brute Cloak of the Ogre-Magi",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 28766,
+        "name": "Ruby Drape of the Mysticant",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "chest": [
+      {
+        "id": 29519,
+        "name": "Netherstrike Breastplate",
+        "note": "Dragonscale Leatherworking"
+      },
+      {
+        "id": 29033,
+        "name": "Cyclone Chestguard",
+        "note": "Magtheridon — Magtheridon's Lair"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29521,
+        "name": "Netherstrike Bracers",
+        "note": "Dragonscale Leatherworking"
+      },
+      {
+        "id": 30732,
+        "name": "Crimson Bracers of Gloom",
+        "note": "Doomwalker — World Boss"
+      }
+    ],
+    "hands": [
+      {
+        "id": 28780,
+        "name": "Soul-Eater's Handwraps",
+        "note": "Magtheridon's Lair"
+      },
+      {
+        "id": 29034,
+        "name": "Cyclone Handguards",
+        "note": "The Curator — Karazhan"
+      }
+    ],
+    "waist": [
+      {
+        "id": 29520,
+        "name": "Netherstrike Belt",
+        "note": "Dragonscale Leatherworking"
+      },
+      {
+        "id": 30038,
+        "name": "Belt of Blasting",
+        "note": "Tailoring"
+      }
+    ],
+    "legs": [
+      {
+        "id": 24262,
+        "name": "Spellstrike Pants",
+        "note": "Tailoring"
+      },
+      {
+        "id": 29036,
+        "name": "Cyclone Legguards",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "feet": [
+      {
+        "id": 28517,
+        "name": "Boots of Foretelling",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 30037,
+        "name": "Boots of Blasting",
+        "note": "Tailoring"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30667,
+        "name": "Ring of Unrelenting Storms",
+        "note": "Karazhan Trash"
+      },
+      {
+        "id": 29287,
+        "name": "Violet Signet of the Archmage",
+        "note": "The Violet Eye — Exalted"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28753,
+        "name": "Ring of Recurrence",
+        "note": "Chess Event — Karazhan"
+      },
+      {
+        "id": 28227,
+        "name": "Cobalt Band of Tyrigosa",
+        "note": "Nexus-Prince Shaffar — Mana-Tombs"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28785,
+        "name": "The Lightning Capacitor",
+        "note": "Terestian Illhoof — Karazhan"
+      },
+      {
+        "id": 27683,
+        "name": "Quagmirran's Eye",
+        "note": "Heroic Slave Pens"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 29132,
+        "name": "Scryer's Bloodgem",
+        "note": "Scryers — Revered"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28770,
+        "name": "Nathrezim Mindblade",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28297,
+        "name": "Gladiator's Gavel",
+        "note": "Arena PvP"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29273,
+        "name": "Khadgar's Knapsack",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28781,
+        "name": "Orb of the Soul-Eater",
+        "note": "Magtheridon — Magtheridon's Lair"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28248,
+        "name": "Totem of the Void",
+        "note": "Mechanar"
+      },
+      {
+        "id": 30023,
+        "name": "Totem of Wrath's Tempest",
+        "note": "Quest: The Cipher of Damnation"
+      }
+    ]
+  }
+}

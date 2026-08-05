@@ -93,6 +93,7 @@ export class BulkTab extends SimTab {
 	]);
 	fallbackGems: SimGem[];
 	gemIconElements: HTMLImageElement[];
+	private optimizeGems = true;
 
 	protected topGearResults: TopGearResult[] | null = null;
 	protected originalGear: Gear | null = null;
@@ -276,6 +277,7 @@ export class BulkTab extends SimTab {
 				SimGem.create({ id: settings.defaultMetaGem }),
 				SimGem.create({ id: settings.defaultPrismaticGem }),
 			);
+			this.optimizeGems = settings.optimizeGems ?? true;
 
 			this.fallbackGems.forEach((gem, idx) => {
 				ActionId.fromItemId(gem.id)
@@ -316,6 +318,7 @@ export class BulkTab extends SimTab {
 			freezeWeaponSlot: this.frozenWeaponSlot,
 			freezeMainhandWeaponSlots: this.weaponTypeFilters.get(ItemSlot.ItemSlotMainHand)?.slice(),
 			freezeOffhandWeaponSlots: this.weaponTypeFilters.get(ItemSlot.ItemSlotOffHand)?.slice(),
+			optimizeGems: this.optimizeGems,
 		});
 	}
 
@@ -904,6 +907,7 @@ export class BulkTab extends SimTab {
 		this.bulkSimButton.addEventListener('click', () => this.runBatchSim());
 
 		const socketsContainerRef = ref<HTMLDivElement>();
+		const optimizeGemsDiv = ref<HTMLDivElement>();
 		const frozenRingDiv = ref<HTMLDivElement>();
 		const frozenTrinketDiv = ref<HTMLDivElement>();
 		const frozenWeaponDiv = ref<HTMLDivElement>();
@@ -916,6 +920,7 @@ export class BulkTab extends SimTab {
 					<h6>{i18n.t('bulk_tab.settings.fallback_gems')}</h6>
 					<div ref={socketsContainerRef} className="sockets-container"></div>
 				</div>
+				<div ref={optimizeGemsDiv}></div>
 				<div ref={frozenRingDiv}></div>
 				<div ref={frozenTrinketDiv}></div>
 				{this.playerCanDualWield && (
@@ -1085,6 +1090,20 @@ export class BulkTab extends SimTab {
 				gemContainerRef.value?.addEventListener('click', openGemSelector);
 			},
 		);
+
+		if (optimizeGemsDiv.value)
+			new BooleanPicker<BulkTab>(optimizeGemsDiv.value, this, {
+				id: 'bulk-optimize-gems',
+				label: i18n.t('bulk_tab.settings.optimize_gems.label'),
+				labelTooltip: i18n.t('bulk_tab.settings.optimize_gems.tooltip'),
+				inline: true,
+				changedEvent: _modObj => this.settingsChangedEmitter,
+				getValue: _modObj => this.optimizeGems,
+				setValue: (eventID, _modObj, newValue) => {
+					this.optimizeGems = newValue;
+					this.settingsChangedEmitter.emit(eventID);
+				},
+			});
 	}
 
 	private getCombinationsCount(): Element {
@@ -1254,28 +1273,32 @@ export class BulkTab extends SimTab {
 				candidateGearSets.push(reforgeGear);
 			}
 
-			let completedReforges = 1;
-			this.setReforgeProgress(completedReforges, candidateGearSets.length);
-			await sleep(400);
-			const reforgeTasks = candidateGearSets.map(reforgeGear => async () => {
-				const reforgedGear = await this.optimizeReforges(reforgeGear, abortSignal);
-				this.throwIfBulkAborted(abortSignal);
-				completedReforges += 1;
+			if (this.optimizeGems) {
+				let completedReforges = 1;
 				this.setReforgeProgress(completedReforges, candidateGearSets.length);
-				return reforgedGear;
-			});
-			const reforgeSettledResults = await promisePool(reforgeTasks, {
-				concurrency,
-			});
-			const rejectedReforge = reforgeSettledResults.find(result => result.status === 'rejected');
-			if (rejectedReforge && rejectedReforge.status === 'rejected') {
-				throw rejectedReforge.reason;
-			}
-			const reforgeResults = reforgeSettledResults
-				.filter((result): result is PromiseFulfilledResult<Gear | null> => result.status === 'fulfilled')
-				.map(result => result.value);
+				await sleep(400);
+				const reforgeTasks = candidateGearSets.map(reforgeGear => async () => {
+					const reforgedGear = await this.optimizeReforges(reforgeGear, abortSignal);
+					this.throwIfBulkAborted(abortSignal);
+					completedReforges += 1;
+					this.setReforgeProgress(completedReforges, candidateGearSets.length);
+					return reforgedGear;
+				});
+				const reforgeSettledResults = await promisePool(reforgeTasks, {
+					concurrency,
+				});
+				const rejectedReforge = reforgeSettledResults.find(result => result.status === 'rejected');
+				if (rejectedReforge && rejectedReforge.status === 'rejected') {
+					throw rejectedReforge.reason;
+				}
+				const reforgeResults = reforgeSettledResults
+					.filter((result): result is PromiseFulfilledResult<Gear | null> => result.status === 'fulfilled')
+					.map(result => result.value);
 
-			reforgedGearSets.push(...reforgeResults.filter((gear): gear is Gear => !!gear));
+				reforgedGearSets.push(...reforgeResults.filter((gear): gear is Gear => !!gear));
+			} else {
+				reforgedGearSets.push(...candidateGearSets);
+			}
 
 			this.simStart = new Date().getTime();
 			const totalSimRounds = reforgedGearSets.length + 1;

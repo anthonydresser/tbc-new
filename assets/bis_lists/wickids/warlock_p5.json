@@ -1,0 +1,163 @@
+{
+  "name": "Wickids — Warlock Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 15,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.710994+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34340,
+        "name": "Dark Conjuror's Collar",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 31051,
+        "name": "Hood of the Malefic",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34678,
+        "name": "Shattered Sun Pendant of Acumen",
+        "note": "Shattered Sun Offensive — Exalted"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 34210,
+        "name": "Amice of the Convoker",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 31054,
+        "name": "Mantle of the Malefic",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 34242,
+        "name": "Tattered Cape of Antonidas",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34364,
+        "name": "Sunfire Robe",
+        "note": "Tailoring (Sunwell)"
+      },
+      {
+        "id": 34232,
+        "name": "Fel Conquerer Raiments",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34436,
+        "name": "Bracers of the Malefic",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34344,
+        "name": "Handguards of Defiled Worlds",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34366,
+        "name": "Sunfire Handwraps",
+        "note": "Tailoring (Sunwell)"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34541,
+        "name": "Belt of the Malefic",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34181,
+        "name": "Leggings of Calamity",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 31053,
+        "name": "Leggings of the Malefic",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34564,
+        "name": "Boots of the Malefic",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34362,
+        "name": "Loop of Forged Power",
+        "note": "Jewelcrafting (Sunwell)"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 34230,
+        "name": "Ring of Omnipotence",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 33497,
+        "name": "Mana Attuned Band",
+        "note": "Timed Chest — Zul'Aman"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34429,
+        "name": "Shifting Naaru Sliver",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 32483,
+        "name": "The Skull of Gul'dan",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34895,
+        "name": "Scryer's Blade of Focus",
+        "note": "Shattered Sun Offensive — Exalted"
+      },
+      {
+        "id": 30910,
+        "name": "Tempest of Chaos",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 34179,
+        "name": "Heart of the Pit",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 34347,
+        "name": "Wand of the Demonsoul",
+        "note": "Sunwell Plateau"
+      }
+    ]
+  }
+}

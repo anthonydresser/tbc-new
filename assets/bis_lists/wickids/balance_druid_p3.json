@@ -1,0 +1,233 @@
+{
+  "name": "Wickids — Balance Druid Phase 3",
+  "source": "WickidsTBCBISTracker",
+  "spec": 1,
+  "phase": 3,
+  "generatedAt": "2026-08-01T17:52:52.691727+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 31040,
+        "name": "Thunderheart Headguard",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32525,
+        "name": "Cowl of the Illidari High Lord",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30015,
+        "name": "The Sun King's Talisman",
+        "note": "Quest: Kael'thas Verdant Sphere"
+      },
+      {
+        "id": 32349,
+        "name": "Translucent Spellthread Necklace",
+        "note": "Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31049,
+        "name": "Thunderheart Shoulderpads",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 30884,
+        "name": "Hatefury Mantle",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "back": [
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 32331,
+        "name": "Cloak of the Illidari Council",
+        "note": "High Nethermancer Zerevor — BT"
+      }
+    ],
+    "chest": [
+      {
+        "id": 31043,
+        "name": "Thunderheart Vest",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30231,
+        "name": "Nordrassil Chestpiece",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32586,
+        "name": "Bracers of Nimble Thought",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 32270,
+        "name": "Focused Mana Bindings",
+        "note": "Shade of Akama — Black Temple"
+      }
+    ],
+    "hands": [
+      {
+        "id": 31035,
+        "name": "Thunderheart Handguards",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 30232,
+        "name": "Nordrassil Gauntlets",
+        "note": "Leotheras the Blind — SSC"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30888,
+        "name": "Anetheron's Noose",
+        "note": "Anetheron — Hyjal Summit"
+      },
+      {
+        "id": 30914,
+        "name": "Belt of the Crescent Moon",
+        "note": "Kaz'rogal — Hyjal Summit"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30916,
+        "name": "Leggings of Channeled Elements",
+        "note": "Kaz'rogal — Hyjal Summit"
+      },
+      {
+        "id": 31046,
+        "name": "Thunderheart Pants",
+        "note": "The Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32239,
+        "name": "Slippers of the Seacaller",
+        "note": "High Warlord Naj'entus — BT"
+      },
+      {
+        "id": 32352,
+        "name": "Naturewarden's Treads",
+        "note": "Essence of Anger — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32527,
+        "name": "Ring of Ancient Knowledge",
+        "note": "Black Temple Trash"
+      },
+      {
+        "id": 29305,
+        "name": "Band of the Eternal Sage",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32247,
+        "name": "Ring of Captured Storms",
+        "note": "High Warlord Naj'entus — BT"
+      },
+      {
+        "id": 30109,
+        "name": "Ring of Endless Coils",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32483,
+        "name": "The Skull of Gul'dan",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 32486,
+        "name": "Ashtongue Talisman of Equilibrium",
+        "note": "Ashtongue Deathsworn — Exalted"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      },
+      {
+        "id": 38290,
+        "name": "Dark Iron Smoking Pipe",
+        "note": "Coren Direbrew — Brewfest"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32237,
+        "name": "The Maelstrom's Fury",
+        "note": "High Warlord Naj'entus — BT"
+      },
+      {
+        "id": 34009,
+        "name": "Hammer of Judgement",
+        "note": "Hyjal Summit Trash"
+      },
+      {
+        "id": 33687,
+        "name": "Vengeful Gladiator's Gavel",
+        "note": "Arena Points (Season 3)"
+      },
+      {
+        "id": 32374,
+        "name": "Zhar'doom, Greatstaff of the Devourer",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 34540,
+        "name": "Vengeful Gladiator's Battle Staff",
+        "note": "Arena Points (Season 3)"
+      },
+      {
+        "id": 29988,
+        "name": "The Nexus Key",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 30872,
+        "name": "Chronicle of Dark Secrets",
+        "note": "Rage Winterchill — Hyjal Summit"
+      },
+      {
+        "id": 32361,
+        "name": "Blind-Seers Icon",
+        "note": "Black Temple"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 27518,
+        "name": "Ivory Idol of the Moongoddess",
+        "note": "Quest Reward"
+      },
+      {
+        "id": 32387,
+        "name": "Idol of the Raven Goddess",
+        "note": "Quest: Vanquish the Raven God (Heroic Sethekk)"
+      }
+    ]
+  }
+}
