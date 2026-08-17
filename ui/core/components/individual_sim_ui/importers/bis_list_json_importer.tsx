@@ -9,7 +9,6 @@ import i18n from '../../../../i18n/config';
 
 export interface BisListImportResult {
 	itemSpecs: ItemSpec[];
-	replaceExisting: boolean;
 }
 
 export interface BisListJsonImporterOptions {
@@ -19,7 +18,6 @@ export interface BisListJsonImporterOptions {
 export class BisListJsonImporter extends Importer {
 	protected readonly simUI: IndividualSimUI<any>;
 	private readonly onImportCallback: (result: BisListImportResult) => void | Promise<void>;
-	private readonly replaceExistingCheckbox: HTMLInputElement;
 
 	constructor(parent: HTMLElement, simUI: IndividualSimUI<any>, options: BisListJsonImporterOptions) {
 		super(parent, { title: i18n.t('upgrade_tab.import_bis_list.title'), allowFileUpload: true });
@@ -39,22 +37,6 @@ export class BisListJsonImporter extends Importer {
 				</details>
 			</div>,
 		);
-
-		const replaceRef = ref<HTMLInputElement>();
-		this.body.appendChild(
-			<div className="form-check mt-3">
-				<input
-					ref={replaceRef}
-					className="form-check-input"
-					type="checkbox"
-					id="bis-list-replace-existing"
-				/>
-				<label className="form-check-label" htmlFor="bis-list-replace-existing">
-					{i18n.t('upgrade_tab.import_bis_list.replace_existing')}
-				</label>
-			</div>,
-		);
-		this.replaceExistingCheckbox = replaceRef.value!;
 	}
 
 	async onImport(data: string) {
@@ -74,7 +56,6 @@ export class BisListJsonImporter extends Importer {
 
 		await this.onImportCallback({
 			itemSpecs: result.itemSpecs,
-			replaceExisting: this.replaceExistingCheckbox.checked,
 		});
 
 		this.close();

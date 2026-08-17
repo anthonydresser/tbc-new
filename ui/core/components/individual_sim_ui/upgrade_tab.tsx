@@ -14,7 +14,7 @@ import { EquippedItem } from '../../proto_utils/equipped_item';
 import { Gear } from '../../proto_utils/gear';
 import { getEmptyGemSocketIconUrl } from '../../proto_utils/gems';
 import { difficultyNames, professionNames, REP_FACTION_NAMES, REP_FACTION_QUARTERMASTERS, REP_LEVEL_NAMES } from '../../proto_utils/names';
-import { canEquipItem, getEligibleItemSlots, getPVPSeasonFromItem, isPVPItem } from '../../proto_utils/utils';
+import { canEquipItem, enchantAppliesToItem, getEligibleItemSlots, getPVPSeasonFromItem, isPVPItem } from '../../proto_utils/utils';
 import { RequestTypes } from '../../sim_signal_manager';
 import { TypedEvent } from '../../typed_event';
 import { formatDeltaTextElem, formatToNumber } from '../../utils';
@@ -101,6 +101,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		const combinationsElemRef = ref<HTMLDivElement>();
 		const runBtnRef = ref<HTMLButtonElement>();
 		const importFavsBtnRef = ref<HTMLButtonElement>();
+		const copyEnchantsBtnRef = ref<HTMLButtonElement>();
 		const importBisBtnRef = ref<HTMLButtonElement>();
 		const loadPresetPhaseRef = ref<HTMLSelectElement>();
 		const loadPresetBtnRef = ref<HTMLButtonElement>();
@@ -158,6 +159,9 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 								<div className="upgrade-gear-actions">
 									<button className="btn btn-secondary" ref={importFavsBtnRef}>
 										<i className="fa fa-download me-1" /> {i18n.t('upgrade_tab.actions.import_favorites')}
+									</button>
+									<button className="btn btn-secondary" ref={copyEnchantsBtnRef}>
+										<i className="fa fa-magic me-1" /> {i18n.t('upgrade_tab.actions.copy_enchants')}
 									</button>
 									<button className="btn btn-secondary" ref={importBisBtnRef}>
 										<i className="fa fa-list me-1" /> {i18n.t('upgrade_tab.actions.import_bis_list')}
@@ -227,6 +231,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		this.resultsTableElem = resultsTableRef.value!;
 
 		importFavsBtnRef.value!.addEventListener('click', () => this.importFavorites());
+		copyEnchantsBtnRef.value!.addEventListener('click', () => this.copyEquippedEnchantsToCandidates());
 		clearBtnRef.value!.addEventListener('click', () => this.clearItems());
 		new BulkItemSearch(searchContainerRef.value!, this.simUI, this);
 
@@ -529,11 +534,53 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		this.storeSettings();
 	}
 
-	private importBisList(result: BisListImportResult) {
-		if (result.replaceExisting) {
-			this.candidateItems = [];
+	private copyEquippedEnchantsToCandidates() {
+		const currentGear = this.simUI.player.getGear();
+		let applied = 0;
+		let skipped = 0;
+
+		for (const candidate of this.candidateItems) {
+			const eligibleSlots = this.getEligibleSlots(candidate);
+			let copiedEnchant: UIEnchant | null = null;
+
+			for (const slot of eligibleSlots) {
+				const equippedItem = currentGear.getEquippedItem(slot);
+				if (!equippedItem?.enchant) continue;
+				if (enchantAppliesToItem(equippedItem.enchant, candidate.equippedItem.item)) {
+					copiedEnchant = equippedItem.enchant;
+					break;
+				}
+			}
+
+			if (copiedEnchant) {
+				if (candidate.selectedEnchant?.effectId === copiedEnchant.effectId) {
+					skipped++;
+				} else {
+					candidate.selectedEnchant = copiedEnchant;
+					candidate.equippedItem = candidate.equippedItem.withEnchant(copiedEnchant);
+					applied++;
+				}
+			}
 		}
 
+		this.renderCandidateList();
+		this.storeSettings();
+
+		if (applied > 0 || skipped > 0) {
+			new Toast({
+				delay: 2000,
+				variant: skipped > 0 && applied === 0 ? 'warning' : 'success',
+				body: <>{i18n.t('upgrade_tab.notifications.enchants_copied', { applied, skipped })}</>,
+			});
+		} else {
+			new Toast({
+				variant: 'warning',
+				body: i18n.t('upgrade_tab.notifications.enchants_no_match'),
+			});
+		}
+	}
+
+	private importBisList(result: BisListImportResult) {
 		let added = 0;
 		let skipped = 0;
 		for (const itemSpec of result.itemSpecs) {
@@ -608,7 +655,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 				});
 				return;
 			}
-			this.importBisList({ itemSpecs: result.itemSpecs, replaceExisting: true });
+			this.importBisList({ itemSpecs: result.itemSpecs });
 			if (result.errors.length > 0) {
 				const summary = result.errors
 					.slice(0, 5)
@@ -1094,10 +1141,11 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 	}
 
 	private removeUpgradeResult(result: UpgradeResult) {
-		const index = this.candidateItems.findIndex(candidate => ItemSpec.equals(candidate.spec, result.item.asSpec()));
+		const resultItemId = result.item.item.id;
+		const index = this.candidateItems.findIndex(candidate => candidate.spec.id === resultItemId);
 		if (index === -1) return;
 		const removed = this.candidateItems.splice(index, 1)[0];
-		this.upgradeResults = this.upgradeResults.filter(r => !ItemSpec.equals(r.item.asSpec(), removed.spec));
+		this.upgradeResults = this.upgradeResults.filter(r => r.item.item.id !== resultItemId);
 		this.renderCandidateList();
 		this.updateCombinationsCount();
 		this.renderResults();
@@ -1155,6 +1203,18 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			if (!zone) {
 				console.error('No zone found for item:', item);
 				return (<></>) as unknown as HTMLElement;
+			}
+
+			if (src.category === 'Token') {
+				const dropHref = npc ? ActionId.makeNpcUrl(npc.id) : ActionId.makeZoneUrl(zone.id);
+				return makeAnchor(
+					dropHref,
+					<span>
+						{zone.name}
+						<br />
+						{npc ? `${npc.name} (Token)` : 'Token'}
+					</span>,
+				);
 			}
 
 			const category = src.category ? ` - ${src.category}` : '';

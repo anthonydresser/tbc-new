@@ -3362,6 +3362,9 @@
 						"import_favorites": {
 							"type": "string"
 						},
+						"copy_enchants": {
+							"type": "string"
+						},
 						"import_bis_list": {
 							"type": "string"
 						},
@@ -3373,7 +3376,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": ["import_favorites", "import_bis_list", "clear_items", "simulate"]
+					"required": ["import_favorites", "copy_enchants", "import_bis_list", "clear_items", "simulate"]
 				},
 				"import_bis_list": {
 					"type": "object",
@@ -3388,9 +3391,6 @@
 							"type": "string"
 						},
 						"example_summary": {
-							"type": "string"
-						},
-						"replace_existing": {
 							"type": "string"
 						},
 						"imported": {
@@ -3412,7 +3412,6 @@
 						"description",
 						"instructions",
 						"example_summary",
-						"replace_existing",
 						"imported",
 						"imported_with_skipped",
 						"imported_with_warnings",
@@ -3531,10 +3530,16 @@
 						},
 						"sim_cancelled": {
 							"type": "string"
+						},
+						"enchants_copied": {
+							"type": "string"
+						},
+						"enchants_no_match": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
-					"required": ["item_duplicate", "item_not_found", "item_not_equippable", "sim_cancelled"]
+					"required": ["item_duplicate", "item_not_found", "item_not_equippable", "sim_cancelled", "enchants_copied", "enchants_no_match"]
 				},
 				"picker": {
 					"type": "object",

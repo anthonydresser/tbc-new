@@ -950,6 +950,7 @@
 		},
 		"actions": {
 			"import_favorites": "Import Favorites",
+			"copy_enchants": "Copy Enchants",
 			"import_bis_list": "Import BiS List",
 			"clear_items": "Clear Items",
 			"simulate": "Find Upgrades"
@@ -959,7 +960,6 @@
 			"description": "Import a curated Best-in-Slot list with multiple item options per slot. Each imported item becomes an upgrade candidate so you can sim and rank the best upgrades to prioritize.",
 			"instructions": "Paste or upload a JSON object with a \"slots\" key mapping each equipment slot to an array of item entries. Each entry should have an \"id\" (item ID) or \"name\" (exact item name), and may include \"enchant\", \"gems\", and \"randomSuffix\".",
 			"example_summary": "Example BiS list format",
-			"replace_existing": "Replace existing candidates",
 			"imported": "Imported {{count}} BiS candidates.",
 			"imported_with_skipped": "Imported {{added}} BiS candidates ({{skipped}} duplicates skipped).",
 			"imported_with_warnings": "Imported {{count}} candidates with warnings:\n{{errors}}",
@@ -1000,7 +1000,9 @@
 			"item_duplicate": "That item is already in the upgrade list.",
 			"item_not_found": "Item could not be found in the database.",
 			"item_not_equippable": "That item cannot be equipped by this character.",
-			"sim_cancelled": "Upgrade finder cancelled."
+			"sim_cancelled": "Upgrade finder cancelled.",
+			"enchants_copied": "Copied {{applied}} enchants from equipped gear ({{skipped}} already matched).",
+			"enchants_no_match": "No applicable enchants found on currently equipped gear."
 		},
 		"picker": {
 			"no_items": "No items selected. Add items using the search box above.",

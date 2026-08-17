@@ -21,6 +21,7 @@ import { WOWHEAD_EXPANSION_ENV } from '../wowhead';
 import { EquippedItem } from './equipped_item.js';
 import { Gear, ItemSwapGear } from './gear.js';
 import { gemEligibleForSocket, gemMatchesSocket } from './gems.js';
+import { applyTBCGearTokenSources } from './tbc_token_sources.js';
 import { getEligibleEnchantSlots, getEligibleItemSlots } from './utils.js';
 
 const dbUrlJson = '/tbc/assets/database/db.json';
@@ -45,10 +46,12 @@ export class Database {
 					const resp = await fetch(dbUrlJson, { signal: options?.signal });
 					const json = await resp.json();
 					dbData = UIDatabase.fromJson(json);
+					applyTBCGearTokenSources(dbData);
 				} else {
 					const buf = await fetch(dbUrlBin, { signal: options?.signal }).then(r => r.arrayBuffer());
 					const bytes = new Uint8Array(buf);
 					dbData = UIDatabase.fromBinary(bytes);
+					applyTBCGearTokenSources(dbData);
 				}
 				const db = new Database(dbData);
 				Database.instance = db;
@@ -87,6 +90,7 @@ export class Database {
 		const shouldLoadLeftovers = equipment.items.some(item => item.id != 0 && !db.items.has(item.id));
 		if (shouldLoadLeftovers) {
 			const leftoverDb = await Database.getLeftovers();
+			applyTBCGearTokenSources(leftoverDb);
 			db.loadProto(leftoverDb);
 			db.loadedLeftovers = true;
 		}
