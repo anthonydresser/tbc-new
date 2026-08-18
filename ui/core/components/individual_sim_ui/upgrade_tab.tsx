@@ -1068,7 +1068,18 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		table.classList.remove('hide');
 		const baselineAvg = this.baselineResult.dpsMetrics.avg;
 
-		this.upgradeResults.forEach((result, index) => {
+		// Some items can appear multiple times in the results (e.g. imported with different
+		// enchants/gems). Only show the single best instance of each item.
+		const bestResultByItemId = new Map<number, UpgradeResult>();
+		for (const result of this.upgradeResults) {
+			const existing = bestResultByItemId.get(result.item.item.id);
+			if (!existing || result.delta > existing.delta) {
+				bestResultByItemId.set(result.item.item.id, result);
+			}
+		}
+		const displayedResults = Array.from(bestResultByItemId.values()).sort((a, b) => b.delta - a.delta);
+
+		displayedResults.forEach((result, index) => {
 			const rowRef = ref<HTMLTableRowElement>();
 			const itemCellRef = ref<HTMLTableCellElement>();
 			const deltaRef = ref<HTMLTableCellElement>();

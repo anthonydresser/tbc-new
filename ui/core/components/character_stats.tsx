@@ -101,6 +101,9 @@ const statGroups = new Map<string, Array<DisplayStat>>([
 export class CharacterStats extends Component {
 	readonly stats: Array<UnitStat>;
 	readonly valueElems: Array<HTMLTableCellElement>;
+	readonly resistanceStats: Array<UnitStat>;
+	readonly resistanceValueElems: Array<HTMLTableCellElement>;
+	private resistanceExpanded = true;
 	readonly meleeCritCapValueElem: HTMLTableCellElement | undefined;
 	critImmunityCapValueElem: HTMLTableCellElement | undefined;
 	missValueElem: HTMLTableCellElement | undefined;
@@ -137,6 +140,8 @@ export class CharacterStats extends Component {
 		this.rootElem.appendChild(table);
 
 		this.valueElems = [];
+		this.resistanceStats = [];
+		this.resistanceValueElems = [];
 		statGroups.forEach((groupedStats, key) => {
 			const filteredStats = groupedStats.filter(stat => statList.find(displayStat => displayStat.equals(stat.stat)));
 
@@ -197,6 +202,52 @@ export class CharacterStats extends Component {
 				this.critImmunityCapValueElem = critImmunityRef.value!;
 			}
 			table.appendChild(body);
+		});
+
+		const resistanceGroup = statGroups.get('Resistance')!;
+		const resistanceTable = document.createElement('table');
+		resistanceTable.classList.add('character-stats-table', 'character-stats-resistance-table');
+		this.rootElem.appendChild(resistanceTable);
+
+		const resistanceHeaderRef = ref<HTMLTableSectionElement>();
+		const resistanceBodyRef = ref<HTMLTableSectionElement>();
+		resistanceTable.appendChild(
+			<>
+				<thead className="character-stats-resistance-header" ref={resistanceHeaderRef}>
+					<tr>
+						<th colSpan={2}>
+							<span className="character-stats-resistance-title">{i18n.t('sidebar.character_stats.resistances')}</span>
+							<i className="fas fa-chevron-down character-stats-resistance-chevron" />
+						</th>
+					</tr>
+				</thead>
+				<tbody className="character-stats-resistance-body" ref={resistanceBodyRef}></tbody>
+			</>,
+		);
+
+		const toggleResistanceSection = () => {
+			this.resistanceExpanded = !this.resistanceExpanded;
+			resistanceBodyRef.value!.classList.toggle('hide', !this.resistanceExpanded);
+			resistanceHeaderRef.value!.querySelector('.character-stats-resistance-chevron')?.classList.toggle('collapsed', !this.resistanceExpanded);
+		};
+		resistanceHeaderRef.value!.addEventListener('click', toggleResistanceSection);
+
+		resistanceGroup.forEach(displayStat => {
+			const { stat } = displayStat;
+			this.resistanceStats.push(stat);
+
+			const statName = stat.getShortName(player.getClass());
+			const tableValueRef = ref<HTMLTableCellElement>();
+			const row = (
+				<tr className="character-stats-table-row">
+					<td className="character-stats-table-label">{statName}</td>
+					<td className="character-stats-table-value" ref={tableValueRef}>
+						{this.bonusStatsLink(displayStat)}
+					</td>
+				</tr>
+			);
+			resistanceBodyRef.value!.appendChild(row);
+			this.resistanceValueElems.push(tableValueRef.value!);
 		});
 
 		if (this.shouldShowMeleeCritCap(player)) {
@@ -270,72 +321,17 @@ export class CharacterStats extends Component {
 		}
 
 		this.stats.forEach((unitStat, idx) => {
-			const bonusStatValue = unitStat.hasRootStat()
-				? bonusStats.getStat(unitStat.getRootStat())
-				: unitStat.isPseudoStat()
-					? bonusStats.getPseudoStat(unitStat.getPseudoStat())
-					: 0;
-
-			let contextualClass: string;
-			if (bonusStatValue == 0) {
-				contextualClass = 'text-white';
-			} else if (bonusStatValue > 0) {
-				contextualClass = 'text-success';
-			} else {
-				contextualClass = 'text-danger';
-			}
-
-			const statLinkElemRef = ref<HTMLButtonElement>();
-
-			const valueElem = (
-				<div className="stat-value-link-container">
-					<button ref={statLinkElemRef} className={clsx('stat-value-link', contextualClass)}>
-						{`${this.statDisplayString(finalStats, unitStat, true, true)} `}
-					</button>
-				</div>
-			);
-
-			const statLinkElem = statLinkElemRef.value!;
-			this.valueElems[idx].querySelector('.stat-value-link-container')?.remove();
-			this.valueElems[idx].prepend(valueElem);
-
-			const tooltipContent = (
-				<div>
-					<div className="character-stats-tooltip-row">
-						<span>{i18n.t('sidebar.character_stats.tooltip.base')}</span>
-						<span>{this.statDisplayString(baseDelta, unitStat, true)}</span>
-					</div>
-					<div className="character-stats-tooltip-row">
-						<span>{i18n.t('sidebar.character_stats.tooltip.gear')}</span>
-						<span>{this.statDisplayString(gearDelta, unitStat, false, true)}</span>
-					</div>
-					<div className="character-stats-tooltip-row">
-						<span>{i18n.t('sidebar.character_stats.tooltip.talents')}</span>
-						<span>{this.statDisplayString(talentsDelta, unitStat)}</span>
-					</div>
-					<div className="character-stats-tooltip-row">
-						<span>{i18n.t('sidebar.character_stats.tooltip.buffs')}</span>
-						<span>{this.statDisplayString(buffsDelta, unitStat)}</span>
-					</div>
-					<div className="character-stats-tooltip-row">
-						<span>{i18n.t('sidebar.character_stats.tooltip.consumes')}</span>
-						<span>{this.statDisplayString(consumesDelta, unitStat)}</span>
-					</div>
-					<div className="character-stats-tooltip-row">
-						<span>{i18n.t('sidebar.character_stats.tooltip.debuffs')}</span>
-						<span>{this.statDisplayString(debuffsDelta, unitStat)}</span>
-					</div>
-					{bonusStatValue !== 0 && (
-						<div className="character-stats-tooltip-row">
-							<span>{i18n.t('sidebar.character_stats.tooltip.bonus')}</span>
-							<span>{this.statDisplayString(bonusStats, unitStat)}</span>
-						</div>
-					)}
-					<div className="character-stats-tooltip-row">
-						<span>{i18n.t('sidebar.character_stats.tooltip.total')}</span>
-						<span>{this.statDisplayString(finalStats, unitStat, true, true)}</span>
-					</div>
-				</div>
+			const tooltipContent = this.updateStatValueCell(
+				unitStat,
+				this.valueElems[idx],
+				finalStats,
+				baseDelta,
+				gearDelta,
+				talentsDelta,
+				buffsDelta,
+				consumesDelta,
+				debuffsDelta,
+				bonusStats,
 			);
 
 			const hunterRangedTypes = [RangedWeaponType.RangedWeaponTypeBow, RangedWeaponType.RangedWeaponTypeCrossbow, RangedWeaponType.RangedWeaponTypeGun];
@@ -354,10 +350,21 @@ export class CharacterStats extends Component {
 					</div>,
 				);
 			}
+		});
 
-			tippy(statLinkElem, {
-				content: tooltipContent,
-			});
+		this.resistanceStats.forEach((unitStat, idx) => {
+			this.updateStatValueCell(
+				unitStat,
+				this.resistanceValueElems[idx],
+				finalStats,
+				baseDelta,
+				gearDelta,
+				talentsDelta,
+				buffsDelta,
+				consumesDelta,
+				debuffsDelta,
+				bonusStats,
+			);
 		});
 
 		if (this.meleeCritCapValueElem) {
@@ -577,6 +584,93 @@ export class CharacterStats extends Component {
 				content: tooltipContent,
 			});
 		}
+	}
+
+	private updateStatValueCell(
+		unitStat: UnitStat,
+		valueCell: HTMLTableCellElement,
+		finalStats: Stats,
+		baseDelta: Stats,
+		gearDelta: Stats,
+		talentsDelta: Stats,
+		buffsDelta: Stats,
+		consumesDelta: Stats,
+		debuffsDelta: Stats,
+		bonusStats: Stats,
+	): Element {
+		const bonusStatValue = unitStat.hasRootStat()
+			? bonusStats.getStat(unitStat.getRootStat())
+			: unitStat.isPseudoStat()
+				? bonusStats.getPseudoStat(unitStat.getPseudoStat())
+				: 0;
+
+		let contextualClass: string;
+		if (bonusStatValue == 0) {
+			contextualClass = 'text-white';
+		} else if (bonusStatValue > 0) {
+			contextualClass = 'text-success';
+		} else {
+			contextualClass = 'text-danger';
+		}
+
+		const statLinkElemRef = ref<HTMLButtonElement>();
+
+		const valueElem = (
+			<div className="stat-value-link-container">
+				<button ref={statLinkElemRef} className={clsx('stat-value-link', contextualClass)}>
+					{`${this.statDisplayString(finalStats, unitStat, true, true)} `}
+				</button>
+			</div>
+		);
+
+		const statLinkElem = statLinkElemRef.value!;
+		valueCell.querySelector('.stat-value-link-container')?.remove();
+		valueCell.prepend(valueElem);
+
+		const tooltipContent = (
+			<div>
+				<div className="character-stats-tooltip-row">
+					<span>{i18n.t('sidebar.character_stats.tooltip.base')}</span>
+					<span>{this.statDisplayString(baseDelta, unitStat, true)}</span>
+				</div>
+				<div className="character-stats-tooltip-row">
+					<span>{i18n.t('sidebar.character_stats.tooltip.gear')}</span>
+					<span>{this.statDisplayString(gearDelta, unitStat, false, true)}</span>
+				</div>
+				<div className="character-stats-tooltip-row">
+					<span>{i18n.t('sidebar.character_stats.tooltip.talents')}</span>
+					<span>{this.statDisplayString(talentsDelta, unitStat)}</span>
+				</div>
+				<div className="character-stats-tooltip-row">
+					<span>{i18n.t('sidebar.character_stats.tooltip.buffs')}</span>
+					<span>{this.statDisplayString(buffsDelta, unitStat)}</span>
+				</div>
+				<div className="character-stats-tooltip-row">
+					<span>{i18n.t('sidebar.character_stats.tooltip.consumes')}</span>
+					<span>{this.statDisplayString(consumesDelta, unitStat)}</span>
+				</div>
+				<div className="character-stats-tooltip-row">
+					<span>{i18n.t('sidebar.character_stats.tooltip.debuffs')}</span>
+					<span>{this.statDisplayString(debuffsDelta, unitStat)}</span>
+				</div>
+				{bonusStatValue !== 0 && (
+					<div className="character-stats-tooltip-row">
+						<span>{i18n.t('sidebar.character_stats.tooltip.bonus')}</span>
+						<span>{this.statDisplayString(bonusStats, unitStat)}</span>
+					</div>
+				)}
+				<div className="character-stats-tooltip-row">
+					<span>{i18n.t('sidebar.character_stats.tooltip.total')}</span>
+					<span>{this.statDisplayString(finalStats, unitStat, true, true)}</span>
+				</div>
+			</div>
+		);
+
+		tippy(statLinkElem, {
+			content: tooltipContent,
+		});
+
+		return tooltipContent;
 	}
 
 	private statDisplayString(deltaStats: Stats, unitStat: UnitStat, includeBase?: boolean, includeGear?: boolean): string {

@@ -9,6 +9,7 @@ import {
 	ItemSlot,
 	ItemSpec,
 	ItemSwap,
+	ItemType,
 	PresetEncounter,
 	PresetTarget,
 	Stat,
@@ -356,6 +357,17 @@ export class Database {
 			.flat()
 			.find(enchant => enchant.spellId == enchantSpellId);
 		return enchant;
+	}
+
+	enchantEffectIdToEnchant(effectId: number, type?: ItemType): Enchant | undefined {
+		const enchant = Object.values(this.enchantsBySlot)
+			.flat()
+			.find(enchant => enchant.effectId === effectId && (type === undefined || enchant.type === type));
+		return enchant;
+	}
+
+	getAllEnchants(): Enchant[] {
+		return distinct(Object.values(this.enchantsBySlot).flat(), (a, b) => a.effectId === b.effectId && a.type === b.type);
 	}
 
 	getPresetEncounter(path: string): PresetEncounter | null {

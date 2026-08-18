@@ -3187,6 +3187,78 @@
 							},
 							"additionalProperties": false,
 							"required": ["mainhand_label", "offhand_label", "tooltip"]
+						},
+						"constraints": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string"
+								},
+								"add": {
+									"type": "string"
+								},
+								"stat_label": {
+									"type": "string"
+								},
+								"comparison_label": {
+									"type": "string"
+								},
+								"value_label": {
+									"type": "string"
+								},
+								"remove_tooltip": {
+									"type": "string"
+								},
+								"note": {
+									"type": "string"
+								},
+								"comparisons": {
+									"type": "object",
+									"properties": {
+										"greater_or_equal": {
+											"type": "string"
+										},
+										"less_or_equal": {
+											"type": "string"
+										},
+										"equal": {
+											"type": "string"
+										}
+									},
+									"additionalProperties": false,
+									"required": ["greater_or_equal", "less_or_equal", "equal"]
+								}
+							},
+							"additionalProperties": false,
+							"required": ["title", "add", "stat_label", "comparison_label", "value_label", "remove_tooltip", "note", "comparisons"]
+						},
+						"enchants": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string"
+								},
+								"optimize_label": {
+									"type": "string"
+								},
+								"optimize_tooltip": {
+									"type": "string"
+								},
+								"allowlist_label": {
+									"type": "string"
+								},
+								"add_enchant": {
+									"type": "string"
+								},
+								"remove_tooltip": {
+									"type": "string"
+								},
+								"note": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["title", "optimize_label", "optimize_tooltip", "allowlist_label", "add_enchant", "remove_tooltip", "note"]
 						}
 					},
 					"additionalProperties": false,
@@ -3200,7 +3272,8 @@
 						"freeze_ring",
 						"freeze_trinket",
 						"freeze_weapon",
-						"freeze_weapon_types"
+						"freeze_weapon_types",
+						"constraints"
 					]
 				},
 				"progress": {
@@ -3223,10 +3296,16 @@
 						},
 						"seconds_remaining": {
 							"type": "string"
+						},
+						"checking_constraints": {
+							"type": "string"
+						},
+						"optimizing_enchants": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
-					"required": ["total_combinations", "reforging_rounds", "baseline_round", "refining_rounds", "iterations_complete", "seconds_remaining"]
+					"required": ["total_combinations", "reforging_rounds", "baseline_round", "refining_rounds", "iterations_complete", "seconds_remaining", "checking_constraints", "optimizing_enchants"]
 				},
 				"notifications": {
 					"type": "object",
@@ -3236,10 +3315,16 @@
 						},
 						"failed_to_remove_item": {
 							"type": "string"
+						},
+						"no_constraints_met": {
+							"type": "string"
+						},
+						"no_more_enchants": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
-					"required": ["bulk_sim_cancelled", "failed_to_remove_item"]
+					"required": ["bulk_sim_cancelled", "failed_to_remove_item", "no_constraints_met", "no_more_enchants"]
 				},
 				"warning": {
 					"type": "object",
@@ -8977,6 +9062,9 @@
 						"title": {
 							"type": "string"
 						},
+						"resistances": {
+							"type": "string"
+						},
 						"melee_crit_cap": {
 							"type": "string"
 						},
@@ -9107,7 +9195,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": ["title", "melee_crit_cap", "tooltip", "attack_table", "crit_cap", "bonus_prefix", "points_suffix", "percent_suffix"]
+					"required": ["title", "resistances", "melee_crit_cap", "tooltip", "attack_table", "crit_cap", "bonus_prefix", "points_suffix", "percent_suffix"]
 				}
 			},
 			"additionalProperties": false,

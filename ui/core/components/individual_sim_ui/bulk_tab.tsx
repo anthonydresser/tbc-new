@@ -6,20 +6,21 @@ import { ref } from 'tsx-vanilla';
 import { REPO_RELEASES_URL } from '../../constants/other';
 import { IndividualSimUI } from '../../individual_sim_ui';
 import i18n from '../../../i18n/config';
-import { BulkSettings, DistributionMetrics, ProgressMetrics, RaidSimResult } from '../../proto/api';
-import { GemColor, HandType, ItemRandomSuffix, ItemSlot, ItemSpec, RangedWeaponType, WeaponType } from '../../proto/common';
+import { BulkConstraint, BulkConstraintComparison, BulkSettings, DistributionMetrics, ProgressMetrics, RaidSimResult } from '../../proto/api';
+import { GemColor, HandType, ItemRandomSuffix, ItemSlot, ItemSpec, RangedWeaponType, Stat, WeaponType } from '../../proto/common';
 import { ItemEffectRandPropPoints, SimDatabase, SimEnchant, SimGem, SimItem } from '../../proto/db';
 import { UIEnchant, UIGem, UIItem } from '../../proto/ui';
 import { ActionId } from '../../proto_utils/action_id';
 import { EquippedItem } from '../../proto_utils/equipped_item';
 import { Gear } from '../../proto_utils/gear';
 import { getEmptyGemSocketIconUrl } from '../../proto_utils/gems';
-import { canEquipItem, getEligibleItemSlots, isSecondaryItemSlot } from '../../proto_utils/utils';
+import { canEquipEnchant, canEquipItem, enchantAppliesToItem, getEligibleItemSlots, isSecondaryItemSlot } from '../../proto_utils/utils';
+import { Stats } from '../../proto_utils/stats';
 import { RequestTypes } from '../../sim_signal_manager';
 import { TypedEvent } from '../../typed_event';
 import { getEnumValues, isExternal, promisePool, sleep } from '../../utils';
 import { ItemData } from '../gear_picker/item_list';
-import SelectorModal from '../gear_picker/selector_modal';
+import SelectorModal, { SelectorModalTabs } from '../gear_picker/selector_modal';
 import { SimTab } from '../sim_tab';
 import Toast from '../toast';
 import BulkItemPickerGroup from './bulk/bulk_item_picker_group';
@@ -37,9 +38,11 @@ import {
 import { BulkGearJsonImporter } from './importers';
 import { trackEvent } from '../../../tracking/utils';
 import { EnumPicker } from '../pickers/enum_picker';
-import { translateBulkSlotName, translateWeaponType } from '../../../i18n/localization';
+import { translateBulkSlotName, translateStat, translateWeaponType } from '../../../i18n/localization';
 import { BooleanPicker } from '../pickers/boolean_picker';
+import { NumberPicker } from '../pickers/number_picker';
 import { ProgressTrackerModal } from '../progress_tracker_modal';
+import { BaseModal } from '../base_modal';
 
 const WEB_DEFAULT_ITERATIONS = 5_000;
 const WEB_ITERATIONS_LIMIT = 100_000;
@@ -94,6 +97,9 @@ export class BulkTab extends SimTab {
 	fallbackGems: SimGem[];
 	gemIconElements: HTMLImageElement[];
 	private optimizeGems = true;
+	private optimizeEnchants = false;
+	protected allowedEnchants: UIEnchant[] = [];
+	protected constraints: BulkConstraint[] = [];
 
 	protected topGearResults: TopGearResult[] | null = null;
 	protected originalGear: Gear | null = null;
@@ -278,6 +284,11 @@ export class BulkTab extends SimTab {
 				SimGem.create({ id: settings.defaultPrismaticGem }),
 			);
 			this.optimizeGems = settings.optimizeGems ?? true;
+			this.optimizeEnchants = settings.optimizeEnchants ?? false;
+			this.allowedEnchants = (settings.allowedEnchants ?? [])
+				.map(sel => this.simUI.sim.db.enchantEffectIdToEnchant(sel.effectId, sel.type))
+				.filter((enchant): enchant is UIEnchant => !!enchant);
+			this.constraints = settings.constraints?.slice() ?? [];
 
 			this.fallbackGems.forEach((gem, idx) => {
 				ActionId.fromItemId(gem.id)
@@ -319,6 +330,9 @@ export class BulkTab extends SimTab {
 			freezeMainhandWeaponSlots: this.weaponTypeFilters.get(ItemSlot.ItemSlotMainHand)?.slice(),
 			freezeOffhandWeaponSlots: this.weaponTypeFilters.get(ItemSlot.ItemSlotOffHand)?.slice(),
 			optimizeGems: this.optimizeGems,
+			constraints: this.constraints.slice(),
+			allowedEnchants: this.allowedEnchants.map(enchant => ({ effectId: enchant.effectId, type: enchant.type })),
+			optimizeEnchants: this.optimizeEnchants,
 		});
 	}
 
@@ -908,6 +922,8 @@ export class BulkTab extends SimTab {
 
 		const socketsContainerRef = ref<HTMLDivElement>();
 		const optimizeGemsDiv = ref<HTMLDivElement>();
+		const constraintsDiv = ref<HTMLDivElement>();
+		const optimizeEnchantsDiv = ref<HTMLDivElement>();
 		const frozenRingDiv = ref<HTMLDivElement>();
 		const frozenTrinketDiv = ref<HTMLDivElement>();
 		const frozenWeaponDiv = ref<HTMLDivElement>();
@@ -921,6 +937,8 @@ export class BulkTab extends SimTab {
 					<div ref={socketsContainerRef} className="sockets-container"></div>
 				</div>
 				<div ref={optimizeGemsDiv}></div>
+				<div ref={constraintsDiv}></div>
+				<div ref={optimizeEnchantsDiv}></div>
 				<div ref={frozenRingDiv}></div>
 				<div ref={frozenTrinketDiv}></div>
 				{this.playerCanDualWield && (
@@ -1104,6 +1122,331 @@ export class BulkTab extends SimTab {
 					this.settingsChangedEmitter.emit(eventID);
 				},
 			});
+
+		if (constraintsDiv.value) this.buildConstraintsUI(constraintsDiv.value);
+
+		if (optimizeEnchantsDiv.value) this.buildEnchantsUI(optimizeEnchantsDiv.value);
+	}
+
+	private buildConstraintsUI(container: HTMLElement) {
+		const headerRef = ref<HTMLDivElement>();
+		const listRef = ref<HTMLDivElement>();
+		const noteRef = ref<HTMLDivElement>();
+
+		container.appendChild(
+			<>
+				<div className="bulk-constraints-header">
+					<h6>{i18n.t('bulk_tab.settings.constraints.title')}</h6>
+					<button className="btn btn-secondary btn-sm" onclick={() => this.addConstraint()}>
+						<i className="fa fa-plus me-1" /> {i18n.t('bulk_tab.settings.constraints.add')}
+					</button>
+				</div>
+				<div ref={listRef} className="bulk-constraints-list"></div>
+				<div ref={noteRef} className="bulk-constraints-note" />
+			</>,
+		);
+
+		this.renderConstraintRows(listRef.value!, noteRef.value!);
+	}
+
+	private addConstraint() {
+		this.constraints.push(
+			BulkConstraint.create({
+				stat: Stat.StatShadowResistance,
+				comparison: BulkConstraintComparison.GREATER_OR_EQUAL,
+				value: 0,
+			}),
+		);
+		this.settingsChangedEmitter.emit(TypedEvent.nextEventID());
+		this.renderConstraintRows();
+	}
+
+	private removeConstraint(index: number) {
+		this.constraints.splice(index, 1);
+		this.settingsChangedEmitter.emit(TypedEvent.nextEventID());
+		this.renderConstraintRows();
+	}
+
+	private renderConstraintRows(listElem?: HTMLElement, noteElem?: HTMLElement) {
+		const list = listElem ?? this.settingsContainer.querySelector('.bulk-constraints-list');
+		const note = noteElem ?? this.settingsContainer.querySelector('.bulk-constraints-note');
+		if (!list || !note) return;
+
+		list.replaceChildren();
+		note.replaceChildren();
+		const statValues = getEnumValues<Stat>(Stat);
+		const comparisonValues = getEnumValues<BulkConstraintComparison>(BulkConstraintComparison).filter(
+			comparison => comparison !== BulkConstraintComparison.UNSPECIFIED,
+		);
+
+		this.constraints.forEach((constraint, index) => {
+			const rowRef = ref<HTMLDivElement>();
+			const statPickerRef = ref<HTMLDivElement>();
+			const comparisonPickerRef = ref<HTMLDivElement>();
+			const valuePickerRef = ref<HTMLDivElement>();
+
+			list.appendChild(
+				<div className="bulk-constraint-row" ref={rowRef}>
+					<div ref={statPickerRef} />
+					<div ref={comparisonPickerRef} />
+					<div ref={valuePickerRef} />
+					<button
+						className="btn btn-outline-danger btn-sm"
+						onclick={() => this.removeConstraint(index)}
+						title={i18n.t('bulk_tab.settings.constraints.remove_tooltip')}>
+						<i className="fa fa-times" />
+					</button>
+				</div>,
+			);
+
+			new EnumPicker<BulkTab>(statPickerRef.value!, this, {
+				id: `bulk-constraint-stat-${index}`,
+				values: statValues.map(stat => ({
+					name: translateStat(stat),
+					value: stat,
+				})),
+				changedEvent: _modObj => this.settingsChangedEmitter,
+				getValue: _modObj => constraint.stat,
+				setValue: (eventID, _modObj, newValue) => {
+					this.constraints[index].stat = newValue;
+					this.settingsChangedEmitter.emit(eventID);
+				},
+			});
+
+			new EnumPicker<BulkTab>(comparisonPickerRef.value!, this, {
+				id: `bulk-constraint-comparison-${index}`,
+				values: comparisonValues.map(comparison => ({
+					name: i18n.t(`bulk_tab.settings.constraints.comparisons.${this.bulkConstraintComparisonI18nKey(comparison)}`),
+					value: comparison,
+				})),
+				changedEvent: _modObj => this.settingsChangedEmitter,
+				getValue: _modObj => constraint.comparison,
+				setValue: (eventID, _modObj, newValue) => {
+					this.constraints[index].comparison = newValue;
+					this.settingsChangedEmitter.emit(eventID);
+				},
+			});
+
+			new NumberPicker<BulkTab>(valuePickerRef.value!, this, {
+				id: `bulk-constraint-value-${index}`,
+				float: false,
+				positive: false,
+				changedEvent: _modObj => this.settingsChangedEmitter,
+				getValue: _modObj => constraint.value,
+				setValue: (eventID, _modObj, newValue) => {
+					this.constraints[index].value = newValue;
+					this.settingsChangedEmitter.emit(eventID);
+				},
+			});
+		});
+
+		if (this.constraints.length > 0) {
+			note.appendChild(<span>{i18n.t('bulk_tab.settings.constraints.note')}</span>);
+		}
+	}
+
+	private meetsConstraint(stats: Stats, constraint: BulkConstraint): boolean {
+		const actual = stats.getStat(constraint.stat);
+		switch (constraint.comparison) {
+			case BulkConstraintComparison.GREATER_OR_EQUAL:
+				return actual >= constraint.value;
+			case BulkConstraintComparison.LESS_OR_EQUAL:
+				return actual <= constraint.value;
+			case BulkConstraintComparison.EQUAL:
+				return Math.abs(actual - constraint.value) < 0.001;
+			default:
+				return true;
+		}
+	}
+
+	private async filterConstrainedGearSets(gearSets: Gear[], abortSignal: AbortSignal): Promise<Gear[]> {
+		if (this.constraints.length === 0) {
+			return gearSets;
+		}
+
+		const valid: Gear[] = [];
+		let checked = 0;
+		for (const gear of gearSets) {
+			this.throwIfBulkAborted(abortSignal);
+
+			const playerStats = await this.simUI.sim.getCharacterStatsForGear(TypedEvent.nextEventID(), gear);
+			const finalStats = Stats.fromProto(playerStats.finalStats);
+			if (this.constraints.every(constraint => this.meetsConstraint(finalStats, constraint))) {
+				valid.push(gear);
+			}
+
+			checked++;
+			this.setConstraintProgress(checked, gearSets.length);
+		}
+		return valid;
+	}
+
+	private setConstraintProgress(current: number, total: number) {
+		this.progressTrackerModal.updateProgress({
+			stage: 'constraints',
+			title: i18n.t('bulk_tab.progress.checking_constraints'),
+			current,
+			total,
+			message: undefined,
+		});
+	}
+
+	private buildEnchantsUI(container: HTMLElement) {
+		const toggleRef = ref<HTMLDivElement>();
+		const allowlistRef = ref<HTMLDivElement>();
+		const noteRef = ref<HTMLDivElement>();
+
+		container.appendChild(
+			<>
+				<h6>{i18n.t('bulk_tab.settings.enchants.title')}</h6>
+				<div ref={toggleRef}></div>
+				<div ref={allowlistRef} className={clsx('bulk-enchants-allowlist', !this.optimizeEnchants && 'hide')}></div>
+				<div ref={noteRef} className={clsx('bulk-enchants-note', !this.optimizeEnchants && 'hide')} />
+			</>,
+		);
+
+		if (toggleRef.value)
+			new BooleanPicker<BulkTab>(toggleRef.value, this, {
+				id: 'bulk-optimize-enchants',
+				label: i18n.t('bulk_tab.settings.enchants.optimize_label'),
+				labelTooltip: i18n.t('bulk_tab.settings.enchants.optimize_tooltip'),
+				inline: true,
+				changedEvent: _modObj => this.settingsChangedEmitter,
+				getValue: _modObj => this.optimizeEnchants,
+				setValue: (eventID, _modObj, newValue) => {
+					this.optimizeEnchants = newValue;
+					allowlistRef.value?.classList.toggle('hide', !newValue);
+					noteRef.value?.classList.toggle('hide', !newValue);
+					this.settingsChangedEmitter.emit(eventID);
+				},
+			});
+
+		const addButton = document.createElement('button');
+		addButton.className = 'btn btn-secondary btn-sm';
+		addButton.innerHTML = `<i class="fa fa-plus me-1" /> ${i18n.t('bulk_tab.settings.enchants.add_enchant')}`;
+		addButton.addEventListener('click', () => this.openEnchantSelector());
+
+		const renderAllowlist = () => this.renderEnchantAllowlist(allowlistRef.value!, addButton);
+
+		this.settingsChangedEmitter.on(() => renderAllowlist());
+		renderAllowlist();
+	}
+
+	private renderEnchantAllowlist(container: HTMLElement, addButton: HTMLButtonElement) {
+		container.replaceChildren();
+		container.appendChild(addButton);
+
+		this.allowedEnchants.forEach((enchant, index) => {
+			const chipRef = ref<HTMLSpanElement>();
+			const removeRef = ref<HTMLButtonElement>();
+			container.appendChild(
+				<span className="badge bg-secondary bulk-enchant-chip" ref={chipRef}>
+					{enchant.name}
+					<button className="btn btn-link btn-sm" ref={removeRef} title={i18n.t('bulk_tab.settings.enchants.remove_tooltip')}>
+						<i className="fa fa-times" />
+					</button>
+				</span>,
+			);
+			removeRef.value!.addEventListener('click', () => {
+				this.allowedEnchants.splice(index, 1);
+				this.settingsChangedEmitter.emit(TypedEvent.nextEventID());
+			});
+		});
+	}
+
+	private enchantKey(enchant: UIEnchant): string {
+		return `${enchant.effectId}-${enchant.type}`;
+	}
+
+	private isEnchantAllowed(enchant: UIEnchant): boolean {
+		return this.allowedEnchants.some(allowed => this.enchantKey(allowed) === this.enchantKey(enchant));
+	}
+
+	private openEnchantSelector() {
+		const eligibleEnchants = this.getEligibleAllowedEnchants();
+		const notYetSelected = eligibleEnchants.filter(enchant => !this.isEnchantAllowed(enchant));
+		if (notYetSelected.length === 0) {
+			new Toast({
+				variant: 'warning',
+				body: i18n.t('bulk_tab.notifications.no_more_enchants'),
+			});
+			return;
+		}
+
+		const modal = new BaseModal(this.simUI.rootElem, 'bulk-enchant-selector-modal', {
+			size: 'lg',
+			title: i18n.t('bulk_tab.settings.enchants.allowlist_label'),
+			disposeOnClose: true,
+		});
+
+		const searchRef = ref<HTMLInputElement>();
+		const listRef = ref<HTMLUListElement>();
+
+		modal.body.appendChild(
+			<>
+				<input
+					ref={searchRef}
+					className="form-control mb-2"
+					type="text"
+					placeholder={i18n.t('common.search')}
+					oninput={() => renderList()}
+				/>
+				<ul ref={listRef} className="selector-modal-list" />
+			</>,
+		);
+
+		const renderList = () => {
+			const query = searchRef.value!.value.toLowerCase().replaceAll(/[^a-zA-Z0-9\s]/g, '');
+			const filtered = notYetSelected.filter(enchant => enchant.name.toLowerCase().includes(query));
+
+			listRef.value!.replaceChildren();
+			for (const enchant of filtered) {
+				const iconRef = ref<HTMLImageElement>();
+				const rowRef = ref<HTMLLIElement>();
+
+				const ep = this.simUI.player.computeEnchantEP(enchant);
+				const row = (
+					<li className="selector-modal-list-item bulk-enchant-option" ref={rowRef}>
+						<div className="selector-modal-list-item-link">
+							<img className="selector-modal-list-item-icon" ref={iconRef} />
+							<label className="selector-modal-list-item-name">{enchant.name}</label>
+						</div>
+						<div className="selector-modal-list-item-ep">
+							<span className="selector-modal-list-item-ep-value">{ep < 9.95 ? ep.toFixed(1).toString() : Math.round(ep).toString()}</span>
+						</div>
+					</li>
+				);
+
+				row.addEventListener('click', () => {
+					this.allowedEnchants.push(enchant);
+					this.settingsChangedEmitter.emit(TypedEvent.nextEventID());
+					modal.close();
+				});
+
+				listRef.value!.appendChild(row);
+
+				const actionId = enchant.itemId ? ActionId.fromItemId(enchant.itemId) : ActionId.fromSpellId(enchant.spellId);
+				actionId.fill().then(filled => {
+					iconRef.value!.src = filled.iconUrl;
+				});
+			}
+		};
+
+		renderList();
+		modal.open();
+	}
+
+	private getEligibleAllowedEnchants(): UIEnchant[] {
+		return this.simUI.sim.db
+			.getAllEnchants()
+			.filter(enchant => canEquipEnchant(enchant, this.simUI.player) && this.isEnchantApplicableToAnySlot(enchant));
+	}
+
+	private isEnchantApplicableToAnySlot(enchant: UIEnchant): boolean {
+		return this.simUI.player.getGear().getItemSlots().some((slot: ItemSlot) => {
+			const item = this.simUI.player.getGear().getEquippedItem(slot);
+			return item != null && enchantAppliesToItem(enchant, item.item);
+		});
 	}
 
 	private getCombinationsCount(): Element {
@@ -1170,6 +1513,46 @@ export class BulkTab extends SimTab {
 			total: rounds,
 			message: undefined,
 		});
+	}
+
+	private setEnchantProgress(current: number, total: number) {
+		this.progressTrackerModal.updateProgress({
+			stage: 'enchants',
+			title: i18n.t('bulk_tab.progress.optimizing_enchants'),
+			current,
+			total,
+			message: undefined,
+		});
+	}
+
+	private optimizeEnchantForGear(gear: Gear): Gear {
+		if (this.allowedEnchants.length === 0) return gear;
+
+		let optimized = gear;
+		for (const slot of gear.getItemSlots()) {
+			const item = optimized.getEquippedItem(slot);
+			if (!item) continue;
+
+			const applicableEnchants = this.allowedEnchants.filter(
+				enchant => enchantAppliesToItem(enchant, item.item) && canEquipEnchant(enchant, this.simUI.player),
+			);
+			if (applicableEnchants.length === 0) continue;
+
+			let bestEnchant: UIEnchant | null = null;
+			let bestEP = 0;
+			for (const enchant of applicableEnchants) {
+				const ep = this.simUI.player.computeEnchantEP(enchant);
+				if (ep > bestEP) {
+					bestEP = ep;
+					bestEnchant = enchant;
+				}
+			}
+
+			if (bestEnchant) {
+				optimized = optimized.withEquippedItem(slot, item.withEnchant(bestEnchant));
+			}
+		}
+		return optimized;
 	}
 
 	private setSimProgress(progress: ProgressMetrics, currentRound: number, rounds: number) {
@@ -1300,15 +1683,43 @@ export class BulkTab extends SimTab {
 				reforgedGearSets.push(...candidateGearSets);
 			}
 
+			if (this.optimizeEnchants) {
+				let completed = 0;
+				this.setEnchantProgress(0, reforgedGearSets.length);
+				const enchantTasks = reforgedGearSets.map(gear => async () => {
+					this.throwIfBulkAborted(abortSignal);
+					const optimized = this.optimizeEnchantForGear(gear);
+					completed++;
+					this.setEnchantProgress(completed, reforgedGearSets.length);
+					return optimized;
+				});
+				const enchantResults = await promisePool(enchantTasks, { concurrency });
+				reforgedGearSets.length = 0;
+				reforgedGearSets.push(
+					...enchantResults
+						.filter((result): result is PromiseFulfilledResult<Gear> => result.status === 'fulfilled')
+						.map(result => result.value),
+				);
+			}
+
 			this.simStart = new Date().getTime();
-			const totalSimRounds = reforgedGearSets.length + 1;
+			const validGearSets = await this.filterConstrainedGearSets(reforgedGearSets, abortSignal);
+
+			if (validGearSets.length === 0 && reforgedGearSets.length > 0) {
+				new Toast({
+					variant: 'warning',
+					body: i18n.t('bulk_tab.notifications.no_constraints_met'),
+				});
+			}
+
+			const totalSimRounds = validGearSets.length + 1;
 			const result = await this.runWithBulkAbort(this.runSingleGearSim(this.originalGear, 1, totalSimRounds), abortSignal);
 			const referenceDpsMetrics = result!.raidMetrics!.dps!;
 
-			for (let comboIdx = 0; comboIdx < reforgedGearSets.length; comboIdx++) {
+			for (let comboIdx = 0; comboIdx < validGearSets.length; comboIdx++) {
 				this.throwIfBulkAborted(abortSignal);
 
-				const reforgedGear = reforgedGearSets[comboIdx];
+				const reforgedGear = validGearSets[comboIdx];
 				const result = await this.runWithBulkAbort(this.runSingleGearSim(reforgedGear, comboIdx + 2, totalSimRounds), abortSignal);
 
 				const isOriginalGear = this.originalGear.equals(reforgedGear);
@@ -1356,6 +1767,19 @@ export class BulkTab extends SimTab {
 			this.isRunning = false;
 			this.isCancelling = false;
 			this.progressTrackerModal.hide();
+		}
+	}
+
+	private bulkConstraintComparisonI18nKey(comparison: BulkConstraintComparison): string {
+		switch (comparison) {
+			case BulkConstraintComparison.GREATER_OR_EQUAL:
+				return 'greater_or_equal';
+			case BulkConstraintComparison.LESS_OR_EQUAL:
+				return 'less_or_equal';
+			case BulkConstraintComparison.EQUAL:
+				return 'equal';
+			default:
+				return 'greater_or_equal';
 		}
 	}
 

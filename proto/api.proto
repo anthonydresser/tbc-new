@@ -594,6 +594,24 @@ message ProgressMetrics {
 	StatWeightsResult final_weight_result = 7;
 }
 
+enum BulkConstraintComparison {
+	BULK_CONSTRAINT_COMPARISON_UNSPECIFIED = 0;
+	BULK_CONSTRAINT_COMPARISON_GREATER_OR_EQUAL = 1;
+	BULK_CONSTRAINT_COMPARISON_LESS_OR_EQUAL = 2;
+	BULK_CONSTRAINT_COMPARISON_EQUAL = 3;
+}
+
+message BulkConstraint {
+	Stat stat = 1;
+	BulkConstraintComparison comparison = 2;
+	double value = 3;
+}
+
+message BulkEnchantSelection {
+	int32 effect_id = 1;
+	int32 type = 2;
+}
+
 message BulkSettings {
 	repeated ItemSpec items = 1;
 	int32 iterations_per_combo = 2;
@@ -609,4 +627,7 @@ message BulkSettings {
 	repeated WeaponType freeze_mainhand_weapon_slots = 11;
 	repeated WeaponType freeze_offhand_weapon_slots = 12;
 	bool optimize_gems = 13;
+	repeated BulkConstraint constraints = 14;
+	repeated BulkEnchantSelection allowed_enchants = 15;
+	bool optimize_enchants = 16;
 }

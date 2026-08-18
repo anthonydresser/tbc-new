@@ -903,6 +903,29 @@
 				"mainhand_label": "Freeze MH weapon type",
 				"offhand_label": "Freeze OH weapon type",
 				"tooltip": "Leave all unchecked to allow any weapon type for this slot."
+			},
+			"constraints": {
+				"title": "Constraints",
+				"add": "Add constraint",
+				"stat_label": "Stat",
+				"comparison_label": "Comparison",
+				"value_label": "Value",
+				"remove_tooltip": "Remove this constraint",
+				"note": "Only combinations satisfying all constraints will be fully simmed.",
+				"comparisons": {
+					"greater_or_equal": "≥",
+					"less_or_equal": "≤",
+					"equal": "="
+				}
+			},
+			"enchants": {
+				"title": "Enchant Optimization",
+				"optimize_label": "Optimize enchants per combination",
+				"optimize_tooltip": "Re-select the best enchant for each slot from your allow-list for every gear combination.",
+				"allowlist_label": "Allowed enchants",
+				"add_enchant": "Add enchant",
+				"remove_tooltip": "Remove this enchant from the allow-list",
+				"note": "Only the selected enchants will be considered for each slot."
 			}
 		},
 		"progress": {
@@ -911,11 +934,15 @@
 			"baseline_round": "Running baseline round",
 			"refining_rounds": "Running refining rounds",
 			"iterations_complete": "{{completed}} / {{total}}<br />iterations complete",
-			"seconds_remaining": "{{seconds}} seconds remaining"
+			"seconds_remaining": "{{seconds}} seconds remaining",
+			"checking_constraints": "Checking constraints",
+			"optimizing_enchants": "Optimizing enchants"
 		},
 		"notifications": {
 			"bulk_sim_cancelled": "Bulk sim cancelled.",
-			"failed_to_remove_item": "Failed to remove item, please report this issue."
+			"failed_to_remove_item": "Failed to remove item, please report this issue.",
+			"no_constraints_met": "No combinations met the configured constraints.",
+			"no_more_enchants": "All eligible enchants are already in the allow-list."
 		},
 		"warning": {
 			"iterations_limit": "Simming over {{limit}} iterations in the sim will take a long time or may not run at all. For larger batch sims we recommend downloading the executable and running on your machine."
@@ -2550,6 +2577,7 @@
 		},
 		"character_stats": {
 			"title": "Stats",
+			"resistances": "Resistances",
 			"melee_crit_cap": "Melee Crit Cap",
 			"tooltip": {
 				"base": "Base:",
