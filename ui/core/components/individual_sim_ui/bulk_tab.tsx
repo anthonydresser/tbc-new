@@ -1525,31 +1525,46 @@ export class BulkTab extends SimTab {
 		});
 	}
 
+	private computeEquippedItemEP(equippedItem: EquippedItem, slot: ItemSlot): number {
+		const gemStats = equippedItem.curEquippedGems().reduce((stats, gem) => stats.add(new Stats(gem.stats)), new Stats());
+		return this.simUI.player.computeItemEP(equippedItem.item, slot) + this.simUI.player.computeStatsEP(gemStats);
+	}
+
 	private optimizeEnchantForGear(gear: Gear): Gear {
 		if (this.allowedEnchants.length === 0) return gear;
 
-		let optimized = gear;
-		for (const slot of gear.getItemSlots()) {
-			const item = optimized.getEquippedItem(slot);
-			if (!item) continue;
-
+		const enchantSlots = gear.getItemSlots().filter(slot => gear.getEquippedItem(slot) != null);
+		const slotEnchantChoices = enchantSlots.map(slot => {
+			const item = gear.getEquippedItem(slot)!;
 			const applicableEnchants = this.allowedEnchants.filter(
 				enchant => enchantAppliesToItem(enchant, item.item) && canEquipEnchant(enchant, this.simUI.player),
 			);
+			return { slot, item, applicableEnchants };
+		});
+
+		// For each slot, pick the enchant whose marginal EP is highest when applied to the item
+		// as it will be after all prior slots are enchanted. This handles interactions like two
+		// identical weapons where the optimal pair may be different enchants on each weapon.
+		let optimized = gear;
+		for (const { slot, item, applicableEnchants } of slotEnchantChoices) {
 			if (applicableEnchants.length === 0) continue;
 
 			let bestEnchant: UIEnchant | null = null;
 			let bestEP = 0;
 			for (const enchant of applicableEnchants) {
-				const ep = this.simUI.player.computeEnchantEP(enchant);
-				if (ep > bestEP) {
-					bestEP = ep;
+				const currentItem = optimized.getEquippedItem(slot)!;
+				const candidateItem = currentItem.withEnchant(enchant);
+				const currentItemEP = this.computeEquippedItemEP(currentItem, slot);
+				const candidateItemEP = this.computeEquippedItemEP(candidateItem, slot);
+				const enchantDelta = candidateItemEP - currentItemEP;
+				if (enchantDelta > bestEP) {
+					bestEP = enchantDelta;
 					bestEnchant = enchant;
 				}
 			}
 
 			if (bestEnchant) {
-				optimized = optimized.withEquippedItem(slot, item.withEnchant(bestEnchant));
+				optimized = optimized.withEquippedItem(slot, optimized.getEquippedItem(slot)!.withEnchant(bestEnchant));
 			}
 		}
 		return optimized;
