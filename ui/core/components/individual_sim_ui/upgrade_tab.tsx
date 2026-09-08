@@ -20,7 +20,7 @@ import { canEquipItem, enchantAppliesToItem, getEligibleItemSlots, getPVPSeasonF
 import { RequestTypes } from '../../sim_signal_manager';
 import { TypedEvent } from '../../typed_event';
 import { formatDeltaTextElem, formatToNumber } from '../../utils';
-import { ItemRenderer } from '../gear_picker/gear_picker';
+import { ItemRenderer } from '../gear_picker/item_renderer';
 import SelectorModal, { SelectorModalTabs } from '../gear_picker/selector_modal';
 import { GearData } from '../gear_picker/item_list';
 import { ProgressTrackerModal } from '../progress_tracker_modal';
@@ -1011,8 +1011,10 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			);
 
 			const itemContainer = rowRef.value!.querySelector('.upgrade-candidate-item') as HTMLElement;
-			const renderer = new ItemRenderer(rowRef.value!, itemContainer, this.simUI.player);
-			renderer.update(candidate.selectedEnchant ? candidate.equippedItem.withEnchant(candidate.selectedEnchant) : candidate.equippedItem);
+			const renderer = new ItemRenderer(rowRef.value!, itemContainer, this.simUI.player, {
+				slot: this.getEligibleSlots(candidate)[0],
+			});
+			renderer.render(candidate.selectedEnchant ? candidate.equippedItem.withEnchant(candidate.selectedEnchant) : candidate.equippedItem);
 
 			enchantBtnRef.value!.addEventListener('click', () => this.openEnchantSelector(index));
 			removeBtnRef.value!.addEventListener('click', () => this.removeItem(index));
@@ -1616,8 +1618,8 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			);
 
 			const itemContainer = itemCellRef.value!;
-			const renderer = new ItemRenderer(rowRef.value!, itemContainer, this.simUI.player);
-			renderer.update(result.item);
+			const renderer = new ItemRenderer(rowRef.value!, itemContainer, this.simUI.player, { slot: result.slot });
+			renderer.render(result.item);
 			sourceCellRef.value!.appendChild(this.getSourceInfo(result.item._item));
 
 			formatDeltaTextElem(deltaRef.value!, baselineAvg, result.dpsMetrics.avg, 2, undefined, false, true);
@@ -1878,8 +1880,8 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			if (baselineItem && candidateItem && baselineItem.equals(candidateItem)) return;
 
 			const slotName = translateSlotName(slot);
-			const baselineCell = this.renderItemCell(baselineItem);
-			const candidateCell = this.renderItemCell(candidateItem);
+			const baselineCell = this.renderItemCell(baselineItem, slot);
+			const candidateCell = this.renderItemCell(candidateItem, slot);
 
 			rows.push(
 				<div className="upgrade-diff-row">
@@ -1900,7 +1902,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		modal.open();
 	}
 
-	private renderItemCell(equippedItem: EquippedItem | null): Element {
+	private renderItemCell(equippedItem: EquippedItem | null, slot: ItemSlot): Element {
 		const container = document.createElement('div');
 		container.className = 'upgrade-diff-item';
 		if (!equippedItem) {
@@ -1911,8 +1913,8 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 
 		const rendererRoot = document.createElement('div');
 		container.appendChild(rendererRoot);
-		const renderer = new ItemRenderer(container, rendererRoot, this.simUI.player);
-		renderer.update(equippedItem);
+		const renderer = new ItemRenderer(container, rendererRoot, this.simUI.player, { slot });
+		renderer.render(equippedItem);
 
 		return container;
 	}

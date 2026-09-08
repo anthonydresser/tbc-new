@@ -244,10 +244,10 @@ export class SavedDataManager<ModObject, T> extends Component {
 	// Returns true when any saved or preset entry matches the provided data.
 	// Useful for detecting unsaved changes to the current state.
 	hasMatchingData(data: T): boolean {
-		return (
-			this.presets.some(savedData => this.config.equals(savedData.data, data)) ||
-			this.userData.some(savedData => this.config.equals(savedData.data, data))
-		);
+		const dataJson = this.serialize(data);
+		const matches = (savedData: SavedData<ModObject, T>) =>
+			this.config.equals ? this.config.equals(savedData.data, data) : savedData.dataJson === dataJson;
+		return this.presets.some(matches) || this.userData.some(matches);
 	}
 
 	// Save data to window.localStorage.
