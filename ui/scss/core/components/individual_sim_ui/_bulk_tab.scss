@@ -160,4 +160,12 @@
 			--bulk-gear-combo-column-count: 3;
 		}
 	}
+
+	// Same item as the base gear, but the optimizer swapped its enchant/gems:
+	// emphasize the enchant line so the change is easy to spot.
+	.bulk-result-enchant-change {
+		.item-picker-enchant {
+			font-weight: bold;
+		}
+	}
 }

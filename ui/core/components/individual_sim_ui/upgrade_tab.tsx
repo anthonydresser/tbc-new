@@ -8,10 +8,12 @@ import { IndividualSimUI } from '../../individual_sim_ui';
 import { DistributionMetrics, ProgressMetrics, RaidSimResult } from '../../proto/api';
 import { EquipmentSpec, GemColor, ItemSlot, ItemSpec } from '../../proto/common';
 import { SimGem } from '../../proto/db';
-import { RepFaction, UIEnchant, UIGem, UIItem, UIItem_FactionRestriction } from '../../proto/ui';
+import { RepFaction, SavedGearSet, UIEnchant, UIGem, UIItem, UIItem_FactionRestriction } from '../../proto/ui';
 import { ActionId } from '../../proto_utils/action_id';
+import { PresetGear } from '../../preset_utils';
 import { EquippedItem } from '../../proto_utils/equipped_item';
 import { Gear } from '../../proto_utils/gear';
+import { Database } from '../../proto_utils/database';
 import { getEmptyGemSocketIconUrl } from '../../proto_utils/gems';
 import { difficultyNames, professionNames, REP_FACTION_NAMES, REP_FACTION_QUARTERMASTERS, REP_LEVEL_NAMES } from '../../proto_utils/names';
 import { canEquipItem, enchantAppliesToItem, getEligibleItemSlots, getPVPSeasonFromItem, isPVPItem } from '../../proto_utils/utils';
@@ -35,6 +37,7 @@ import { translateSlotName } from '../../../i18n/localization';
 import { BisListJsonImporter, BisListImportResult } from './importers/bis_list_json_importer';
 import { parseBisListJson } from '../../proto_utils/bis_list_parser';
 import { BisListPresetEntry, getBisListPresetManifest, getPresetsForSpec, loadBisListPreset } from '../../proto_utils/bis_list_presets';
+import { UpgradeAddonExporter, UpgradeAddonExportRow } from './exporters/upgrade_addon_exporter';
 
 export interface UpgradeResult {
 	item: EquippedItem;
@@ -42,6 +45,10 @@ export interface UpgradeResult {
 	gear: Gear;
 	dpsMetrics: DistributionMetrics;
 	delta: number;
+	// Delta of this candidate when swapped into the BiS reference set instead of the
+	// current gear (0 for the item the reference set already wears). Undefined when
+	// the run had no BiS reference.
+	bisDelta?: number;
 }
 
 interface SavedUpgradeRun {
@@ -50,7 +57,11 @@ interface SavedUpgradeRun {
 	items: any[];
 	fallbackGems: number[];
 	optimizeGems: boolean;
+	compareBisEnabled: boolean;
+	bisReferenceName: string;
+	bisReferenceIsPreset: boolean;
 	baselineResult: any;
+	bisResult: any;
 	upgradeResults: any[];
 }
 
@@ -74,12 +85,19 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 	private readonly progressTrackerModal: ProgressTrackerModal;
 	private readonly selectorModal: SelectorModal;
 	private readonly bisListImporter: BisListJsonImporter;
+	private readonly exportAddonButton: HTMLButtonElement;
+	private readonly upgradeAddonExporter: UpgradeAddonExporter<any>;
 
 	private candidateItems: CandidateItem[] = [];
 	private fallbackGems: SimGem[];
 	private gemIconElements: HTMLImageElement[] = [];
 	private optimizeGems = false;
 	private readonly optimizeGemsChangeEmitter = new TypedEvent<void>();
+	// Emitted whenever the run state changes so saved-run chips can keep their
+	// active/dirty highlighting in sync with the current state.
+	private readonly runStateChangeEmitter = new TypedEvent<void>();
+	private savedRunsManager: SavedDataManager<UpgradeTab, SavedUpgradeRun> | null = null;
+	private storageWarningShown = false;
 
 	private isRunning = false;
 	private isCancelling = false;
@@ -87,6 +105,16 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 
 	private baselineResult: TopGearResult | null = null;
 	private upgradeResults: UpgradeResult[] = [];
+
+	// Optional BiS-reference comparison: when enabled and a gear set is selected,
+	// runUpgradeSim runs one extra sim of that set and results show a "vs BiS" column.
+	private compareBisEnabled = false;
+	private readonly compareBisChangeEmitter = new TypedEvent<void>();
+	private bisReferenceName: string | null = null;
+	private bisReferenceIsPreset = false;
+	private bisResult: TopGearResult | null = null;
+	private bisSelect: HTMLSelectElement | null = null;
+	private bisSelectContainer: HTMLDivElement | null = null;
 
 	constructor(parentElem: HTMLElement, simUI: IndividualSimUI<any>) {
 		super(parentElem, simUI, { identifier: 'upgrade-tab', title: i18n.t('upgrade_tab.title') });
@@ -109,6 +137,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		const candidateListRef = ref<HTMLDivElement>();
 		const searchContainerRef = ref<HTMLDivElement>();
 		const resultsTableRef = ref<HTMLTableElement>();
+		const exportAddonBtnRef = ref<HTMLButtonElement>();
 		const savedRunsContainerRef = ref<HTMLDivElement>();
 
 		this.contentContainer.appendChild(
@@ -184,6 +213,15 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 								<div className="upgrade-candidate-list" ref={candidateListRef} />
 							</div>
 							<div id="upgradeResultsTab" className="tab-pane fade show" ref={resultsTabRef}>
+								<div className="upgrade-results-toolbar">
+									<button
+										className="btn btn-secondary btn-sm"
+										ref={exportAddonBtnRef}
+										title={i18n.t('upgrade_tab.results.export_addon_tooltip_disabled')}
+										disabled>
+										<i className="fa fa-file-export me-1" /> {i18n.t('upgrade_tab.results.export_addon_button')}
+									</button>
+								</div>
 								<div className="upgrade-results-placeholder">{i18n.t('upgrade_tab.results.run_simulation')}</div>
 								<table className="table upgrade-results-table hide" ref={resultsTableRef}>
 									<thead>
@@ -193,6 +231,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 											<th>{i18n.t('upgrade_tab.results.slot')}</th>
 											<th>{i18n.t('upgrade_tab.results.dps')}</th>
 											<th>{i18n.t('upgrade_tab.results.delta')}</th>
+											<th>{i18n.t('upgrade_tab.results.delta_vs_bis')}</th>
 											<th>{i18n.t('upgrade_tab.results.source')}</th>
 											<th>{i18n.t('upgrade_tab.results.action')}</th>
 										</tr>
@@ -215,6 +254,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 								<div className="sockets-container" ref={ref<HTMLDivElement>()} />
 							</div>
 							<div className="upgrade-optimize-gems" ref={ref<HTMLDivElement>()} />
+							<div className="upgrade-compare-bis" ref={ref<HTMLDivElement>()} />
 							<div className="upgrade-saved-runs" ref={savedRunsContainerRef} />
 						</div>
 					</div>
@@ -229,6 +269,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		this.runButton = runBtnRef.value!;
 		this.candidateListElem = candidateListRef.value!;
 		this.resultsTableElem = resultsTableRef.value!;
+		this.exportAddonButton = exportAddonBtnRef.value!;
 
 		importFavsBtnRef.value!.addEventListener('click', () => this.importFavorites());
 		copyEnchantsBtnRef.value!.addEventListener('click', () => this.copyEquippedEnchantsToCandidates());
@@ -252,18 +293,28 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			onImport: result => this.importBisList(result),
 		});
 		importBisBtnRef.value!.addEventListener('click', () => this.bisListImporter.open());
+
+		this.upgradeAddonExporter = new UpgradeAddonExporter(
+			this.simUI.rootElem,
+			this.simUI,
+			() => this.getDisplayedResults().map(result => this.toExportRow(result)),
+			() => this.baselineResult?.dpsMetrics.avg ?? 0,
+			() => this.bisResult?.dpsMetrics.avg ?? null,
+		);
+		this.exportAddonButton.addEventListener('click', () => this.upgradeAddonExporter.open());
 		this.initPresetControls(loadPresetPhaseRef.value!, loadPresetBtnRef.value!);
 
 		this.fallbackGems = Array.from({ length: 5 }, () => UIGem.create());
 
 		this.runButton.addEventListener('click', () => this.runUpgradeSim());
 
-		this.simUI.sim.waitForInit().then(() => {
-			this.loadSettings();
+		this.simUI.sim.waitForInit().then(async () => {
+			await this.loadSettings();
 			this.renderCandidateList();
 			this.updateCombinationsCount();
 			this.buildGemPicker();
 			this.buildOptimizeGemsToggle();
+			this.buildCompareBisSetting();
 			this.buildSavedRunsManager(savedRunsContainerRef.value!);
 			if (this.upgradeResults.length > 0 && this.baselineResult) {
 				this.renderResults();
@@ -289,38 +340,124 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			timestamp: Date.now(),
 			items: this.candidateItems.map(candidate => {
 				const base = ItemSpec.toJson(candidate.spec) as Record<string, any>;
-				base.enchant = candidate.selectedEnchant?.effectId;
+				// Never assign undefined here: a present-but-undefined "enchant" key
+				// survives plain-object copies (e.g. in-session run switching, which
+				// skips the JSON round trip that would drop it) and then crashes
+				// ItemSpec.fromJson with "Cannot parse JSON undefined", silently
+				// dropping every unenchanted candidate (neck/rings/trinkets/ranged).
+				if (candidate.selectedEnchant) base.enchant = candidate.selectedEnchant.effectId;
 				return base;
 			}),
 			fallbackGems: this.fallbackGems.map(gem => gem.id),
 			optimizeGems: this.optimizeGems,
+			compareBisEnabled: this.compareBisEnabled,
+			bisReferenceName: this.bisReferenceName ?? '',
+			bisReferenceIsPreset: this.bisReferenceIsPreset,
 			baselineResult: this.baselineResult
 				? {
 						gear: EquipmentSpec.toJson(this.baselineResult.gear.asSpec()),
-						dpsMetrics: DistributionMetrics.toJson(this.baselineResult.dpsMetrics),
+						dpsMetrics: this.metricsToJson(this.baselineResult.dpsMetrics),
+					}
+				: null,
+			bisResult: this.bisResult
+				? {
+						gear: EquipmentSpec.toJson(this.bisResult.gear.asSpec()),
+						dpsMetrics: this.metricsToJson(this.bisResult.dpsMetrics),
 					}
 				: null,
 			upgradeResults: this.upgradeResults.map(result => ({
 				item: ItemSpec.toJson(result.item.asSpec()),
 				slot: result.slot,
 				gear: EquipmentSpec.toJson(result.gear.asSpec()),
-				dpsMetrics: DistributionMetrics.toJson(result.dpsMetrics),
+				dpsMetrics: this.metricsToJson(result.dpsMetrics),
 				delta: result.delta,
+				bisDelta: result.bisDelta,
 			})),
 		};
 	}
 
-	private applyRunState(run: SavedUpgradeRun) {
+	// hist and allValues can each contain thousands of entries and are never displayed,
+	// so drop them from persisted data to stay well under the localStorage quota.
+	private metricsToJson(metrics: DistributionMetrics): Record<string, any> {
+		const json = DistributionMetrics.toJson(metrics) as Record<string, any>;
+		delete json.hist;
+		delete json.allValues;
+		return json;
+	}
+
+	// Strips keys whose value is undefined before feeding stored JSON to
+	// protobuf-ts fromJson. Runs serialized by older builds (or copied
+	// in-memory without a JSON.stringify round trip) can carry keys like
+	// "enchant": undefined, which fromJson rejects.
+	private sanitizeProtoJson(json: any): any {
+		if (!json || typeof json !== 'object' || Array.isArray(json)) return json;
+		const clean = Object.fromEntries(Object.entries(json as Record<string, any>).filter(([, value]) => value !== undefined));
+		if (Array.isArray(clean.items)) clean.items = clean.items.map((item: any) => this.sanitizeProtoJson(item));
+		return clean;
+	}
+
+	// Runs may reference items that only exist in the leftover item DB (anything
+	// imported via Import BiS List / presets resolves through it), which is merged
+	// into the shared database only on demand. Without this, restoring such a run in
+	// a fresh session would drop every leftover item from the saved state.
+	private gatherRunEquipment(run: SavedUpgradeRun): EquipmentSpec {
+		const items: ItemSpec[] = [];
+		const pushItem = (itemJson: any) => {
+			try {
+				const spec = ItemSpec.fromJson(this.sanitizeProtoJson(itemJson));
+				if (spec.id) items.push(spec);
+			} catch {
+				// Malformed entries are reported as dropped by applyRunState instead.
+			}
+		};
+		const pushEquipment = (gearJson: any) => {
+			try {
+				EquipmentSpec.fromJson(gearJson).items.forEach(item => {
+					if (item.id) items.push(item);
+				});
+			} catch {
+				// Malformed entries are reported as dropped by applyRunState instead.
+			}
+		};
+
+		(run.items || []).forEach(pushItem);
+		pushEquipment(run.baselineResult?.gear);
+		pushEquipment(run.bisResult?.gear);
+		(run.upgradeResults || []).forEach(resultJson => {
+			pushItem(resultJson?.item);
+			pushEquipment(resultJson?.gear);
+		});
+		return EquipmentSpec.create({ items });
+	}
+
+	private async applyRunState(run: SavedUpgradeRun): Promise<{ droppedItems: number; droppedResults: number }> {
+		// Merge the leftover item DB if the run references any items missing from the
+		// main DB; otherwise every leftover item would fail lookupItemSpec below.
+		const runEquipment = this.gatherRunEquipment(run);
+		if (runEquipment.items.length) {
+			try {
+				await Database.loadLeftoversIfNecessary(runEquipment);
+			} catch (error) {
+				console.error('Failed to load leftover item database for saved upgrade run:', error);
+			}
+		}
+
+		let droppedItems = 0;
 		this.candidateItems = [];
 		(run.items || []).forEach(itemJson => {
 			try {
-				const itemSpec = ItemSpec.fromJson(itemJson);
+				const itemSpec = ItemSpec.fromJson(this.sanitizeProtoJson(itemJson));
 				const equippedItem = this.simUI.sim.db.lookupItemSpec(itemSpec)?.withDynamicStats();
-				if (!equippedItem) return;
+				if (!equippedItem) {
+					console.warn('Saved upgrade run: item not found in database:', itemJson);
+					droppedItems++;
+					return;
+				}
 				const enchant = itemJson.enchant ? this.findEnchantForItem(itemSpec.id, itemJson.enchant) : null;
 				this.candidateItems.push({ spec: itemSpec, equippedItem, selectedEnchant: enchant ?? null });
-			} catch {
-				// Ignore malformed saved items.
+			} catch (error) {
+				console.warn('Saved upgrade run: failed to restore item:', itemJson, error);
+				droppedItems++;
 			}
 		});
 
@@ -335,9 +472,25 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		this.optimizeGemsChangeEmitter.emit(TypedEvent.nextEventID());
 
 		this.baselineResult = this.parseStoredTopGearResult(run.baselineResult);
-		this.upgradeResults = (run.upgradeResults || [])
-			.map(resultJson => this.parseStoredUpgradeResult(resultJson))
-			.filter((result): result is UpgradeResult => result != null);
+		this.bisResult = this.parseStoredTopGearResult(run.bisResult);
+
+		this.compareBisEnabled = run.compareBisEnabled ?? false;
+		this.bisReferenceName = run.bisReferenceName || null;
+		this.bisReferenceIsPreset = run.bisReferenceIsPreset ?? false;
+		this.compareBisChangeEmitter.emit(TypedEvent.nextEventID());
+		this.syncBisSettingsUi();
+
+		let droppedResults = 0;
+		this.upgradeResults = [];
+		(run.upgradeResults || []).forEach(resultJson => {
+			const result = this.parseStoredUpgradeResult(resultJson);
+			if (result) {
+				this.upgradeResults.push(result);
+			} else {
+				droppedResults++;
+			}
+		});
+		return { droppedItems, droppedResults };
 	}
 
 	private parseStoredTopGearResult(resultJson: any): TopGearResult | null {
@@ -355,9 +508,12 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 	private parseStoredUpgradeResult(resultJson: any): UpgradeResult | null {
 		if (!resultJson) return null;
 		try {
-			const itemSpec = ItemSpec.fromJson(resultJson.item);
+			const itemSpec = ItemSpec.fromJson(this.sanitizeProtoJson(resultJson.item));
 			const item = this.simUI.sim.db.lookupItemSpec(itemSpec)?.withDynamicStats();
-			if (!item) return null;
+			if (!item) {
+				console.warn('Saved upgrade run: result item not found in database:', resultJson.item);
+				return null;
+			}
 
 			const equipmentSpec = EquipmentSpec.fromJson(resultJson.gear);
 			const gear = this.simUI.sim.db.lookupEquipmentSpec(equipmentSpec);
@@ -367,9 +523,14 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 				slot: resultJson.slot,
 				gear,
 				dpsMetrics,
-				delta: dpsMetrics.avg - (this.baselineResult?.dpsMetrics.avg ?? 0),
+				// Fall back to the stored delta if the baseline result didn't survive the round trip,
+				// rather than reporting the raw average as if it were a gain.
+				delta: this.baselineResult ? dpsMetrics.avg - this.baselineResult.dpsMetrics.avg : (resultJson.delta ?? 0),
+				// Runs saved before the per-candidate reference sim have no stored bisDelta.
+				bisDelta: typeof resultJson.bisDelta === 'number' ? resultJson.bisDelta : undefined,
 			};
-		} catch {
+		} catch (error) {
+			console.warn('Saved upgrade run: failed to restore result:', resultJson?.item, error);
 			return null;
 		}
 	}
@@ -378,23 +539,39 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		try {
 			window.localStorage.setItem(this.getSettingsKey(), JSON.stringify(this.serializeRunState()));
 		} catch (e) {
-			if (e && e instanceof DOMException && e.name === 'QuotaExceededError') {
-				window.localStorage.removeItem(this.getSettingsKey());
+			// Never delete the existing value here: the previously stored state is better
+			// than no state at all when storage is full.
+			console.error('Failed to persist upgrade finder state:', e);
+			if (!this.storageWarningShown) {
+				this.storageWarningShown = true;
+				new Toast({
+					delay: 6000,
+					variant: 'error',
+					body: i18n.t('upgrade_tab.saved_runs.storage_full'),
+				});
 			}
 		}
+		this.runStateChangeEmitter.emit(TypedEvent.nextEventID());
 	}
 
-	private loadSettings() {
+	private async loadSettings() {
 		const storedSettings = window.localStorage.getItem(this.getSettingsKey());
-		if (storedSettings != null) {
-			let parsed: SavedUpgradeRun;
+		if (storedSettings == null) return;
+
+		let parsed: SavedUpgradeRun;
+		try {
+			parsed = JSON.parse(storedSettings);
+		} catch (e) {
+			// Preserve the corrupt payload instead of clobbering state or losing the data.
+			console.error('Failed to parse saved upgrade finder state:', e);
 			try {
-				parsed = JSON.parse(storedSettings);
-			} catch {
-				parsed = this.serializeRunState();
+				window.localStorage.setItem(`${this.getSettingsKey()}.corrupt-backup`, storedSettings);
+			} catch (backupError) {
+				console.error('Failed to back up corrupt upgrade finder state:', backupError);
 			}
-			this.applyRunState(parsed);
+			return;
 		}
+		await this.applyRunState(parsed);
 	}
 
 	private runToJson(run: SavedUpgradeRun): any {
@@ -411,7 +588,11 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			items: obj.items,
 			fallbackGems: obj.fallbackGems ?? [],
 			optimizeGems: obj.optimizeGems ?? false,
+			compareBisEnabled: obj.compareBisEnabled ?? false,
+			bisReferenceName: obj.bisReferenceName ?? '',
+			bisReferenceIsPreset: obj.bisReferenceIsPreset ?? false,
 			baselineResult: obj.baselineResult ?? null,
+			bisResult: obj.bisResult ?? null,
 			upgradeResults: obj.upgradeResults ?? [],
 		};
 	}
@@ -431,18 +612,42 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			nameLabel: i18n.t('upgrade_tab.saved_runs.name'),
 			saveButtonText: i18n.t('upgrade_tab.saved_runs.save'),
 			storageKey: this.getSavedRunsStorageKey(),
-			changeEmitters: [],
+			changeEmitters: [this.runStateChangeEmitter],
 			getData: () => this.serializeRunState(),
-			setData: (_eventID, _upgradeTab, data) => this.loadSavedRun(data),
+			setData: (_eventID, _upgradeTab, data, name) => this.loadSavedRun(data, name),
 			equals: (a, b) => this.runsEqual(a, b),
 			toJson: run => this.runToJson(run),
 			fromJson: obj => this.runFromJson(obj),
 		});
 		savedRunsManager.loadUserData();
+		this.savedRunsManager = savedRunsManager;
 	}
 
-	private loadSavedRun(run: SavedUpgradeRun) {
-		this.applyRunState(run);
+	private async loadSavedRun(run: SavedUpgradeRun, name?: string) {
+		const runName = name || run.name;
+
+		if (this.isRunning) {
+			new Toast({
+				delay: 3000,
+				variant: 'error',
+				body: i18n.t('upgrade_tab.notifications.busy_while_running'),
+			});
+			return;
+		}
+
+		// Guard against discarding unsaved work: only load without confirmation when the
+		// current state is empty, identical to the run being loaded, or still matches
+		// another saved run.
+		if (this.candidateItems.length > 0 || this.upgradeResults.length > 0) {
+			const currentState = this.serializeRunState();
+			const matchesThisRun = this.runsEqual(currentState, run);
+			const matchesSavedRun = matchesThisRun || (this.savedRunsManager?.hasMatchingData(currentState) ?? false);
+			if (!matchesSavedRun && !confirm(i18n.t('upgrade_tab.saved_runs.unsaved_changes_confirm', { name: runName }))) {
+				return;
+			}
+		}
+
+		const { droppedItems, droppedResults } = await this.applyRunState(run);
 		this.renderCandidateList();
 		this.updateCombinationsCount();
 		this.updateGemPickerIcons();
@@ -451,14 +656,37 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		if (this.upgradeResults.length > 0 && this.baselineResult) {
 			this.resultsTab.show();
 		}
-		new Toast({
-			delay: 2000,
-			variant: 'success',
-			body: i18n.t('upgrade_tab.saved_runs.loaded', { name: run.name }),
-		});
+		if (droppedItems + droppedResults > 0) {
+			new Toast({
+				delay: 5000,
+				variant: 'warning',
+				body: i18n.t('upgrade_tab.saved_runs.items_not_restored', { count: droppedItems + droppedResults }),
+			});
+		} else {
+			new Toast({
+				delay: 2000,
+				variant: 'success',
+				body: i18n.t('upgrade_tab.saved_runs.loaded', { name: runName }),
+			});
+		}
+	}
+
+	// The sim loop iterates this.candidateItems live, so mutating the item list
+	// mid-run would silently drop items from the results.
+	private isRunningGuard(silent = false): boolean {
+		if (!this.isRunning) return false;
+		if (!silent) {
+			new Toast({
+				delay: 2000,
+				variant: 'warning',
+				body: i18n.t('upgrade_tab.notifications.busy_while_running'),
+			});
+		}
+		return true;
 	}
 
 	addItem(itemSpec: ItemSpec, silent = false) {
+		if (this.isRunningGuard(silent)) return;
 		if (this.candidateItems.some(candidate => ItemSpec.equals(candidate.spec, itemSpec))) {
 			if (!silent) {
 				new Toast({
@@ -506,6 +734,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 	}
 
 	removeItem(index: number) {
+		if (this.isRunningGuard()) return;
 		if (index < 0 || index >= this.candidateItems.length) return;
 		const removed = this.candidateItems.splice(index, 1)[0];
 		this.renderCandidateList();
@@ -519,6 +748,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 	}
 
 	clearItems() {
+		if (this.isRunningGuard()) return;
 		this.candidateItems = [];
 		this.renderCandidateList();
 		this.updateCombinationsCount();
@@ -535,6 +765,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 	}
 
 	private copyEquippedEnchantsToCandidates() {
+		if (this.isRunningGuard()) return;
 		const currentGear = this.simUI.player.getGear();
 		let applied = 0;
 		let skipped = 0;
@@ -686,6 +917,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			changeEvent: new TypedEvent<void>(),
 			equipItem: (_eventID: any, equippedItem: EquippedItem | null) => {
 				if (equippedItem) {
+					if (this.isRunningGuard()) return;
 					candidate.selectedEnchant = equippedItem.enchant;
 					candidate.equippedItem = equippedItem.withItem(candidate.equippedItem.item);
 					this.renderCandidateList();
@@ -714,18 +946,30 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		);
 	}
 
+	private getCandidateSimCount(): number {
+		return this.candidateItems.reduce((sum, candidate) => sum + this.getEligibleSlots(candidate).length, 0);
+	}
+
+	private hasBisReferenceSim(): boolean {
+		return this.compareBisEnabled && !!this.bisReferenceName;
+	}
+
 	private getTotalSimCount(): number {
-		// Baseline + one sim per candidate per eligible slot.
-		return 1 + this.candidateItems.reduce((sum, candidate) => sum + this.getEligibleSlots(candidate).length, 0);
+		// Baseline + one sim per candidate per eligible slot, doubled when a BiS reference
+		// set is selected (each candidate is also simmed on the reference set), + the
+		// reference set sim itself.
+		return 1 + this.getCandidateSimCount() * (this.hasBisReferenceSim() ? 2 : 1) + (this.hasBisReferenceSim() ? 1 : 0);
 	}
 
 	private updateCombinationsCount() {
 		const total = this.getTotalSimCount();
-		const iterations = this.simUI.sim.getIterations() * (total - 1);
+		const candidateSims = this.getCandidateSimCount();
+		const iterations = this.simUI.sim.getIterations() * (candidateSims * (this.hasBisReferenceSim() ? 2 : 1) + (this.hasBisReferenceSim() ? 1 : 0));
 		this.runButton.disabled = total <= 1 || !this.simUI.sim.getIterations();
 		this.combinationsElem.replaceChildren(
 			<span>
-				{total - 1 === 1 ? i18n.t('upgrade_tab.settings.sim_count_singular') : i18n.t('upgrade_tab.settings.sim_count', { count: total - 1 })}
+				{candidateSims === 1 ? i18n.t('upgrade_tab.settings.sim_count_singular') : i18n.t('upgrade_tab.settings.sim_count', { count: candidateSims })}
+				{this.hasBisReferenceSim() && ` ${i18n.t('upgrade_tab.settings.sim_count_bis_reference')}`}
 				<br />
 				<small>
 					{iterations} {i18n.t('upgrade_tab.settings.iterations')}
@@ -864,10 +1108,207 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		});
 	}
 
+	private buildCompareBisSetting() {
+		const container = this.settingsContainer.querySelector('.upgrade-compare-bis') as HTMLElement;
+		const selectContainerRef = ref<HTMLDivElement>();
+		const selectRef = ref<HTMLSelectElement>();
+
+		new BooleanPicker<UpgradeTab>(container, this, {
+			id: 'upgrade-compare-bis',
+			label: i18n.t('upgrade_tab.settings.compare_bis.label'),
+			labelTooltip: i18n.t('upgrade_tab.settings.compare_bis.tooltip'),
+			inline: true,
+			changedEvent: () => this.compareBisChangeEmitter,
+			getValue: () => this.compareBisEnabled,
+			setValue: (_eventID, _modObj, newValue) => {
+				this.compareBisEnabled = newValue;
+				this.syncBisSettingsUi();
+				this.updateCombinationsCount();
+				this.storeSettings();
+			},
+		});
+
+		container.appendChild(
+			<div className="upgrade-bis-select-container" ref={selectContainerRef}>
+				<select className="form-select form-select-sm" ref={selectRef} />
+			</div>,
+		);
+
+		this.bisSelectContainer = selectContainerRef.value!;
+		this.bisSelect = selectRef.value!;
+
+		// Repopulate on focus so gear sets saved/renamed in the gear tab show up
+		// without a page reload.
+		this.bisSelect.addEventListener('focus', () => this.populateBisSelect());
+		this.bisSelect.addEventListener('change', () => {
+			const value = this.bisSelect!.value;
+			if (!value) {
+				this.bisReferenceName = null;
+				this.bisReferenceIsPreset = false;
+			} else {
+				// Values are encoded as "<preset|saved>:<name>"; slice at the first ':' so
+				// set names containing ':' still round-trip.
+				const sepIndex = value.indexOf(':');
+				this.bisReferenceIsPreset = value.slice(0, sepIndex) === 'preset';
+				this.bisReferenceName = value.slice(sepIndex + 1);
+			}
+			this.updateCombinationsCount();
+			this.storeSettings();
+		});
+
+		this.populateBisSelect();
+		this.syncBisSettingsUi();
+	}
+
+	private getSelectedBisValue(): string {
+		return this.bisReferenceName ? `${this.bisReferenceIsPreset ? 'preset' : 'saved'}:${this.bisReferenceName}` : '';
+	}
+
+	private syncBisSettingsUi() {
+		if (!this.bisSelectContainer || !this.bisSelect) return;
+		this.bisSelectContainer.classList.toggle('hide', !this.compareBisEnabled);
+		const desired = this.getSelectedBisValue();
+		this.bisSelect.value = desired;
+		if (this.bisSelect.value !== desired) {
+			// The selected set no longer exists in the dropdown; leave bisReferenceName
+			// intact so the run can warn about it instead of silently dropping the choice.
+			this.bisSelect.value = '';
+		}
+	}
+
+	private populateBisSelect() {
+		if (!this.bisSelect) return;
+		this.bisSelect.replaceChildren(<option value="">{i18n.t('upgrade_tab.settings.compare_bis.select_placeholder')}</option>);
+
+		const presets = this.getPresetGearOptions();
+		if (presets.length) {
+			const group = (<optgroup label={i18n.t('upgrade_tab.settings.compare_bis.presets_group')} />) as HTMLOptGroupElement;
+			presets.forEach(({ label }) => {
+				group.appendChild((<option value={`preset:${label}`}>{label}</option>) as HTMLOptionElement);
+			});
+			this.bisSelect.appendChild(group);
+		}
+
+		const savedNames = this.getSavedGearSets().map(savedSet => savedSet.name);
+		if (savedNames.length) {
+			const group = (<optgroup label={i18n.t('upgrade_tab.settings.compare_bis.saved_group')} />) as HTMLOptGroupElement;
+			savedNames.forEach(name => {
+				group.appendChild((<option value={`saved:${name}`}>{name}</option>) as HTMLOptionElement);
+			});
+			this.bisSelect.appendChild(group);
+		}
+
+		this.syncBisSettingsUi();
+	}
+
+	// Saved gear sets live only in localStorage under the gear tab's SavedDataManager
+	// key (Record<name, SavedGearSetJson>); there is no other accessor. Mirrors the
+	// parse/skip-on-error behavior of SavedDataManager.loadUserData.
+	private getSavedGearSets(): Array<{ name: string; data: SavedGearSet }> {
+		const dataStr = window.localStorage.getItem(this.simUI.getSavedGearStorageKey());
+		if (!dataStr) return [];
+
+		let jsonData: Record<string, any>;
+		try {
+			jsonData = JSON.parse(dataStr);
+		} catch {
+			console.warn('Failed to parse saved gear sets for the BiS reference picker.');
+			return [];
+		}
+
+		const sets: Array<{ name: string; data: SavedGearSet }> = [];
+		for (const name in jsonData) {
+			try {
+				sets.push({ name, data: SavedGearSet.fromJson(jsonData[name]) });
+			} catch {
+				console.warn('Failed parsing saved gear set for the BiS reference picker: ', name);
+			}
+		}
+		return sets;
+	}
+
+	// Preset gear sets can share a name (e.g. warrior 'BIS' sets per phase/group, which
+	// the gear tab separates via phase tabs and group headings), so the dropdown needs
+	// unique labels: duplicated names are qualified with their group/phase. The label is
+	// what gets encoded in option values and persisted in saved runs, so resolving by
+	// the same computed label round-trips correctly.
+	private getPresetGearOptions(): Array<{ label: string; preset: PresetGear }> {
+		const presets = this.simUI.individualConfig.presets.gear;
+		const nameCounts = new Map<string, number>();
+		presets.forEach(preset => nameCounts.set(preset.name, (nameCounts.get(preset.name) ?? 0) + 1));
+
+		const usedLabels = new Set<string>();
+		return presets.map(preset => {
+			let label = preset.name;
+			if ((nameCounts.get(preset.name) ?? 0) > 1) {
+				const qualifiers: string[] = [];
+				if (preset.group) qualifiers.push(preset.group);
+				if (preset.phase !== undefined && preset.phase > 0) qualifiers.push(i18n.t(`common.phase_names.${preset.phase}`));
+				if (qualifiers.length) label = `${preset.name} (${qualifiers.join(', ')})`;
+				// Identical name+group+phase is still possible; number them.
+				let suffix = 2;
+				while (usedLabels.has(label)) label = `${label.replace(/ #\d+$/, '')} #${suffix++}`;
+			}
+			usedLabels.add(label);
+			return { label, preset };
+		});
+	}
+
+	// The reference set is simmed exactly as saved (its own items/enchants/gems).
+	// SavedGearSet.bonusStatsStats is intentionally ignored: bonus stats belong to the
+	// player's other settings, and the baseline sim uses the current player's too.
+	private resolveBisReferenceGear(): Gear | null {
+		if (!this.bisReferenceName) return null;
+
+		const resolvePreset = (): Gear | null => {
+			const preset =
+				this.getPresetGearOptions().find(option => option.label === this.bisReferenceName)?.preset ??
+				// Runs saved before presets had unique labels stored the bare name.
+				this.simUI.individualConfig.presets.gear.find(presetGear => presetGear.name === this.bisReferenceName);
+			return preset ? this.simUI.sim.db.lookupEquipmentSpec(preset.gear) : null;
+		};
+		const resolveSaved = (): Gear | null => {
+			const saved = this.getSavedGearSets().find(savedSet => savedSet.name === this.bisReferenceName);
+			return saved?.data.gear ? this.simUI.sim.db.lookupEquipmentSpec(saved.data.gear) : null;
+		};
+
+		// Fall back to the other source in case the set was re-saved under a different kind.
+		return (this.bisReferenceIsPreset ? resolvePreset() : resolveSaved()) ?? (this.bisReferenceIsPreset ? resolveSaved() : resolvePreset());
+	}
+
 	private async runUpgradeSim() {
 		if (this.isRunning) return;
 
-		const totalRuns = this.getTotalSimCount();
+		// Resolve the BiS reference up front so a deleted/renamed set doesn't distort
+		// the progress total; warn and continue without the reference instead of failing.
+		let bisGear: Gear | null = null;
+		if (this.compareBisEnabled && this.bisReferenceName) {
+			bisGear = this.resolveBisReferenceGear();
+			if (!bisGear) {
+				new Toast({
+					delay: 4000,
+					variant: 'warning',
+					body: i18n.t('upgrade_tab.notifications.bis_set_missing', { name: this.bisReferenceName }),
+				});
+			}
+		}
+
+		// With a reference set, each candidate also gets simmed swapped onto that set —
+		// unless the swap reproduces the reference gear exactly (the reference set already
+		// wears that item), in which case the delta is 0 by definition and no sim is run.
+		const isBisIdentitySwap = (candidate: CandidateItem, slot: ItemSlot): boolean => {
+			if (!bisGear) return true;
+			const bisCandidateGear = this.buildCandidateGear(bisGear, candidate, slot, null);
+			return EquipmentSpec.equals(bisCandidateGear.asSpec(), bisGear.asSpec());
+		};
+
+		let candidateRuns = 0;
+		this.candidateItems.forEach(candidate => {
+			this.getEligibleSlots(candidate).forEach(slot => {
+				candidateRuns += 1 + (bisGear && !isBisIdentitySwap(candidate, slot) ? 1 : 0);
+			});
+		});
+		const totalRuns = 1 + candidateRuns + (bisGear ? 1 : 0);
 		if (totalRuns <= 1) return;
 
 		this.progressTrackerModal.show();
@@ -884,6 +1325,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		const abortSignal = this.abortController.signal;
 		this.runButton.disabled = true;
 		this.baselineResult = null;
+		this.bisResult = null;
 		this.upgradeResults = [];
 
 		let originalGear = this.simUI.player.getGear();
@@ -896,8 +1338,21 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			this.setProgress(currentRun, totalRuns, i18n.t('upgrade_tab.progress.baseline'));
 			const baselineResponse = await this.runWithAbort(this.runSingleGearSim(originalGear), abortSignal);
 			const baselineDps = baselineResponse.raidMetrics!.dps!;
+			baselineDps.hist = [];
+			baselineDps.allValues = [];
 			this.baselineResult = { gear: originalGear, dpsMetrics: baselineDps };
 			currentRun++;
+
+			if (bisGear) {
+				this.throwIfAborted(abortSignal);
+				this.setProgress(currentRun, totalRuns, i18n.t('upgrade_tab.progress.bis_reference'));
+				const bisResponse = await this.runWithAbort(this.runSingleGearSim(bisGear), abortSignal);
+				const bisDpsMetrics = bisResponse.raidMetrics!.dps!;
+				bisDpsMetrics.hist = [];
+				bisDpsMetrics.allValues = [];
+				this.bisResult = { gear: bisGear, dpsMetrics: bisDpsMetrics };
+				currentRun++;
+			}
 
 			const candidateResults: UpgradeResult[] = [];
 
@@ -919,12 +1374,35 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 					dpsMetrics.hist = [];
 					dpsMetrics.allValues = [];
 
+					// The candidate's delta within the BiS reference set: the same item swap
+					// applied to the reference gear, inheriting that slot's enchant/gems.
+					let bisDelta: number | undefined = undefined;
+					if (bisGear && this.bisResult) {
+						if (isBisIdentitySwap(candidate, slot)) {
+							// The reference set already wears this exact item config.
+							bisDelta = 0;
+						} else {
+							let bisCandidateGear = this.buildCandidateGear(bisGear, candidate, slot, null);
+							if (this.optimizeGems && this.simUI.reforger) {
+								bisCandidateGear = await this.runWithAbort(this.simUI.reforger.optimizeReforges(bisCandidateGear, true), abortSignal);
+							}
+							this.setProgress(currentRun, totalRuns, i18n.t('upgrade_tab.progress.item_on_bis', { itemName: candidate.equippedItem.item.name }));
+							const bisCandidateResponse = await this.runWithAbort(this.runSingleGearSim(bisCandidateGear), abortSignal);
+							const bisMetrics = bisCandidateResponse.raidMetrics!.dps!;
+							bisMetrics.hist = [];
+							bisMetrics.allValues = [];
+							bisDelta = bisMetrics.avg - this.bisResult.dpsMetrics.avg;
+							currentRun++;
+						}
+					}
+
 					const result: UpgradeResult = {
 						item: candidate.equippedItem,
 						slot,
 						gear: candidateGear,
 						dpsMetrics,
 						delta: dpsMetrics.avg - baselineDps.avg,
+						bisDelta,
 					};
 
 					if (!bestResult || result.delta > bestResult.delta) {
@@ -941,6 +1419,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			candidateResults.sort((a, b) => b.delta - a.delta);
 			this.upgradeResults = candidateResults;
 			this.renderResults();
+			this.storeSettings();
 			this.resultsTab.show();
 		} catch (error) {
 			console.error(error);
@@ -976,7 +1455,11 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		return defaultGemsByColor;
 	}
 
-	private buildCandidateGear(baseGear: Gear, candidate: CandidateItem, slot: ItemSlot, defaultGemsByColor: Map<GemColor, UIGem | null>): Gear {
+	// Pass defaultGemsByColor = null (used for candidates on the BiS reference set) to keep
+	// whatever gems withItem inherited from the base gear, instead of overwriting sockets
+	// with the configured fallback gems — so a candidate the set already wears reproduces
+	// the reference gear exactly.
+	private buildCandidateGear(baseGear: Gear, candidate: CandidateItem, slot: ItemSlot, defaultGemsByColor: Map<GemColor, UIGem | null> | null): Gear {
 		let gear = baseGear;
 		const currentItem = baseGear.getEquippedItem(slot);
 		let updatedItem = currentItem ? currentItem.withItem(candidate.equippedItem.item) : candidate.equippedItem;
@@ -990,7 +1473,9 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		}
 
 		gear = gear.withEquippedItem(slot, updatedItem);
-		gear = gear.fillSocketsWithGems(defaultGemsByColor, this.simUI.reforger?.getFrozenGemSockets());
+		if (defaultGemsByColor) {
+			gear = gear.fillSocketsWithGems(defaultGemsByColor, this.simUI.reforger?.getFrozenGemSockets());
+		}
 
 		return gear;
 	}
@@ -1052,6 +1537,40 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		}
 	}
 
+	// Some items can appear multiple times in the results (e.g. imported with different
+	// enchants/gems). Only keep the single best instance of each item.
+	private getDisplayedResults(): UpgradeResult[] {
+		const bestResultByItemId = new Map<number, UpgradeResult>();
+		for (const result of this.upgradeResults) {
+			const existing = bestResultByItemId.get(result.item.item.id);
+			if (!existing || result.delta > existing.delta) {
+				bestResultByItemId.set(result.item.item.id, result);
+			}
+		}
+		return Array.from(bestResultByItemId.values()).sort((a, b) => b.delta - a.delta);
+	}
+
+	private toExportRow(result: UpgradeResult): UpgradeAddonExportRow {
+		return {
+			itemId: result.item.item.id,
+			slot: result.slot,
+			enchantName: result.item.enchant?.name ?? '',
+			gemIds: result.item.gems.filter((gem): gem is UIGem => gem != null && gem.id > 0).map(gem => gem.id),
+			delta: result.delta,
+			vsBisDelta: this.bisResult
+				? // Runs from before the per-candidate reference sim have no bisDelta;
+					// fall back to their original absolute-diff value for the export.
+					(result.bisDelta ?? result.dpsMetrics.avg - this.bisResult.dpsMetrics.avg)
+				: undefined,
+		};
+	}
+
+	private updateExportAddonButton() {
+		const disabled = this.upgradeResults.length === 0 || !this.baselineResult;
+		this.exportAddonButton.disabled = disabled;
+		this.exportAddonButton.title = disabled ? i18n.t('upgrade_tab.results.export_addon_tooltip_disabled') : '';
+	}
+
 	private renderResults() {
 		const placeholder = this.resultsTabElem.querySelector('.upgrade-results-placeholder') as HTMLElement;
 		const table = this.resultsTableElem;
@@ -1061,6 +1580,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		if (this.upgradeResults.length === 0 || !this.baselineResult) {
 			placeholder.classList.remove('hide');
 			table.classList.add('hide');
+			this.updateExportAddonButton();
 			return;
 		}
 
@@ -1068,21 +1588,13 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 		table.classList.remove('hide');
 		const baselineAvg = this.baselineResult.dpsMetrics.avg;
 
-		// Some items can appear multiple times in the results (e.g. imported with different
-		// enchants/gems). Only show the single best instance of each item.
-		const bestResultByItemId = new Map<number, UpgradeResult>();
-		for (const result of this.upgradeResults) {
-			const existing = bestResultByItemId.get(result.item.item.id);
-			if (!existing || result.delta > existing.delta) {
-				bestResultByItemId.set(result.item.item.id, result);
-			}
-		}
-		const displayedResults = Array.from(bestResultByItemId.values()).sort((a, b) => b.delta - a.delta);
+		const displayedResults = this.getDisplayedResults();
 
 		displayedResults.forEach((result, index) => {
 			const rowRef = ref<HTMLTableRowElement>();
 			const itemCellRef = ref<HTMLTableCellElement>();
 			const deltaRef = ref<HTMLTableCellElement>();
+			const bisDeltaRef = ref<HTMLTableCellElement>();
 			const sourceCellRef = ref<HTMLTableCellElement>();
 			const equipBtnRef = ref<HTMLButtonElement>();
 
@@ -1093,6 +1605,7 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 					<td>{translateSlotName(result.slot)}</td>
 					<td>{this.formatDps(result.dpsMetrics.avg)}</td>
 					<td ref={deltaRef} />
+					<td ref={bisDeltaRef} />
 					<td ref={sourceCellRef} />
 					<td>
 						<button className="btn btn-primary btn-sm" ref={equipBtnRef}>
@@ -1108,6 +1621,12 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 			sourceCellRef.value!.appendChild(this.getSourceInfo(result.item._item));
 
 			formatDeltaTextElem(deltaRef.value!, baselineAvg, result.dpsMetrics.avg, 2, undefined, false, true);
+			// result.bisDelta is a delta (candidate-on-reference minus reference), so
+			// reconstruct the after-value for the formatter's percentage display.
+			if (this.bisResult && result.bisDelta !== undefined) {
+				const bisAvg = this.bisResult.dpsMetrics.avg;
+				formatDeltaTextElem(bisDeltaRef.value!, bisAvg, bisAvg + result.bisDelta, 2, undefined, false, true);
+			}
 
 			const diffGearBtnRef = ref<HTMLButtonElement>();
 			const actionCell = equipBtnRef.value!.parentElement as HTMLTableCellElement;
@@ -1147,11 +1666,35 @@ export class UpgradeTab extends SimTab implements BulkItemSearchHost {
 				<td />
 				<td />
 				<td />
+				<td />
 			</tr>,
 		);
+
+		// BiS reference row: the reference set's DPS and its gap vs the current gear.
+		if (this.bisResult) {
+			const bisAvg = this.bisResult.dpsMetrics.avg;
+			const bisGapRef = ref<HTMLTableCellElement>();
+			tbody.appendChild(
+				<tr className="upgrade-results-bis-reference">
+					<td colSpan={2}>
+						<strong>{i18n.t('upgrade_tab.results.bis_reference_row', { name: this.bisReferenceName ?? '' })}</strong>
+					</td>
+					<td />
+					<td>{this.formatDps(bisAvg)}</td>
+					<td ref={bisGapRef} />
+					<td />
+					<td />
+					<td />
+				</tr>,
+			);
+			formatDeltaTextElem(bisGapRef.value!, baselineAvg, bisAvg, 2, undefined, false, true);
+		}
+
+		this.updateExportAddonButton();
 	}
 
 	private removeUpgradeResult(result: UpgradeResult) {
+		if (this.isRunningGuard()) return;
 		const resultItemId = result.item.item.id;
 		const index = this.candidateItems.findIndex(candidate => candidate.spec.id === resultItemId);
 		if (index === -1) return;

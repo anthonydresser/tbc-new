@@ -19,7 +19,9 @@ export type SavedDataManagerConfig<ModObject, T> = {
 	// without it entries compare by their `toJson` string.
 	equals?: (a: T, b: T) => boolean;
 	getData: (modObject: ModObject) => T;
-	setData: (eventID: EventID, modObject: ModObject, data: T) => void;
+	// `name` is the saved entry's name, passed when loading so implementations can
+	// display it (the data itself doesn't necessarily carry it).
+	setData: (eventID: EventID, modObject: ModObject, data: T, name?: string) => void;
 	toJson: (a: T) => any;
 	fromJson: (obj: any) => T;
 	nameLabel?: string;
@@ -139,7 +141,7 @@ export class SavedDataManager<ModObject, T> extends Component {
 		) as HTMLElement;
 
 		dataElem?.addEventListener('click', () => {
-			this.config.setData(TypedEvent.nextEventID(), this.modObject, config.data);
+			this.config.setData(TypedEvent.nextEventID(), this.modObject, config.data, config.name);
 			config.onLoad?.(this.modObject);
 			// Run the deferred check now so the clicked entry's name is the one left in the input.
 			this.flushChecks();
@@ -239,6 +241,15 @@ export class SavedDataManager<ModObject, T> extends Component {
 		}
 	}
 
+	// Returns true when any saved or preset entry matches the provided data.
+	// Useful for detecting unsaved changes to the current state.
+	hasMatchingData(data: T): boolean {
+		return (
+			this.presets.some(savedData => this.config.equals(savedData.data, data)) ||
+			this.userData.some(savedData => this.config.equals(savedData.data, data))
+		);
+	}
+
 	// Save data to window.localStorage.
 	private saveUserData() {
 		const userData: Record<string, unknown> = {};
@@ -253,7 +264,14 @@ export class SavedDataManager<ModObject, T> extends Component {
 			this.customDataDiv.classList.add('hide');
 		}
 
-		window.localStorage.setItem(this.config.storageKey, JSON.stringify(userData));
+		try {
+			window.localStorage.setItem(this.config.storageKey, JSON.stringify(userData));
+		} catch (e) {
+			// Quota failures must be visible: an uncaught throw here would leave the entry
+			// looking saved in-session while being permanently lost after reload.
+			console.error('Failed to save user data:', e);
+			alert(i18n.t('common.storage_save_failed'));
+		}
 	}
 
 	// Load data from window.localStorage.

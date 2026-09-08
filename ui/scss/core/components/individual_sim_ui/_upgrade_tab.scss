@@ -27,6 +27,16 @@
 			}
 		}
 
+		.upgrade-compare-bis {
+			.form-check {
+				margin-bottom: 0;
+			}
+
+			.upgrade-bis-select-container {
+				margin-top: var(--spacer-2);
+			}
+		}
+
 		.upgrade-saved-runs {
 			border-top: var(--border-default);
 			padding-top: var(--gap-width);
@@ -136,6 +146,12 @@
 		display: grid;
 	}
 
+	.upgrade-results-toolbar {
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: var(--spacer-2);
+	}
+
 	.upgrade-results-placeholder {
 		display: flex;
 		align-items: center;
@@ -153,6 +169,10 @@
 
 		.upgrade-results-baseline {
 			border-top: 2px solid var(--bs-border-color);
+		}
+
+		.upgrade-results-bis-reference {
+			border-bottom: 2px solid var(--bs-border-color);
 		}
 	}
 }

@@ -24,6 +24,7 @@
 		"search": "Search",
 		"filter": "Filter",
 		"elapsed_time": "Elapsed Time",
+		"storage_save_failed": "Failed to save: browser storage is full. Delete some saved data to free up space.",
 		"melee": "Melee",
 		"any": "Any",
 		"phases": {
@@ -1006,9 +1007,17 @@
 			"iterations": "Iterations",
 			"sim_count": "{{count}} candidate sims",
 			"sim_count_singular": "1 candidate sim",
+			"sim_count_bis_reference": "with reference set (2x candidate sims + 1)",
 			"optimize_gems": {
 				"label": "Optimize gems per item",
 				"tooltip": "Re-solve the optimal gem configuration for each candidate item before simming. Slower, but more accurate when a new item changes gemming choices."
+			},
+			"compare_bis": {
+				"label": "Compare against gear set",
+				"tooltip": "Run one extra simulation of one of your gear sets (saved sets or presets) and show how each candidate's DPS compares against it.",
+				"select_placeholder": "Select gear set…",
+				"presets_group": "Presets",
+				"saved_group": "Saved Gear Sets"
 			}
 		},
 		"saved_runs": {
@@ -1016,11 +1025,16 @@
 			"run": "Saved Run",
 			"name": "Run Name",
 			"save": "Save Run",
-			"loaded": "Loaded saved run \"{{name}}\"."
+			"loaded": "Loaded saved run \"{{name}}\".",
+			"unsaved_changes_confirm": "Your current upgrade run has unsaved changes. Loading \"{{name}}\" will discard them. Continue?",
+			"items_not_restored": "{{count}} item(s) from the saved run could not be restored and were skipped. The saved run itself is unchanged.",
+			"storage_full": "Browser storage is full, so the upgrade finder state could not be saved. Delete some saved runs to free up space."
 		},
 		"progress": {
 			"baseline": "Running baseline simulation",
+			"bis_reference": "Simming reference set",
 			"item": "Simming {{itemName}}",
+			"item_on_bis": "Simming {{itemName}} on reference set",
 			"optimize_gems": "Optimizing gems for {{itemName}}"
 		},
 		"notifications": {
@@ -1029,7 +1043,9 @@
 			"item_not_equippable": "That item cannot be equipped by this character.",
 			"sim_cancelled": "Upgrade finder cancelled.",
 			"enchants_copied": "Copied {{applied}} enchants from equipped gear ({{skipped}} already matched).",
-			"enchants_no_match": "No applicable enchants found on currently equipped gear."
+			"enchants_no_match": "No applicable enchants found on currently equipped gear.",
+			"busy_while_running": "Finish or cancel the running simulation before changing the item list.",
+			"bis_set_missing": "The selected gear set \"{{name}}\" no longer exists; results will not include a BiS comparison."
 		},
 		"picker": {
 			"no_items": "No items selected. Add items using the search box above.",
@@ -1050,9 +1066,14 @@
 			"item_removed": "Removed {{itemName}} from the upgrade list.",
 			"gear_equipped": "Upgrade equipped!",
 			"current_gear": "Current Gear",
+			"delta_vs_bis": "vs BiS",
+			"bis_reference_row": "BiS: {{name}}",
 			"gear_diff_title": "Gear changes with {{itemName}}",
 			"gear_diff_empty": "No gear changes detected.",
-			"empty_slot": "Empty"
+			"empty_slot": "Empty",
+			"export_addon_button": "Export to Addon",
+			"export_addon_tooltip_disabled": "Run a simulation to export results.",
+			"export_addon_title": "WoWSims Upgrade List Export"
 		}
 	},
 	"rotation_tab": {

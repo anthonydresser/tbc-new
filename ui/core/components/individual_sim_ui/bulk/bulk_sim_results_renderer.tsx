@@ -76,8 +76,15 @@ export default class BulkSimResultRenderer extends Component {
 		for (const [idx, spec] of resultAsSpec.items.entries()) {
 			const itemContainer = (<div className="bulk-result-item" />) as HTMLElement;
 
-			if (spec.id != originalEquipmentSpec.items[idx].id) {
+			const itemChanged = spec.id != originalEquipmentSpec.items[idx].id;
+			// Same item, but the optimizer changed its enchant and/or gems.
+			const enchantOrGemsChanged = !itemChanged && !ItemSpec.equals(spec, originalEquipmentSpec.items[idx]);
+
+			if (itemChanged) {
 				itemContainer.style.border = '3px solid red';
+			} else if (enchantOrGemsChanged) {
+				itemContainer.classList.add('bulk-result-enchant-change');
+				itemContainer.style.border = '3px solid orange';
 			} else {
 				itemContainer.style.border = '3px solid transparent';
 			}
