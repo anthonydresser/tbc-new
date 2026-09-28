@@ -15,7 +15,6 @@ import {
 	STAT_CONSTRAINT_OPS,
 	unitStatFromOptionValue,
 	unitStatOptionValue,
-	unitStatShortLabel,
 	withConstraintUnitStat,
 } from '../../model/stat_constraint_options';
 
@@ -44,57 +43,76 @@ export const BulkStatConstraints = () => {
 				{constraints.map((constraint, idx) => {
 					const unitStat = constraintUnitStat(constraint);
 					const isCritReduction = unitStat.isPseudoStat() && unitStat.getPseudoStat() === PseudoStat.PseudoStatReducedCritTakenPercent;
+					// The closed stat dropdown is as wide as the selected name; the list it opens is drawn by
+					// the browser and always fits its longest option. When the column is too narrow for all
+					// four controls, the operator, value and remove button wrap together to a second line,
+					// indented: the row is padded and only the dropdown is pulled back to the edge.
 					return (
-						<div key={idx} className="flex items-center gap-1" data-testid="bulk-stat-constraints-row">
-							<Select
-								className="min-w-0 flex-1"
-								aria-label={i18n.t('bulk_tab.settings.stat_constraints.label')}
-								title={isCritReduction ? i18n.t('bulk_tab.settings.stat_constraints.crit_reduction_hint') : unitStat.getFullName(playerClass)}
-								value={unitStatOptionValue(unitStat)}
-								onChange={event => replace(idx, withConstraintUnitStat(constraint, unitStatFromOptionValue(event.currentTarget.value)))}>
-								{SELECTABLE_STATS.map(option => (
-									<option key={unitStatOptionValue(option)} value={unitStatOptionValue(option)} title={option.getFullName(playerClass)}>
-										{unitStatShortLabel(option, playerClass)}
-									</option>
-								))}
-							</Select>
-							<Select
-								className="w-auto"
-								value={String(constraint.op)}
-								onChange={event =>
-									replace(idx, BulkStatConstraint.create({ ...constraint, op: Number(event.currentTarget.value) as BulkStatConstraintOp }))
-								}>
-								{STAT_CONSTRAINT_OPS.map(op => (
-									<option key={op} value={String(op)}>
-										{STAT_CONSTRAINT_OP_SYMBOLS[op]}
-									</option>
-								))}
-							</Select>
-							{/* Committed as it is typed: a value left pending until blur would commit under a
-							    click on Simulate, and the combination refresh that follows disables the button. */}
-							<Input
-								className="w-20"
-								type="number"
-								step="any"
-								value={String(constraint.value)}
-								onChange={event => {
-									const parsed = Number(event.currentTarget.value);
-									replace(idx, BulkStatConstraint.create({ ...constraint, value: Number.isFinite(parsed) ? parsed : 0 }));
-								}}
-							/>
-							<Button
-								variant="link-danger"
-								iconOnly
-								title={i18n.t('bulk_tab.settings.stat_constraints.remove')}
-								aria-label={i18n.t('bulk_tab.settings.stat_constraints.remove')}
-								onClick={() =>
-									setBulkStatConstraints(
-										player,
-										constraints.filter((_, i) => i !== idx),
-									)
-								}>
-								<Icon name="times" />
-							</Button>
+						<div key={idx} className="flex flex-wrap items-center gap-1 pl-4" data-testid="bulk-stat-constraints-row">
+							{/* The invisible copy of the selected name, with the dropdown's padding and border, sets
+							    the size of the box the dropdown fills. The dropdown is positioned over it rather than
+							    sized by it: a dropdown's natural width is its widest option, whatever is selected. */}
+							<div className="relative -ml-4 max-w-[calc(100%+1rem)]">
+								<span aria-hidden className="invisible block overflow-hidden border px-3 py-1.5 pr-9 text-ui leading-normal whitespace-pre">
+									{unitStat.getShortName(playerClass)}
+								</span>
+								<Select
+									className="absolute inset-0 min-w-0"
+									aria-label={i18n.t('bulk_tab.settings.stat_constraints.label')}
+									title={
+										isCritReduction ? i18n.t('bulk_tab.settings.stat_constraints.crit_reduction_hint') : unitStat.getFullName(playerClass)
+									}
+									value={unitStatOptionValue(unitStat)}
+									onChange={event => replace(idx, withConstraintUnitStat(constraint, unitStatFromOptionValue(event.currentTarget.value)))}>
+									{SELECTABLE_STATS.map(option => (
+										<option key={unitStatOptionValue(option)} value={unitStatOptionValue(option)} title={option.getFullName(playerClass)}>
+											{option.getShortName(playerClass)}
+										</option>
+									))}
+								</Select>
+							</div>
+							<div className="flex items-center gap-1">
+								<Select
+									className="w-auto"
+									value={String(constraint.op)}
+									onChange={event =>
+										replace(
+											idx,
+											BulkStatConstraint.create({ ...constraint, op: Number(event.currentTarget.value) as BulkStatConstraintOp }),
+										)
+									}>
+									{STAT_CONSTRAINT_OPS.map(op => (
+										<option key={op} value={String(op)}>
+											{STAT_CONSTRAINT_OP_SYMBOLS[op]}
+										</option>
+									))}
+								</Select>
+								{/* Committed as it is typed: a value left pending until blur would commit under a
+								    click on Simulate, and the combination refresh that follows disables the button. */}
+								<Input
+									className="w-20"
+									type="number"
+									step="any"
+									value={String(constraint.value)}
+									onChange={event => {
+										const parsed = Number(event.currentTarget.value);
+										replace(idx, BulkStatConstraint.create({ ...constraint, value: Number.isFinite(parsed) ? parsed : 0 }));
+									}}
+								/>
+								<Button
+									variant="link-danger"
+									iconOnly
+									title={i18n.t('bulk_tab.settings.stat_constraints.remove')}
+									aria-label={i18n.t('bulk_tab.settings.stat_constraints.remove')}
+									onClick={() =>
+										setBulkStatConstraints(
+											player,
+											constraints.filter((_, i) => i !== idx),
+										)
+									}>
+									<Icon name="times" />
+								</Button>
+							</div>
 						</div>
 					);
 				})}

@@ -8,6 +8,7 @@ import { fireEvent, render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { setBulkStatConstraints } from '../../model/settings';
+import { SELECTABLE_STATS } from '../../model/stat_constraint_options';
 import { BulkStatConstraints } from './BulkStatConstraints';
 
 const STORE_KEY = 5;
@@ -57,6 +58,16 @@ describe('BulkStatConstraints', () => {
 		fireEvent.click(controls(rows()[0]).remove);
 		expect(rows()).toHaveLength(0);
 		expect(bulkState(player).statConstraints).toEqual([]);
+	});
+
+	// Labels come from the translated stat names the rest of the UI uses, not a table of our own.
+	it('labels every stat with its shared short name', () => {
+		const { rows, controls, add } = mount();
+		add();
+
+		const options = Array.from(controls(rows()[0]).stat.options);
+		expect(options.length).toBe(SELECTABLE_STATS.length);
+		options.forEach((option, idx) => expect(option.text).toBe(SELECTABLE_STATS[idx].getShortName(Class.ClassWarrior)));
 	});
 
 	it('offers crit reduction, a pseudo stat, and stores it as one', () => {
