@@ -1,5 +1,5 @@
 import { BulkStatConstraint, BulkStatConstraintOp } from '@generated/proto/api';
-import { PseudoStat } from '@generated/proto/common';
+import { PseudoStat, Stat } from '@generated/proto/common';
 import i18n from '@i18n/config';
 import { newStatConstraint } from '@sim/bulk/stat_constraints';
 import { usePlayer } from '@sim/context/SimHostContext';
@@ -13,6 +13,7 @@ import {
 	constraintUnitStat,
 	SELECTABLE_STATS,
 	STAT_CONSTRAINT_OPS,
+	statConstraintLabel,
 	statConstraintOpLabel,
 	unitStatFromOptionValue,
 	unitStatOptionValue,
@@ -44,6 +45,11 @@ export const BulkStatConstraints = () => {
 				{constraints.map((constraint, idx) => {
 					const unitStat = constraintUnitStat(constraint);
 					const isCritReduction = unitStat.isPseudoStat() && unitStat.getPseudoStat() === PseudoStat.PseudoStatReducedCritTakenPercent;
+					const hint = isCritReduction
+						? i18n.t('bulk_tab.settings.stat_constraints.crit_reduction_hint')
+						: unitStat.equalsStat(Stat.StatDefenseRating)
+							? i18n.t('bulk_tab.settings.stat_constraints.defense_hint')
+							: unitStat.getFullName(playerClass);
 					// The closed stat dropdown is as wide as the selected name; the list it opens is drawn by
 					// the browser and always fits its longest option. When the column is too narrow for all
 					// four controls, the operator, value and remove button wrap together to a second line,
@@ -55,19 +61,17 @@ export const BulkStatConstraints = () => {
 							    sized by it: a dropdown's natural width is its widest option, whatever is selected. */}
 							<div className="relative -ml-4 max-w-[calc(100%+1rem)]">
 								<span aria-hidden className="invisible block overflow-hidden border px-3 py-1.5 pr-9 text-ui leading-normal whitespace-pre">
-									{unitStat.getShortName(playerClass)}
+									{statConstraintLabel(unitStat, playerClass)}
 								</span>
 								<Select
 									className="absolute inset-0 min-w-0"
 									aria-label={i18n.t('bulk_tab.settings.stat_constraints.label')}
-									title={
-										isCritReduction ? i18n.t('bulk_tab.settings.stat_constraints.crit_reduction_hint') : unitStat.getFullName(playerClass)
-									}
+									title={hint}
 									value={unitStatOptionValue(unitStat)}
 									onChange={event => replace(idx, withConstraintUnitStat(constraint, unitStatFromOptionValue(event.currentTarget.value)))}>
 									{SELECTABLE_STATS.map(option => (
 										<option key={unitStatOptionValue(option)} value={unitStatOptionValue(option)} title={option.getFullName(playerClass)}>
-											{option.getShortName(playerClass)}
+											{statConstraintLabel(option, playerClass)}
 										</option>
 									))}
 								</Select>

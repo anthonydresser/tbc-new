@@ -1,12 +1,11 @@
 import { BulkStatConstraint, BulkStatConstraintOp } from '@generated/proto/api';
-import { PseudoStat, Stat } from '@generated/proto/common';
+import { Class, PseudoStat, Stat } from '@generated/proto/common';
 import i18n from '@i18n/config';
 import { displayStatOrder, UnitStat } from '@sim/proto/stats';
 
 // What the stat constraints picker offers: the selectable stats in character sheet order, the
-// operators, and the option-value encoding of a stat. Stats are labelled with UnitStat.getShortName
-// and operators with the rotation editor's comparison labels, the translated names the rest of the
-// UI uses.
+// operators, and the option-value encoding of a stat. Stats and operators are labelled with the
+// translated names the rest of the UI uses (see statConstraintLabel and statConstraintOpLabel).
 
 // The Stat or PseudoStat a constraint applies to. Legacy rows saved before the
 // oneof existed carry a bare stat, which the oneof still decodes.
@@ -33,6 +32,12 @@ const CRIT_REDUCTION = UnitStat.fromPseudoStat(PseudoStat.PseudoStatReducedCritT
 export const SELECTABLE_STATS: UnitStat[] = displayStatOrder.flatMap(unitStat =>
 	unitStat.equalsStat(Stat.StatDefenseRating) ? [unitStat, CRIT_REDUCTION] : [unitStat],
 );
+
+// A stat's label in the picker: the short name the rest of the UI uses, except Defense. The stats
+// panel shows Defense as "rating (skill)", so its short name would not say which of the two numbers
+// a constraint compares; the full name, "Defense Rating", does.
+export const statConstraintLabel = (unitStat: UnitStat, playerClass: Class): string =>
+	unitStat.equalsStat(Stat.StatDefenseRating) ? unitStat.getFullName(playerClass) : unitStat.getShortName(playerClass);
 
 export const unitStatOptionValue = (unitStat: UnitStat): string => (unitStat.isPseudoStat() ? `p${unitStat.getPseudoStat()}` : `s${unitStat.getStat()}`);
 export const unitStatFromOptionValue = (value: string): UnitStat =>

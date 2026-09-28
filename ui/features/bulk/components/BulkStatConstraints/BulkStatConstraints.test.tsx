@@ -6,8 +6,9 @@ import type { Player } from '@sim/player/player';
 import { bulkState, seedBulkSettings } from '@sim/settings/bulk_settings';
 import { createSimStore } from '@sim/state/sim_store';
 import { fireEvent, render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import englishTranslations from '../../../../../assets/locales/en/translation.json';
 import { setBulkStatConstraints } from '../../model/settings';
 import { SELECTABLE_STATS } from '../../model/stat_constraint_options';
 import { BulkStatConstraints } from './BulkStatConstraints';
@@ -62,13 +63,13 @@ describe('BulkStatConstraints', () => {
 	});
 
 	// Labels come from the translated stat names the rest of the UI uses, not a table of our own.
-	it('labels every stat with its shared short name', () => {
+	it('explains a Defense constraint when it is selected', () => {
 		const { rows, controls, add } = mount();
 		add();
 
-		const options = Array.from(controls(rows()[0]).stat.options);
-		expect(options.length).toBe(SELECTABLE_STATS.length);
-		options.forEach((option, idx) => expect(option.text).toBe(SELECTABLE_STATS[idx].getShortName(Class.ClassWarrior)));
+		fireEvent.change(controls(rows()[0]).stat, { target: { value: `s${Stat.StatDefenseRating}` } });
+
+		expect(controls(rows()[0]).stat.title).toBe(i18n.t('bulk_tab.settings.stat_constraints.defense_hint'));
 	});
 
 	// Operators read as the rotation editor's comparisons do, from the same translations.
@@ -118,5 +119,31 @@ describe('BulkStatConstraints', () => {
 		);
 
 		expect(settingsVersion(player)).toBe(before);
+	});
+});
+
+// With the real English names, where a short name and a full name actually differ.
+describe('BulkStatConstraints labels', () => {
+	beforeAll(() => {
+		i18n.addResourceBundle('en', 'translation', englishTranslations, true, true);
+	});
+	afterAll(() => {
+		i18n.removeResourceBundle('en', 'translation');
+	});
+
+	it('labels every stat with its shared short name, and Defense as a rating', () => {
+		const { rows, controls, add } = mount();
+		add();
+
+		const labels = Array.from(controls(rows()[0]).stat.options).map(option => option.text);
+		expect(labels).toEqual(
+			SELECTABLE_STATS.map(unitStat =>
+				// The stats panel shows Defense as "rating (skill)", so the short name "Defense" would not
+				// say which of the two numbers the constraint compares.
+				unitStat.equalsStat(Stat.StatDefenseRating) ? unitStat.getFullName(Class.ClassWarrior) : unitStat.getShortName(Class.ClassWarrior),
+			),
+		);
+		expect(labels).toContain('Defense Rating');
+		expect(labels).toContain('Fire Resistance');
 	});
 });

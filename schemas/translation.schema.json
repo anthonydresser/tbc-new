@@ -3350,10 +3350,13 @@
 								},
 								"crit_reduction_hint": {
 									"type": "string"
+								},
+								"defense_hint": {
+									"type": "string"
 								}
 							},
 							"additionalProperties": false,
-							"required": ["label", "tooltip", "empty", "add", "remove", "crit_reduction_hint"]
+							"required": ["label", "tooltip", "empty", "add", "remove", "crit_reduction_hint", "defense_hint"]
 						}
 					},
 					"additionalProperties": false,
