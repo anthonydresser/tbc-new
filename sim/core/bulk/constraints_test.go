@@ -29,8 +29,6 @@ func TestBulkStatConstraints(t *testing.T) {
 		{proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThan, 175, false},
 		{proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual, 175, true},
 		{proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual, 174, false},
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpEqual, 175, true},
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpEqual, 174, false},
 		{proto.BulkStatConstraintOp_BulkStatConstraintOpLessThanOrEqual, 175, true},
 		{proto.BulkStatConstraintOp_BulkStatConstraintOpLessThanOrEqual, 176, false},
 		{proto.BulkStatConstraintOp_BulkStatConstraintOpLessThan, 174, true},

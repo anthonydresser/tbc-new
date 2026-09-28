@@ -27,8 +27,6 @@ describe('statConstraintPasses', () => {
 		[Op.BulkStatConstraintOpGreaterThan, 175, false],
 		[Op.BulkStatConstraintOpGreaterThanOrEqual, 175, true],
 		[Op.BulkStatConstraintOpGreaterThanOrEqual, 174, false],
-		[Op.BulkStatConstraintOpEqual, 175, true],
-		[Op.BulkStatConstraintOpEqual, 174, false],
 		[Op.BulkStatConstraintOpLessThanOrEqual, 175, true],
 		[Op.BulkStatConstraintOpLessThanOrEqual, 176, false],
 		[Op.BulkStatConstraintOpLessThan, 174, true],

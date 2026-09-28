@@ -25,8 +25,6 @@ func bulkStatConstraintPasses(constraint *proto.BulkStatConstraint, value float6
 		return value > constraint.Value
 	case proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual:
 		return value >= constraint.Value
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpEqual:
-		return value == constraint.Value
 	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThanOrEqual:
 		return value <= constraint.Value
 	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThan:

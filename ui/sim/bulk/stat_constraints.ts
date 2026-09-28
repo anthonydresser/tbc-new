@@ -18,8 +18,6 @@ export const statConstraintPasses = (constraint: BulkStatConstraint, statValue: 
 			return statValue > constraint.value;
 		case BulkStatConstraintOp.BulkStatConstraintOpGreaterThanOrEqual:
 			return statValue >= constraint.value;
-		case BulkStatConstraintOp.BulkStatConstraintOpEqual:
-			return statValue === constraint.value;
 		case BulkStatConstraintOp.BulkStatConstraintOpLessThanOrEqual:
 			return statValue <= constraint.value;
 		case BulkStatConstraintOp.BulkStatConstraintOpLessThan:

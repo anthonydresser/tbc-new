@@ -79,7 +79,7 @@ describe('BulkStatConstraints', () => {
 
 		const labels = Array.from(controls(rows()[0]).op.options).map(option => option.text);
 		expect(labels).toEqual(
-			['greater_than', 'greater_than_or_equal', 'equals', 'less_than_or_equal', 'less_than'].map(key => i18n.t(`rotation_tab.apl.operators.${key}`)),
+			['greater_than', 'greater_than_or_equal', 'less_than_or_equal', 'less_than'].map(key => i18n.t(`rotation_tab.apl.operators.${key}`)),
 		);
 	});
 

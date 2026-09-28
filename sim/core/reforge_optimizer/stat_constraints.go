@@ -40,8 +40,6 @@ func statConstraintPasses(op proto.BulkStatConstraintOp, value float64, threshol
 		return value > threshold
 	case proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual:
 		return value >= threshold
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpEqual:
-		return value == threshold
 	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThanOrEqual:
 		return value <= threshold
 	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThan:
@@ -68,8 +66,6 @@ func statConstraintBound(op proto.BulkStatConstraintOp, gap float64) (lpConstrai
 		return greaterEq(gap + statConstraintStrictEpsilon), true
 	case proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual:
 		return greaterEq(gap), true
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpEqual:
-		return lpConstraint{min: gap, hasMin: true, max: gap, hasMax: true}, true
 	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThanOrEqual:
 		return lessEq(gap), true
 	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThan:
@@ -81,10 +77,9 @@ func statConstraintBound(op proto.BulkStatConstraintOp, gap float64) (lpConstrai
 // The character sheet floors defense to whole defense points, while the model credits defense
 // rating linearly, so a stat with a defense term can end up to one defense point away from the
 // model's value, in either direction. For those stats a bound is moved one point inward when gems
-// can carry defense, so the floored value still meets it. Equality has no such room and is left
-// as it is.
+// can carry defense, so the floored value still meets it.
 func defenseFloorMargin(unitStat stats.UnitStat, op proto.BulkStatConstraintOp, variables *lpVariables) float64 {
-	if !unitStat.IsPseudoStat() || op == proto.BulkStatConstraintOp_BulkStatConstraintOpEqual {
+	if !unitStat.IsPseudoStat() {
 		return 0
 	}
 	switch proto.PseudoStat(unitStat.PseudoStatIdx()) {

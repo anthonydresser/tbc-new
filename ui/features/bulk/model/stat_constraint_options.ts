@@ -46,17 +46,15 @@ export const unitStatFromOptionValue = (value: string): UnitStat =>
 export const STAT_CONSTRAINT_OPS: BulkStatConstraintOp[] = [
 	BulkStatConstraintOp.BulkStatConstraintOpGreaterThan,
 	BulkStatConstraintOp.BulkStatConstraintOpGreaterThanOrEqual,
-	BulkStatConstraintOp.BulkStatConstraintOpEqual,
 	BulkStatConstraintOp.BulkStatConstraintOpLessThanOrEqual,
 	BulkStatConstraintOp.BulkStatConstraintOpLessThan,
 ];
 
-// The rotation editor's comparison operators (COMPARISON_OPERATORS in
-// ui/features/apl/model/field_specs.ts) have the same five, so both read alike.
+// Labelled like the rotation editor's comparison operators (COMPARISON_OPERATORS in
+// ui/features/apl/model/field_specs.ts), so both read alike.
 const STAT_CONSTRAINT_OP_I18N_KEYS: Record<BulkStatConstraintOp, string> = {
 	[BulkStatConstraintOp.BulkStatConstraintOpGreaterThan]: 'greater_than',
 	[BulkStatConstraintOp.BulkStatConstraintOpGreaterThanOrEqual]: 'greater_than_or_equal',
-	[BulkStatConstraintOp.BulkStatConstraintOpEqual]: 'equals',
 	[BulkStatConstraintOp.BulkStatConstraintOpLessThanOrEqual]: 'less_than_or_equal',
 	[BulkStatConstraintOp.BulkStatConstraintOpLessThan]: 'less_than',
 };

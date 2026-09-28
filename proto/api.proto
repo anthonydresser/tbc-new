@@ -765,7 +765,9 @@ message BulkSettings {
 enum BulkStatConstraintOp {
 	BulkStatConstraintOpGreaterThan = 0;
 	BulkStatConstraintOpGreaterThanOrEqual = 1;
-	BulkStatConstraintOpEqual = 2;
+	// Was equality, which a stat built from gem and rating steps almost never meets exactly.
+	reserved 2;
+	reserved "BulkStatConstraintOpEqual";
 	BulkStatConstraintOpLessThanOrEqual = 3;
 	BulkStatConstraintOpLessThan = 4;
 }
