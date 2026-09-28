@@ -426,7 +426,8 @@ export class Sim {
 			const bulkReforgeRequest = reforgeConfig ? this.makeBulkSimReforgeRequest(reforgeConfig) : undefined;
 			if (bulkReforgeRequest && bulkSettings) {
 				// The stat constraints are rows of the gem optimizer's model, so they belong to
-				// its request and to the cache key derived from it.
+				// its request and to the cache key derived from it (which leaves out the ones that
+				// cannot change the gems; see cacheRelevantReforgeRequest).
 				bulkReforgeRequest.statConstraints = bulkSettings.statConstraints.map(constraint => BulkStatConstraint.clone(constraint));
 			}
 			if (!this.getFixedRngSeed()) {
