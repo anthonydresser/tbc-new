@@ -65,8 +65,8 @@ func TestBulkSimStatConstraints(t *testing.T) {
 	if result.Error != nil {
 		t.Fatalf("constrained batch failed: %s", result.Error.Message)
 	}
-	if result.SkippedByConstraints != 1 {
-		t.Fatalf("skipped %d candidates, want 1", result.SkippedByConstraints)
+	if result.SkippedByConstraints != 1 || result.CheckedByConstraints != 2 {
+		t.Fatalf("skipped %d of %d candidates checked, want 1 of 2", result.SkippedByConstraints, result.CheckedByConstraints)
 	}
 	if len(result.TopResults) != 1 || result.TopResults[0].Gear.Items[proto.ItemSlot_ItemSlotChest].Id != infernoweaveRobe {
 		t.Fatalf("only the robe should survive, got %d results: %+v", len(result.TopResults), result.TopResults)
@@ -85,7 +85,7 @@ func TestBulkSimStatConstraints(t *testing.T) {
 	// No constraints: both candidates are simmed and nothing is skipped.
 	request.BulkSettings.StatConstraints = nil
 	result = bulk.BulkSim(request)
-	if result.Error != nil || result.SkippedByConstraints != 0 || len(result.TopResults) != 2 {
+	if result.Error != nil || result.SkippedByConstraints != 0 || result.CheckedByConstraints != 0 || len(result.TopResults) != 2 {
 		t.Fatalf("unconstrained batch: err %v skipped %d results %d", result.Error, result.SkippedByConstraints, len(result.TopResults))
 	}
 }

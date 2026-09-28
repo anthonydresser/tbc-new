@@ -19,7 +19,7 @@ export const BulkResults = () => {
 			{results.skippedByConstraints > 0 && (
 				<div className="mb-6 text-sm text-muted" data-testid="bulk-results-constraints-note">
 					<Icon name="filter" className="mr-1" />
-					{i18n.t('bulk_tab.results.skipped_by_constraints', { skipped: results.skippedByConstraints, total: results.combinations })}
+					{i18n.t('bulk_tab.results.skipped_by_constraints', { skipped: results.skippedByConstraints, total: results.checkedByConstraints })}
 				</div>
 			)}
 			{results.chains.map((chain, chainIdx) =>

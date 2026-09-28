@@ -85,6 +85,7 @@ export const runConcurrentBulkSim = async (
 
 	// Stat constraints run here, after the optimizer pre-pass has gemmed the candidates, so
 	// they see the same final stats a surviving gear set shows.
+	result.checkedByConstraints = request.bulkSettings?.statConstraints.length ? candidates.length : 0;
 	const constraintResult = await filterBulkSimCandidatesByConstraints(request, candidates, workerPool, onProgress, signals);
 	if (constraintResult.error) return makeAndSendBulkSimError(constraintResult.error, onProgress, request.optimizedCandidates);
 	candidates = constraintResult.candidates;

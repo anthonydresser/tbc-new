@@ -278,7 +278,7 @@ export const runBulkBatch = async (host: IndividualSimHost<any>) => {
 
 		run.simStart = new Date().getTime();
 		const bulkSimResult = await runCoreBulkSim(host, gearSets, abortSignal, reforgeConfig, requestBulkSettings);
-		const { referenceDpsMetrics, topGearResults, skippedByConstraints } = bulkSimResult;
+		const { referenceDpsMetrics, topGearResults, skippedByConstraints, checkedByConstraints } = bulkSimResult;
 
 		const originalGearKey = getGearIdentityKey(baseGear.asSpec());
 		const rankedResults = topGearResults.filter(result => getGearIdentityKey(result.gear.asSpec()) !== originalGearKey);
@@ -296,7 +296,7 @@ export const runBulkBatch = async (host: IndividualSimHost<any>) => {
 			originalGearResults,
 			iterations: resultIterations,
 			skippedByConstraints,
-			combinations: bulkState(player).combinations,
+			checkedByConstraints,
 		};
 	} catch (error) {
 		runError = error;

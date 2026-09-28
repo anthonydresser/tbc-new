@@ -26,8 +26,10 @@ export async function runCoreBulkSim(
 ): Promise<{
 	referenceDpsMetrics: DistributionMetrics;
 	topGearResults: TopGearResult[];
-	// Candidates dropped for failing a stat constraint, before any of them were simmed.
+	// Candidates dropped for failing a stat constraint, before any of them were simmed, out of the
+	// candidates the check examined.
 	skippedByConstraints: number;
+	checkedByConstraints: number;
 	metrics: Record<string, string | number>;
 }> {
 	context.throwIfBulkAborted(signal);
@@ -94,6 +96,7 @@ export async function runCoreBulkSim(
 		referenceDpsMetrics: result.baseline.dpsMetrics,
 		topGearResults,
 		skippedByConstraints: result.skippedByConstraints,
+		checkedByConstraints: result.checkedByConstraints,
 		metrics: getCoreBulkSimTrackingMetrics(result),
 	};
 }

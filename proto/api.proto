@@ -797,6 +797,10 @@ message BulkSimResult {
 	ErrorOutcome error = 6;
 	// Candidates dropped before simming for failing a BulkSettings.stat_constraints entry.
 	int32 skipped_by_constraints = 7;
+	// Candidates the stat constraint check examined, the total skipped_by_constraints is out of. 0
+	// without constraints. Fewer than the batch's combinations: duplicates and the equipped gear,
+	// which is always simmed as the baseline, are removed before the check.
+	int32 checked_by_constraints = 8;
 }
 
 message BulkGearResult {

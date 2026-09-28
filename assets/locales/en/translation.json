@@ -993,7 +993,7 @@
 			"current_gear": "Current Gear",
 			"margin_of_error": "95% confidence interval of the mean DPS. Rankings closer than this can change between runs.",
 			"tied_group": "Statistically tied — the order within this group can change between runs",
-			"skipped_by_constraints": "{{skipped}} of {{total}} combinations skipped for failing a stat constraint."
+			"skipped_by_constraints": "{{skipped}} of {{total}} gear sets skipped for failing a stat constraint."
 		},
 		"import_modal": {
 			"title": "Bag Item Import",

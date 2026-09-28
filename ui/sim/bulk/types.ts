@@ -30,9 +30,9 @@ export interface BulkResults {
 	originalGearResults: TopGearResult;
 	/** Frozen at run end: the tie brackets were built with it, so the per-row margins have to agree. */
 	iterations: number;
-	/** Combinations dropped for failing a stat constraint, out of `combinations` in the run. */
+	/** Gear sets dropped for failing a stat constraint, out of the `checkedByConstraints` the check examined. */
 	skippedByConstraints: number;
-	combinations: number;
+	checkedByConstraints: number;
 }
 
 export interface BulkSimRoundConfig {
