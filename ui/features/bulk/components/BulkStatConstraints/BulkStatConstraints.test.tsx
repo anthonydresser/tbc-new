@@ -107,6 +107,50 @@ describe('BulkStatConstraints', () => {
 		expect(settingsVersion(player)).toBe(afterTyping);
 	});
 
+	// A number field reports an empty value while it is cleared and while it holds only "-", so an
+	// empty value is a draft, not a zero: the field keeps it and the stored value is left alone.
+	it('can be cleared to type a new threshold, and reverts if left empty', () => {
+		const { player, rows, controls, add } = mount();
+		add();
+		fireEvent.change(controls(rows()[0]).value, { target: { value: '175' } });
+
+		fireEvent.change(controls(rows()[0]).value, { target: { value: '' } });
+		expect(controls(rows()[0]).value.value).toBe('');
+		expect(bulkState(player).statConstraints[0].value).toBe(175);
+
+		fireEvent.change(controls(rows()[0]).value, { target: { value: '180' } });
+		expect(bulkState(player).statConstraints[0].value).toBe(180);
+
+		fireEvent.change(controls(rows()[0]).value, { target: { value: '' } });
+		fireEvent.blur(controls(rows()[0]).value);
+		expect(controls(rows()[0]).value.value).toBe('180');
+		expect(bulkState(player).statConstraints[0].value).toBe(180);
+	});
+
+	it('takes a negative threshold', () => {
+		const { player, rows, controls, add } = mount();
+		add();
+
+		fireEvent.change(controls(rows()[0]).value, { target: { value: '-5' } });
+
+		expect(bulkState(player).statConstraints[0].value).toBe(-5);
+		expect(controls(rows()[0]).value.value).toBe('-5');
+	});
+
+	// A row's field follows its constraint when the rows change under it.
+	it('shows the right value after an earlier row is removed', () => {
+		const { rows, controls, add } = mount();
+		add();
+		add();
+		fireEvent.change(controls(rows()[0]).value, { target: { value: '10' } });
+		fireEvent.change(controls(rows()[1]).value, { target: { value: '20' } });
+
+		fireEvent.click(controls(rows()[0]).remove);
+
+		expect(rows()).toHaveLength(1);
+		expect(controls(rows()[0]).value.value).toBe('20');
+	});
+
 	// Every settings emit refreshes the combination count, which disables Simulate while it loads.
 	it('does not emit a settings change when nothing changed', () => {
 		const { player, add } = mount();

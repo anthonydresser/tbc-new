@@ -6,6 +6,7 @@ import { usePlayer } from '@sim/context/SimHostContext';
 import { Button } from '@ui-kit/Button';
 import { Input, Select } from '@ui-kit/FormControl';
 import { Icon } from '@ui-kit/Icon';
+import { useEffect, useState } from 'react';
 
 import { useBulkState } from '../../hooks/useBulkState';
 import { setBulkStatConstraints } from '../../model/settings';
@@ -25,6 +26,35 @@ import {
  * e.g. Fire Res > 175. Only combinations whose final stats satisfy every row are simmed. The rows
  * live in the bulk slice; this component owns no state.
  */
+/**
+ * A constraint's threshold. The field keeps its own draft text: a number field reports an empty
+ * value both while it is cleared and while it holds only "-", so an empty or partial entry is left
+ * as typed instead of being saved as 0, and leaving the field with one reverts to the saved value.
+ * A valid number is saved as it is typed: a value left pending until blur would be saved under a
+ * click on Simulate, and the combination refresh that follows disables the button.
+ */
+const ConstraintValueInput = ({ value, onCommit }: { value: number; onCommit: (value: number) => void }) => {
+	const [draft, setDraft] = useState(String(value));
+	// Follow the saved value when it changes from outside the field, e.g. an earlier row removed.
+	useEffect(() => setDraft(current => (current.trim() !== '' && Number(current) === value ? current : String(value))), [value]);
+
+	return (
+		<Input
+			className="w-20"
+			type="number"
+			step="any"
+			value={draft}
+			onChange={event => {
+				const text = event.currentTarget.value;
+				setDraft(text);
+				const parsed = Number(text);
+				if (text.trim() !== '' && Number.isFinite(parsed)) onCommit(parsed);
+			}}
+			onBlur={() => setDraft(current => (current.trim() !== '' && Number.isFinite(Number(current)) ? current : String(value)))}
+		/>
+	);
+};
+
 export const BulkStatConstraints = () => {
 	const player = usePlayer();
 	const constraints = useBulkState(slice => slice.statConstraints);
@@ -92,17 +122,9 @@ export const BulkStatConstraints = () => {
 										</option>
 									))}
 								</Select>
-								{/* Committed as it is typed: a value left pending until blur would commit under a
-								    click on Simulate, and the combination refresh that follows disables the button. */}
-								<Input
-									className="w-20"
-									type="number"
-									step="any"
-									value={String(constraint.value)}
-									onChange={event => {
-										const parsed = Number(event.currentTarget.value);
-										replace(idx, BulkStatConstraint.create({ ...constraint, value: Number.isFinite(parsed) ? parsed : 0 }));
-									}}
+								<ConstraintValueInput
+									value={constraint.value}
+									onCommit={value => replace(idx, BulkStatConstraint.create({ ...constraint, value }))}
 								/>
 								<Button
 									variant="link-danger"
