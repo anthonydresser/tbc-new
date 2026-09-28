@@ -1,5 +1,5 @@
 import { BulkSimRequest, BulkSimStage, ComputeStatsRequest, ErrorOutcome, ErrorOutcomeType, Raid } from '@generated/proto/api';
-import { Class, Debuffs, Stat, UnitStats } from '@generated/proto/common';
+import { Class, ConsumesSpec, Debuffs, Stat, UnitStats } from '@generated/proto/common';
 import { queue } from 'async';
 
 import { finalStatsPassConstraints } from '../../bulk/stat_constraints';
@@ -23,18 +23,21 @@ export type BulkSimConstraintFilterResult = {
 };
 
 // The scratch request avoids cloning the raid and its merged SimDatabase per candidate.
-// Reuse is safe because each call mutates it and the worker call encodes it to binary
-// synchronously, before the first await.
+// Reuse is safe because each call sets every field a candidate changes and the worker call
+// encodes it to binary synchronously, before the first await.
 const makeComputeStatsRequestForCandidate = (
-	request: BulkSimRequest,
 	candidate: ConcurrentBulkSimCandidate,
 	scratch: ComputeStatsRequest,
+	baseConsumables: ConsumesSpec | undefined,
 ): ComputeStatsRequest => {
 	const player = scratch.raid!.parties[0].players[0];
 	player.equipment = candidate.gear;
-	// Keep weapon stone imbues in sync with this candidate's weapon types, as the sims do.
-	if (player.consumables && candidate.gear) {
-		player.consumables = Database.getSync().lookupEquipmentSpec(candidate.gear).adjustImbues(player.consumables);
+	// Keep weapon stone imbues in sync with this candidate's weapon types, as the sims do. Adjusted
+	// from the base character's: the rule drops a stone for a hand without a sharp or blunt weapon
+	// and has nothing to restore it from, so adjusting the previous candidate's would carry a
+	// dropped stone over to every candidate after it.
+	if (baseConsumables && candidate.gear) {
+		player.consumables = Database.getSync().lookupEquipmentSpec(candidate.gear).adjustImbues(baseConsumables);
 	}
 	return scratch;
 };
@@ -61,6 +64,7 @@ export const filterBulkSimCandidatesByConstraints = async (
 	});
 	const debuffs = request.baseRequest!.raid!.debuffs ?? Debuffs.create();
 	const basePlayer = request.baseRequest!.raid!.parties[0]?.players[0];
+	const baseConsumables = basePlayer?.consumables;
 	const passes = new Array<boolean>(candidates.length).fill(false);
 	let completed = 0;
 	let error: ErrorOutcome | undefined;
@@ -68,7 +72,7 @@ export const filterBulkSimCandidatesByConstraints = async (
 	const statsQueue = queue<{ candidate: ConcurrentBulkSimCandidate; idx: number }, Error>(
 		async ({ candidate, idx }) => {
 			if (error || signals.abort.isTriggered()) return;
-			const result = await workerPool.computeStats(makeComputeStatsRequestForCandidate(request, candidate, scratch));
+			const result = await workerPool.computeStats(makeComputeStatsRequestForCandidate(candidate, scratch, baseConsumables));
 			if (result.errorResult) {
 				error ??= ErrorOutcome.create({ message: result.errorResult });
 				return;
