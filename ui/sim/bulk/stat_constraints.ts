@@ -4,14 +4,6 @@ import { Stat, UnitStats } from '@generated/proto/common';
 // Pure batch-sim stat constraint logic. Kept free of UI and i18n imports so it
 // is shared by the wasm batch pipeline and the picker (features/bulk/components/BulkStatConstraints).
 
-export const STAT_CONSTRAINT_OP_SYMBOLS: Record<BulkStatConstraintOp, string> = {
-	[BulkStatConstraintOp.BulkStatConstraintOpGreaterThan]: '>',
-	[BulkStatConstraintOp.BulkStatConstraintOpGreaterThanOrEqual]: '≥',
-	[BulkStatConstraintOp.BulkStatConstraintOpEqual]: '=',
-	[BulkStatConstraintOp.BulkStatConstraintOpLessThanOrEqual]: '≤',
-	[BulkStatConstraintOp.BulkStatConstraintOpLessThan]: '<',
-};
-
 export const newStatConstraint = (): BulkStatConstraint =>
 	BulkStatConstraint.create({
 		unitStat: { oneofKind: 'stat', stat: Stat.StatStamina },

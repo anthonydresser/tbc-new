@@ -1,7 +1,7 @@
 import { BulkStatConstraint, BulkStatConstraintOp } from '@generated/proto/api';
 import { PseudoStat } from '@generated/proto/common';
 import i18n from '@i18n/config';
-import { newStatConstraint, STAT_CONSTRAINT_OP_SYMBOLS } from '@sim/bulk/stat_constraints';
+import { newStatConstraint } from '@sim/bulk/stat_constraints';
 import { usePlayer } from '@sim/context/SimHostContext';
 import { Button } from '@ui-kit/Button';
 import { Input, Select } from '@ui-kit/FormControl';
@@ -13,6 +13,7 @@ import {
 	constraintUnitStat,
 	SELECTABLE_STATS,
 	STAT_CONSTRAINT_OPS,
+	statConstraintOpLabel,
 	unitStatFromOptionValue,
 	unitStatOptionValue,
 	withConstraintUnitStat,
@@ -83,7 +84,7 @@ export const BulkStatConstraints = () => {
 									}>
 									{STAT_CONSTRAINT_OPS.map(op => (
 										<option key={op} value={String(op)}>
-											{STAT_CONSTRAINT_OP_SYMBOLS[op]}
+											{statConstraintOpLabel(op)}
 										</option>
 									))}
 								</Select>

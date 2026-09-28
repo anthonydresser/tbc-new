@@ -1,5 +1,6 @@
 import { BulkStatConstraint, BulkStatConstraintOp } from '@generated/proto/api';
 import { Class, PseudoStat, Stat } from '@generated/proto/common';
+import i18n from '@i18n/config';
 import { SimHostProvider } from '@sim/context/SimHostContext';
 import type { Player } from '@sim/player/player';
 import { bulkState, seedBulkSettings } from '@sim/settings/bulk_settings';
@@ -68,6 +69,17 @@ describe('BulkStatConstraints', () => {
 		const options = Array.from(controls(rows()[0]).stat.options);
 		expect(options.length).toBe(SELECTABLE_STATS.length);
 		options.forEach((option, idx) => expect(option.text).toBe(SELECTABLE_STATS[idx].getShortName(Class.ClassWarrior)));
+	});
+
+	// Operators read as the rotation editor's comparisons do, from the same translations.
+	it("labels the operators with the rotation editor's comparison labels", () => {
+		const { rows, controls, add } = mount();
+		add();
+
+		const labels = Array.from(controls(rows()[0]).op.options).map(option => option.text);
+		expect(labels).toEqual(
+			['greater_than', 'greater_than_or_equal', 'equals', 'less_than_or_equal', 'less_than'].map(key => i18n.t(`rotation_tab.apl.operators.${key}`)),
+		);
 	});
 
 	it('offers crit reduction, a pseudo stat, and stores it as one', () => {

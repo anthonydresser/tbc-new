@@ -1,10 +1,12 @@
 import { BulkStatConstraint, BulkStatConstraintOp } from '@generated/proto/api';
 import { PseudoStat, Stat } from '@generated/proto/common';
+import i18n from '@i18n/config';
 import { displayStatOrder, UnitStat } from '@sim/proto/stats';
 
 // What the stat constraints picker offers: the selectable stats in character sheet order, the
-// operators, and the option-value encoding of a stat. Stats are labelled with UnitStat.getShortName,
-// the translated names the rest of the UI uses.
+// operators, and the option-value encoding of a stat. Stats are labelled with UnitStat.getShortName
+// and operators with the rotation editor's comparison labels, the translated names the rest of the
+// UI uses.
 
 // The Stat or PseudoStat a constraint applies to. Legacy rows saved before the
 // oneof existed carry a bare stat, which the oneof still decodes.
@@ -43,3 +45,15 @@ export const STAT_CONSTRAINT_OPS: BulkStatConstraintOp[] = [
 	BulkStatConstraintOp.BulkStatConstraintOpLessThanOrEqual,
 	BulkStatConstraintOp.BulkStatConstraintOpLessThan,
 ];
+
+// The rotation editor's comparison operators (COMPARISON_OPERATORS in
+// ui/features/apl/model/field_specs.ts) have the same five, so both read alike.
+const STAT_CONSTRAINT_OP_I18N_KEYS: Record<BulkStatConstraintOp, string> = {
+	[BulkStatConstraintOp.BulkStatConstraintOpGreaterThan]: 'greater_than',
+	[BulkStatConstraintOp.BulkStatConstraintOpGreaterThanOrEqual]: 'greater_than_or_equal',
+	[BulkStatConstraintOp.BulkStatConstraintOpEqual]: 'equals',
+	[BulkStatConstraintOp.BulkStatConstraintOpLessThanOrEqual]: 'less_than_or_equal',
+	[BulkStatConstraintOp.BulkStatConstraintOpLessThan]: 'less_than',
+};
+
+export const statConstraintOpLabel = (op: BulkStatConstraintOp): string => i18n.t(`rotation_tab.apl.operators.${STAT_CONSTRAINT_OP_I18N_KEYS[op]}`);
