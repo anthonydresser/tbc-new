@@ -1,0 +1,463 @@
+{
+  "name": "Wickids — Priest Phase 2",
+  "source": "WickidsTBCBISTracker",
+  "spec": 10,
+  "phase": 2,
+  "generatedAt": "2026-08-01T17:52:52.704233+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32494,
+        "name": "Destruction Holo-gogs",
+        "note": "Engineering"
+      },
+      {
+        "id": 30161,
+        "name": "Hood of the Avatar",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 24266,
+        "name": "Spellstrike Hood",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30152,
+        "name": "Cowl of the Avatar",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      },
+      {
+        "id": 32495,
+        "name": "Powerheal 4000 Lens",
+        "note": "Engineering (BoP)"
+      },
+      {
+        "id": 29049,
+        "name": "Light-Collar of the Incarnate",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 29990,
+        "name": "Crown of the Sun",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30666,
+        "name": "Ritssyn's Lost Pendant",
+        "note": "Karazhan Trash"
+      },
+      {
+        "id": 30015,
+        "name": "The Sun King's Talisman",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 30018,
+        "name": "Lord Sanguinar's Claim",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 30726,
+        "name": "Archaic Charm of Presence",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28609,
+        "name": "Emberspur Talisman",
+        "note": "Nightbane — Karazhan"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30163,
+        "name": "Wings of the Avatar",
+        "note": "Void Reaver — Tempest Keep"
+      },
+      {
+        "id": 21869,
+        "name": "Frozen Shadoweave Shoulders",
+        "note": "Tailoring (Shadoweave)"
+      },
+      {
+        "id": 30154,
+        "name": "Mantle of the Avatar",
+        "note": "Void Reaver — Tempest Keep"
+      },
+      {
+        "id": 21874,
+        "name": "Primal Mooncloth Shoulders",
+        "note": "Tailoring (Primal Mooncloth)"
+      },
+      {
+        "id": 29054,
+        "name": "Light-Mantle of the Incarnate",
+        "note": "High King Maulgar — Gruul's Lair"
+      }
+    ],
+    "back": [
+      {
+        "id": 29992,
+        "name": "Royal Cloak of the Sunstriders",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 28570,
+        "name": "Shadow-Cloak of Dalaran",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 29989,
+        "name": "Sunshower Light Cloak",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 28765,
+        "name": "Stainless Cloak of the Pure Hearted",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 31329,
+        "name": "Lifegiving Cloak",
+        "note": "World Drop — Outlands"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30107,
+        "name": "Vestments of the Sea-Witch",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 21871,
+        "name": "Frozen Shadoweave Robe",
+        "note": "Tailoring (Shadoweave)"
+      },
+      {
+        "id": 30150,
+        "name": "Vestments of the Avatar",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 21875,
+        "name": "Primal Mooncloth Robe",
+        "note": "Tailoring (Primal Mooncloth)"
+      },
+      {
+        "id": 29050,
+        "name": "Robes of the Incarnate",
+        "note": "Magtheridon — Magtheridon's Lair"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29918,
+        "name": "Mindstorm Wristbands",
+        "note": "Al'ar — Tempest Keep"
+      },
+      {
+        "id": 28515,
+        "name": "Bands of Nefarious Deeds",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 32980,
+        "name": "Veteran's Mooncloth Cuffs",
+        "note": "Honor Points Vendor (Season 2)"
+      },
+      {
+        "id": 32516,
+        "name": "Wraps of Purification",
+        "note": "Hydross the Unstable — SSC"
+      },
+      {
+        "id": 29183,
+        "name": "Bindings of the Timewalker",
+        "note": "Keepers of Time — Exalted"
+      },
+      {
+        "id": 28511,
+        "name": "Bands of Indwelling",
+        "note": "Maiden of Virtue — Karazhan"
+      }
+    ],
+    "hands": [
+      {
+        "id": 28507,
+        "name": "Handwraps of Flowing Thought",
+        "note": "Attumen — Karazhan"
+      },
+      {
+        "id": 28780,
+        "name": "Soul-Eater's Handwraps",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 30151,
+        "name": "Gloves of the Avatar",
+        "note": "Leotheras the Blind — SSC"
+      },
+      {
+        "id": 28508,
+        "name": "Gloves of Saintly Blessings",
+        "note": "Attumen the Huntsman — Karazhan"
+      },
+      {
+        "id": 29055,
+        "name": "Handwraps of the Incarnate",
+        "note": "The Curator — Karazhan"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30038,
+        "name": "Belt of Blasting",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30064,
+        "name": "Cord of Screaming Terrors",
+        "note": "The Lurker Below — SSC"
+      },
+      {
+        "id": 30036,
+        "name": "Belt of the Long Road",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 21873,
+        "name": "Primal Mooncloth Belt",
+        "note": "Tailoring (Primal Mooncloth)"
+      }
+    ],
+    "legs": [
+      {
+        "id": 29972,
+        "name": "Trousers of the Astromancer",
+        "note": "High Astromancer Solarian — TK"
+      },
+      {
+        "id": 24262,
+        "name": "Spellstrike Pants",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30153,
+        "name": "Breeches of the Avatar",
+        "note": "Fathom-Lord Karathress — SSC"
+      },
+      {
+        "id": 30727,
+        "name": "Gilded Trousers of Benediction",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 28742,
+        "name": "Pantaloons of Repentance",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 29977,
+        "name": "Star-Soul Breeches",
+        "note": "High Astromancer Solarian — TK"
+      }
+    ],
+    "feet": [
+      {
+        "id": 30050,
+        "name": "Boots of the Shifting Nightmare",
+        "note": "Hydross the Unstable — SSC"
+      },
+      {
+        "id": 21870,
+        "name": "Frozen Shadoweave Boots",
+        "note": "Tailoring (Shadoweave)"
+      },
+      {
+        "id": 30100,
+        "name": "Soul-Strider Boots",
+        "note": "Fathom-Lord Karathress — SSC"
+      },
+      {
+        "id": 30035,
+        "name": "Boots of the Long Road",
+        "note": "Tailoring (BoP)"
+      },
+      {
+        "id": 28663,
+        "name": "Boots of the Incorrupt",
+        "note": "Shade of Aran — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30109,
+        "name": "Ring of Endless Coils",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 29922,
+        "name": "Band of Al'ar",
+        "note": "Al'ar — Tempest Keep"
+      },
+      {
+        "id": 30110,
+        "name": "Coral Band of the Revived",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 29290,
+        "name": "Violet Signet of the Grand Restorer",
+        "note": "The Violet Eye — Exalted"
+      },
+      {
+        "id": 30736,
+        "name": "Ring of Flowing Light",
+        "note": "Doom Lord Kazzak — World Boss"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28753,
+        "name": "Ring of Recurrence",
+        "note": "Chess Event — Karazhan"
+      },
+      {
+        "id": 28793,
+        "name": "Band of Crimson Fury",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28763,
+        "name": "Jade Ring of the Everliving",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 29920,
+        "name": "Phoenix-Ring of Rebirth",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28789,
+        "name": "Eye of Magtheridon",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 38288,
+        "name": "Direbrew Hops",
+        "note": "Coren Direbrew — Brewfest"
+      },
+      {
+        "id": 28590,
+        "name": "Ribbon of Sacrifice",
+        "note": "Opera Event — Karazhan"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 27683,
+        "name": "Quagmirran's Eye",
+        "note": "Heroic Slave Pens"
+      },
+      {
+        "id": 28823,
+        "name": "Eye of Gruul",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 30665,
+        "name": "Earring of Soulful Meditation",
+        "note": "The Lurker Below — SSC"
+      },
+      {
+        "id": 28190,
+        "name": "Scarab of the Infinite Cycle",
+        "note": "Aeonus — The Black Morass"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28770,
+        "name": "Nathrezim Mindblade",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 32963,
+        "name": "Merciless Gladiator's Gavel",
+        "note": "Arena Points (Season 2)"
+      },
+      {
+        "id": 30108,
+        "name": "Lightfathom Scepter",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 32964,
+        "name": "Merciless Gladiator's Salvation",
+        "note": "Arena Points Vendor (Season 2)"
+      },
+      {
+        "id": 28771,
+        "name": "Light's Justice",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29272,
+        "name": "Orb of the Soul-Eater",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 29923,
+        "name": "Talisman of the Sun King",
+        "note": "Al'ar — Tempest Keep"
+      },
+      {
+        "id": 29170,
+        "name": "Windcaller's Orb",
+        "note": "Cenarion Expedition — Exalted"
+      },
+      {
+        "id": 29274,
+        "name": "Tears of Heaven",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29982,
+        "name": "Wand of the Forgotten Star",
+        "note": "High Astromancer Solarian — TK"
+      },
+      {
+        "id": 28673,
+        "name": "Tirisfal Wand of Ascendancy",
+        "note": "Karazhan"
+      },
+      {
+        "id": 30080,
+        "name": "Luminescent Rod of the Naaru",
+        "note": "Morogrim Tidewalker — SSC"
+      },
+      {
+        "id": 28588,
+        "name": "Blue Diamond Witchwand",
+        "note": "Opera Event — Karazhan"
+      }
+    ]
+  }
+}

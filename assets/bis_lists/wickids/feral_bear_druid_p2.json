@@ -1,0 +1,236 @@
+{
+  "name": "Wickids — Feral Bear Druid Phase 2",
+  "source": "WickidsTBCBISTracker",
+  "spec": 3,
+  "phase": 2,
+  "generatedAt": "2026-08-01T17:52:52.694293+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 8345,
+        "name": "Wolfshead Helm",
+        "note": "Leatherworking (AH)"
+      },
+      {
+        "id": 29098,
+        "name": "Stag-Helm of Malorne",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "neck": [
+      {
+        "id": 24114,
+        "name": "Braided Eternium Chain",
+        "note": "Jewelcrafting (AH)"
+      },
+      {
+        "id": 30017,
+        "name": "Telonicus's Pendant of Mayhem",
+        "note": "Kael'thas — Tempest Keep (Quest)"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30055,
+        "name": "Shoulderpads of the Stranger",
+        "note": "Hydross — Serpentshrine Cavern"
+      },
+      {
+        "id": 29100,
+        "name": "Mantle of Malorne",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 30230,
+        "name": "Nordrassil Feral-Mantle",
+        "note": "Void Reaver — Tempest Keep"
+      }
+    ],
+    "back": [
+      {
+        "id": 28672,
+        "name": "Drape of the Dark Reavers",
+        "note": "Shade of Aran — Karazhan"
+      },
+      {
+        "id": 29994,
+        "name": "Thalassian Wildercloak",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30101,
+        "name": "Bloodsea Brigand's Vest",
+        "note": "Fathom-Lord Karathress — SSC"
+      },
+      {
+        "id": 29096,
+        "name": "Breastplate of Malorne",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 30222,
+        "name": "Nordrassil Chestplate",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29966,
+        "name": "Vambraces of Ending",
+        "note": "High Astromancer Solarian — TK"
+      },
+      {
+        "id": 29246,
+        "name": "Nightfall Wristguards",
+        "note": "Epoch Hunter — Heroic Old Hillsbrad"
+      }
+    ],
+    "hands": [
+      {
+        "id": 29947,
+        "name": "Gloves of the Searing Grip",
+        "note": "Al'ar — Tempest Keep"
+      },
+      {
+        "id": 30223,
+        "name": "Nordrassil Handgrips",
+        "note": "Leotheras the Blind — SSC"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30106,
+        "name": "Belt of One-Hundred Deaths",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      },
+      {
+        "id": 28828,
+        "name": "Gronn-Stitched Girdle",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 29247,
+        "name": "Girdle of the Deathdealer",
+        "note": "Aeonus — Heroic Black Morass"
+      }
+    ],
+    "legs": [
+      {
+        "id": 28741,
+        "name": "Skulker's Greaves",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 29995,
+        "name": "Leggings of Murderous Intent",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 30229,
+        "name": "Nordrassil Feral-Kilt",
+        "note": "Fathom-Lord Karathress — SSC"
+      }
+    ],
+    "feet": [
+      {
+        "id": 28545,
+        "name": "Edgewalker Longboots",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 30098,
+        "name": "Boots of Natural Grace",
+        "note": "Morogrim Tidewalker — SSC"
+      },
+      {
+        "id": 25686,
+        "name": "Fel Leather Boots",
+        "note": "Leatherworking (AH)"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30052,
+        "name": "Ring of Lethality",
+        "note": "Hydross — Serpentshrine Cavern"
+      },
+      {
+        "id": 28649,
+        "name": "Garona's Signet Ring",
+        "note": "The Curator — Karazhan"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29997,
+        "name": "Band of the Ranger-General",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 28791,
+        "name": "Ring of the Recalcitrant",
+        "note": "Quest: Magtheridon"
+      },
+      {
+        "id": 30834,
+        "name": "Shapeshifter's Signet",
+        "note": "Lower City — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 30627,
+        "name": "Tsunami Talisman",
+        "note": "Leotheras the Blind — SSC"
+      },
+      {
+        "id": 23206,
+        "name": "Mark of the Champion",
+        "note": "Quest: Naxxramas"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      },
+      {
+        "id": 38287,
+        "name": "Empty Mug of Direbrew",
+        "note": "Coren Direbrew — Brewfest"
+      },
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32014,
+        "name": "Merciless Gladiator's Maul",
+        "note": "Arena Vendor (Season 2)"
+      },
+      {
+        "id": 28658,
+        "name": "Terestian's Stranglestaff",
+        "note": "Illhoof — Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29390,
+        "name": "Everbloom Idol",
+        "note": "G'eras — Shattrath City (15 Badges)"
+      },
+      {
+        "id": 32387,
+        "name": "Idol of the Raven Goddess",
+        "note": "Quest: Vanquish the Raven God (Heroic Sethekk)"
+      }
+    ]
+  }
+}

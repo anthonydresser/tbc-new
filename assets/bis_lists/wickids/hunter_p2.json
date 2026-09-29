@@ -1,0 +1,168 @@
+{
+  "name": "Wickids — Hunter Phase 2",
+  "source": "WickidsTBCBISTracker",
+  "spec": 5,
+  "phase": 2,
+  "generatedAt": "2026-08-01T17:52:52.697430+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 30141,
+        "name": "Rift Stalker Helm",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 28275,
+        "name": "Beast Lord Helm",
+        "note": "Pathaleon — Mechanar"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30017,
+        "name": "Telonicus's Pendant of Mayhem",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 29381,
+        "name": "Choker of Vile Intent",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30143,
+        "name": "Rift Stalker Mantle",
+        "note": "Void Reaver — Tempest Keep"
+      },
+      {
+        "id": 27801,
+        "name": "Beast Lord Mantle",
+        "note": "Warlord Kalithresh — The Steamvault"
+      }
+    ],
+    "back": [
+      {
+        "id": 29994,
+        "name": "Thalassian Wildercloak",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 24259,
+        "name": "Vengeance Wrap",
+        "note": "Leatherworking"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30139,
+        "name": "Rift Stalker Hauberk",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 28228,
+        "name": "Beast Lord Cuirass",
+        "note": "Warp Splinter — The Botanica"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29966,
+        "name": "Vambraces of Ending",
+        "note": "High Astromancer Solarian — Tempest Keep"
+      }
+    ],
+    "hands": [
+      {
+        "id": 30140,
+        "name": "Rift Stalker Gauntlets",
+        "note": "Leotheras the Blind — SSC"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30040,
+        "name": "Belt of Deep Shadow",
+        "note": "Leatherworking"
+      }
+    ],
+    "legs": [
+      {
+        "id": 29995,
+        "name": "Leggings of Murderous Intent",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "feet": [
+      {
+        "id": 30104,
+        "name": "Cobra-Lash Boots",
+        "note": "Lady Vashj — SSC"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 29997,
+        "name": "Band of the Ranger-General",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 30052,
+        "name": "Ring of Lethality",
+        "note": "Hydross the Unstable — SSC"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 30627,
+        "name": "Tsunami Talisman",
+        "note": "Leotheras the Blind — SSC"
+      },
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32944,
+        "name": "Talon of the Phoenix",
+        "note": "Al'ar — Tempest Keep"
+      },
+      {
+        "id": 29924,
+        "name": "Netherbane",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29948,
+        "name": "Claw of the Phoenix",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 30318,
+        "name": "Netherstrand Longbow",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 30105,
+        "name": "Serpent Spine Longbow",
+        "note": "Lady Vashj — SSC"
+      }
+    ]
+  }
+}

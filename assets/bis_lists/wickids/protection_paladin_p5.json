@@ -1,0 +1,193 @@
+{
+  "name": "Wickids — Protection Paladin Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 8,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.702206+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34401,
+        "name": "Helm of Uther's Resolve",
+        "note": "Sunwell Plateau Vendor"
+      },
+      {
+        "id": 32521,
+        "name": "Faceplate of the Impenetrable",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34178,
+        "name": "Collar of the Pit Lord",
+        "note": "Brutallus — Sunwell Plateau"
+      },
+      {
+        "id": 32362,
+        "name": "Pendant of Titans",
+        "note": "Reliquary of Souls — Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 34389,
+        "name": "Spaulders of the Thalassian Defender",
+        "note": "Sunwell Plateau Vendor"
+      },
+      {
+        "id": 34192,
+        "name": "Pauldrons of Perseverance",
+        "note": "Eredar Twins — Sunwell Plateau"
+      }
+    ],
+    "back": [
+      {
+        "id": 34190,
+        "name": "Crimson Paragon's Cover",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 33593,
+        "name": "Slikk's Cloak of Placation",
+        "note": "G'eras — 60 Badges of Justice"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34216,
+        "name": "Heroic Judicator's Chestguard",
+        "note": "M'uru — Sunwell Plateau"
+      },
+      {
+        "id": 30991,
+        "name": "Lightbringer Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34433,
+        "name": "Lightbringer Wristguards",
+        "note": "Kalecgos — Sunwell Plateau"
+      },
+      {
+        "id": 32279,
+        "name": "The Seeker's Wristguards",
+        "note": "Shade of Akama — Black Temple"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34352,
+        "name": "Borderland Fortress Grips",
+        "note": "Felmyst — Sunwell Plateau"
+      },
+      {
+        "id": 30985,
+        "name": "Lightbringer Handguards",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34488,
+        "name": "Lightbringer Waistguard",
+        "note": "Brutallus — Sunwell Plateau"
+      },
+      {
+        "id": 32342,
+        "name": "Girdle of Mighty Resolve",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34382,
+        "name": "Judicator's Legguards",
+        "note": "Sunwell Plateau Vendor"
+      },
+      {
+        "id": 30995,
+        "name": "Lightbringer Legguards",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34560,
+        "name": "Lightbringer Stompers",
+        "note": "Felmyst — Sunwell Plateau"
+      },
+      {
+        "id": 32245,
+        "name": "Tide-stomper's Greaves",
+        "note": "Naj'entus — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34213,
+        "name": "Ring of Hardened Resolve",
+        "note": "M'uru — Sunwell Plateau"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 34888,
+        "name": "Ring of the Stalwart Protector",
+        "note": "G'eras — 60 Badges of Justice"
+      },
+      {
+        "id": 29297,
+        "name": "Band of the Eternal Defender",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34473,
+        "name": "Commendation of Kael'thas",
+        "note": "Magisters' Terrace"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 32501,
+        "name": "Shadowmoon Insignia",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      },
+      {
+        "id": 28528,
+        "name": "Moroes' Lucky Pocket Watch",
+        "note": "Moroes — Karazhan"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 30910,
+        "name": "Tempest of Chaos",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 34185,
+        "name": "Sword Breaker's Bulwark",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32375,
+        "name": "Bulwark of Azzinoth",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29388,
+        "name": "Libram of Repentance",
+        "note": "G'eras — Badges of Justice"
+      }
+    ]
+  }
+}

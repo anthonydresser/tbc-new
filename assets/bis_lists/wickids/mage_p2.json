@@ -1,0 +1,193 @@
+{
+  "name": "Wickids — Mage Phase 2",
+  "source": "WickidsTBCBISTracker",
+  "spec": 6,
+  "phase": 2,
+  "generatedAt": "2026-08-01T17:52:52.698744+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32494,
+        "name": "Destruction Holo-gogs",
+        "note": "Engineering"
+      },
+      {
+        "id": 30206,
+        "name": "Cowl of Tirisfal",
+        "note": "Lady Vashj — SSC"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30015,
+        "name": "The Sun King's Talisman",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30024,
+        "name": "Mantle of the Elven Kings",
+        "note": "Trash — Tempest Keep"
+      },
+      {
+        "id": 30210,
+        "name": "Mantle of Tirisfal",
+        "note": "Void Reaver — Tempest Keep"
+      }
+    ],
+    "back": [
+      {
+        "id": 28766,
+        "name": "Ruby Drape of the Mysticant",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 29992,
+        "name": "Royal Cloak of the Sunstriders",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30107,
+        "name": "Vestments of the Sea-Witch",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 30196,
+        "name": "Robes of Tirisfal",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 21871,
+        "name": "Frozen Shadoweave Robe",
+        "note": "Tailoring (Shadoweave)"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29918,
+        "name": "Mindstorm Wristbands",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "hands": [
+      {
+        "id": 29987,
+        "name": "Gauntlets of the Sun King",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 30205,
+        "name": "Gloves of Tirisfal",
+        "note": "Leotheras the Blind — SSC"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30038,
+        "name": "Belt of Blasting",
+        "note": "Tailoring"
+      },
+      {
+        "id": 30064,
+        "name": "Cord of Screaming Terrors",
+        "note": "The Lurker Below — SSC"
+      }
+    ],
+    "legs": [
+      {
+        "id": 29972,
+        "name": "Trousers of the Astromancer",
+        "note": "High Astromancer Solarian — TK"
+      },
+      {
+        "id": 30207,
+        "name": "Leggings of Tirisfal",
+        "note": "Fathom-Lord Karathress — SSC"
+      }
+    ],
+    "feet": [
+      {
+        "id": 30037,
+        "name": "Boots of Blasting",
+        "note": "Tailoring"
+      },
+      {
+        "id": 30067,
+        "name": "Velvet Boots of the Guardian",
+        "note": "The Lurker Below — SSC"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 29302,
+        "name": "Band of Eternity",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 30109,
+        "name": "Ring of Endless Coils",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 29922,
+        "name": "Band of Al'ar",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 30626,
+        "name": "Sextant of Unstable Currents",
+        "note": "Fathom-Lord Karathress — SSC"
+      },
+      {
+        "id": 30720,
+        "name": "Serpent-Coil Braid",
+        "note": "Morogrim Tidewalker — SSC"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 27683,
+        "name": "Quagmirran's Eye",
+        "note": "Quagmirran — Slave Pens"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 29988,
+        "name": "The Nexus Key",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 28781,
+        "name": "Karaborian Talisman",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 30049,
+        "name": "Fathomstone",
+        "note": "Hydross the Unstable — SSC"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29982,
+        "name": "Wand of the Forgotten Star",
+        "note": "High Astromancer Solarian — Tempest Keep"
+      }
+    ]
+  }
+}

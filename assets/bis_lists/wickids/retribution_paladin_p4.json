@@ -1,0 +1,141 @@
+{
+  "name": "Wickids — Retribution Paladin Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 9,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.703204+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32235,
+        "name": "Cursed Vision of Sargeras",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32260,
+        "name": "Choker of Endless Nightmares",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30055,
+        "name": "Shoulderpads of the Stranger",
+        "note": "Hydross the Unstable — SSC"
+      }
+    ],
+    "back": [
+      {
+        "id": 33590,
+        "name": "Cloak of Fiends",
+        "note": "Zul'Aman Timed Chest"
+      },
+      {
+        "id": 33122,
+        "name": "Cloak of Darkness",
+        "note": "Leatherworking (Violet Eye Exalted)"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30905,
+        "name": "Midnight Chestguard",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32574,
+        "name": "Bindings of Lightning Reflexes",
+        "note": "Leatherworking"
+      }
+    ],
+    "hands": [
+      {
+        "id": 32347,
+        "name": "Grips of Damnation",
+        "note": "Reliquary of Lost — Black Temple"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30106,
+        "name": "Belt of One-Hundred Deaths",
+        "note": "Lady Vashj — SSC"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30900,
+        "name": "Bow-stitched Leggings",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32366,
+        "name": "Shadowmaster's Boots",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32526,
+        "name": "Band of Devastation",
+        "note": "BT Trash"
+      },
+      {
+        "id": 33496,
+        "name": "Signet of Primal Wrath",
+        "note": "Zul'Aman Timed Chest"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 30834,
+        "name": "Shapeshifter's Signet",
+        "note": "Lower City — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 33831,
+        "name": "Berserker's Call",
+        "note": "Zul'jin — Zul'Aman"
+      },
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — 41 Badges of Justice"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32332,
+        "name": "Torch of the Damned",
+        "note": "Essence of Anger — Black Temple"
+      },
+      {
+        "id": 30902,
+        "name": "Cataclysm's Edge",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 27484,
+        "name": "Libram of Avengement",
+        "note": "Heroic Blood Furnace"
+      }
+    ]
+  }
+}

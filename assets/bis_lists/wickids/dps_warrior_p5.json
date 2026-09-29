@@ -1,0 +1,183 @@
+{
+  "name": "Wickids — DPS Warrior Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 16,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.712516+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34333,
+        "name": "Coif of Alleria",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34345,
+        "name": "Crown of Anasterian",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34358,
+        "name": "Hard Khorium Choker",
+        "note": "Jewelcrafting"
+      },
+      {
+        "id": 34177,
+        "name": "Clutch of Demise",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 34388,
+        "name": "Pauldrons of Berserking",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 30979,
+        "name": "Onslaught Shoulderblades",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 34241,
+        "name": "Cloak of Unforgivable Sin",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34397,
+        "name": "Bladed Chaos Tunic",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34377,
+        "name": "Hard Khorium Battleplate",
+        "note": "Blacksmithing"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34441,
+        "name": "Onslaught Bracers",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34343,
+        "name": "Thalassian Ranger Gauntlets",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34370,
+        "name": "Gloves of Immortal Dusk",
+        "note": "Blacksmithing"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34546,
+        "name": "Onslaught Belt",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34180,
+        "name": "Felfury Legplates",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34188,
+        "name": "Leggings of the Immortal Night",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34569,
+        "name": "Onslaught Treads",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34189,
+        "name": "Band of Ruinous Delight",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 34361,
+        "name": "Hard Khorium Band",
+        "note": "Jewelcrafting"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34427,
+        "name": "Blackened Naaru Sliver",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 34472,
+        "name": "Shard of Contempt",
+        "note": "Priestess Delrissa — Heroic Magisters' Terrace"
+      },
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34247,
+        "name": "Apolyon, the Soul-Render",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 30902,
+        "name": "Cataclysm's Edge",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32837,
+        "name": "Warglaive of Azzinoth",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 34331,
+        "name": "Hand of the Deceiver",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 34196,
+        "name": "Golden Bow of Quel'Thalas",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 32838,
+        "name": "Warglaive of Azzinoth",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 34346,
+        "name": "Mounting Vengeance",
+        "note": "Sunwell Plateau"
+      }
+    ]
+  }
+}

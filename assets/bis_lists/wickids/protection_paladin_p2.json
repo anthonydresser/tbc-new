@@ -1,0 +1,213 @@
+{
+  "name": "Wickids — Protection Paladin Phase 2",
+  "source": "WickidsTBCBISTracker",
+  "spec": 8,
+  "phase": 2,
+  "generatedAt": "2026-08-01T17:52:52.701352+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 29068,
+        "name": "Justicar Faceguard",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30125,
+        "name": "Crystalforge Faceguard",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 32473,
+        "name": "Tankatronic Goggles",
+        "note": "Engineering"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30007,
+        "name": "The Darkener's Grasp",
+        "note": "Kael'thas Quest — Tempest Keep"
+      },
+      {
+        "id": 28516,
+        "name": "Barbed Choker of Discipline",
+        "note": "Maiden of Virtue — Karazhan"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 29070,
+        "name": "Justicar Shoulderguards",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 30127,
+        "name": "Crystalforge Shoulderguards",
+        "note": "Void Reaver — Tempest Keep"
+      }
+    ],
+    "back": [
+      {
+        "id": 29925,
+        "name": "Phoenix-Wing Cloak",
+        "note": "Al'ar — Tempest Keep"
+      },
+      {
+        "id": 28660,
+        "name": "Gilded Thorium Cloak",
+        "note": "Blacksmithing"
+      }
+    ],
+    "chest": [
+      {
+        "id": 29066,
+        "name": "Justicar Chestguard",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 30123,
+        "name": "Crystalforge Chestguard",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32515,
+        "name": "Wristguards of Determination",
+        "note": "Void Reaver — Tempest Keep"
+      },
+      {
+        "id": 28502,
+        "name": "Vambraces of Courage",
+        "note": "Attumen the Huntsman — Karazhan"
+      }
+    ],
+    "hands": [
+      {
+        "id": 29067,
+        "name": "Justicar Handguards",
+        "note": "The Curator — Karazhan"
+      },
+      {
+        "id": 30124,
+        "name": "Crystalforge Handguards",
+        "note": "Leotheras — SSC"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30034,
+        "name": "Belt of the Guardian",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 29253,
+        "name": "Girdle of Valorous Deeds",
+        "note": "Aldor/Scryer Vendor"
+      }
+    ],
+    "legs": [
+      {
+        "id": 29069,
+        "name": "Justicar Legguards",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 30126,
+        "name": "Crystalforge Legguards",
+        "note": "Fathom-Lord Karathress — SSC"
+      }
+    ],
+    "feet": [
+      {
+        "id": 30033,
+        "name": "Boots of the Protector",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 29254,
+        "name": "Boots of the Righteous Path",
+        "note": "Aldor/Scryer Vendor"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30083,
+        "name": "Ring of Sundered Souls",
+        "note": "Morogrim Tidewalker — SSC"
+      },
+      {
+        "id": 29279,
+        "name": "Violet Signet of the Great Protector",
+        "note": "The Violet Eye — Exalted"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 30028,
+        "name": "Seventh Ring of the Tirisfalen",
+        "note": "TK Trash"
+      },
+      {
+        "id": 28792,
+        "name": "A'dal's Signet of Defense",
+        "note": "Aldor/Scryer Vendor"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28528,
+        "name": "Moroes' Lucky Pocket Watch",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 30629,
+        "name": "Scarab of Displacement",
+        "note": "Hydross the Unstable — SSC"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 27529,
+        "name": "Figurine of the Colossus",
+        "note": "Jewelcrafting"
+      },
+      {
+        "id": 31858,
+        "name": "Darkmoon Card: Vengeance",
+        "note": "Darkmoon Faire"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 30095,
+        "name": "Fang of the Leviathan",
+        "note": "Leotheras — SSC"
+      },
+      {
+        "id": 28749,
+        "name": "King's Defender",
+        "note": "Chess Event — Karazhan"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29176,
+        "name": "Crest of the Sha'tar",
+        "note": "Sha'tar — Exalted"
+      },
+      {
+        "id": 28606,
+        "name": "Shield of Impenetrable Darkness",
+        "note": "Nightbane — Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29388,
+        "name": "Libram of Repentance",
+        "note": "G'eras — Badges of Justice"
+      }
+    ]
+  }
+}

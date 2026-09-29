@@ -1,0 +1,168 @@
+{
+  "name": "Wickids — Elemental Shaman Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 12,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.706878+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 31014,
+        "name": "Skyshatter Headguard",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 33281,
+        "name": "Brooch of Nature's Mercy",
+        "note": "Akil'zon — Zul'Aman"
+      },
+      {
+        "id": 33466,
+        "name": "Loop of Cursed Bones",
+        "note": "Zul'Aman"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31023,
+        "name": "Skyshatter Mantle",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 32331,
+        "name": "Cloak of the Illidari Council",
+        "note": "Illidari Council — Black Temple"
+      },
+      {
+        "id": 33591,
+        "name": "Shadowcaster's Drape",
+        "note": "Zul'Aman Timed Chest"
+      }
+    ],
+    "chest": [
+      {
+        "id": 31017,
+        "name": "Skyshatter Breastplate",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33965,
+        "name": "Hauberk of the Furious Elements",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32586,
+        "name": "Bracers of Nimble Thought",
+        "note": "Tailoring"
+      }
+    ],
+    "hands": [
+      {
+        "id": 31008,
+        "name": "Skyshatter Gauntlets",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "waist": [
+      {
+        "id": 32276,
+        "name": "Flashfire Girdle",
+        "note": "Shade of Akama — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 31020,
+        "name": "Skyshatter Legguards",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32242,
+        "name": "Boots of Oceanic Fury",
+        "note": "Zul'Aman Timed Chest"
+      },
+      {
+        "id": 32239,
+        "name": "Slippers of the Seacaller",
+        "note": "Naj'entus — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32247,
+        "name": "Ring of Captured Storms",
+        "note": "Black Temple"
+      },
+      {
+        "id": 33497,
+        "name": "Mana Attuned Band",
+        "note": "Zul'Aman"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32527,
+        "name": "Ring of Ancient Knowledge",
+        "note": "Black Temple"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32483,
+        "name": "The Skull of Gul'dan",
+        "note": "Black Temple"
+      },
+      {
+        "id": 33829,
+        "name": "Hex Shrunken Head",
+        "note": "Zul'Aman"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 28785,
+        "name": "The Lightning Capacitor",
+        "note": "Karazhan"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32374,
+        "name": "Zhar'doom, Greatstaff of the Devourer",
+        "note": "Illidan — Black Temple"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 30872,
+        "name": "Chronicle of Dark Secrets",
+        "note": "Rage Winterchill — Hyjal Summit"
+      },
+      {
+        "id": 33334,
+        "name": "Fetish of the Primal Gods",
+        "note": "Zul'Aman"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 32330,
+        "name": "Totem of Ancestral Guidance",
+        "note": "Black Temple"
+      },
+      {
+        "id": 33506,
+        "name": "Skycall Totem",
+        "note": "Zul'Aman"
+      }
+    ]
+  }
+}

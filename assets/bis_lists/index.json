@@ -1,0 +1,568 @@
+{
+  "source": "WickidsTBCBISTracker",
+  "sourceUrl": "https://github.com/Wicksmods/WickidsTBCBISTracker",
+  "license": "MIT",
+  "generatedAt": "2026-08-01T17:52:52.690795+00:00",
+  "presets": [
+    {
+      "spec": 1,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Balance Druid Phase 1",
+      "path": "wickids/balance_druid_p1.json"
+    },
+    {
+      "spec": 1,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Balance Druid Phase 2",
+      "path": "wickids/balance_druid_p2.json"
+    },
+    {
+      "spec": 1,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Balance Druid Phase 3",
+      "path": "wickids/balance_druid_p3.json"
+    },
+    {
+      "spec": 1,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Balance Druid Phase 4",
+      "path": "wickids/balance_druid_p4.json"
+    },
+    {
+      "spec": 1,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Balance Druid Phase 5",
+      "path": "wickids/balance_druid_p5.json"
+    },
+    {
+      "spec": 2,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Cat Druid Phase 1",
+      "path": "wickids/feral_cat_druid_p1.json"
+    },
+    {
+      "spec": 2,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Cat Druid Phase 2",
+      "path": "wickids/feral_cat_druid_p2.json"
+    },
+    {
+      "spec": 2,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Cat Druid Phase 3",
+      "path": "wickids/feral_cat_druid_p3.json"
+    },
+    {
+      "spec": 2,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Cat Druid Phase 4",
+      "path": "wickids/feral_cat_druid_p4.json"
+    },
+    {
+      "spec": 2,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Cat Druid Phase 5",
+      "path": "wickids/feral_cat_druid_p5.json"
+    },
+    {
+      "spec": 3,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Bear Druid Phase 1",
+      "path": "wickids/feral_bear_druid_p1.json"
+    },
+    {
+      "spec": 3,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Bear Druid Phase 2",
+      "path": "wickids/feral_bear_druid_p2.json"
+    },
+    {
+      "spec": 3,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Bear Druid Phase 3",
+      "path": "wickids/feral_bear_druid_p3.json"
+    },
+    {
+      "spec": 3,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Bear Druid Phase 4",
+      "path": "wickids/feral_bear_druid_p4.json"
+    },
+    {
+      "spec": 3,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Feral Bear Druid Phase 5",
+      "path": "wickids/feral_bear_druid_p5.json"
+    },
+    {
+      "spec": 4,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Druid Phase 1",
+      "path": "wickids/restoration_druid_p1.json"
+    },
+    {
+      "spec": 4,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Druid Phase 2",
+      "path": "wickids/restoration_druid_p2.json"
+    },
+    {
+      "spec": 4,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Druid Phase 3",
+      "path": "wickids/restoration_druid_p3.json"
+    },
+    {
+      "spec": 4,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Druid Phase 4",
+      "path": "wickids/restoration_druid_p4.json"
+    },
+    {
+      "spec": 4,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Druid Phase 5",
+      "path": "wickids/restoration_druid_p5.json"
+    },
+    {
+      "spec": 5,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Hunter Phase 1",
+      "path": "wickids/hunter_p1.json"
+    },
+    {
+      "spec": 5,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Hunter Phase 2",
+      "path": "wickids/hunter_p2.json"
+    },
+    {
+      "spec": 5,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Hunter Phase 3",
+      "path": "wickids/hunter_p3.json"
+    },
+    {
+      "spec": 5,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Hunter Phase 4",
+      "path": "wickids/hunter_p4.json"
+    },
+    {
+      "spec": 5,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Hunter Phase 5",
+      "path": "wickids/hunter_p5.json"
+    },
+    {
+      "spec": 6,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Mage Phase 1",
+      "path": "wickids/mage_p1.json"
+    },
+    {
+      "spec": 6,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Mage Phase 2",
+      "path": "wickids/mage_p2.json"
+    },
+    {
+      "spec": 6,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Mage Phase 3",
+      "path": "wickids/mage_p3.json"
+    },
+    {
+      "spec": 6,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Mage Phase 4",
+      "path": "wickids/mage_p4.json"
+    },
+    {
+      "spec": 6,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Mage Phase 5",
+      "path": "wickids/mage_p5.json"
+    },
+    {
+      "spec": 7,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Holy Paladin Phase 1",
+      "path": "wickids/holy_paladin_p1.json"
+    },
+    {
+      "spec": 7,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Holy Paladin Phase 2",
+      "path": "wickids/holy_paladin_p2.json"
+    },
+    {
+      "spec": 7,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Holy Paladin Phase 3",
+      "path": "wickids/holy_paladin_p3.json"
+    },
+    {
+      "spec": 7,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Holy Paladin Phase 4",
+      "path": "wickids/holy_paladin_p4.json"
+    },
+    {
+      "spec": 7,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Holy Paladin Phase 5",
+      "path": "wickids/holy_paladin_p5.json"
+    },
+    {
+      "spec": 8,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Paladin Phase 1",
+      "path": "wickids/protection_paladin_p1.json"
+    },
+    {
+      "spec": 8,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Paladin Phase 2",
+      "path": "wickids/protection_paladin_p2.json"
+    },
+    {
+      "spec": 8,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Paladin Phase 3",
+      "path": "wickids/protection_paladin_p3.json"
+    },
+    {
+      "spec": 8,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Paladin Phase 4",
+      "path": "wickids/protection_paladin_p4.json"
+    },
+    {
+      "spec": 8,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Paladin Phase 5",
+      "path": "wickids/protection_paladin_p5.json"
+    },
+    {
+      "spec": 9,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Retribution Paladin Phase 1",
+      "path": "wickids/retribution_paladin_p1.json"
+    },
+    {
+      "spec": 9,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Retribution Paladin Phase 2",
+      "path": "wickids/retribution_paladin_p2.json"
+    },
+    {
+      "spec": 9,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Retribution Paladin Phase 3",
+      "path": "wickids/retribution_paladin_p3.json"
+    },
+    {
+      "spec": 9,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Retribution Paladin Phase 4",
+      "path": "wickids/retribution_paladin_p4.json"
+    },
+    {
+      "spec": 9,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Retribution Paladin Phase 5",
+      "path": "wickids/retribution_paladin_p5.json"
+    },
+    {
+      "spec": 10,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Priest Phase 1",
+      "path": "wickids/priest_p1.json"
+    },
+    {
+      "spec": 10,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Priest Phase 2",
+      "path": "wickids/priest_p2.json"
+    },
+    {
+      "spec": 10,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Priest Phase 3",
+      "path": "wickids/priest_p3.json"
+    },
+    {
+      "spec": 10,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Priest Phase 4",
+      "path": "wickids/priest_p4.json"
+    },
+    {
+      "spec": 10,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Priest Phase 5",
+      "path": "wickids/priest_p5.json"
+    },
+    {
+      "spec": 12,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Elemental Shaman Phase 1",
+      "path": "wickids/elemental_shaman_p1.json"
+    },
+    {
+      "spec": 12,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Elemental Shaman Phase 2",
+      "path": "wickids/elemental_shaman_p2.json"
+    },
+    {
+      "spec": 12,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Elemental Shaman Phase 3",
+      "path": "wickids/elemental_shaman_p3.json"
+    },
+    {
+      "spec": 12,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Elemental Shaman Phase 4",
+      "path": "wickids/elemental_shaman_p4.json"
+    },
+    {
+      "spec": 12,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Elemental Shaman Phase 5",
+      "path": "wickids/elemental_shaman_p5.json"
+    },
+    {
+      "spec": 13,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Enhancement Shaman Phase 1",
+      "path": "wickids/enhancement_shaman_p1.json"
+    },
+    {
+      "spec": 13,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Enhancement Shaman Phase 2",
+      "path": "wickids/enhancement_shaman_p2.json"
+    },
+    {
+      "spec": 13,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Enhancement Shaman Phase 3",
+      "path": "wickids/enhancement_shaman_p3.json"
+    },
+    {
+      "spec": 13,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Enhancement Shaman Phase 4",
+      "path": "wickids/enhancement_shaman_p4.json"
+    },
+    {
+      "spec": 13,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Enhancement Shaman Phase 5",
+      "path": "wickids/enhancement_shaman_p5.json"
+    },
+    {
+      "spec": 14,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Shaman Phase 1",
+      "path": "wickids/restoration_shaman_p1.json"
+    },
+    {
+      "spec": 14,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Shaman Phase 2",
+      "path": "wickids/restoration_shaman_p2.json"
+    },
+    {
+      "spec": 14,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Shaman Phase 3",
+      "path": "wickids/restoration_shaman_p3.json"
+    },
+    {
+      "spec": 14,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Shaman Phase 4",
+      "path": "wickids/restoration_shaman_p4.json"
+    },
+    {
+      "spec": 14,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Restoration Shaman Phase 5",
+      "path": "wickids/restoration_shaman_p5.json"
+    },
+    {
+      "spec": 15,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Warlock Phase 1",
+      "path": "wickids/warlock_p1.json"
+    },
+    {
+      "spec": 15,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Warlock Phase 2",
+      "path": "wickids/warlock_p2.json"
+    },
+    {
+      "spec": 15,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Warlock Phase 3",
+      "path": "wickids/warlock_p3.json"
+    },
+    {
+      "spec": 15,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Warlock Phase 4",
+      "path": "wickids/warlock_p4.json"
+    },
+    {
+      "spec": 15,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Warlock Phase 5",
+      "path": "wickids/warlock_p5.json"
+    },
+    {
+      "spec": 16,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — DPS Warrior Phase 1",
+      "path": "wickids/dps_warrior_p1.json"
+    },
+    {
+      "spec": 16,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — DPS Warrior Phase 2",
+      "path": "wickids/dps_warrior_p2.json"
+    },
+    {
+      "spec": 16,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — DPS Warrior Phase 3",
+      "path": "wickids/dps_warrior_p3.json"
+    },
+    {
+      "spec": 16,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — DPS Warrior Phase 4",
+      "path": "wickids/dps_warrior_p4.json"
+    },
+    {
+      "spec": 16,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — DPS Warrior Phase 5",
+      "path": "wickids/dps_warrior_p5.json"
+    },
+    {
+      "spec": 17,
+      "phase": 1,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Warrior Phase 1",
+      "path": "wickids/protection_warrior_p1.json"
+    },
+    {
+      "spec": 17,
+      "phase": 2,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Warrior Phase 2",
+      "path": "wickids/protection_warrior_p2.json"
+    },
+    {
+      "spec": 17,
+      "phase": 3,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Warrior Phase 3",
+      "path": "wickids/protection_warrior_p3.json"
+    },
+    {
+      "spec": 17,
+      "phase": 4,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Warrior Phase 4",
+      "path": "wickids/protection_warrior_p4.json"
+    },
+    {
+      "spec": 17,
+      "phase": 5,
+      "source": "WickidsTBCBISTracker",
+      "label": "Wickids — Protection Warrior Phase 5",
+      "path": "wickids/protection_warrior_p5.json"
+    }
+  ]
+}

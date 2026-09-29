@@ -1,0 +1,206 @@
+{
+  "name": "Wickids — Feral Bear Druid Phase 3",
+  "source": "WickidsTBCBISTracker",
+  "spec": 3,
+  "phase": 3,
+  "generatedAt": "2026-08-01T17:52:52.694552+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 8345,
+        "name": "Wolfshead Helm",
+        "note": "Leatherworking (AH)"
+      },
+      {
+        "id": 32235,
+        "name": "Cursed Vision of Sargeras",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32260,
+        "name": "Choker of Endless Nightmares",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 30017,
+        "name": "Telonicus's Pendant of Mayhem",
+        "note": "Kael'thas — Tempest Keep (Quest)"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31048,
+        "name": "Thunderheart Pauldrons",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 30055,
+        "name": "Shoulderpads of the Stranger",
+        "note": "Hydross — Serpentshrine Cavern"
+      }
+    ],
+    "back": [
+      {
+        "id": 32323,
+        "name": "Shadowmoon Destroyer's Drape",
+        "note": "Teron Gorefiend — Black Temple"
+      },
+      {
+        "id": 29994,
+        "name": "Thalassian Wildercloak",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "chest": [
+      {
+        "id": 32252,
+        "name": "Nether Shadow Tunic",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 31042,
+        "name": "Thunderheart Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32324,
+        "name": "Insidious Bands",
+        "note": "Teron Gorefiend — Black Temple"
+      },
+      {
+        "id": 33881,
+        "name": "Vindicator's Dragonhide Bracers",
+        "note": "Honor Points (Season 3)"
+      }
+    ],
+    "hands": [
+      {
+        "id": 29947,
+        "name": "Gloves of the Searing Grip",
+        "note": "Al'ar — Tempest Keep"
+      },
+      {
+        "id": 31034,
+        "name": "Thunderheart Gauntlets",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30106,
+        "name": "Belt of One-Hundred Deaths",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      },
+      {
+        "id": 30879,
+        "name": "Don Alejandro's Money Belt",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "legs": [
+      {
+        "id": 31044,
+        "name": "Thunderheart Leggings",
+        "note": "The Illidari Council — Black Temple"
+      },
+      {
+        "id": 29995,
+        "name": "Leggings of Murderous Intent",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32366,
+        "name": "Shadowmaster's Boots",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 28545,
+        "name": "Edgewalker Longboots",
+        "note": "Moroes — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32497,
+        "name": "Stormrage Signet Ring",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30052,
+        "name": "Ring of Lethality",
+        "note": "Hydross — Serpentshrine Cavern"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29301,
+        "name": "Band of the Eternal Champion",
+        "note": "Scale of the Sands — Exalted"
+      },
+      {
+        "id": 29997,
+        "name": "Band of the Ranger-General",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 30627,
+        "name": "Tsunami Talisman",
+        "note": "Leotheras the Blind — SSC"
+      },
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 32505,
+        "name": "Madness of the Betrayer",
+        "note": "The Illidari Council — Black Temple"
+      },
+      {
+        "id": 23206,
+        "name": "Mark of the Champion",
+        "note": "Quest: Naxxramas"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 33716,
+        "name": "Vengeful Gladiator's Staff",
+        "note": "Arena Points (Season 3)"
+      },
+      {
+        "id": 30883,
+        "name": "Pillar of Ferocity",
+        "note": "Anetheron — Hyjal Summit"
+      },
+      {
+        "id": 28658,
+        "name": "Terestian's Stranglestaff",
+        "note": "Illhoof — Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29390,
+        "name": "Everbloom Idol",
+        "note": "G'eras — Shattrath City (15 Badges)"
+      },
+      {
+        "id": 32387,
+        "name": "Idol of the Raven Goddess",
+        "note": "Quest: Vanquish the Raven God (Heroic Sethekk)"
+      }
+    ]
+  }
+}

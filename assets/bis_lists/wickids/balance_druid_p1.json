@@ -1,0 +1,223 @@
+{
+  "name": "Wickids — Balance Druid Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 1,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.690968+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 29093,
+        "name": "Antlers of Malorne",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28744,
+        "name": "Uni-Mind Headdress",
+        "note": "Netherspite — Karazhan"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34678,
+        "name": "Shattered Sun Pendant of Acumen",
+        "note": "Shattered Sun Offensive Vendor"
+      },
+      {
+        "id": 28530,
+        "name": "Brooch of Unquenchable Fury",
+        "note": "Moroes — Karazhan"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 29095,
+        "name": "Pauldrons of Malorne",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 27796,
+        "name": "Mana-Etched Spaulders",
+        "note": "Mennu — Heroic Slave Pens"
+      }
+    ],
+    "back": [
+      {
+        "id": 28766,
+        "name": "Ruby Drape of the Mysticant",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30735,
+        "name": "Ancient Spellcloak of the Highborne",
+        "note": "Doom Lord Kazzak — World Boss"
+      }
+    ],
+    "chest": [
+      {
+        "id": 21848,
+        "name": "Spellfire Robe",
+        "note": "Tailoring (Spellfire)"
+      },
+      {
+        "id": 29091,
+        "name": "Chestpiece of Malorne",
+        "note": "Magtheridon — Magtheridon's Lair"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29523,
+        "name": "Windhawk Bracers",
+        "note": "Leatherworking (Tribal)"
+      },
+      {
+        "id": 24250,
+        "name": "Bracers of Havok",
+        "note": "Tailoring (AH)"
+      }
+    ],
+    "hands": [
+      {
+        "id": 21847,
+        "name": "Spellfire Gloves",
+        "note": "Tailoring (Spellfire)"
+      },
+      {
+        "id": 28780,
+        "name": "Soul-Eater's Handwraps",
+        "note": "Magtheridon — Magtheridon's Lair"
+      }
+    ],
+    "waist": [
+      {
+        "id": 21846,
+        "name": "Spellfire Belt",
+        "note": "Tailoring (Spellfire)"
+      },
+      {
+        "id": 28799,
+        "name": "Belt of Divine Inspiration",
+        "note": "Raid Drop"
+      }
+    ],
+    "legs": [
+      {
+        "id": 24262,
+        "name": "Spellstrike Pants",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 28594,
+        "name": "Trial-Fire Trousers",
+        "note": "Raid Drop"
+      }
+    ],
+    "feet": [
+      {
+        "id": 28517,
+        "name": "Boots of Foretelling",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 28585,
+        "name": "Ruby Slippers",
+        "note": "Opera Event — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 28793,
+        "name": "Band of Crimson Fury",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28753,
+        "name": "Ring of Recurrence",
+        "note": "Echo of Medivh — Karazhan (Chess)"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29287,
+        "name": "Violet Signet of the Archmage",
+        "note": "The Violet Eye — Exalted"
+      },
+      {
+        "id": 29172,
+        "name": "Ashyen's Gift",
+        "note": "Cenarion Expedition — Exalted"
+      },
+      {
+        "id": 28227,
+        "name": "Sparking Arcanite Ring",
+        "note": "Dalliah — Heroic Arcatraz"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      },
+      {
+        "id": 29132,
+        "name": "Scryer's Bloodgem",
+        "note": "Scryer Vendor"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 28789,
+        "name": "Eye of Magtheridon",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 27683,
+        "name": "Quagmirran's Eye",
+        "note": "Quagmirran — Heroic Slave Pens"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28770,
+        "name": "Nathrezim Mindblade",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30723,
+        "name": "Talon of the Tempest",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 23554,
+        "name": "Eternium Runed Blade",
+        "note": "Crafted/AH"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29271,
+        "name": "Talisman of Kalecgos",
+        "note": "G'eras — Shattrath City (25 Badges)"
+      },
+      {
+        "id": 28734,
+        "name": "Jewel of Infinite Possibilities",
+        "note": "Netherspite — Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 27518,
+        "name": "Ivory Idol of the Moongoddess",
+        "note": "Quest Reward"
+      },
+      {
+        "id": 31025,
+        "name": "Idol of the Avenger",
+        "note": "Quest Reward"
+      }
+    ]
+  }
+}

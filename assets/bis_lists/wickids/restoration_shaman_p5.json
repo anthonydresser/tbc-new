@@ -1,0 +1,208 @@
+{
+  "name": "Wickids — Restoration Shaman Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 14,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.709723+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34402,
+        "name": "Shroud of Chieftain Ner'zhul",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 31012,
+        "name": "Skyshatter Helmet",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34360,
+        "name": "Amulet of Flowing Life",
+        "note": "Jewelcrafting"
+      },
+      {
+        "id": 32370,
+        "name": "Nadina's Pendant of Purity",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 34208,
+        "name": "Equilibrium Epaulets",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 31022,
+        "name": "Skyshatter Shoulderpads",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 34205,
+        "name": "Shroud of Redeemed Souls",
+        "note": "Eredar Twins — Sunwell Plateau"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34212,
+        "name": "Sunglow Vest",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 31016,
+        "name": "Skyshatter Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32577,
+        "name": "Living Earth Bindings",
+        "note": "Leatherworking"
+      },
+      {
+        "id": 34438,
+        "name": "Skyshatter Bracers",
+        "note": "Kalecgos — Sunwell Plateau"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34372,
+        "name": "Leather Gauntlets of the Sun",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32328,
+        "name": "Botanist's Gloves of Growth",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "waist": [
+      {
+        "id": 32258,
+        "name": "Naturalist's Preserving Cinch",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 34543,
+        "name": "Skyshatter Belt",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34383,
+        "name": "Kilt of Spiritual Reconstruction",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 31019,
+        "name": "Skyshatter Leggings",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 33324,
+        "name": "Treads of the Life Path",
+        "note": "Zul'Aman"
+      },
+      {
+        "id": 30873,
+        "name": "Stillwater Boots",
+        "note": "Rage Winterchill — Hyjal Summit"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34363,
+        "name": "Ring of Flowing Life",
+        "note": "Jewelcrafting (BoE)"
+      },
+      {
+        "id": 34166,
+        "name": "Band of Lucent Beams",
+        "note": "Kalecgos — Sunwell Plateau"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32528,
+        "name": "Blessed Band of Karabor",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 29309,
+        "name": "Band of the Eternal Restorer",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34430,
+        "name": "Glimmering Naaru Sliver",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32496,
+        "name": "Memento of Tyrande",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34335,
+        "name": "Hammer of Sanctification",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32500,
+        "name": "Crystal Spire of Karabor",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 34231,
+        "name": "Aegis of Angelic Fortune",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 29274,
+        "name": "Tears of Heaven",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 33505,
+        "name": "Totem of Living Water",
+        "note": "Zul'Aman"
+      },
+      {
+        "id": 28523,
+        "name": "Totem of Healing Rains",
+        "note": "Drop"
+      }
+    ]
+  }
+}

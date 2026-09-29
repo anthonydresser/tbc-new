@@ -1,0 +1,271 @@
+{
+  "name": "Wickids — Feral Cat Druid Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 2,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.693424+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 8345,
+        "name": "Wolfshead Helm",
+        "note": "Leatherworking (AH)"
+      },
+      {
+        "id": 32235,
+        "name": "Cursed Vision of Sargeras",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33672,
+        "name": "Vengeful Gladiator's Dragonhide Helm",
+        "note": "Arena Points (Season 3)"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32260,
+        "name": "Choker of Endless Nightmares",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 30017,
+        "name": "Telonicus's Pendant of Mayhem",
+        "note": "Kael'thas — Tempest Keep (Quest)"
+      },
+      {
+        "id": 32591,
+        "name": "Choker of Serrated Blades",
+        "note": "Black Temple/Hyjal Trash"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31048,
+        "name": "Thunderheart Pauldrons",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 29100,
+        "name": "Mantle of Malorne",
+        "note": "High King Maulgar — Gruul's Lair"
+      }
+    ],
+    "back": [
+      {
+        "id": 32323,
+        "name": "Shadowmoon Destroyer's Drape",
+        "note": "Teron Gorefiend — Black Temple"
+      },
+      {
+        "id": 29994,
+        "name": "Thalassian Wildercloak",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "chest": [
+      {
+        "id": 32252,
+        "name": "Nether Shadow Tunic",
+        "note": "Supremus — Black Temple"
+      },
+      {
+        "id": 31042,
+        "name": "Thunderheart Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32324,
+        "name": "Insidious Bands",
+        "note": "Teron Gorefiend — Black Temple"
+      },
+      {
+        "id": 33881,
+        "name": "Vindicator's Dragonhide Bracers",
+        "note": "Honor Points (Season 3)"
+      },
+      {
+        "id": 30863,
+        "name": "Deadly Cuffs",
+        "note": "Rage Winterchill — Hyjal Summit"
+      },
+      {
+        "id": 33540,
+        "name": "Master Assassin Wristwraps",
+        "note": "G'eras — Badge Vendor"
+      }
+    ],
+    "hands": [
+      {
+        "id": 29947,
+        "name": "Gloves of the Searing Grip",
+        "note": "Al'ar — Tempest Keep"
+      },
+      {
+        "id": 31034,
+        "name": "Thunderheart Gauntlets",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30106,
+        "name": "Belt of One-Hundred Deaths",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 30879,
+        "name": "Don Alejandro's Money Belt",
+        "note": "Anetheron — Hyjal Summit"
+      },
+      {
+        "id": 33583,
+        "name": "Waistguard of the Great Beast",
+        "note": "G'eras — Badge Vendor"
+      }
+    ],
+    "legs": [
+      {
+        "id": 31044,
+        "name": "Thunderheart Leggings",
+        "note": "The Illidari Council — Black Temple"
+      },
+      {
+        "id": 30898,
+        "name": "Shady Dealer's Pantaloons",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 28741,
+        "name": "Skulker's Greaves",
+        "note": "Netherspite — Karazhan"
+      }
+    ],
+    "feet": [
+      {
+        "id": 33222,
+        "name": "Nyn'jah's Tabi Boots",
+        "note": "G'eras — Badge Vendor"
+      },
+      {
+        "id": 32366,
+        "name": "Shadowmaster's Boots",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 33496,
+        "name": "Signet of Primal Wrath",
+        "note": "Zul'Aman Timed Chest (3rd)"
+      },
+      {
+        "id": 32497,
+        "name": "Stormrage Signet Ring",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29301,
+        "name": "Band of the Eternal Champion",
+        "note": "Scale of the Sands — Exalted"
+      },
+      {
+        "id": 30052,
+        "name": "Ring of Lethality",
+        "note": "Hydross — Serpentshrine Cavern"
+      },
+      {
+        "id": 32266,
+        "name": "Ring of Deceitful Intent",
+        "note": "Shade of Akama — Black Temple"
+      },
+      {
+        "id": 32335,
+        "name": "Unstoppable Aggressor's Ring",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 30627,
+        "name": "Tsunami Talisman",
+        "note": "Leotheras the Blind — SSC"
+      },
+      {
+        "id": 32505,
+        "name": "Madness of the Betrayer",
+        "note": "The Illidari Council — Black Temple"
+      },
+      {
+        "id": 33831,
+        "name": "Berserker's Call",
+        "note": "Zul'jin — Zul'Aman"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 23206,
+        "name": "Mark of the Champion",
+        "note": "Quest: Naxxramas"
+      },
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      },
+      {
+        "id": 38287,
+        "name": "Empty Mug of Direbrew",
+        "note": "Coren Direbrew — Brewfest"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 33716,
+        "name": "Vengeful Gladiator's Staff",
+        "note": "Arena Points (Season 3)"
+      },
+      {
+        "id": 33465,
+        "name": "Staff of Primal Fury",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      },
+      {
+        "id": 30883,
+        "name": "Pillar of Ferocity",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29390,
+        "name": "Everbloom Idol",
+        "note": "G'eras — Shattrath City (15 Badges)"
+      },
+      {
+        "id": 32387,
+        "name": "Idol of the Raven Goddess",
+        "note": "Quest: Vanquish the Raven God (Heroic Sethekk)"
+      },
+      {
+        "id": 33509,
+        "name": "Idol of Terror",
+        "note": "G'eras — Badge Vendor"
+      },
+      {
+        "id": 32257,
+        "name": "Idol of the White Stag",
+        "note": "G'eras — Badge Vendor"
+      }
+    ]
+  }
+}

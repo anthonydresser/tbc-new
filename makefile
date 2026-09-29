@@ -266,6 +266,11 @@ sim/core/items/all_items.go: $(call rwildcard,tools/database,*.go) $(call rwildc
 update-highs: node_modules
 	go run ./tools/gen_highs
 
+# Regenerate assets/bis_lists from the WickidsTBCBISTracker addon data.
+.PHONY: bis-lists
+bis-lists:
+	python3 tools/bis_list_generator/generate_wickids.py
+
 .PHONY: test
 test: $(OUT_DIR)/lib.wasm.gz binary_dist/dist.go
 	GOARCH=amd64 go test --tags=with_db ./sim/...

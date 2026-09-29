@@ -1,0 +1,293 @@
+{
+  "name": "Wickids — Warlock Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 15,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.709986+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 28963,
+        "name": "Voidheart Crown",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 24266,
+        "name": "Spellstrike Hood",
+        "note": "Tailoring"
+      },
+      {
+        "id": 29076,
+        "name": "Collar of the Aldor",
+        "note": "Shade of Aran — Karazhan"
+      }
+    ],
+    "neck": [
+      {
+        "id": 28530,
+        "name": "Brooch of Unquenchable Fury",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 28762,
+        "name": "Adornment of Stolen Souls",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28609,
+        "name": "Pendant of the Violet Eye",
+        "note": "Nightbane — Karazhan"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 28967,
+        "name": "Voidheart Mantle",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 29079,
+        "name": "Pauldrons of the Aldor",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 28755,
+        "name": "Mantle of the Mind Flayer",
+        "note": "Trash — Karazhan"
+      },
+      {
+        "id": 21869,
+        "name": "Frozen Shadoweave Shoulders",
+        "note": "Tailoring (Shadoweave)"
+      }
+    ],
+    "back": [
+      {
+        "id": 28766,
+        "name": "Ruby Drape of the Mysticant",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28797,
+        "name": "Brute Cloak of the Ogre-Magi",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 28570,
+        "name": "Shadow-Cloak of Dalaran",
+        "note": "Moroes — Karazhan"
+      }
+    ],
+    "chest": [
+      {
+        "id": 21848,
+        "name": "Spellfire Robe",
+        "note": "Tailoring (Spellfire)"
+      },
+      {
+        "id": 28964,
+        "name": "Voidheart Robe",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28602,
+        "name": "Robe of the Elder Scribes",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 21871,
+        "name": "Frozen Shadoweave Robe",
+        "note": "Tailoring (Shadoweave)"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 24250,
+        "name": "Bracers of Havok",
+        "note": "Tailoring"
+      },
+      {
+        "id": 28515,
+        "name": "Bands of Nefarious Deeds",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 28477,
+        "name": "Crimson Bracers of Gloom",
+        "note": "Attumen — Karazhan"
+      }
+    ],
+    "hands": [
+      {
+        "id": 21847,
+        "name": "Spellfire Gloves",
+        "note": "Tailoring (Spellfire)"
+      },
+      {
+        "id": 28968,
+        "name": "Voidheart Gloves",
+        "note": "Curator — Karazhan"
+      },
+      {
+        "id": 28780,
+        "name": "Soul-Eater's Handwraps",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28507,
+        "name": "Handwraps of Flowing Thought",
+        "note": "Attumen the Huntsman — Karazhan"
+      }
+    ],
+    "waist": [
+      {
+        "id": 21846,
+        "name": "Spellfire Belt",
+        "note": "Tailoring (Spellfire)"
+      },
+      {
+        "id": 24256,
+        "name": "Girdle of Ruination",
+        "note": "Tailoring"
+      },
+      {
+        "id": 30673,
+        "name": "Inferno Waist Cord",
+        "note": "Karazhan Trash"
+      }
+    ],
+    "legs": [
+      {
+        "id": 24262,
+        "name": "Spellstrike Pants",
+        "note": "Tailoring"
+      },
+      {
+        "id": 28966,
+        "name": "Voidheart Leggings",
+        "note": "Karazhan"
+      },
+      {
+        "id": 29078,
+        "name": "Legwraps of the Aldor",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "feet": [
+      {
+        "id": 21870,
+        "name": "Frozen Shadoweave Boots",
+        "note": "Tailoring (Shadoweave)"
+      },
+      {
+        "id": 28517,
+        "name": "Boots of Foretelling",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 28585,
+        "name": "Ruby Slippers",
+        "note": "Opera Event — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 28793,
+        "name": "Band of Crimson Fury",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 29287,
+        "name": "Violet Signet of the Archmage",
+        "note": "The Violet Eye — Exalted"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28753,
+        "name": "Ring of Recurrence",
+        "note": "Chess Event — Karazhan"
+      },
+      {
+        "id": 28555,
+        "name": "Ashton's Ring of Adornment",
+        "note": "Moroes — Karazhan"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 27683,
+        "name": "Quagmirran's Eye",
+        "note": "Quagmirran — Slave Pens"
+      },
+      {
+        "id": 28785,
+        "name": "The Lightning Capacitor",
+        "note": "Terestian Illhoof — Karazhan"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 29132,
+        "name": "Scryer's Bloodgem",
+        "note": "Scryer — Revered"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 30723,
+        "name": "Talon of the Tempest",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 28770,
+        "name": "Nathrezim Mindblade",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28802,
+        "name": "Bloodmaw Magus-Blade",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29270,
+        "name": "Flametongue Seal",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 29273,
+        "name": "Khadgar's Knapsack",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28781,
+        "name": "Karaborian Talisman",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 29272,
+        "name": "Orb of the Soul-Eater",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28673,
+        "name": "Tirisfal Wand of Ascendancy",
+        "note": "Shade of Aran — Karazhan"
+      },
+      {
+        "id": 28783,
+        "name": "Eredar Wand of Obliteration",
+        "note": "Magtheridon — Magtheridon's Lair"
+      }
+    ]
+  }
+}

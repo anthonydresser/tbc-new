@@ -1,0 +1,228 @@
+{
+  "name": "Wickids — Protection Paladin Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 8,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.701030+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 29068,
+        "name": "Justicar Faceguard",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 32083,
+        "name": "Faceguard of Determination",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "neck": [
+      {
+        "id": 28516,
+        "name": "Barbed Choker of Discipline",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 29386,
+        "name": "Necklace of the Juggernaut",
+        "note": "Aldor/Scryer Vendor"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 29070,
+        "name": "Justicar Shoulderguards",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 27739,
+        "name": "Spaulders of the Righteous",
+        "note": "Laj — The Botanica"
+      }
+    ],
+    "back": [
+      {
+        "id": 28660,
+        "name": "Gilded Thorium Cloak",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 29385,
+        "name": "Farstrider Defender's Cloak",
+        "note": "Aldor/Scryer Vendor"
+      }
+    ],
+    "chest": [
+      {
+        "id": 29066,
+        "name": "Justicar Chestguard",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28597,
+        "name": "Panzar'Thar Breastplate",
+        "note": "Nightbane — Karazhan"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 28502,
+        "name": "Vambraces of Courage",
+        "note": "Attumen the Huntsman — Karazhan"
+      },
+      {
+        "id": 29252,
+        "name": "Bracers of Dignity",
+        "note": "Aldor/Scryer Vendor"
+      }
+    ],
+    "hands": [
+      {
+        "id": 29067,
+        "name": "Justicar Handguards",
+        "note": "The Curator — Karazhan"
+      },
+      {
+        "id": 28518,
+        "name": "Iron Gauntlets of the Maiden",
+        "note": "Maiden of Virtue — Karazhan"
+      }
+    ],
+    "waist": [
+      {
+        "id": 29253,
+        "name": "Girdle of Valorous Deeds",
+        "note": "Aldor/Scryer Vendor"
+      },
+      {
+        "id": 28566,
+        "name": "Crimson Girdle of the Indomitable",
+        "note": "Moroes — Karazhan"
+      }
+    ],
+    "legs": [
+      {
+        "id": 29069,
+        "name": "Justicar Legguards",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28621,
+        "name": "Wrynn Dynasty Greaves",
+        "note": "The Curator — Karazhan"
+      }
+    ],
+    "feet": [
+      {
+        "id": 29254,
+        "name": "Boots of the Righteous Path",
+        "note": "Aldor/Scryer Vendor"
+      },
+      {
+        "id": 28608,
+        "name": "Ironstriders of Urgency",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 30735,
+        "name": "Eaglecrest Warboots",
+        "note": "Quest: Akama's Promise (SMV)"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 29279,
+        "name": "Violet Signet of the Great Protector",
+        "note": "The Violet Eye — Exalted"
+      },
+      {
+        "id": 28675,
+        "name": "Shermanar Great-Ring",
+        "note": "Shade of Aran — Karazhan"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28792,
+        "name": "A'dal's Signet of Defense",
+        "note": "Aldor/Scryer Vendor"
+      },
+      {
+        "id": 27436,
+        "name": "Iron Band of the Unbreakable",
+        "note": "Lieutenant Drake — Old Hillsbrad"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28528,
+        "name": "Moroes' Lucky Pocket Watch",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 30300,
+        "name": "Dabiri's Enigma",
+        "note": "Quest: Dimensius the All-Devouring"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 27529,
+        "name": "Figurine of the Colossus",
+        "note": "Jewelcrafting"
+      },
+      {
+        "id": 27891,
+        "name": "Adamantine Figurine",
+        "note": "Blackheart the Inciter — Heroic Shadow Labyrinth"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28749,
+        "name": "King's Defender",
+        "note": "Chess Event — Karazhan"
+      },
+      {
+        "id": 29185,
+        "name": "Continuum Blade",
+        "note": "Keepers of Time — Exalted"
+      },
+      {
+        "id": 30832,
+        "name": "Gavel of Unearthed Secrets",
+        "note": "Lower City — Exalted"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 28825,
+        "name": "Aldori Legacy Defender",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28606,
+        "name": "Shield of Impenetrable Darkness",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 29176,
+        "name": "Crest of the Sha'tar",
+        "note": "Sha'tar — Exalted"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29388,
+        "name": "Libram of Repentance",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 27917,
+        "name": "Libram of Saints Departed",
+        "note": "Darkweaver Syth — Sethekk Halls"
+      }
+    ]
+  }
+}

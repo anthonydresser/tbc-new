@@ -1,0 +1,148 @@
+{
+  "name": "Wickids — Protection Warrior Phase 2",
+  "source": "WickidsTBCBISTracker",
+  "spec": 17,
+  "phase": 2,
+  "generatedAt": "2026-08-01T17:52:52.713201+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 30115,
+        "name": "Destroyer Greathelm",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 32473,
+        "name": "Tankatronic Goggles",
+        "note": "Engineering"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30099,
+        "name": "Frayed Tether of the Drowned",
+        "note": "Morogrim Tidewalker — SSC"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30117,
+        "name": "Destroyer Shoulderguards",
+        "note": "Void Reaver — Tempest Keep"
+      }
+    ],
+    "back": [
+      {
+        "id": 29925,
+        "name": "Phoenix-Wing Cloak",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30113,
+        "name": "Destroyer Chestguard",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32515,
+        "name": "Wristguards of Determination",
+        "note": "The Eye Trash — Tempest Keep"
+      },
+      {
+        "id": 28502,
+        "name": "Vambraces of Courage",
+        "note": "Nightbane — Karazhan"
+      }
+    ],
+    "hands": [
+      {
+        "id": 29998,
+        "name": "Royal Gauntlets of Silvermoon",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30096,
+        "name": "Girdle of the Invulnerable",
+        "note": "Morogrim Tidewalker — SSC"
+      },
+      {
+        "id": 30106,
+        "name": "Belt of One-Hundred Deaths",
+        "note": "Lady Vashj — SSC"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30116,
+        "name": "Destroyer Legguards",
+        "note": "Fathom-Lord Karathress — SSC"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32267,
+        "name": "Boots of the Resilient",
+        "note": "SSC Trash"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30083,
+        "name": "Ring of Sundered Souls",
+        "note": "Morogrim Tidewalker — SSC"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29294,
+        "name": "Band of Eternity",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 23836,
+        "name": "Goblin Rocket Launcher",
+        "note": "Engineering"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29387,
+        "name": "Gnomeregan Auto-Blocker 600",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28439,
+        "name": "Dragonstrike",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 30058,
+        "name": "Mallet of the Tides",
+        "note": "Fathom-Lord Karathress — SSC"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 28825,
+        "name": "Aldori Legacy Defender",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 32756,
+        "name": "Gyro-Balanced Khorium Destroyer",
+        "note": "Engineering"
+      }
+    ]
+  }
+}

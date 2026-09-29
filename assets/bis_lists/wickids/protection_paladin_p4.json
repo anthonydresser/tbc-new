@@ -1,0 +1,213 @@
+{
+  "name": "Wickids — Protection Paladin Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 8,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.701959+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32521,
+        "name": "Faceplate of the Impenetrable",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33421,
+        "name": "Battleworn Tuskguard",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32362,
+        "name": "Pendant of Titans",
+        "note": "Reliquary of Souls — Black Temple"
+      },
+      {
+        "id": 30007,
+        "name": "The Darkener's Grasp",
+        "note": "Kael'thas Quest — Tempest Keep"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30998,
+        "name": "Lightbringer Shoulderguards",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 32250,
+        "name": "Pauldrons of Abyssal Fury",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 33593,
+        "name": "Slikk's Cloak of Placation",
+        "note": "G'eras — 60 Badges of Justice"
+      },
+      {
+        "id": 34010,
+        "name": "Pepe's Shroud of Pacification",
+        "note": "Hyjal Trash"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30991,
+        "name": "Lightbringer Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33522,
+        "name": "Chestguard of the Stoic Guardian",
+        "note": "G'eras — 60 Badges of Justice"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32279,
+        "name": "The Seeker's Wristguards",
+        "note": "Shade of Akama — Black Temple"
+      },
+      {
+        "id": 33516,
+        "name": "Bracers of the Ancient Phalanx",
+        "note": "G'eras — 35 Badges of Justice"
+      }
+    ],
+    "hands": [
+      {
+        "id": 30985,
+        "name": "Lightbringer Handguards",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 33517,
+        "name": "Bonefist Gauntlets",
+        "note": "G'eras — 60 Badges of Justice"
+      }
+    ],
+    "waist": [
+      {
+        "id": 33524,
+        "name": "Girdle of the Protector",
+        "note": "G'eras — 60 Badges of Justice"
+      },
+      {
+        "id": 32342,
+        "name": "Girdle of Mighty Resolve",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30995,
+        "name": "Lightbringer Legguards",
+        "note": "Illidari Council — Black Temple"
+      },
+      {
+        "id": 33515,
+        "name": "Unwavering Legguards",
+        "note": "G'eras — 75 Badges of Justice"
+      }
+    ],
+    "feet": [
+      {
+        "id": 33523,
+        "name": "Sabatons of the Righteous Defender",
+        "note": "G'eras — 60 Badges of Justice"
+      },
+      {
+        "id": 33191,
+        "name": "Jungle Stompers",
+        "note": "Nalorakk — Zul'Aman"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30083,
+        "name": "Ring of Sundered Souls",
+        "note": "Morogrim Tidewalker — SSC"
+      },
+      {
+        "id": 33499,
+        "name": "Signet of the Last Defender",
+        "note": "Zul'Aman Timed Chest"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29297,
+        "name": "Band of the Eternal Defender",
+        "note": "Scale of the Sands — Exalted"
+      },
+      {
+        "id": 32261,
+        "name": "Band of the Abyssal Lord",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32501,
+        "name": "Shadowmoon Insignia",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      },
+      {
+        "id": 34473,
+        "name": "Commendation of Kael'thas",
+        "note": "Magisters' Terrace"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 28528,
+        "name": "Moroes' Lucky Pocket Watch",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 30629,
+        "name": "Scarab of Displacement",
+        "note": "Hydross the Unstable — SSC"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 30910,
+        "name": "Tempest of Chaos",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 33283,
+        "name": "Amani Punisher",
+        "note": "Akil'zon — Zul'Aman"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 32375,
+        "name": "Bulwark of Azzinoth",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33326,
+        "name": "Bulwark of the Amani Empire",
+        "note": "Zul'Aman"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29388,
+        "name": "Libram of Repentance",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 33504,
+        "name": "Libram of Divine Purpose",
+        "note": "G'eras — Badges of Justice"
+      }
+    ]
+  }
+}

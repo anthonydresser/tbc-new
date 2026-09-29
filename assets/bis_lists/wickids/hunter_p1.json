@@ -1,0 +1,273 @@
+{
+  "name": "Wickids — Hunter Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 5,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.697072+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 28275,
+        "name": "Beast Lord Helm",
+        "note": "Pathaleon — Mechanar"
+      },
+      {
+        "id": 29081,
+        "name": "Demon Stalker Greathelm",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "neck": [
+      {
+        "id": 29381,
+        "name": "Choker of Vile Intent",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28509,
+        "name": "Worgen Claw Necklace",
+        "note": "Attumen the Huntsman — Karazhan"
+      },
+      {
+        "id": 28343,
+        "name": "Jagged Bark Pendant",
+        "note": "Warp Splinter — The Botanica"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 27801,
+        "name": "Beast Lord Mantle",
+        "note": "Warlord Kalithresh — The Steamvault"
+      },
+      {
+        "id": 29084,
+        "name": "Demon Stalker Shoulderguards",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 28755,
+        "name": "Mantle of Shadowy Embrace",
+        "note": "Chess Event — Karazhan"
+      }
+    ],
+    "back": [
+      {
+        "id": 24259,
+        "name": "Vengeance Wrap",
+        "note": "Leatherworking"
+      },
+      {
+        "id": 28672,
+        "name": "Drape of the Dark Reavers",
+        "note": "Shade of Aran — Karazhan"
+      },
+      {
+        "id": 28777,
+        "name": "Cloak of the Pit Stalker",
+        "note": "Magtheridon — Magtheridon's Lair"
+      }
+    ],
+    "chest": [
+      {
+        "id": 28228,
+        "name": "Beast Lord Cuirass",
+        "note": "Warp Splinter — The Botanica"
+      },
+      {
+        "id": 29525,
+        "name": "Primalstrike Vest",
+        "note": "Leatherworking"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29246,
+        "name": "Nightfall Wristguards",
+        "note": "Epoch Hunter — Heroic Old Hillsbrad Foothills"
+      },
+      {
+        "id": 29527,
+        "name": "Primalstrike Bracers",
+        "note": "Leatherworking"
+      },
+      {
+        "id": 28795,
+        "name": "Vambraces of Daring",
+        "note": "Quest: Nightbane — Karazhan"
+      }
+    ],
+    "hands": [
+      {
+        "id": 27474,
+        "name": "Beast Lord Handguards",
+        "note": "Warchief Kargath — Shattered Halls"
+      },
+      {
+        "id": 30644,
+        "name": "Grips of Deftness",
+        "note": "Trash — Karazhan"
+      },
+      {
+        "id": 29082,
+        "name": "Demon Stalker Gauntlets",
+        "note": "The Curator — Karazhan"
+      }
+    ],
+    "waist": [
+      {
+        "id": 28828,
+        "name": "Gronn-Stitched Girdle",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28750,
+        "name": "Girdle of Treachery",
+        "note": "Chess Event — Karazhan"
+      },
+      {
+        "id": 29526,
+        "name": "Primalstrike Belt",
+        "note": "Leatherworking"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30739,
+        "name": "Scaled Greaves of the Marksman",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28741,
+        "name": "Skulker's Greaves",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 29083,
+        "name": "Demon Stalker Greaves",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "feet": [
+      {
+        "id": 28545,
+        "name": "Edgewalker Longboots",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 28746,
+        "name": "Fiend Slayer Boots",
+        "note": "Chess Event — Karazhan"
+      },
+      {
+        "id": 28747,
+        "name": "Ironstriders of Urgency",
+        "note": "Chess Event — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 28791,
+        "name": "Ring of the Recalcitrant",
+        "note": "Quest: Nightbane — Karazhan"
+      },
+      {
+        "id": 29283,
+        "name": "Violet Signet of the Master Assassin",
+        "note": "The Violet Eye — Exalted"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28757,
+        "name": "Ring of a Thousand Marks",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28649,
+        "name": "Garona's Signet Ring",
+        "note": "Curator — Karazhan"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28288,
+        "name": "Abacus of Violent Odds",
+        "note": "Pathaleon — Heroic Mechanar"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28579,
+        "name": "Romulo's Poison Vial",
+        "note": "Opera — Karazhan"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 27846,
+        "name": "Claw of the Watcher",
+        "note": "Shirrak the Dead Watcher — Heroic Auchenai Crypts"
+      },
+      {
+        "id": 31332,
+        "name": "Blinkstrike",
+        "note": "World Drop"
+      },
+      {
+        "id": 28435,
+        "name": "Mooncleaver",
+        "note": "Weaponsmithing"
+      },
+      {
+        "id": 28587,
+        "name": "Legacy",
+        "note": "Opera Event — Karazhan"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 28572,
+        "name": "Blade of the Unrequited",
+        "note": "Quest: Nightbane — Karazhan"
+      },
+      {
+        "id": 28189,
+        "name": "Latro's Shifting Sword",
+        "note": "Aeonus — Heroic Black Morass"
+      },
+      {
+        "id": 28315,
+        "name": "Stormreaver Warblades",
+        "note": "High Botanist Freywinn — The Botanica"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28772,
+        "name": "Sunfury Bow of the Phoenix",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30724,
+        "name": "Barrel-Blade Longrifle",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 29351,
+        "name": "Wrathtide Longbow",
+        "note": "Warlord Kalithresh — Heroic Steamvault"
+      }
+    ]
+  }
+}
