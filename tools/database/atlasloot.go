@@ -22,6 +22,10 @@ func ReadAtlasLootData(dbHelper *DBHelper) *WowDatabase {
 	readAtlasLootDungeonData(db, proto.Expansion_ExpansionMop, "https://raw.githubusercontent.com/snowflame0/AtlasLootClassic_MoP/main/AtlasLootClassic_DungeonsAndRaids/data-mop.lua")
 	readAtlasLootFactionData(db, "https://raw.githubusercontent.com/snowflame0/AtlasLootClassic_MoP/main/AtlasLootClassic_Factions/data-mop.lua")
 
+	// TBC AtlasLoot has token-to-gear mappings that we can use to fill in sources for
+	// tier gear and other items obtained by turning in raid tokens.
+	readAtlasLootTBCData(db, dbHelper)
+
 	readZoneData(db, dbHelper)
 
 	return db
@@ -363,6 +367,368 @@ func loadZones(dbHelper *DBHelper) (map[int32]string, error) {
 	}
 
 	return namesByZone, nil
+}
+
+func readAtlasLootTBCData(db *WowDatabase, dbHelper *DBHelper) {
+	sourceUrl := "https://raw.githubusercontent.com/Hoizame/AtlasLootClassic/master/AtlasLootClassic_Data/source-tbc.lua"
+	dataUrl := "https://raw.githubusercontent.com/Hoizame/AtlasLootClassic/master/AtlasLootClassic_DungeonsAndRaids/data-tbc.lua"
+
+	sourceTxt, err := tools.ReadWeb(sourceUrl)
+	if err != nil {
+		log.Fatalf("Error reading TBC atlasloot source file %s", err)
+	}
+	dataTxt, err := tools.ReadWeb(dataUrl)
+	if err != nil {
+		log.Fatalf("Error reading TBC atlasloot data file %s", err)
+	}
+
+	instanceNames := parseTBCAtlasLootIDs(sourceTxt)
+	sourceEntries := parseTBCSourceEntries(sourceTxt)
+	instances := parseTBCInstanceData(dataTxt)
+
+	tokenIDs := make([]int32, 0)
+	seenTokens := make(map[int]bool)
+	for _, tokenID := range sourceEntries.TokenMap {
+		resolved := tokenID
+		for i := 0; i < 5 && sourceEntries.TokenMap[resolved] != 0; i++ {
+			resolved = sourceEntries.TokenMap[resolved]
+		}
+		if !isTBCItemToken(resolved) || seenTokens[resolved] {
+			continue
+		}
+		seenTokens[resolved] = true
+		tokenIDs = append(tokenIDs, int32(resolved))
+	}
+	tokenNames := loadTBCItemNames(dbHelper, tokenIDs)
+
+	for gearID, tokenID := range sourceEntries.TokenMap {
+		resolved := tokenID
+		for i := 0; i < 5 && sourceEntries.TokenMap[resolved] != 0; i++ {
+			resolved = sourceEntries.TokenMap[resolved]
+		}
+
+		if !isTBCItemToken(resolved) {
+			continue
+		}
+
+		src := sourceEntries.Coords[resolved]
+		if src == nil {
+			continue
+		}
+
+		if src.instanceIdx < 1 || src.instanceIdx > len(instanceNames) {
+			continue
+		}
+		instanceName := instanceNames[src.instanceIdx-1]
+		instance, ok := instances[instanceName]
+		if !ok {
+			continue
+		}
+
+		if src.listIdx < 1 || src.listIdx > len(instance.bosses) {
+			continue
+		}
+		boss := instance.bosses[src.listIdx-1]
+
+		if existing, ok := db.Items[int32(gearID)]; ok && len(existing.Sources) > 0 {
+			continue
+		}
+
+		db.MergeZone(&proto.UIZone{
+			Id:        instance.mapID,
+			Expansion: proto.Expansion_ExpansionTbc,
+		})
+		if boss.npcID != 0 {
+			db.MergeNpc(&proto.UINPC{
+				Id:     boss.npcID,
+				ZoneId: instance.mapID,
+				Name:   boss.name,
+			})
+		}
+
+		tokenName := tokenNames[int32(resolved)]
+		if tokenName == "" {
+			tokenName = "Unknown Token"
+		}
+		dropSource := &proto.DropSource{
+			Difficulty: tbcDifficulty(instance.contentType, src.difficulty),
+			ZoneId:     instance.mapID,
+			Category:   "Token",
+			OtherName:  tokenName,
+		}
+		if boss.npcID != 0 {
+			dropSource.NpcId = boss.npcID
+		}
+
+		db.MergeItem(&proto.UIItem{
+			Id:        int32(gearID),
+			Expansion: proto.Expansion_ExpansionTbc,
+			Sources: []*proto.UIItemSource{{
+				Source: &proto.UIItemSource_Drop{
+					Drop: dropSource,
+				},
+			}},
+		})
+	}
+}
+
+type tbcSourceData struct {
+	Coords   map[int]*tbcSourceEntry
+	TokenMap map[int]int
+}
+
+type tbcSourceEntry struct {
+	instanceIdx int
+	listIdx     int
+	difficulty  int
+}
+
+type tbcInstanceData struct {
+	mapID       int32
+	contentType string
+	bosses      []tbcBossEntry
+}
+
+type tbcBossEntry struct {
+	name  string
+	npcID int32
+}
+
+func parseTBCAtlasLootIDs(src string) []string {
+	var result []string
+	inArray := false
+	for _, line := range strings.Split(src, "\n") {
+		if !inArray {
+			if strings.Contains(line, `["AtlasLootIDs"] = {`) {
+				inArray = true
+			}
+			continue
+		}
+		if strings.Contains(line, "}") {
+			break
+		}
+		line = strings.TrimSpace(line)
+		if line == "" || strings.HasPrefix(line, "--") {
+			continue
+		}
+		line = strings.TrimSuffix(strings.TrimSpace(line), ",")
+		line = strings.Trim(line, `"`)
+		if line != "" {
+			result = append(result, line)
+		}
+	}
+	return result
+}
+
+func parseTBCSourceEntries(src string) *tbcSourceData {
+	data := &tbcSourceData{
+		Coords:   make(map[int]*tbcSourceEntry),
+		TokenMap: make(map[int]int),
+	}
+
+	plainIntPattern := regexp.MustCompile(`^\s*\[(\d+)\]\s*=\s*(\d+),\s*$`)
+	tablePattern := regexp.MustCompile(`^\s*\[(\d+)\]\s*=\s*\{(.*)\},?\s*$`)
+	keyValuePattern := regexp.MustCompile(`\[(\d+)\]\s*=\s*(\d+)`)
+
+	for _, line := range strings.Split(src, "\n") {
+		if match := plainIntPattern.FindStringSubmatch(line); match != nil {
+			id, _ := strconv.Atoi(match[1])
+			target, _ := strconv.Atoi(match[2])
+			data.TokenMap[id] = target
+			continue
+		}
+
+		if match := tablePattern.FindStringSubmatch(line); match != nil {
+			id, _ := strconv.Atoi(match[1])
+			inner := match[2]
+
+			var instanceIdx, listIdx, difficulty int
+			if strings.Contains(inner, "[") {
+				coords := make(map[int]int)
+				for _, kv := range keyValuePattern.FindAllStringSubmatch(inner, -1) {
+					k, _ := strconv.Atoi(kv[1])
+					v, _ := strconv.Atoi(kv[2])
+					coords[k] = v
+				}
+				instanceIdx = coords[1]
+				listIdx = coords[2]
+				difficulty = coords[3]
+			} else {
+				parts := strings.Split(inner, ",")
+				if len(parts) >= 3 {
+					vals := make([]int, 0, len(parts))
+					for _, p := range parts {
+						v, err := strconv.Atoi(strings.TrimSpace(p))
+						if err != nil {
+							continue
+						}
+						vals = append(vals, v)
+					}
+					if len(vals) >= 3 {
+						instanceIdx = vals[0]
+						listIdx = vals[1]
+						difficulty = vals[2]
+					}
+				}
+			}
+
+			if instanceIdx != 0 && listIdx != 0 {
+				data.Coords[id] = &tbcSourceEntry{
+					instanceIdx: instanceIdx,
+					listIdx:     listIdx,
+					difficulty:  difficulty,
+				}
+			}
+		}
+	}
+	return data
+}
+
+func parseTBCInstanceData(src string) map[string]*tbcInstanceData {
+	result := make(map[string]*tbcInstanceData)
+
+	mapIDPattern := regexp.MustCompile(`MapID\s*=\s*(\d+),`)
+	contentTypePattern := regexp.MustCompile(`ContentType\s*=\s*([A-Z0-9_]+),`)
+	bossPattern := regexp.MustCompile(`name = AL\["([^"]+)"\],.*?npcID = \{?(\d+(?:,\d+)*)\}?,`)
+
+	for _, block := range splitTBCDataBlocks(src) {
+		mapIDMatch := mapIDPattern.FindStringSubmatch(block.body)
+		contentTypeMatch := contentTypePattern.FindStringSubmatch(block.body)
+		if mapIDMatch == nil || contentTypeMatch == nil {
+			continue
+		}
+		name := block.name
+		mapID, _ := strconv.Atoi(mapIDMatch[1])
+		contentType := contentTypeMatch[1]
+
+		itemsInner := extractTBCItemsInner(block.body)
+		if itemsInner == "" {
+			continue
+		}
+		itemsInner = strings.ReplaceAll(itemsInner, "\n", "@@@")
+
+		instance := &tbcInstanceData{
+			mapID:       int32(mapID),
+			contentType: contentType,
+		}
+		for _, bossMatch := range bossPattern.FindAllStringSubmatch(itemsInner, -1) {
+			bossName := bossMatch[1]
+			bossIDStr := strings.Split(bossMatch[2], ",")[0]
+			bossID, _ := strconv.Atoi(strings.TrimSpace(bossIDStr))
+			instance.bosses = append(instance.bosses, tbcBossEntry{
+				name:  bossName,
+				npcID: int32(bossID),
+			})
+		}
+		result[name] = instance
+	}
+	return result
+}
+
+type tbcRawDataBlock struct {
+	name string
+	body string
+}
+
+func splitTBCDataBlocks(src string) []tbcRawDataBlock {
+	blocks := []tbcRawDataBlock{}
+	parts := strings.Split(src, `data["`)
+	for _, part := range parts[1:] {
+		endQuote := strings.Index(part, `"]`)
+		if endQuote == -1 {
+			continue
+		}
+		name := part[:endQuote]
+		body := part[endQuote+2:]
+		blocks = append(blocks, tbcRawDataBlock{name: name, body: body})
+	}
+	return blocks
+}
+
+func extractTBCItemsInner(block string) string {
+	itemsIdx := strings.Index(block, "items = {")
+	if itemsIdx == -1 {
+		return ""
+	}
+	start := itemsIdx + len("items = {")
+	depth := 1
+	for i := start; i < len(block); i++ {
+		switch block[i] {
+		case '{':
+			depth++
+		case '}':
+			depth--
+			if depth == 0 {
+				return block[start:i]
+			}
+		}
+	}
+	return ""
+}
+
+func isTBCItemToken(itemID int) bool {
+	switch {
+	case itemID >= 29753 && itemID <= 29767: // T4 tokens
+		return true
+	case itemID >= 30236 && itemID <= 30250: // T5 tokens
+		return true
+	case itemID >= 31089 && itemID <= 31103: // T6 tokens
+		return true
+	case itemID >= 34848 && itemID <= 34858: // Sunwell tokens
+		return true
+	}
+	return false
+}
+
+func loadTBCItemNames(dbHelper *DBHelper, itemIDs []int32) map[int32]string {
+	names := make(map[int32]string)
+	if len(itemIDs) == 0 || dbHelper == nil {
+		return names
+	}
+
+	placeholders := make([]string, len(itemIDs))
+	args := make([]any, len(itemIDs))
+	for i, id := range itemIDs {
+		placeholders[i] = "?"
+		args[i] = id
+	}
+
+	query := fmt.Sprintf("SELECT ID, Display_lang FROM ItemSparse WHERE ID IN (%s)", strings.Join(placeholders, ","))
+	rows, err := dbHelper.db.Query(query, args...)
+	if err != nil {
+		log.Printf("Error loading TBC item names: %v", err)
+		return names
+	}
+	defer rows.Close()
+
+	var id int32
+	var name string
+	for rows.Next() {
+		if err := rows.Scan(&id, &name); err == nil {
+			names[id] = name
+		}
+	}
+	return names
+}
+
+func tbcDifficulty(contentType string, difficultyIdx int) proto.DungeonDifficulty {
+	switch contentType {
+	case "RAID10_CONTENT":
+		if difficultyIdx == 2 {
+			return proto.DungeonDifficulty_DifficultyRaid10H
+		}
+		return proto.DungeonDifficulty_DifficultyRaid10
+	case "RAID25_CONTENT":
+		if difficultyIdx == 2 {
+			return proto.DungeonDifficulty_DifficultyRaid25H
+		}
+		return proto.DungeonDifficulty_DifficultyRaid25
+	default:
+		if difficultyIdx == 2 {
+			return proto.DungeonDifficulty_DifficultyHeroic
+		}
+		return proto.DungeonDifficulty_DifficultyNormal
+	}
 }
 
 var AtlasLootProfessionIDs = map[int]proto.Profession{
