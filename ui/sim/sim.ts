@@ -57,7 +57,7 @@ import { CURRENT_PHASE, LOCAL_STORAGE_PREFIX } from './constants/other';
 import { Player, UnitMetadata } from './player/player';
 import { Database } from './proto/database';
 import { Gear } from './proto/gear';
-import { getReforgeCacheGearKey } from './proto/items';
+import { frozenGemSocketSet, getReforgeCacheGearKey } from './proto/items';
 import { extendPlayerProtoWithMissingEffects } from './proto/proto_migration';
 import { SimResult } from './proto/sim_result';
 import { StatCap, Stats } from './proto/stats';
@@ -472,6 +472,7 @@ export class Sim {
 					bulkReforgeRequest?.settings?.freezeItemSlots && bulkReforgeRequest.settings.frozenItemSlots.length
 						? bulkReforgeRequest.settings.frozenItemSlots
 						: undefined;
+				const frozenGemSockets = frozenGemSocketSet(bulkReforgeRequest?.settings);
 				let lastYieldAt = performance.now();
 				let lastProgressEmitAt = lastYieldAt;
 				const reportCandidateBuildProgress = (processedCandidates: number) => {
@@ -497,7 +498,7 @@ export class Sim {
 						candidates.push({
 							index: candidate.index,
 							spec: preparedSpec,
-							gearKey: getReforgeCacheGearKey(preparedSpec, frozenItemSlots),
+							gearKey: getReforgeCacheGearKey(preparedSpec, frozenItemSlots, frozenGemSockets),
 						});
 					}
 					reportCandidateBuildProgress(i + 1);

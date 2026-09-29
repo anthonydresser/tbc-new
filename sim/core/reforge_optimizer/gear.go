@@ -68,7 +68,7 @@ func (o *reforgeOptimizer) minimizeRegems(newGear *core.Equipment) {
 
 		for socketIdx := range currentSocketColors(*newItem) {
 			socketKey := reforgeSocketKey{slot: slot, socketIdx: socketIdx}
-			if finalizedSocketKeys[socketKey] {
+			if finalizedSocketKeys[socketKey] || o.frozenSockets[socketKey] {
 				continue
 			}
 			finalizedSocketKeys[socketKey] = true
@@ -80,7 +80,7 @@ func (o *reforgeOptimizer) minimizeRegems(newGear *core.Equipment) {
 			}
 
 			for _, loc := range o.findGem(newGear, originalGemID) {
-				if o.frozenSlots[loc.slot] {
+				if o.frozenSlots[loc.slot] || o.frozenSockets[reforgeSocketKey{slot: loc.slot, socketIdx: loc.socketIdx}] {
 					continue
 				}
 				matchedKey := reforgeSocketKey{slot: loc.slot, socketIdx: loc.socketIdx}
@@ -220,12 +220,27 @@ func frozenItemSlots(settings *proto.ReforgeSettings) map[proto.ItemSlot]bool {
 	return frozen
 }
 
+// frozenGemSocketKeys returns the individually frozen sockets. Frozen sockets keep whatever gem
+// is currently socketed through optimization, exactly like frozen item slots do for the whole
+// item.
+func frozenGemSocketKeys(settings *proto.ReforgeSettings) map[reforgeSocketKey]bool {
+	frozen := map[reforgeSocketKey]bool{}
+	if settings == nil {
+		return frozen
+	}
+	for _, socket := range settings.GetFrozenGemSockets() {
+		frozen[reforgeSocketKey{slot: socket.GetSlot(), socketIdx: int(socket.GetSocketIdx())}] = true
+	}
+	return frozen
+}
+
 func currentSocketColors(item core.Item) []proto.GemColor {
 	return slices.Clone(item.GemSockets)
 }
 
 func clearGems(equipment *proto.EquipmentSpec, settings *proto.ReforgeSettings) {
 	frozenSlots := frozenItemSlots(settings)
+	frozenSockets := frozenGemSocketKeys(settings)
 	for slotIdx, item := range equipment.Items {
 		slot := proto.ItemSlot(slotIdx)
 		if item == nil || frozenSlots[slot] {
@@ -234,6 +249,9 @@ func clearGems(equipment *proto.EquipmentSpec, settings *proto.ReforgeSettings) 
 
 		for gemIdx, gemID := range item.Gems {
 			if gemID == 0 {
+				continue
+			}
+			if frozenSockets[reforgeSocketKey{slot: slot, socketIdx: gemIdx}] {
 				continue
 			}
 			if gem, ok := core.GetGemByID(gemID); ok && gem.Color == proto.GemColor_GemColorMeta {

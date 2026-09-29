@@ -166,6 +166,7 @@ export const REFORGE_FIELDS = [
 	'softCapBreakpoints',
 	'breakpointLimits',
 	'freezeItemSlots',
+	'frozenGemSockets',
 	'maxGemPhase',
 	'maxGemQuality',
 	'disableUniqueGems',
@@ -180,6 +181,9 @@ export interface ReforgeSlice {
 	softCapBreakpoints: Array<StatCap>;
 	freezeItemSlots: boolean;
 	frozenItemSlots: Array<number>;
+	// Individually frozen sockets, keyed `${slot}_${socketIdx}`. Socketed gems there survive
+	// gem optimization, bulk fallback gemming, and upgrade candidate building.
+	frozenGemSockets: Array<string>;
 	// TBC optimizes gems, not reforges: these three are the gem-pool knobs.
 	maxGemPhase: number;
 	maxGemQuality: ItemQuality;

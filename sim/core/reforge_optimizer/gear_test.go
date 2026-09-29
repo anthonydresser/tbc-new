@@ -16,7 +16,65 @@ func minimizeRegemsHarness(original *proto.EquipmentSpec) *reforgeOptimizer {
 	return &reforgeOptimizer{
 		settings:          &proto.ReforgeSettings{},
 		frozenSlots:       map[proto.ItemSlot]bool{},
+		frozenSockets:     map[reforgeSocketKey]bool{},
 		originalEquipment: equipmentFromProto(original),
+	}
+}
+
+// clearGems strips every non-meta gem except the ones locked by frozen_gem_sockets.
+func TestClearGemsKeepsFrozenSockets(t *testing.T) {
+	sim.RegisterAll()
+
+	const handsSlot = 6
+	const smooth, bold = int32(24048), int32(24027)
+
+	items := make([]*proto.ItemSpec, core.NumItemSlots)
+	for i := range items {
+		items[i] = &proto.ItemSpec{}
+	}
+	items[handsSlot] = &proto.ItemSpec{Id: 32278, Gems: []int32{smooth, bold}} // two Red sockets
+	equipment := &proto.EquipmentSpec{Items: items}
+
+	settings := &proto.ReforgeSettings{
+		FrozenGemSockets: []*proto.GemSocket{{Slot: proto.ItemSlot(handsSlot), SocketIdx: 1}},
+	}
+	clearGems(equipment, settings)
+
+	if got := equipment.Items[handsSlot].Gems; got[0] != 0 || got[1] != bold {
+		t.Fatalf("clearGems = %v, want socket 0 stripped and frozen socket 1 keeping %d", got, bold)
+	}
+}
+
+// minimizeRegems must never disturb a frozen socket, neither as swap source nor as swap target.
+func TestMinimizeRegemsKeepsFrozenSockets(t *testing.T) {
+	sim.RegisterAll()
+
+	const wristSlot, handsSlot = 5, 6
+	const smooth, bold = int32(24048), int32(24027)
+
+	mkSpec := func(wristGem int32, handsGems []int32) *proto.EquipmentSpec {
+		items := make([]*proto.ItemSpec, core.NumItemSlots)
+		for i := range items {
+			items[i] = &proto.ItemSpec{}
+		}
+		items[wristSlot] = &proto.ItemSpec{Id: 28174, Gems: []int32{wristGem}}
+		items[handsSlot] = &proto.ItemSpec{Id: 32278, Gems: handsGems}
+		return &proto.EquipmentSpec{Items: items}
+	}
+
+	original := mkSpec(bold, []int32{smooth, smooth})
+	solved := mkSpec(smooth, []int32{bold, bold})
+	newGear := equipmentFromProto(solved)
+
+	optimizer := minimizeRegemsHarness(original)
+	optimizer.frozenSockets[reforgeSocketKey{slot: handsSlot, socketIdx: 0}] = true
+	optimizer.minimizeRegems(newGear)
+
+	wrist := newGear.GetItemBySlot(proto.ItemSlot(wristSlot))
+	hands := newGear.GetItemBySlot(proto.ItemSlot(handsSlot))
+	if gemIDAt(wrist, 0) != smooth || gemIDAt(hands, 0) != bold || gemIDAt(hands, 1) != bold {
+		t.Fatalf("frozen socket disturbed: wrist=[%d] hands=[%d %d], want wrist=[%d] hands=[%d %d]",
+			gemIDAt(wrist, 0), gemIDAt(hands, 0), gemIDAt(hands, 1), smooth, bold, bold)
 	}
 }
 

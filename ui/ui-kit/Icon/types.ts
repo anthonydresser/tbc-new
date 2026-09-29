@@ -35,6 +35,7 @@ export type IconName =
 	| 'github'
 	| 'globe'
 	| 'info-circle'
+	| 'lock'
 	| 'magnifying-glass-minus'
 	| 'magnifying-glass-plus'
 	| 'map-pin'

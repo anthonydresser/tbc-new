@@ -7,7 +7,7 @@ import { ReforgeGearCache } from '../cache/reforge_cache';
 import type { Player } from '../player/player';
 import { Database } from '../proto/database';
 import { Gear } from '../proto/gear';
-import { getReforgeCacheGearKey } from '../proto/items';
+import { frozenGemSocketSet, getReforgeCacheGearKey } from '../proto/items';
 import { getReforgeConfigHash } from '../state/reforge_request';
 import { sleep } from '../utils/misc';
 import { throwIfAborted } from './utils';
@@ -69,6 +69,7 @@ export async function getBulkSimReforgeCacheData({
 	const configHash = await getReforgeConfigHash({ player, reforgeRequest, raidBuffs, partyBuffs, debuffs });
 	const frozenItemSlots =
 		reforgeRequest.settings?.freezeItemSlots && reforgeRequest.settings.frozenItemSlots.length ? reforgeRequest.settings.frozenItemSlots : undefined;
+	const frozenGemSockets = frozenGemSocketSet(reforgeRequest.settings);
 	const totalCandidates = candidateSpecs?.length ?? gearSets!.length;
 	onProgress?.({
 		stage: 'cache-restore',
@@ -134,7 +135,7 @@ export async function getBulkSimReforgeCacheData({
 	for (let i = 0; i < totalCandidates; i++) {
 		throwIfAborted(signal);
 		const spec = candidateSpecs?.[i] ?? gearSets![i].asSpec();
-		const gearKey = candidateGearKeys?.[i] ?? getReforgeCacheGearKey(spec, frozenItemSlots);
+		const gearKey = candidateGearKeys?.[i] ?? getReforgeCacheGearKey(spec, frozenItemSlots, frozenGemSockets);
 		const candidateIndex = candidateIndices?.[i] ?? i;
 		const cacheKey = ReforgeGearCache.getKey(gearKey, configHash);
 		pendingEntries.push({ index: candidateIndex, spec, cacheKey });
