@@ -5,7 +5,7 @@
 // Values live in the sim store (`reforge[player.storeKey]`) with per-field
 // version counters; this class is the facade over that slice.
 // Serialization lands in IndividualSimSettings.reforgeSettings.
-import { ReforgeSettings as ReforgeSettingsProto } from '@generated/proto/api';
+import { GemSocket, ReforgeSettings as ReforgeSettingsProto } from '@generated/proto/api';
 import { ItemQuality, ItemSlot, Stat } from '@generated/proto/common';
 
 import { CURRENT_PHASE, Phase } from '../constants/other';
@@ -47,6 +47,7 @@ export class ReforgeSettings {
 			softCapBreakpoints: [],
 			freezeItemSlots: false,
 			frozenItemSlots: [],
+			frozenGemSockets: [],
 			maxGemPhase: CURRENT_PHASE,
 			maxGemQuality: ItemQuality.ItemQualityEpic,
 			disableUniqueGems: false,
@@ -150,6 +151,35 @@ export class ReforgeSettings {
 		return (this.slice.frozenItemSlots as ItemSlot[]).includes(slot);
 	}
 
+	// ---- individually frozen gem sockets, keyed `${slot}_${socketIdx}` (mirrors SocketBonusKey
+	// conventions elsewhere). Frozen sockets keep their socketed gem through optimization and
+	// through bulk/upgrade fallback gemming.
+	static frozenGemSocketKey(slot: ItemSlot, socketIdx: number): string {
+		return `${slot}_${socketIdx}`;
+	}
+
+	setFrozenGemSocket(slot: ItemSlot, socketIdx: number, frozen: boolean) {
+		const key = ReforgeSettings.frozenGemSocketKey(slot, socketIdx);
+		const next = new Set(this.slice.frozenGemSockets);
+		if (frozen === next.has(key)) {
+			return;
+		}
+		next[frozen ? 'add' : 'delete'](key);
+		this.write({ frozenGemSockets: [...next] }, ['frozenGemSockets']);
+	}
+
+	setFrozenGemSockets(sockets: Array<{ slot: ItemSlot; socketIdx: number }>) {
+		this.write({ frozenGemSockets: sockets.map(({ slot, socketIdx }) => ReforgeSettings.frozenGemSocketKey(slot, socketIdx)) }, ['frozenGemSockets']);
+	}
+
+	getFrozenGemSocket(slot: ItemSlot, socketIdx: number): boolean {
+		return this.slice.frozenGemSockets.includes(ReforgeSettings.frozenGemSocketKey(slot, socketIdx));
+	}
+
+	getFrozenGemSockets(): Set<string> {
+		return new Set(this.slice.frozenGemSockets);
+	}
+
 	// ---- the gem pool knobs. TBC-only: MoP's reforger has no counterpart for any of them.
 	setMaxGemPhase(phase: number) {
 		this.write({ maxGemPhase: phase }, ['maxGemPhase']);
@@ -191,6 +221,7 @@ export class ReforgeSettings {
 			// protobuf-ts `create()` seeds every repeated field to `[]`, which is truthy — so a bare
 			// guard here empties the slots a user pinned in the optimizer on every preset click.
 			if (proto.frozenItemSlots.length) this.setFrozenItemSlots(proto.frozenItemSlots);
+			if (proto.frozenGemSockets.length) this.setFrozenGemSockets(proto.frozenGemSockets.map(s => ({ slot: s.slot, socketIdx: s.socketIdx })));
 			if (proto.breakpointLimits) this.setBreakpointLimits(Stats.fromProto(proto.breakpointLimits));
 			if (proto.maxGemPhase) this.setMaxGemPhase(proto.maxGemPhase);
 		});
@@ -203,6 +234,7 @@ export class ReforgeSettings {
 			this.setUseSoftCapBreakpoints(proto.useSoftCapBreakpoints);
 			this.setFreezeItemSlots(proto.freezeItemSlots);
 			this.setFrozenItemSlots(proto.frozenItemSlots);
+			this.setFrozenGemSockets(proto.frozenGemSockets.map(s => ({ slot: s.slot, socketIdx: s.socketIdx })));
 			this.setBreakpointLimits(Stats.fromProto(proto.breakpointLimits));
 			this.setDisableUniqueGems(proto.disableUniqueGems);
 			this.setMaxGemPhase(proto.maxGemPhase || Phase.Phase1);
@@ -216,6 +248,10 @@ export class ReforgeSettings {
 			useSoftCapBreakpoints: this.useSoftCapBreakpoints,
 			freezeItemSlots: this.freezeItemSlots,
 			frozenItemSlots: [...this.frozenItemSlots],
+			frozenGemSockets: [...this.getFrozenGemSockets()].map(key => {
+				const [slot, socketIdx] = key.split('_');
+				return GemSocket.create({ slot: Number(slot) as ItemSlot, socketIdx: Number(socketIdx) });
+			}),
 			breakpointLimits: this.breakpointLimits.toProto(),
 			statCaps: this.statCaps.toProto(),
 			disableUniqueGems: this.disableUniqueGems,
@@ -230,6 +266,7 @@ export class ReforgeSettings {
 			this.setUseCustomEPValues(false);
 			this.setUseSoftCapBreakpoints(!!this.defaults.softCapBreakpoints?.length);
 			this.setFreezeItemSlots(false);
+			this.setFrozenGemSockets([]);
 			this.setStatCaps(this.defaults.statCaps || new Stats());
 			this.setBreakpointLimits(this.defaults.breakpointLimits || new Stats());
 			this.setSoftCapBreakpoints(this.defaults.softCapBreakpoints || []);

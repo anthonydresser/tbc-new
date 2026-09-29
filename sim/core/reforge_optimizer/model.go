@@ -390,6 +390,7 @@ func (o *reforgeOptimizer) buildYalpsVariables(equipment core.Equipment, preCapE
 	variables := newLPVariables()
 	gemsToInclude := o.buildGemOptions(preCapEPs, reforgeCaps, softCaps)
 	frozen := frozenItemSlots(o.settings)
+	frozenSockets := o.frozenSockets
 
 	// setVar stores a variable's two coefficient spaces: capCoeffs (stat-dependency-resolved stats
 	// plus the structural/constraint keys) in byName, and objCoeffs (the EP-calibrated
@@ -414,6 +415,25 @@ func (o *reforgeOptimizer) buildYalpsVariables(equipment core.Equipment, preCapE
 			continue
 		}
 
+		// Frozen sockets keep their current gem and exclude themselves from the LP entirely. A
+		// frozen off-colour gem makes the item's socket bonus unattainable; a frozen gem in a
+		// matching socket contributes to it for free.
+		hasFrozenSockets := false
+		frozenSocketBonusImpossible := false
+		for socketIdx, socketColor := range socketColors {
+			if !frozenSockets[reforgeSocketKey{slot: slot, socketIdx: socketIdx}] {
+				continue
+			}
+			hasFrozenSockets = true
+			if !isColoredSocket(socketColor) {
+				continue
+			}
+			frozenGem, ok := core.GetGemByID(gemIDAt(&item, socketIdx))
+			if !ok || !core.GemMatchesSocket(frozenGem.Color, socketColor) {
+				frozenSocketBonusImpossible = true
+			}
+		}
+
 		socketBonusNormalization := len(socketColors)
 		if socketBonusNormalization == 0 {
 			socketBonusNormalization = 1
@@ -425,28 +445,33 @@ func (o *reforgeOptimizer) buildYalpsVariables(equipment core.Equipment, preCapE
 		distributedSocketBonus := scaleStats(item.SocketBonus, 1.0/float64(socketBonusNormalization))
 
 		// Decide up front whether matching the socket bonus is obviously correct, which lets the
-		// model drop the off-colour gem candidates for this item.
+		// model drop the off-colour gem candidates for this item. With frozen sockets these
+		// heuristics are wrong: they assume every socket is a free variable, and forceSocketBonus
+		// could price in a bonus a frozen off-colour gem makes unattainable. Leave the link
+		// variables to model the bonus exactly instead.
 		forceSocketBonus := false
 		socketBonusAsCoeff := make(map[string]float64)
-		for statIdx, value := range distributedSocketBonus {
-			if value <= 0 {
-				continue
-			}
-			stat := stats.Stat(statIdx)
-			if getUnitStat(o.undershootCaps, stats.UnitStatFromStat(stat)) != 0 {
-				continue
-			}
-			undershot := false
-			for _, child := range childPseudoStats(stat) {
-				if getUnitStat(o.undershootCaps, stats.UnitStatFromPseudoStat(child)) != 0 {
-					undershot = true
-					break
+		if !hasFrozenSockets {
+			for statIdx, value := range distributedSocketBonus {
+				if value <= 0 {
+					continue
 				}
+				stat := stats.Stat(statIdx)
+				if getUnitStat(o.undershootCaps, stats.UnitStatFromStat(stat)) != 0 {
+					continue
+				}
+				undershot := false
+				for _, child := range childPseudoStats(stat) {
+					if getUnitStat(o.undershootCaps, stats.UnitStatFromPseudoStat(child)) != 0 {
+						undershot = true
+						break
+					}
+				}
+				if undershot {
+					continue
+				}
+				o.applyReforgeStat(socketBonusAsCoeff, stat, value, preCapEPs)
 			}
-			if undershot {
-				continue
-			}
-			o.applyReforgeStat(socketBonusAsCoeff, stat, value, preCapEPs)
 		}
 
 		if len(socketBonusAsCoeff) > 0 {
@@ -485,6 +510,9 @@ func (o *reforgeOptimizer) buildYalpsVariables(equipment core.Equipment, preCapE
 		}
 
 		for socketIdx, socketColor := range socketColors {
+			if frozenSockets[reforgeSocketKey{slot: slot, socketIdx: socketIdx}] {
+				continue
+			}
 			var gemColorKeys []proto.GemColor
 			switch socketColor {
 			case proto.GemColor_GemColorPrismatic:
@@ -515,7 +543,7 @@ func (o *reforgeOptimizer) buildYalpsVariables(equipment core.Equipment, preCapE
 							o.applyPositiveReforgeStats(objCoeffs, distributedSocketBonus, preCapEPs)
 							rawStats = rawStats.Add(distributedSocketBonus)
 							socketBonusAdded = true
-						} else {
+						} else if !frozenSocketBonusImpossible {
 							useSocketBonusLink = true
 						}
 					}
@@ -545,12 +573,15 @@ func (o *reforgeOptimizer) buildYalpsVariables(equipment core.Equipment, preCapE
 			}
 		}
 
-		if !forceSocketBonus && socketBonusNormalization > 0 {
+		// When a frozen off-colour gem makes the bonus unattainable there is nothing to model; a
+		// frozen MATCHING gem is guaranteed, so it drops out of the link row rather than needing a
+		// variable's -1 coefficient to balance it.
+		if !forceSocketBonus && !frozenSocketBonusImpossible && socketBonusNormalization > 0 {
 			objCoeffs := make(map[string]float64)
 			o.applyPositiveReforgeStats(objCoeffs, item.SocketBonus, preCapEPs)
 			capCoeffs := o.resolveCapCoeffs(item.SocketBonus)
 			for socketIdx, socketColor := range socketColors {
-				if isColoredSocket(socketColor) {
+				if isColoredSocket(socketColor) && !frozenSockets[reforgeSocketKey{slot: slot, socketIdx: socketIdx}] {
 					capCoeffs[socketBonusLinkKey(slot, socketIdx)] = 1
 				}
 			}
@@ -630,6 +661,38 @@ func (o *reforgeOptimizer) buildYalpsConstraints(equipment core.Equipment) *lpCo
 		}
 		for socketIdx := range currentSocketColors(item) {
 			constraints.set(socketConstraintKey(itemSlot, socketIdx), lessEq(1))
+		}
+	}
+
+	// Gems locked into frozen sockets keep their current gem, so their uniqueness and
+	// Jewelcrafting budgets are already spent: no other socket may select them again. Gems not in
+	// the option pool (e.g. phase-excluded) produce no variables and therefore need no row.
+	if len(o.frozenSockets) > 0 {
+		gemOptionByID := make(map[int32]*proto.ReforgeGemOption, len(o.gemOptions))
+		for _, option := range o.gemOptions {
+			gemOptionByID[option.GetId()] = option
+		}
+		frozenJCGems := 0
+		for slotIdx, item := range equipment {
+			slot := proto.ItemSlot(slotIdx)
+			for socketIdx := range currentSocketColors(item) {
+				if !o.frozenSockets[reforgeSocketKey{slot: slot, socketIdx: socketIdx}] {
+					continue
+				}
+				option, ok := gemOptionByID[gemIDAt(&item, socketIdx)]
+				if !ok {
+					continue
+				}
+				if option.GetUnique() {
+					constraints.set(uniqueGemKey(option.GetId()), lessEq(0))
+				}
+				if option.GetRequiredProfession() == proto.Profession_Jewelcrafting {
+					frozenJCGems++
+				}
+			}
+		}
+		if frozenJCGems > 0 {
+			constraints.set(jewelcraftingGemKey, lessEq(float64(max(0, maxJewelcraftingGems-frozenJCGems))))
 		}
 	}
 

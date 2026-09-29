@@ -118,6 +118,7 @@ type reforgeOptimizer struct {
 	isTankSpec bool
 
 	frozenSlots    map[proto.ItemSlot]bool
+	frozenSockets  map[reforgeSocketKey]bool
 	undershootCaps core.UnitStats
 	gemOptions     []*proto.ReforgeGemOption
 
@@ -190,6 +191,7 @@ func newReforgeOptimizer(request *proto.ReforgeOptimizeRequest, signals simsigna
 		isTankSpec: playerIsTankSpec(player),
 
 		frozenSlots:    frozenItemSlots(settings),
+		frozenSockets:  frozenGemSocketKeys(settings),
 		undershootCaps: protoToCoreUnitStats(request.GetUndershootCaps()),
 		gemOptions:     request.GetGemOptions(),
 

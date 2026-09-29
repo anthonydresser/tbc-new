@@ -8621,6 +8621,12 @@
 								"freeze_item_slots": {
 									"type": "string"
 								},
+								"freeze_gem_sockets": {
+									"type": "string"
+								},
+								"freeze_gem_sockets_tooltip": {
+									"type": "string"
+								},
 								"max_gem_phase": {
 									"type": "string"
 								},
@@ -8657,6 +8663,8 @@
 								"hard_cap_info",
 								"edit_weights",
 								"freeze_item_slots",
+								"freeze_gem_sockets",
+								"freeze_gem_sockets_tooltip",
 								"max_gem_phase",
 								"max_gem_quality",
 								"disable_unique_gems"

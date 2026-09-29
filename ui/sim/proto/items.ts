@@ -1,6 +1,7 @@
 // What a player may equip: item and enchant eligibility, weapon-type rules and
 // the gear identity keys the reforge cache is keyed on.
 import { EnchantType, EquipmentSpec, HandType, ItemSlot, ItemType, Profession, RangedWeaponType, Spec, Stat, WeaponType } from '@generated/proto/common';
+import type { ReforgeSettings as ReforgeSettingsProto } from '@generated/proto/api';
 import { UIEnchant as Enchant, UIGem as Gem, UIItem as Item } from '@generated/proto/ui';
 
 import { PlayerSpec } from '../player/player_spec';
@@ -218,14 +219,26 @@ export function getGearIdentityKey(spec: EquipmentSpec): string {
 /**
  * Cache key for a gem-optimizer result: everything the optimizer's output depends on. It
  * clears every non-meta gem in a non-frozen slot before solving (see clearGems), so the
- * equipped gems that survive — a frozen slot's full set, and the head meta — are exactly
- * what the identity fingerprint already encodes, plus each frozen slot's frozen marker.
+ * equipped gems that survive — a frozen slot's full set, frozen gem sockets' gems, and the
+ * head meta — are exactly what the identity fingerprint already encodes, plus each frozen
+ * slot's frozen marker.
  */
-export function getReforgeCacheGearKey(spec: EquipmentSpec, frozenItemSlots?: readonly ItemSlot[]): string {
-	return buildGearKey(spec, frozenItemSlots);
+export function getReforgeCacheGearKey(spec: EquipmentSpec, frozenItemSlots?: readonly ItemSlot[], frozenGemSockets?: ReadonlySet<string>): string {
+	return buildGearKey(spec, frozenItemSlots, frozenGemSockets);
 }
 
-function buildGearKey(spec: EquipmentSpec, frozenItemSlots?: readonly ItemSlot[]): string {
+/**
+ * The frozen-socket set a ReforgeSettings carries, as `${slot}_${socketIdx}` keys for
+ * buildGearKey — or undefined when empty, so pages that never freeze a socket keep their
+ * existing cache keys byte-identical.
+ */
+export function frozenGemSocketSet(settings?: ReforgeSettingsProto): ReadonlySet<string> | undefined {
+	const sockets = settings?.frozenGemSockets;
+	if (!sockets?.length) return undefined;
+	return new Set(sockets.map(socket => `${socket.slot}_${socket.socketIdx}`));
+}
+
+function buildGearKey(spec: EquipmentSpec, frozenItemSlots?: readonly ItemSlot[], frozenGemSockets?: ReadonlySet<string>): string {
 	const items = spec.items;
 	const frozenSlots = frozenItemSlots ?? [];
 	const frozenSlotMask = frozenSlots.length ? new Uint8Array(items.length) : undefined;
@@ -247,9 +260,22 @@ function buildGearKey(spec: EquipmentSpec, frozenItemSlots?: readonly ItemSlot[]
 
 		const itemSlot = slotIdx as ItemSlot;
 		const isFrozen = !!frozenSlotMask?.[itemSlot];
-		const gemFingerprint = isFrozen
-			? (item.gems ?? []).map(gemId => gemId ?? 0).join(',')
-			: String(itemSlot === ItemSlot.ItemSlotHead ? (item.gems?.[0] ?? 0) : 0);
+		let gemFingerprint: string;
+		if (isFrozen) {
+			gemFingerprint = (item.gems ?? []).map(gemId => gemId ?? 0).join(',');
+		} else if (frozenGemSockets?.size) {
+			// Individually frozen sockets keep their gem through the solve (clearGems skips them),
+			// so — exactly like a frozen slot's gems — they belong in the fingerprint. The head
+			// meta is always kept as before. The frozen-socket SET lives in the config hash, so
+			// positional mismatches from paired-slot normalization cannot collide.
+			gemFingerprint = (item.gems ?? [])
+				.map((gemId, socketIdx) =>
+					(itemSlot === ItemSlot.ItemSlotHead && socketIdx === 0) || frozenGemSockets.has(`${itemSlot}_${socketIdx}`) ? (gemId ?? 0) : 0,
+				)
+				.join(',');
+		} else {
+			gemFingerprint = String(itemSlot === ItemSlot.ItemSlotHead ? (item.gems?.[0] ?? 0) : 0);
+		}
 		const reforgeFingerprint = 0;
 		itemKeys[slotIdx] = [item.id, item.randomSuffix ?? 0, item.enchant ?? 0, reforgeFingerprint, gemFingerprint].join(':');
 		// Frozen-ness has to travel with the item through the paired-slot normalization

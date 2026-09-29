@@ -15,6 +15,7 @@ import { trackEvent } from '../../../../tracking/utils';
 import { useReforgeField } from '../../hooks/useReforgeField';
 import { ReforgeBreakpointLimits } from './ReforgeBreakpointLimits';
 import { ReforgeFrozenSlots } from './ReforgeFrozenSlots';
+import { ReforgeFrozenSockets } from './ReforgeFrozenSockets';
 import { DEFAULT_REFORGE_ID_PREFIX, ReforgeIdPrefixContext } from './ReforgeIdPrefixContext';
 import { ReforgeStatCaps } from './ReforgeStatCaps';
 import { buildStatTooltips } from './utils';
@@ -170,6 +171,7 @@ export const ReforgeSettingsPanel = ({ model, options, onClose, idPrefix = DEFAU
 				}}
 			/>
 			<ReforgeFrozenSlots settings={settings} player={player} freezeItemSlots={freezeItemSlots} />
+			<ReforgeFrozenSockets settings={settings} player={player} />
 			<SavedEpWeights className="mt-4" loadOnly presetsOnly={!useCustomEPValues} />
 			<Button
 				variant="outline-primary"
