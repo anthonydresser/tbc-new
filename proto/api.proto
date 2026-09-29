@@ -485,6 +485,8 @@ message ReforgeSettings {
 	// is in this list, so specs list stats they weight at 0 (Stamina, spell penetration) to keep
 	// those gems selectable. It cannot be derived from the pre-cap EPs for exactly that reason.
 	repeated Stat ep_stats = 10;
+	// Sockets that keep their currently socketed gem through optimization.
+	repeated GemSocket frozen_gem_sockets = 11;
 }
 
 message ReforgeGemOption {
@@ -760,6 +762,10 @@ message BulkSettings {
 
 	// Only combinations whose final stats satisfy every constraint are simmed.
 	repeated BulkStatConstraint stat_constraints = 14;
+
+	bool optimize_gems = 15;
+	repeated BulkEnchantSelection allowed_enchants = 16;
+	bool optimize_enchants = 17;
 }
 
 enum BulkStatConstraintOp {
@@ -781,6 +787,18 @@ message BulkStatConstraint {
 	}
 	BulkStatConstraintOp op = 2;
 	double value = 3;
+}
+
+message BulkEnchantSelection {
+	int32 effect_id = 1;
+	int32 type = 2;
+}
+
+// Identifies one socket on one equipped item slot, used to freeze individual
+// gem sockets during reforge/gem optimization.
+message GemSocket {
+	ItemSlot slot = 1;
+	int32 socket_idx = 2;
 }
 
 message BulkGearCandidate {
