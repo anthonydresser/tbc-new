@@ -6,6 +6,7 @@ import {
 	ItemSlot,
 	ItemSpec,
 	ItemSwap,
+	ItemType,
 	PresetEncounter,
 	PresetTarget,
 	Stat,
@@ -22,6 +23,7 @@ import { Gear, ItemSwapGear } from './gear';
 import { gemEligibleForSocket, gemMatchesSocket } from './gems';
 import { getEligibleEnchantSlots, getEligibleItemSlots } from './items';
 import { Stats } from './stats';
+import { applyTBCGearTokenSources } from './tbc_token_sources';
 import { WOWHEAD_DOMAIN, WOWHEAD_EXPANSION_ENV } from './wowhead';
 
 const dbUrlJson = '/tbc/assets/database/db.json';
@@ -58,12 +60,18 @@ export class Database {
 	private static async loadWithRetry(attempts = 3, backoffMs = 250): Promise<UIDatabase> {
 		for (let attempt = 1; ; attempt++) {
 			try {
+				let dbData: UIDatabase;
 				if (READ_JSON) {
 					const resp = await fetch(dbUrlJson);
-					return UIDatabase.fromJson(await resp.json());
+					dbData = UIDatabase.fromJson(await resp.json());
+				} else {
+					const buf = await fetch(dbUrlBin).then(r => r.arrayBuffer());
+					dbData = UIDatabase.fromBinary(new Uint8Array(buf));
 				}
-				const buf = await fetch(dbUrlBin).then(r => r.arrayBuffer());
-				return UIDatabase.fromBinary(new Uint8Array(buf));
+				// Patch in tier-token drop sources for DBs built before tools/database/atlasloot.go
+				// learned to read them.
+				applyTBCGearTokenSources(dbData);
+				return dbData;
 			} catch (error) {
 				if (attempt >= attempts) throw error;
 				console.warn(`Database load attempt ${attempt} failed, retrying:`, error);
@@ -101,6 +109,7 @@ export class Database {
 		const shouldLoadLeftovers = equipment.items.some(item => item.id != 0 && !db.items.has(item.id));
 		if (shouldLoadLeftovers) {
 			const leftoverDb = await Database.getLeftovers();
+			applyTBCGearTokenSources(leftoverDb);
 			db.loadProto(leftoverDb);
 			db.loadedLeftovers = true;
 		}
@@ -366,6 +375,18 @@ export class Database {
 			.flat()
 			.find(enchant => enchant.spellId == enchantSpellId);
 		return enchant;
+	}
+
+	// effectId alone does not identify an enchant: different item types can share one
+	// (e.g. weapon "Agility" enchants), so pass the item type when it is known.
+	enchantEffectIdToEnchant(effectId: number, type?: ItemType): Enchant | undefined {
+		return Object.values(this.enchantsBySlot)
+			.flat()
+			.find(enchant => enchant.effectId === effectId && (type === undefined || enchant.type === type));
+	}
+
+	getAllEnchants(): Enchant[] {
+		return distinct(Object.values(this.enchantsBySlot).flat(), (a, b) => a.effectId === b.effectId && a.type === b.type);
 	}
 
 	getPresetEncounter(path: string): PresetEncounter | null {
