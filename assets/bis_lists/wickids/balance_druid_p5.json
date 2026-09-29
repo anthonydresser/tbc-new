@@ -1,0 +1,208 @@
+{
+  "name": "Wickids — Balance Druid Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 1,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.692306+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34340,
+        "name": "Dark Conjuror's Collar",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 34403,
+        "name": "Cover of Ursoc the Mighty",
+        "note": "Vendor: Yrma (Sunwell)"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34678,
+        "name": "Shattered Sun Pendant of Acumen",
+        "note": "Shattered Sun Offensive Vendor"
+      },
+      {
+        "id": 34204,
+        "name": "Amulet of Unfettered Magics",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 34210,
+        "name": "Amice of the Convoker",
+        "note": "Eredar Twins — Sunwell Plateau"
+      },
+      {
+        "id": 31049,
+        "name": "Thunderheart Shoulderpads",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 34242,
+        "name": "Tattered Cape of Antonidas",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 32331,
+        "name": "Cloak of the Illidari Council",
+        "note": "High Nethermancer Zerevor — BT"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34364,
+        "name": "Sunfire Robe",
+        "note": "Tailoring (BoP)"
+      },
+      {
+        "id": 34232,
+        "name": "Fel Conquerer Raiments",
+        "note": "M'uru — Sunwell Plateau"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34446,
+        "name": "Thunderheart Bands",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32586,
+        "name": "Bracers of Nimble Thought",
+        "note": "Tailoring (AH)"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34344,
+        "name": "Handguards of Defiled Worlds",
+        "note": "Kil'jaeden — Sunwell Plateau"
+      },
+      {
+        "id": 34407,
+        "name": "Tranquil Moonlight Wraps",
+        "note": "Vendor: Yrma (Sunwell)"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34555,
+        "name": "Thunderheart Cord",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 30888,
+        "name": "Anetheron's Noose",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34181,
+        "name": "Leggings of Calamity",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34169,
+        "name": "Breeches of Natural Aggression",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34572,
+        "name": "Thunderheart Footwraps",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32239,
+        "name": "Slippers of the Seacaller",
+        "note": "High Warlord Naj'entus — BT"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34362,
+        "name": "Loop of Forged Power",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34230,
+        "name": "Ring of Omnipotence",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32527,
+        "name": "Ring of Ancient Knowledge",
+        "note": "Black Temple Trash"
+      },
+      {
+        "id": 33497,
+        "name": "Mana Attuned Band",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34429,
+        "name": "Shifting Naaru Sliver",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32483,
+        "name": "The Skull of Gul'dan",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 33829,
+        "name": "Hex Shrunken Head",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34336,
+        "name": "Sunflare",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34176,
+        "name": "Reign of Misery",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 34179,
+        "name": "Heart of the Pit",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 30872,
+        "name": "Chronicle of Dark Secrets",
+        "note": "Rage Winterchill — Hyjal Summit"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 33510,
+        "name": "Idol of the Unseen Moon",
+        "note": "G'eras — Badge Vendor"
+      },
+      {
+        "id": 32387,
+        "name": "Idol of the Raven Goddess",
+        "note": "Quest: Vanquish the Raven God (Heroic Sethekk)"
+      }
+    ]
+  }
+}

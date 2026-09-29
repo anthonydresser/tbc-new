@@ -1,0 +1,183 @@
+{
+  "name": "Wickids — Hunter Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 5,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.697915+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 31003,
+        "name": "Gronnstalker's Helmet",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 32235,
+        "name": "Cursed Vision of Sargeras",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32591,
+        "name": "Choker of Serrated Blades",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 30017,
+        "name": "Telonicus's Pendant of Mayhem",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31006,
+        "name": "Gronnstalker's Spaulders",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 32323,
+        "name": "Shadowmoon Destroyer's Drape",
+        "note": "Trash — Black Temple"
+      },
+      {
+        "id": 29994,
+        "name": "Thalassian Wildercloak",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "chest": [
+      {
+        "id": 31004,
+        "name": "Gronnstalker's Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32324,
+        "name": "Insidious Bands",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "hands": [
+      {
+        "id": 31001,
+        "name": "Gronnstalker's Gloves",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "waist": [
+      {
+        "id": 32346,
+        "name": "Boneweave Girdle",
+        "note": "Reliquary of Souls — Black Temple"
+      },
+      {
+        "id": 30879,
+        "name": "Don Alejandro's Money Belt",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "legs": [
+      {
+        "id": 31005,
+        "name": "Gronnstalker's Leggings",
+        "note": "Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32510,
+        "name": "Softstep Boots of Tracking",
+        "note": "Teron Gorefiend — Black Temple"
+      },
+      {
+        "id": 32366,
+        "name": "Shadowmaster's Boots",
+        "note": "Trash — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 33496,
+        "name": "Signet of Primal Wrath",
+        "note": "Timed Chest — Zul'Aman"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32497,
+        "name": "Stormrage Signet Ring",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 29997,
+        "name": "Band of the Ranger-General",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 29301,
+        "name": "Band of the Eternal Champion",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 33831,
+        "name": "Berserker's Call",
+        "note": "Zul'jin — Zul'Aman"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 32505,
+        "name": "Madness of the Betrayer",
+        "note": "The Illidari Council — Black Temple"
+      },
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 33389,
+        "name": "Dagger of Bad Mojo",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      },
+      {
+        "id": 30901,
+        "name": "Boundless Agony",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 30881,
+        "name": "Blade of Infamy",
+        "note": "Anetheron — Hyjal Summit"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 32336,
+        "name": "Black Bow of the Betrayer",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 32248,
+        "name": "Halberd of Desolation",
+        "note": "High Warlord Naj'entus — Black Temple"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29948,
+        "name": "Claw of the Phoenix",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ]
+  }
+}

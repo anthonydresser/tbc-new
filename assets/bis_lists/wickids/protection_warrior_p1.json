@@ -1,0 +1,288 @@
+{
+  "name": "Wickids — Protection Warrior Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 17,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.712798+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 29011,
+        "name": "Warbringer Greathelm",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 23519,
+        "name": "Eternium Greathelm",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 28801,
+        "name": "Helm of the Stalwart Defender",
+        "note": "Netherspite — Karazhan"
+      }
+    ],
+    "neck": [
+      {
+        "id": 29386,
+        "name": "Necklace of the Juggernaut",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28674,
+        "name": "Barbed Choker of Discipline",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 28796,
+        "name": "Lord Sanguinar's Claim",
+        "note": "High King Maulgar — Gruul's Lair"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 29023,
+        "name": "Warbringer Shoulderplates",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28743,
+        "name": "Mantle of Abrahmis",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 28755,
+        "name": "Shoulderguards of the Bold",
+        "note": "Nightbane — Karazhan"
+      }
+    ],
+    "back": [
+      {
+        "id": 28660,
+        "name": "Gilded Thorium Cloak",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 28804,
+        "name": "Farstrider Wildercloak",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 27804,
+        "name": "Devilshark Cape",
+        "note": "The Steamvault Heroic"
+      }
+    ],
+    "chest": [
+      {
+        "id": 29012,
+        "name": "Warbringer Chestguard",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28597,
+        "name": "Panzar'Thar Breastplate",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 29127,
+        "name": "Vindicator's Hauberk",
+        "note": "Aldor — Exalted"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 28502,
+        "name": "Vambraces of Courage",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 23535,
+        "name": "Bracers of the Green Fortress",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 28795,
+        "name": "Bladespire Warbands",
+        "note": "High King Maulgar — Gruul's Lair"
+      }
+    ],
+    "hands": [
+      {
+        "id": 30741,
+        "name": "Topaz-Studded Battlegrips",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28518,
+        "name": "Iron Gauntlets of the Maiden",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 28520,
+        "name": "Gauntlets of Renewed Hope",
+        "note": "Maiden of Virtue — Karazhan"
+      }
+    ],
+    "waist": [
+      {
+        "id": 28566,
+        "name": "Crimson Girdle of the Indomitable",
+        "note": "Karazhan"
+      },
+      {
+        "id": 29264,
+        "name": "Girdle of the Immovable",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28779,
+        "name": "Girdle of the Endless Pit",
+        "note": "Karazhan"
+      }
+    ],
+    "legs": [
+      {
+        "id": 28621,
+        "name": "Wrynn Dynasty Greaves",
+        "note": "Karazhan"
+      },
+      {
+        "id": 28741,
+        "name": "Legguards of the Fallen Defender",
+        "note": "Karazhan"
+      },
+      {
+        "id": 29184,
+        "name": "Timewarden's Leggings",
+        "note": "Keepers of Time — Exalted"
+      }
+    ],
+    "feet": [
+      {
+        "id": 28747,
+        "name": "Battlescar Boots",
+        "note": "Karazhan"
+      },
+      {
+        "id": 28810,
+        "name": "Eaglecrest Warboots",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 28802,
+        "name": "Boots of Elusion",
+        "note": "Netherspite — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 29279,
+        "name": "Violet Signet of the Great Protector",
+        "note": "The Violet Eye — Exalted"
+      },
+      {
+        "id": 29384,
+        "name": "Ring of Unyielding Force",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 30834,
+        "name": "Shapeshifter's Signet",
+        "note": "Lower City — Exalted"
+      },
+      {
+        "id": 28753,
+        "name": "Iron Band of the Unbreakable",
+        "note": "The Curator — Karazhan"
+      },
+      {
+        "id": 28770,
+        "name": "Band of Impenetrable Defenses",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 23836,
+        "name": "Goblin Rocket Launcher",
+        "note": "Engineering"
+      },
+      {
+        "id": 29387,
+        "name": "Gnomeregan Auto-Blocker 600",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 28121,
+        "name": "Icon of Unyielding Courage",
+        "note": "Karazhan"
+      },
+      {
+        "id": 28528,
+        "name": "Moroes' Lucky Pocket Watch",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 31858,
+        "name": "Darkmoon Card: Vengeance",
+        "note": "Darkmoon Faire Quest"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28749,
+        "name": "King's Defender",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28438,
+        "name": "Dragonmaw",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 28427,
+        "name": "Blazeguard",
+        "note": "Blacksmithing"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 28825,
+        "name": "Aldori Legacy Defender",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28606,
+        "name": "Shield of Impenetrable Darkness",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 29266,
+        "name": "Crest of the Sha'tar",
+        "note": "Sha'tar — Exalted"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28772,
+        "name": "Sunfury Bow of the Phoenix",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30724,
+        "name": "Barrel-Blade Longrifle",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 28659,
+        "name": "Wrathtide Longbow",
+        "note": "Opera Event — Karazhan"
+      }
+    ]
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "name": "Wickids — Balance Druid Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 1,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.692038+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 31040,
+        "name": "Thunderheart Headguard",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 30233,
+        "name": "Nordrassil Headpiece",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      }
+    ],
+    "neck": [
+      {
+        "id": 33281,
+        "name": "Brooch of Nature's Mercy",
+        "note": "Akil'zon — Zul'Aman"
+      },
+      {
+        "id": 34678,
+        "name": "Shattered Sun Pendant of Acumen",
+        "note": "Shattered Sun Offensive Vendor"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31049,
+        "name": "Thunderheart Shoulderpads",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 30235,
+        "name": "Nordrassil Wrath-Mantle",
+        "note": "Void Reaver — Tempest Keep"
+      }
+    ],
+    "back": [
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 32331,
+        "name": "Cloak of the Illidari Council",
+        "note": "High Nethermancer Zerevor — BT"
+      },
+      {
+        "id": 33591,
+        "name": "Shadowcaster's Drape",
+        "note": "Zul'Aman Timed Chest (1st)"
+      }
+    ],
+    "chest": [
+      {
+        "id": 31043,
+        "name": "Thunderheart Vest",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30231,
+        "name": "Nordrassil Chestpiece",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32586,
+        "name": "Bracers of Nimble Thought",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 32270,
+        "name": "Focused Mana Bindings",
+        "note": "Shade of Akama — Black Temple"
+      }
+    ],
+    "hands": [
+      {
+        "id": 31035,
+        "name": "Thunderheart Handguards",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 30232,
+        "name": "Nordrassil Gauntlets",
+        "note": "Leotheras the Blind — SSC"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30888,
+        "name": "Anetheron's Noose",
+        "note": "Anetheron — Hyjal Summit"
+      },
+      {
+        "id": 30914,
+        "name": "Belt of the Crescent Moon",
+        "note": "Kaz'rogal — Hyjal Summit"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30916,
+        "name": "Leggings of Channeled Elements",
+        "note": "Kaz'rogal — Hyjal Summit"
+      },
+      {
+        "id": 31046,
+        "name": "Thunderheart Pants",
+        "note": "The Illidari Council — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32239,
+        "name": "Slippers of the Seacaller",
+        "note": "High Warlord Naj'entus — Black Temple"
+      },
+      {
+        "id": 32352,
+        "name": "Naturewarden's Treads",
+        "note": "Reliquary of the Lost — Black Temple"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 29305,
+        "name": "Band of the Eternal Sage",
+        "note": "Scale of the Sands — Exalted"
+      },
+      {
+        "id": 32247,
+        "name": "Ring of Captured Storms",
+        "note": "High Warlord Naj'entus — Black Temple"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 33497,
+        "name": "Mana Attuned Band",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      },
+      {
+        "id": 32527,
+        "name": "Ring of Ancient Knowledge",
+        "note": "Black Temple Trash"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32483,
+        "name": "The Skull of Gul'dan",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33829,
+        "name": "Hex Shrunken Head",
+        "note": "Hex Lord Malacrass — Zul'Aman"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 28789,
+        "name": "Eye of Magtheridon",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32374,
+        "name": "Zhar'doom, Greatstaff of the Devourer",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 29988,
+        "name": "The Nexus Key",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 30872,
+        "name": "Chronicle of Dark Secrets",
+        "note": "Rage Winterchill — Hyjal Summit"
+      },
+      {
+        "id": 33334,
+        "name": "Fetish of the Primal Gods",
+        "note": "Zul'Aman"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 33510,
+        "name": "Idol of the Unseen Moon",
+        "note": "G'eras — Badge Vendor"
+      },
+      {
+        "id": 32387,
+        "name": "Idol of the Raven Goddess",
+        "note": "Quest: Vanquish the Raven God (Heroic Sethekk)"
+      }
+    ]
+  }
+}

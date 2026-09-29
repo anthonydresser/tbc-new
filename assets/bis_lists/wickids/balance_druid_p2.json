@@ -1,0 +1,293 @@
+{
+  "name": "Wickids — Balance Druid Phase 2",
+  "source": "WickidsTBCBISTracker",
+  "spec": 1,
+  "phase": 2,
+  "generatedAt": "2026-08-01T17:52:52.691408+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 30233,
+        "name": "Nordrassil Headpiece",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      },
+      {
+        "id": 32480,
+        "name": "Magnified Moon Specs",
+        "note": "Engineering (BoP)"
+      },
+      {
+        "id": 29986,
+        "name": "Cowl of the Grand Engineer",
+        "note": "Void Reaver — Tempest Keep"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30015,
+        "name": "The Sun King's Talisman",
+        "note": "Quest: Kael'thas Verdant Sphere"
+      },
+      {
+        "id": 24116,
+        "name": "Eye of the Night",
+        "note": "Jewelcrafting"
+      },
+      {
+        "id": 28762,
+        "name": "Adornment of Stolen Souls",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30235,
+        "name": "Nordrassil Wrath-Mantle",
+        "note": "Void Reaver — Tempest Keep"
+      },
+      {
+        "id": 30024,
+        "name": "Mantle of the Elven Kings",
+        "note": "Tempest Keep Trash"
+      },
+      {
+        "id": 30079,
+        "name": "Illidari Shoulderpads",
+        "note": "Morogrim Tidewalker — SSC"
+      }
+    ],
+    "back": [
+      {
+        "id": 30735,
+        "name": "Ancient Spellcloak of the Highborne",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 29992,
+        "name": "Royal Cloak of the Sunstriders",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 28766,
+        "name": "Ruby Drape of the Mysticant",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30231,
+        "name": "Nordrassil Chestpiece",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 30107,
+        "name": "Vestments of the Sea-Witch",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      },
+      {
+        "id": 21848,
+        "name": "Spellfire Robe",
+        "note": "Tailoring (Spellfire)"
+      },
+      {
+        "id": 30056,
+        "name": "Robe of Hateful Echoes",
+        "note": "Hydross the Unstable — SSC"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29918,
+        "name": "Mindstorm Wristbands",
+        "note": "Al'ar — Tempest Keep"
+      },
+      {
+        "id": 29523,
+        "name": "Windhawk Bracers",
+        "note": "Leatherworking (Tribal)"
+      },
+      {
+        "id": 24250,
+        "name": "Bracers of Havok",
+        "note": "Tailoring (AH)"
+      }
+    ],
+    "hands": [
+      {
+        "id": 30232,
+        "name": "Nordrassil Gauntlets",
+        "note": "Leotheras the Blind — SSC"
+      },
+      {
+        "id": 30725,
+        "name": "Anger-Spark Gloves",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 21847,
+        "name": "Spellfire Gloves",
+        "note": "Tailoring (Spellfire)"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30038,
+        "name": "Belt of Blasting",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30064,
+        "name": "Cord of Screaming Terrors",
+        "note": "The Lurker Below — SSC"
+      },
+      {
+        "id": 21846,
+        "name": "Spellfire Belt",
+        "note": "Tailoring (Spellfire)"
+      }
+    ],
+    "legs": [
+      {
+        "id": 24262,
+        "name": "Spellstrike Pants",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30734,
+        "name": "Leggings of the Seventh Circle",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 30234,
+        "name": "Nordrassil Wrath-Kilt",
+        "note": "Fathom-Lord Karathress — SSC"
+      },
+      {
+        "id": 29972,
+        "name": "Trousers of the Astromancer",
+        "note": "High Astromancer Solarian — TK"
+      }
+    ],
+    "feet": [
+      {
+        "id": 30037,
+        "name": "Boots of Blasting",
+        "note": "Tailoring (AH)"
+      },
+      {
+        "id": 30067,
+        "name": "Velvet Boots of the Guardian",
+        "note": "The Lurker Below — SSC"
+      },
+      {
+        "id": 28517,
+        "name": "Boots of Foretelling",
+        "note": "Maiden of Virtue — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30109,
+        "name": "Ring of Endless Coils",
+        "note": "Lady Vashj — Serpentshrine Cavern"
+      },
+      {
+        "id": 28793,
+        "name": "Band of Crimson Fury",
+        "note": "Magtheridon — Magtheridon's Lair"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28753,
+        "name": "Ring of Recurrence",
+        "note": "Echo of Medivh — Karazhan (Chess)"
+      },
+      {
+        "id": 29287,
+        "name": "Violet Signet of the Archmage",
+        "note": "The Violet Eye — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 29370,
+        "name": "Icon of the Silver Crescent",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      },
+      {
+        "id": 30626,
+        "name": "Sextant of Unstable Currents",
+        "note": "Fathom-Lord Karathress — SSC"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 27683,
+        "name": "Quagmirran's Eye",
+        "note": "Quagmirran — Heroic Slave Pens"
+      },
+      {
+        "id": 23046,
+        "name": "The Restrained Essence of Sapphiron",
+        "note": "Sapphiron — Naxxramas"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 30723,
+        "name": "Talon of the Tempest",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 28770,
+        "name": "Nathrezim Mindblade",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 32963,
+        "name": "Merciless Gladiator's Gavel",
+        "note": "Arena Points (Season 2)"
+      },
+      {
+        "id": 29988,
+        "name": "The Nexus Key",
+        "note": "Kael'thas — Tempest Keep"
+      },
+      {
+        "id": 32055,
+        "name": "Merciless Gladiator's War Staff",
+        "note": "Arena Points (Season 2)"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 30049,
+        "name": "Fathomstone",
+        "note": "Hydross the Unstable — SSC"
+      },
+      {
+        "id": 29271,
+        "name": "Talisman of Kalecgos",
+        "note": "G'eras — Shattrath City (25 Badges)"
+      },
+      {
+        "id": 28734,
+        "name": "Jewel of Infinite Possibilities",
+        "note": "Netherspite — Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 27518,
+        "name": "Ivory Idol of the Moongoddess",
+        "note": "Quest Reward"
+      },
+      {
+        "id": 32387,
+        "name": "Idol of the Raven Goddess",
+        "note": "Quest: Vanquish the Raven God (Heroic Sethekk)"
+      }
+    ]
+  }
+}

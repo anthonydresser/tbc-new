@@ -1,0 +1,318 @@
+{
+  "name": "Wickids — DPS Warrior Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 16,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.711341+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 29021,
+        "name": "Warbringer Battle-Helm",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28803,
+        "name": "Helm of the Claw",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 28587,
+        "name": "Ragesteel Helm",
+        "note": "Blacksmithing"
+      }
+    ],
+    "neck": [
+      {
+        "id": 29349,
+        "name": "Adamantine Chain of the Unbroken",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28674,
+        "name": "Worgen Claw Necklace",
+        "note": "Attumen the Huntsman — Karazhan"
+      },
+      {
+        "id": 29119,
+        "name": "Haramad's Bargain",
+        "note": "The Consortium — Exalted"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 33173,
+        "name": "Ragesteel Shoulders",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 29023,
+        "name": "Warbringer Shoulderplates",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28755,
+        "name": "Shoulderguards of the Bold",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 30740,
+        "name": "Ripfiend Shoulderplates",
+        "note": "Doom Lord Kazzak — World Boss"
+      }
+    ],
+    "back": [
+      {
+        "id": 24259,
+        "name": "Vengeance Wrap",
+        "note": "Tailoring"
+      },
+      {
+        "id": 28672,
+        "name": "Drape of the Dark Reavers",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 28529,
+        "name": "Blood Knight War Cloak",
+        "note": "Karazhan Trash"
+      },
+      {
+        "id": 30729,
+        "name": "Black-Iron Battlecloak",
+        "note": "Doomwalker — World Boss"
+      }
+    ],
+    "chest": [
+      {
+        "id": 29019,
+        "name": "Warbringer Breastplate",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28483,
+        "name": "Ragesteel Breastplate",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 28726,
+        "name": "Hauberk of the War Bringer",
+        "note": "Shade of Aran — Karazhan"
+      },
+      {
+        "id": 30730,
+        "name": "Terrorweave Tunic",
+        "note": "Doomwalker — World Boss"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 28795,
+        "name": "Bladespire Warbands",
+        "note": "High King Maulgar — Gruul's Lair"
+      },
+      {
+        "id": 28502,
+        "name": "Vambraces of Courage",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 23517,
+        "name": "Black Felsteel Bracers",
+        "note": "Blacksmithing"
+      }
+    ],
+    "hands": [
+      {
+        "id": 28824,
+        "name": "Gauntlets of Martial Perfection",
+        "note": "Karazhan"
+      },
+      {
+        "id": 28776,
+        "name": "Liar's Tongue Gloves",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 28520,
+        "name": "Gauntlets of Renewed Hope",
+        "note": "Maiden of Virtue — Karazhan"
+      }
+    ],
+    "waist": [
+      {
+        "id": 28779,
+        "name": "Girdle of the Endless Pit",
+        "note": "Karazhan"
+      },
+      {
+        "id": 29247,
+        "name": "Girdle of the Deathdealer",
+        "note": "Aeonus — Heroic Black Morass"
+      },
+      {
+        "id": 28750,
+        "name": "Belt of the Tracker",
+        "note": "The Curator — Karazhan"
+      }
+    ],
+    "legs": [
+      {
+        "id": 28741,
+        "name": "Skulker's Greaves",
+        "note": "Karazhan"
+      },
+      {
+        "id": 30739,
+        "name": "Scaled Greaves of the Marksman",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28621,
+        "name": "Wrynn Dynasty Greaves",
+        "note": "Karazhan"
+      }
+    ],
+    "feet": [
+      {
+        "id": 28608,
+        "name": "Ironstriders of Urgency",
+        "note": "Nightbane — Karazhan"
+      },
+      {
+        "id": 28545,
+        "name": "Edgewalker Longboots",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 28569,
+        "name": "Boots of Valiance",
+        "note": "Moroes — Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30738,
+        "name": "Ring of Reciprocity",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28757,
+        "name": "Garona's Signet Ring",
+        "note": "The Curator — Karazhan"
+      },
+      {
+        "id": 29283,
+        "name": "Violet Signet of the Master Assassin",
+        "note": "The Violet Eye — Exalted"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 30834,
+        "name": "Shapeshifter's Signet",
+        "note": "Lower City — Exalted"
+      },
+      {
+        "id": 29301,
+        "name": "Band of the Eternal Champion",
+        "note": "Keepers of Time — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 28830,
+        "name": "Dragonspine Trophy",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 28288,
+        "name": "Abacus of Violent Odds",
+        "note": "Pathaleon — Mechanar Heroic"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 29383,
+        "name": "Bloodlust Brooch",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28121,
+        "name": "Icon of Unyielding Courage",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 28034,
+        "name": "Hourglass of the Unraveller",
+        "note": "Temporus — Black Morass"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28429,
+        "name": "Lionheart Champion",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 28773,
+        "name": "Gorehowl",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28434,
+        "name": "The Planar Edge",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 28438,
+        "name": "Dragonmaw",
+        "note": "Blacksmithing"
+      },
+      {
+        "id": 28749,
+        "name": "King's Defender",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28767,
+        "name": "The Decapitator",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28772,
+        "name": "Sunfury Bow of the Phoenix",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30724,
+        "name": "Barrel-Blade Longrifle",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 28659,
+        "name": "Wrathtide Longbow",
+        "note": "Opera Event — Karazhan"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 28295,
+        "name": "Gladiator's Slicer",
+        "note": "Arena PvP"
+      },
+      {
+        "id": 30733,
+        "name": "Hope Ender",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 28189,
+        "name": "Latro's Shifting Sword",
+        "note": "Aeonus — Black Morass"
+      }
+    ]
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "name": "Wickids — Warlock Phase 4",
+  "source": "WickidsTBCBISTracker",
+  "spec": 15,
+  "phase": 4,
+  "generatedAt": "2026-08-01T17:52:52.710797+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 31051,
+        "name": "Hood of the Malefic",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32349,
+        "name": "Translucent Spellthread Necklace",
+        "note": "Reliquary of the Lost — Black Temple"
+      },
+      {
+        "id": 33466,
+        "name": "Loop of Cursed Bones",
+        "note": "Zul'Aman"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 31054,
+        "name": "Mantle of the Malefic",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 32524,
+        "name": "Shroud of the Highborne",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 33591,
+        "name": "Shadowcaster's Drape",
+        "note": "Zul'Aman"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30107,
+        "name": "Vestments of the Sea-Witch",
+        "note": "Lady Vashj — SSC"
+      },
+      {
+        "id": 31052,
+        "name": "Robe of the Malefic",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32586,
+        "name": "Bracers of Nimble Thought",
+        "note": "Tailoring"
+      }
+    ],
+    "hands": [
+      {
+        "id": 31050,
+        "name": "Gloves of the Malefic",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "waist": [
+      {
+        "id": 30038,
+        "name": "Belt of Blasting",
+        "note": "Tailoring"
+      }
+    ],
+    "legs": [
+      {
+        "id": 31053,
+        "name": "Leggings of the Malefic",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32239,
+        "name": "Slippers of the Seacaller",
+        "note": "High Warlord Naj'entus — Black Temple"
+      },
+      {
+        "id": 33357,
+        "name": "Footpads of Madness",
+        "note": "Zul'Aman"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 32527,
+        "name": "Ring of Ancient Knowledge",
+        "note": "Trash — Black Temple"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 32247,
+        "name": "Ring of Captured Storms",
+        "note": "High Warlord Naj'entus — Black Temple"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32483,
+        "name": "The Skull of Gul'dan",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 33829,
+        "name": "Hex Shrunken Head",
+        "note": "Zul'Aman"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 32374,
+        "name": "Zhar'doom Greatstaff of the Devourer",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 30872,
+        "name": "Chronicle of Dark Secrets",
+        "note": "Rage Winterchill — Hyjal Summit"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 33192,
+        "name": "Carved Witch Doctor's Stick",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 32343,
+        "name": "Wand of Prismatic Focus",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ]
+  }
+}

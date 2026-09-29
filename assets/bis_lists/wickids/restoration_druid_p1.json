@@ -1,0 +1,233 @@
+{
+  "name": "Wickids — Restoration Druid Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 4,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.695451+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 24264,
+        "name": "Whitemend Hood",
+        "note": "Tailoring"
+      },
+      {
+        "id": 29086,
+        "name": "Crown of Malorne",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30726,
+        "name": "Archaic Charm of Presence",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28822,
+        "name": "Teeth of Gruul",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 21874,
+        "name": "Primal Mooncloth Shoulders",
+        "note": "Tailoring (Mooncloth)"
+      },
+      {
+        "id": 29089,
+        "name": "Shoulderguards of Malorne",
+        "note": "High King Maulgar — Gruul's Lair"
+      }
+    ],
+    "back": [
+      {
+        "id": 28765,
+        "name": "Stainless Cloak of the Pure Hearted",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 31329,
+        "name": "Lifegiving Cloak",
+        "note": "World Drop — Outlands"
+      }
+    ],
+    "chest": [
+      {
+        "id": 21875,
+        "name": "Primal Mooncloth Robe",
+        "note": "Tailoring (Mooncloth)"
+      },
+      {
+        "id": 29087,
+        "name": "Chestguard of Malorne",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 29522,
+        "name": "Windhawk Hauberk",
+        "note": "Leatherworking (Tribal)"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29183,
+        "name": "Bindings of the Timewalker",
+        "note": "Keepers of Time — Exalted"
+      },
+      {
+        "id": 29523,
+        "name": "Windhawk Bracers",
+        "note": "Leatherworking (Tribal)"
+      }
+    ],
+    "hands": [
+      {
+        "id": 28521,
+        "name": "Mitts of the Treemender",
+        "note": "Maiden of Virtue — Karazhan"
+      },
+      {
+        "id": 29506,
+        "name": "Gloves of the Living Touch",
+        "note": "Crafted"
+      }
+    ],
+    "waist": [
+      {
+        "id": 21873,
+        "name": "Primal Mooncloth Belt",
+        "note": "Tailoring (Mooncloth)"
+      },
+      {
+        "id": 28655,
+        "name": "Cord of Nature's Sustenance",
+        "note": "Raid Drop"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30727,
+        "name": "Gilded Trousers of Benediction",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 29088,
+        "name": "Legguards of Malorne",
+        "note": "Gruul — Gruul's Lair"
+      }
+    ],
+    "feet": [
+      {
+        "id": 30737,
+        "name": "Gold-Leaf Wildboots",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28752,
+        "name": "Forestlord Striders",
+        "note": "Raid Drop"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 29290,
+        "name": "Violet Signet of the Grand Restorer",
+        "note": "The Violet Eye — Exalted"
+      },
+      {
+        "id": 28763,
+        "name": "Jade Ring of the Everliving",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 28790,
+        "name": "Naaru Lightwarden's Band",
+        "note": "Quest: The Fall of Magtheridon"
+      },
+      {
+        "id": 28731,
+        "name": "Ring of Convalescence",
+        "note": "Netherspite — Karazhan"
+      },
+      {
+        "id": 29169,
+        "name": "Band of Halos",
+        "note": "G'eras — Shattrath City (25 Badges)"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Shattrath City (41 Badges)"
+      },
+      {
+        "id": 28590,
+        "name": "Ribbon of Sacrifice",
+        "note": "Opera Event — Karazhan"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 23047,
+        "name": "Eye of the Dead",
+        "note": "Naxxramas"
+      },
+      {
+        "id": 30841,
+        "name": "Lower City Prayerbook",
+        "note": "Lower City — Revered"
+      },
+      {
+        "id": 28370,
+        "name": "Bangle of Endless Blessings",
+        "note": "Warp Splinter — The Botanica"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28771,
+        "name": "Light's Justice",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28522,
+        "name": "Shard of the Virtuous",
+        "note": "Maiden of Virtue — Karazhan"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29274,
+        "name": "Tears of Heaven",
+        "note": "G'eras — Shattrath City (25 Badges)"
+      },
+      {
+        "id": 28728,
+        "name": "Aran's Soothing Sapphire",
+        "note": "Shade of Aran — Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28568,
+        "name": "Idol of the Avian Heart",
+        "note": "Raid Drop"
+      },
+      {
+        "id": 27886,
+        "name": "Idol of the Emerald Queen",
+        "note": "Shadow Labyrinth"
+      },
+      {
+        "id": 25643,
+        "name": "Harold's Rejuvenating Broach",
+        "note": "Quest: Ultimate Bloodsport"
+      }
+    ]
+  }
+}

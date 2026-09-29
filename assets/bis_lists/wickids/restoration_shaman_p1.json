@@ -1,0 +1,218 @@
+{
+  "name": "Wickids — Restoration Shaman Phase 1",
+  "source": "WickidsTBCBISTracker",
+  "spec": 14,
+  "phase": 1,
+  "generatedAt": "2026-08-01T17:52:52.708535+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 24264,
+        "name": "Whitemend Hood",
+        "note": "Tailoring"
+      },
+      {
+        "id": 29028,
+        "name": "Cyclone Headdress",
+        "note": "Prince Malchezaar — Karazhan"
+      }
+    ],
+    "neck": [
+      {
+        "id": 30726,
+        "name": "Archaic Charm of Presence",
+        "note": "Doom Lord Kazzak — World Boss"
+      },
+      {
+        "id": 28609,
+        "name": "Emberspur Talisman",
+        "note": "Nightbane — Karazhan"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 29031,
+        "name": "Cyclone Shoulderpads",
+        "note": "Gruul — Gruul's Lair"
+      },
+      {
+        "id": 21874,
+        "name": "Primal Mooncloth Shoulders",
+        "note": "Tailoring (Primal Mooncloth)"
+      }
+    ],
+    "back": [
+      {
+        "id": 28765,
+        "name": "Stainless Cloak of the Pure Hearted",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 31329,
+        "name": "Lifegiving Cloak",
+        "note": "World Drop — Outlands"
+      }
+    ],
+    "chest": [
+      {
+        "id": 29522,
+        "name": "Windhawk Hauberk",
+        "note": "Leatherworking (Tribal)"
+      },
+      {
+        "id": 29029,
+        "name": "Cyclone Hauberk",
+        "note": "Magtheridon — Magtheridon's Lair"
+      },
+      {
+        "id": 21875,
+        "name": "Primal Mooncloth Robe",
+        "note": "Tailoring (Primal Mooncloth)"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 29523,
+        "name": "Windhawk Bracers",
+        "note": "Leatherworking (Tribal)"
+      },
+      {
+        "id": 29183,
+        "name": "Bindings of the Timewalker",
+        "note": "Keepers of Time — Exalted"
+      }
+    ],
+    "hands": [
+      {
+        "id": 28520,
+        "name": "Gloves of Centering",
+        "note": "Karazhan"
+      },
+      {
+        "id": 29032,
+        "name": "Cyclone Gloves",
+        "note": "Karazhan"
+      }
+    ],
+    "waist": [
+      {
+        "id": 29524,
+        "name": "Windhawk Belt",
+        "note": "Leatherworking (Tribal)"
+      },
+      {
+        "id": 21873,
+        "name": "Primal Mooncloth Belt",
+        "note": "Tailoring (Primal Mooncloth)"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30727,
+        "name": "Gilded Trousers of Benediction",
+        "note": "Doomwalker — World Boss"
+      },
+      {
+        "id": 29030,
+        "name": "Cyclone Kilt",
+        "note": "Karazhan"
+      }
+    ],
+    "feet": [
+      {
+        "id": 30737,
+        "name": "Gold-Leaf Wildboots",
+        "note": "World Drop"
+      },
+      {
+        "id": 28752,
+        "name": "Forestlord Striders",
+        "note": "Karazhan"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 28763,
+        "name": "Jade Ring of the Everliving",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 30736,
+        "name": "Ring of Flowing Light",
+        "note": "Doom Lord Kazzak — World Boss"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29290,
+        "name": "Violet Signet of the Grand Restorer",
+        "note": "The Violet Eye — Exalted"
+      },
+      {
+        "id": 28790,
+        "name": "Naaru Lightwarden's Band",
+        "note": "Quest: The Fall of Magtheridon"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 29376,
+        "name": "Essence of the Martyr",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 28590,
+        "name": "Ribbon of Sacrifice",
+        "note": "Opera Event — Karazhan"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 30841,
+        "name": "Lower City Prayerbook",
+        "note": "Lower City — Honored"
+      },
+      {
+        "id": 28190,
+        "name": "Scarab of the Infinite Cycle",
+        "note": "Aeonus — The Black Morass"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 28771,
+        "name": "Light's Justice",
+        "note": "Prince Malchezaar — Karazhan"
+      },
+      {
+        "id": 28522,
+        "name": "Shard of the Virtuous",
+        "note": "Maiden of Virtue — Karazhan"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 29458,
+        "name": "Aegis of the Vindicator",
+        "note": "Karazhan"
+      },
+      {
+        "id": 28754,
+        "name": "Triptych Shield of the Ancients",
+        "note": "Karazhan"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 28523,
+        "name": "Totem of Healing Rains",
+        "note": "Drop"
+      },
+      {
+        "id": 25645,
+        "name": "Totem of the Plains",
+        "note": "Heroic Hellfire Ramparts"
+      }
+    ]
+  }
+}

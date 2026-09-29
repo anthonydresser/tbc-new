@@ -1,0 +1,208 @@
+{
+  "name": "Wickids — Protection Paladin Phase 3",
+  "source": "WickidsTBCBISTracker",
+  "spec": 8,
+  "phase": 3,
+  "generatedAt": "2026-08-01T17:52:52.701631+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 32521,
+        "name": "Faceplate of the Impenetrable",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30987,
+        "name": "Lightbringer Faceguard",
+        "note": "Archimonde — Hyjal Summit"
+      }
+    ],
+    "neck": [
+      {
+        "id": 32362,
+        "name": "Pendant of Titans",
+        "note": "Reliquary of Souls — Black Temple"
+      },
+      {
+        "id": 30007,
+        "name": "The Darkener's Grasp",
+        "note": "Kael'thas Quest — Tempest Keep"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 30998,
+        "name": "Lightbringer Shoulderguards",
+        "note": "Mother Shahraz — Black Temple"
+      },
+      {
+        "id": 32250,
+        "name": "Pauldrons of Abyssal Fury",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 34010,
+        "name": "Pepe's Shroud of Pacification",
+        "note": "Hyjal Trash"
+      },
+      {
+        "id": 29925,
+        "name": "Phoenix-Wing Cloak",
+        "note": "Al'ar — Tempest Keep"
+      }
+    ],
+    "chest": [
+      {
+        "id": 30991,
+        "name": "Lightbringer Chestguard",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30896,
+        "name": "Glory of the Defender",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 32279,
+        "name": "The Seeker's Wristguards",
+        "note": "Shade of Akama — Black Temple"
+      },
+      {
+        "id": 32232,
+        "name": "Eternium Shell Bracers",
+        "note": "Naj'entus — Black Temple"
+      }
+    ],
+    "hands": [
+      {
+        "id": 30985,
+        "name": "Lightbringer Handguards",
+        "note": "Azgalor — Hyjal Summit"
+      },
+      {
+        "id": 29998,
+        "name": "Royal Gauntlets of Silvermoon",
+        "note": "Kael'thas — Tempest Keep"
+      }
+    ],
+    "waist": [
+      {
+        "id": 32342,
+        "name": "Girdle of Mighty Resolve",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      },
+      {
+        "id": 32333,
+        "name": "Girdle of Stability",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      }
+    ],
+    "legs": [
+      {
+        "id": 30995,
+        "name": "Lightbringer Legguards",
+        "note": "Illidari Council — Black Temple"
+      },
+      {
+        "id": 32263,
+        "name": "Praetorian's Legguards",
+        "note": "Shade of Akama — Black Temple"
+      }
+    ],
+    "feet": [
+      {
+        "id": 32245,
+        "name": "Tide-stomper's Greaves",
+        "note": "Naj'entus — Black Temple"
+      },
+      {
+        "id": 32267,
+        "name": "Boots of the Resilient",
+        "note": "Solarian — Tempest Keep"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 30083,
+        "name": "Ring of Sundered Souls",
+        "note": "Morogrim Tidewalker — SSC"
+      },
+      {
+        "id": 32261,
+        "name": "Band of the Abyssal Lord",
+        "note": "Supremus — Black Temple"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 29297,
+        "name": "Band of the Eternal Defender",
+        "note": "Scale of the Sands — Exalted"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 32501,
+        "name": "Shadowmoon Insignia",
+        "note": "Gurtogg Bloodboil — Black Temple"
+      },
+      {
+        "id": 31858,
+        "name": "Darkmoon Card: Vengeance",
+        "note": "Darkmoon Faire"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 28528,
+        "name": "Moroes' Lucky Pocket Watch",
+        "note": "Moroes — Karazhan"
+      },
+      {
+        "id": 30629,
+        "name": "Scarab of Displacement",
+        "note": "Hydross the Unstable — SSC"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 30910,
+        "name": "Tempest of Chaos",
+        "note": "Archimonde — Hyjal Summit"
+      },
+      {
+        "id": 34009,
+        "name": "Hammer of Judgement",
+        "note": "Hyjal/BT Trash"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 32375,
+        "name": "Bulwark of Azzinoth",
+        "note": "Illidan Stormrage — Black Temple"
+      },
+      {
+        "id": 30889,
+        "name": "Kaz'rogal's Hardened Heart",
+        "note": "Kaz'rogal — Hyjal Summit"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 29388,
+        "name": "Libram of Repentance",
+        "note": "G'eras — Badges of Justice"
+      },
+      {
+        "id": 32368,
+        "name": "Tome of the Lightbringer",
+        "note": "Vendor"
+      }
+    ]
+  }
+}

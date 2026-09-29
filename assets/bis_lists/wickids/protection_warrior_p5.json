@@ -1,0 +1,178 @@
+{
+  "name": "Wickids — Protection Warrior Phase 5",
+  "source": "WickidsTBCBISTracker",
+  "spec": 17,
+  "phase": 5,
+  "generatedAt": "2026-08-01T17:52:52.713915+00:00",
+  "slots": {
+    "head": [
+      {
+        "id": 34400,
+        "name": "Crown of Dath'Remar",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34357,
+        "name": "Hard Khorium Goggles",
+        "note": "Engineering"
+      }
+    ],
+    "neck": [
+      {
+        "id": 34178,
+        "name": "Collar of the Pit Lord",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 33296,
+        "name": "Brooch of Deftness",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "shoulder": [
+      {
+        "id": 34192,
+        "name": "Pauldrons of Perseverance",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 30980,
+        "name": "Onslaught Shoulderguards",
+        "note": "Mother Shahraz — Black Temple"
+      }
+    ],
+    "back": [
+      {
+        "id": 34190,
+        "name": "Crimson Paragon's Cover",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 33593,
+        "name": "Slikk's Cloak of Placation",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "chest": [
+      {
+        "id": 34394,
+        "name": "Breastplate of Agony's Aversion",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 34377,
+        "name": "Hard Khorium Battleplate",
+        "note": "Blacksmithing"
+      }
+    ],
+    "wrist": [
+      {
+        "id": 34442,
+        "name": "Onslaught Wristguards",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 33516,
+        "name": "Bracers of the Ancient Phalanx",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "hands": [
+      {
+        "id": 34352,
+        "name": "Borderland Fortress Grips",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32280,
+        "name": "Gauntlets of Enforcement",
+        "note": "Teron Gorefiend — Black Temple"
+      }
+    ],
+    "waist": [
+      {
+        "id": 34547,
+        "name": "Onslaught Waistguard",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "legs": [
+      {
+        "id": 34381,
+        "name": "Felstrength Legplates",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 30978,
+        "name": "Onslaught Legguards",
+        "note": "Azgalor — Hyjal Summit"
+      }
+    ],
+    "feet": [
+      {
+        "id": 34568,
+        "name": "Onslaught Boots",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "finger1": [
+      {
+        "id": 34213,
+        "name": "Ring of Hardened Resolve",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "finger2": [
+      {
+        "id": 34888,
+        "name": "Ring of the Stalwart Protector",
+        "note": "G'eras — Badges of Justice"
+      }
+    ],
+    "trinket1": [
+      {
+        "id": 34473,
+        "name": "Commendation of Kael'thas",
+        "note": "Sunwell Plateau"
+      }
+    ],
+    "trinket2": [
+      {
+        "id": 31858,
+        "name": "Darkmoon Card: Vengeance",
+        "note": "Darkmoon Faire Quest"
+      }
+    ],
+    "mainHand": [
+      {
+        "id": 34164,
+        "name": "Dragonscale-Encrusted Longblade",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32254,
+        "name": "The Brutalizer",
+        "note": "Black Temple Trash"
+      }
+    ],
+    "offHand": [
+      {
+        "id": 34185,
+        "name": "Sword Breaker's Bulwark",
+        "note": "Sunwell Plateau"
+      },
+      {
+        "id": 32375,
+        "name": "Bulwark of Azzinoth",
+        "note": "Illidan Stormrage — Black Temple"
+      }
+    ],
+    "ranged": [
+      {
+        "id": 34196,
+        "name": "Golden Bow of Quel'Thalas",
+        "note": "Sunwell Plateau"
+      }
+    ]
+  }
+}
