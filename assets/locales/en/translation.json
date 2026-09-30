@@ -2551,6 +2551,7 @@
 		"character_stats": {
 			"title": "Stats",
 			"melee_crit_cap": "Melee Crit Cap",
+			"resistances": "Resistances",
 			"tooltip": {
 				"base": "Base:",
 				"gear": "Gear:",

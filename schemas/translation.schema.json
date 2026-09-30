@@ -8962,6 +8962,9 @@
 						"melee_crit_cap": {
 							"type": "string"
 						},
+						"resistances": {
+							"type": "string"
+						},
 						"tooltip": {
 							"type": "object",
 							"properties": {
@@ -9148,6 +9151,7 @@
 					"required": [
 						"title",
 						"melee_crit_cap",
+						"resistances",
 						"tooltip",
 						"attack_table",
 						"crit_cap",
