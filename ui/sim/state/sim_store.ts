@@ -5,7 +5,7 @@
 //
 // Slices are added here as each facade is converted; a slice absent from this
 // file still lives in its class.
-import type { BulkStatConstraint, PlayerStats } from '@generated/proto/api';
+import type { BulkEnchantSelection, BulkStatConstraint, PlayerStats } from '@generated/proto/api';
 import {
 	ConsumesSpec,
 	Debuffs,
@@ -222,6 +222,12 @@ export interface BulkSlice {
 	// The gear the last batch started from. The set-bonus feasibility check judges against it, not
 	// against the candidate gear a run swaps in and out of the player.
 	runGear: Gear | null;
+	// Per-combination gem solving (the reforge pre-pass). Default ON; the proto field is
+	// presence-tracked (`optional`) so an explicit "off" round-trips.
+	optimizeGems: boolean;
+	// Per-combination enchant re-selection from the allow-list. Marginal-EP greedy, slot order.
+	optimizeEnchants: boolean;
+	allowedEnchants: Array<BulkEnchantSelection>;
 	v: { settings: number; items: number };
 }
 

@@ -1,4 +1,4 @@
-import { BulkSettings, BulkStatConstraint } from '@generated/proto/api';
+import { BulkEnchantSelection, BulkSettings, BulkStatConstraint } from '@generated/proto/api';
 import { ItemSlot, ItemSpec, WeaponType } from '@generated/proto/common';
 import { BULK_SIM_ITEM_SLOT_TO_ITEM_SLOT_PAIRS, BulkSimItemSlot } from '@sim/bulk/utils';
 import type { Player } from '@sim/player/player';
@@ -27,6 +27,10 @@ export const createBulkSettingsProto = (player: Player<any>): BulkSettings => {
 		freezeWeaponSlot: current.frozenWeaponSlot,
 		freezeMainhandWeaponSlots: current.weaponTypeFilters.get(ItemSlot.ItemSlotMainHand)?.slice(),
 		freezeOffhandWeaponSlots: current.weaponTypeFilters.get(ItemSlot.ItemSlotOffHand)?.slice(),
+		// Presence-tracked scalar: always written (even off), so a stored "off" survives the reload.
+		optimizeGems: current.optimizeGems,
+		optimizeEnchants: current.optimizeEnchants,
+		allowedEnchants: current.allowedEnchants.map(selection => BulkEnchantSelection.clone(selection)),
 	});
 };
 
@@ -42,6 +46,13 @@ export const setBulkStatConstraints = (player: Player<any>, constraints: Readonl
 
 	patchBulkState(player, { statConstraints: constraints.map(constraint => BulkStatConstraint.clone(constraint)) }, ['settings']);
 };
+
+export const setBulkOptimizeGems = (player: Player<any>, newValue: boolean) => patchBulkState(player, { optimizeGems: newValue }, ['settings']);
+
+export const setBulkOptimizeEnchants = (player: Player<any>, newValue: boolean) => patchBulkState(player, { optimizeEnchants: newValue }, ['settings']);
+
+export const setBulkAllowedEnchants = (player: Player<any>, newValue: BulkEnchantSelection[]) =>
+	patchBulkState(player, { allowedEnchants: newValue.map(selection => BulkEnchantSelection.clone(selection)) }, ['settings']);
 
 export const setBulkFrozenItem = (player: Player<any>, bulkSlot: BulkFrozenSlot, item: EquippedItem | null) => {
 	const frozenItems = bulkState(player).frozenItems;

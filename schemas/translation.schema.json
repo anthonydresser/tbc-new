@@ -3254,10 +3254,60 @@
 								},
 								"reforge_description": {
 									"type": "string"
+								},
+								"enchants": {
+									"type": "string"
 								}
 							},
 							"additionalProperties": false,
-							"required": ["options", "frozen_slots", "reforge", "reforge_description"]
+							"required": ["options", "frozen_slots", "reforge", "reforge_description", "enchants"]
+						},
+						"optimize_gems": {
+							"type": "object",
+							"properties": {
+								"label": {
+									"type": "string"
+								},
+								"tooltip": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
+						"enchants": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string"
+								},
+								"optimize_label": {
+									"type": "string"
+								},
+								"optimize_tooltip": {
+									"type": "string"
+								},
+								"allowlist_label": {
+									"type": "string"
+								},
+								"add_enchant": {
+									"type": "string"
+								},
+								"remove_tooltip": {
+									"type": "string"
+								},
+								"note": {
+									"type": "string"
+								},
+								"ep_column": {
+									"type": "string"
+								},
+								"name_column": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["title", "optimize_label", "optimize_tooltip", "allowlist_label", "add_enchant", "remove_tooltip", "note", "ep_column", "name_column"]
 						},
 						"iterations": {
 							"type": "string"
@@ -3364,6 +3414,8 @@
 						"combinations_count",
 						"combination_singular",
 						"groups",
+						"optimize_gems",
+						"enchants",
 						"iterations",
 						"use_legacy_bulk_sim",
 						"freeze_ring",
@@ -3383,6 +3435,9 @@
 							"type": "string"
 						},
 						"building_candidate_gear_sets": {
+							"type": "string"
+						},
+						"optimizing_enchants": {
 							"type": "string"
 						},
 						"reforging_iteration_rounds": {
@@ -3422,9 +3477,10 @@
 					"additionalProperties": false,
 					"required": [
 						"total_combinations",
-						"checking_constraints",
 						"restoring_reforges_from_cache",
 						"building_candidate_gear_sets",
+						"checking_constraints",
+						"optimizing_enchants",
 						"reforging_iteration_rounds",
 						"baseline_round",
 						"refining_rounds",
@@ -3443,12 +3499,15 @@
 						"bulk_sim_cancelled": {
 							"type": "string"
 						},
+						"no_more_enchants": {
+							"type": "string"
+						},
 						"failed_to_remove_item": {
 							"type": "string"
 						}
 					},
 					"additionalProperties": false,
-					"required": ["bulk_sim_cancelled", "failed_to_remove_item"]
+					"required": ["bulk_sim_cancelled", "no_more_enchants", "failed_to_remove_item"]
 				},
 				"warning": {
 					"type": "object",
@@ -3502,10 +3561,13 @@
 						},
 						"skipped_by_constraints": {
 							"type": "string"
+						},
+						"no_enchant": {
+							"type": "string"
 						}
 					},
 					"additionalProperties": false,
-					"required": ["run_simulation", "equip_button", "gear_equipped", "current_gear", "margin_of_error", "tied_group", "skipped_by_constraints"]
+					"required": ["run_simulation", "equip_button", "gear_equipped", "current_gear", "margin_of_error", "tied_group", "skipped_by_constraints", "no_enchant"]
 				},
 				"import_modal": {
 					"type": "object",

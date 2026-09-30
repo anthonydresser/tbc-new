@@ -923,7 +923,23 @@
 				"options": "Batch options",
 				"frozen_slots": "Frozen slots",
 				"reforge": "Gem settings",
-				"reforge_description": "These are the same settings the Suggest Gems button uses. The batch sim applies them to every gear set it simulates."
+				"reforge_description": "These are the same settings the Suggest Gems button uses. The batch sim applies them to every gear set it simulates.",
+				"enchants": "Enchant optimization"
+			},
+			"optimize_gems": {
+				"label": "Optimize gems per combination",
+				"tooltip": "Re-solve the optimal gem and reforge configuration for each combination before simming. Slower, but more accurate when gear changes affect gemming or reforge choices."
+			},
+			"enchants": {
+				"title": "Enchant Optimization",
+				"optimize_label": "Optimize enchants per combination",
+				"optimize_tooltip": "Re-select the best enchant for each slot from your allow-list for every gear combination.",
+				"allowlist_label": "Allowed enchants",
+				"add_enchant": "Add enchant",
+				"remove_tooltip": "Remove this enchant from the allow-list",
+				"note": "Only the selected enchants will be considered for each slot.",
+				"ep_column": "EP",
+				"name_column": "Name"
 			},
 			"iterations": "Iterations",
 			"use_legacy_bulk_sim": {
@@ -961,8 +977,9 @@
 			"total_combinations": "{{count}} total combinations.",
 			"restoring_reforges_from_cache": "Restoring gemmed gear sets from cache",
 			"building_candidate_gear_sets": "Building candidate gear sets",
-			"reforging_iteration_rounds": "Optimizing gems",
 			"checking_constraints": "Checking stat constraints",
+			"optimizing_enchants": "Optimizing enchants",
+			"reforging_iteration_rounds": "Optimizing gems",
 			"baseline_round": "Running baseline round",
 			"refining_rounds": "Running refining rounds",
 			"low_iteration_rounds": "Running low iteration rounds",
@@ -975,6 +992,7 @@
 		},
 		"notifications": {
 			"bulk_sim_cancelled": "Bulk sim cancelled.",
+			"no_more_enchants": "All eligible enchants are already in the allow-list.",
 			"failed_to_remove_item": "Failed to remove item, please report this issue."
 		},
 		"warning": {
@@ -993,7 +1011,8 @@
 			"current_gear": "Current Gear",
 			"margin_of_error": "95% confidence interval of the mean DPS. Rankings closer than this can change between runs.",
 			"tied_group": "Statistically tied — the order within this group can change between runs",
-			"skipped_by_constraints": "{{skipped}} of {{total}} gear sets skipped for failing a stat constraint."
+			"skipped_by_constraints": "{{skipped}} of {{total}} gear sets skipped for failing a stat constraint.",
+			"no_enchant": "No enchant"
 		},
 		"import_modal": {
 			"title": "Bag Item Import",

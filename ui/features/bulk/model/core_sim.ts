@@ -1,4 +1,4 @@
-import { BulkSettings, BulkSimStage, DistributionMetrics, ProgressMetrics } from '@generated/proto/api';
+import { BulkGearCandidate, BulkSettings, BulkSimStage, DistributionMetrics, ProgressMetrics } from '@generated/proto/api';
 import i18n from '@i18n/config';
 import { BulkSimReforgeCacheProgress } from '@sim/bulk/reforge_cache';
 import { BulkSimProgressConfig, TopGearResult } from '@sim/bulk/types';
@@ -14,6 +14,9 @@ export interface CoreBulkSimContext {
 	setSimProgress: (progress: ProgressMetrics, config: BulkSimProgressConfig) => void;
 	setCacheRestoreProgress?: (progress: BulkSimReforgeCacheProgress) => void;
 	setConstraintsProgress?: (checked: number, total: number) => void;
+	// Enchant re-selection and constraint filtering, run on the optimized candidates just
+	// before the sim stages start.
+	prepareCandidates?: (candidates: BulkGearCandidate[]) => Promise<BulkGearCandidate[]>;
 	debugOptimisationRound: (message: string, data?: unknown) => void;
 }
 
@@ -61,7 +64,15 @@ export async function runCoreBulkSim(
 	};
 
 	const result = await context.runWithBulkAbort(
-		context.simUI.sim.runBulkSim(gearSets, updateProgress, reforgeConfig, bulkSettings, progress => context.setCacheRestoreProgress?.(progress), signal),
+		context.simUI.sim.runBulkSim(
+			gearSets,
+			updateProgress,
+			reforgeConfig,
+			bulkSettings,
+			progress => context.setCacheRestoreProgress?.(progress),
+			signal,
+			context.prepareCandidates,
+		),
 		signal,
 	);
 	if (!result || (result && 'type' in result)) {

@@ -8,6 +8,7 @@ export const BULK_SETTINGS_GROUP = {
 	options: 'options',
 	freezes: 'freezes',
 	reforge: 'reforge',
+	enchants: 'enchants',
 } as const;
 
 const DEFAULT_OPEN_GROUPS = [BULK_SETTINGS_GROUP.options];

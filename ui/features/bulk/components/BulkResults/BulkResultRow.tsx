@@ -98,13 +98,31 @@ export const BulkResultRow = ({ result, baseResult, iterations }: BulkResultRowP
 						// 2. Same - Item with different gems shows the compact change icon (socket markers);
 						// 3. New - The item appearing at all already says the slot changed.
 						if (itemChanged && spec.id !== 0 && spec.id === originalEquipmentSpec.items[idx]?.id) {
+							// Spec-level change on the same item: the warning border says "this row changed
+							// something you can't see" (gems use socket markers; an enchant change gets its
+							// name under the icon, bold like the legacy UI emphasized it).
+							const enchantChanged = spec.enchant !== originalEquipmentSpec.items[idx]?.enchant;
+							const changedEnchantName = enchantChanged ? host.sim.db.lookupItemSpec(spec)?.enchant?.name : undefined;
 							return (
-								<div key={idx} className="ui-bulk-result-item ui-bulk-item-cell" data-testid="bulk-result-item">
-									<GearChangeIcon
-										slot={idx}
-										item={host.sim.db.lookupItemSpec(spec) ?? undefined}
-										previousItem={baseResult.gear.getEquippedItem(idx) ?? undefined}
-									/>
+								<div
+									key={idx}
+									className="ui-bulk-result-item ui-bulk-item-cell rounded"
+									data-testid="bulk-result-item"
+									style={{ borderColor: 'var(--color-warning)' }}>
+									<div className="grid w-14 justify-items-center gap-1">
+										<GearChangeIcon
+											slot={idx}
+											item={host.sim.db.lookupItemSpec(spec) ?? undefined}
+											previousItem={baseResult.gear.getEquippedItem(idx) ?? undefined}
+										/>
+										{enchantChanged && (
+											<span
+												className="w-full text-center text-xs leading-tight font-bold text-wrap"
+												data-testid="bulk-result-enchant-change">
+												{changedEnchantName ?? i18n.t('bulk_tab.results.no_enchant')}
+											</span>
+										)}
+									</div>
 								</div>
 							);
 						}
