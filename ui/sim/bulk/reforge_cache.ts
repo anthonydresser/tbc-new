@@ -25,7 +25,9 @@ export const BULK_CACHE_PROGRESS_CHECK_MODULO = 64;
 export const BULK_CACHE_YIELD_BUDGET_MS = 16;
 
 export type BulkSimReforgeCacheProgress = {
-	stage?: 'candidate-build' | 'cache-restore';
+	// candidate-build/cache-restore are the cache layer's own stages; optimizing-enchants
+	// reports from the post-optimization enchant re-selection (run.ts).
+	stage?: 'candidate-build' | 'cache-restore' | 'optimizing-enchants';
 	processedCandidates: number;
 	totalCandidates: number;
 	restoredCandidates: number;

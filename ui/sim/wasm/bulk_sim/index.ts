@@ -60,6 +60,11 @@ export const runConcurrentBulkSim = async (
 	onProgress: WorkerProgressCallback,
 	signals: SimSignals,
 	onReforgeCandidateOptimized?: (candidate: BulkGearCandidate, optimizedGear: EquipmentSpec) => void | Promise<void>,
+	// Runs on the to-be-simmed candidates after gem optimization: enchant re-selection from
+	// the allow-list (stat constraints are filtered separately, below). The reforge cache
+	// writes happen off optimizedCandidates, which this never touches, so whatever it drops
+	// is still cached.
+	prepareCandidates?: (candidates: BulkGearCandidate[]) => Promise<BulkGearCandidate[]>,
 ): Promise<BulkSimResult> => {
 	if (isDevMode()) {
 		console.log(`Running bulk sim using ${workerPool.getNumWorkers()} wasm workers per gear sim.`);
@@ -75,6 +80,11 @@ export const runConcurrentBulkSim = async (
 		if (reforgeResult.aborted) {
 			return makeAndSendBulkSimError(ErrorOutcome.create({ type: ErrorOutcomeType.ErrorOutcomeAborted }), onProgress, request.optimizedCandidates);
 		}
+	}
+	if (prepareCandidates) {
+		if (signals.abort.isTriggered()) return makeAndSendBulkSimError(ErrorOutcome.create({ type: ErrorOutcomeType.ErrorOutcomeAborted }), onProgress);
+		request.candidates = await prepareCandidates(request.candidates.filter(candidate => candidate.gear));
+		if (signals.abort.isTriggered()) return makeAndSendBulkSimError(ErrorOutcome.create({ type: ErrorOutcomeType.ErrorOutcomeAborted }), onProgress);
 	}
 	const simmingStartedAt = new Date().getTime();
 	let candidates = request.candidates

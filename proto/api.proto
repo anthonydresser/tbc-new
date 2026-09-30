@@ -763,7 +763,9 @@ message BulkSettings {
 	// Only combinations whose final stats satisfy every constraint are simmed.
 	repeated BulkStatConstraint stat_constraints = 14;
 
-	bool optimize_gems = 15;
+	// Presence-tracked: the UI default is ON, so an explicit `false` has to survive the
+	// protojson round-trip (a plain proto3 scalar drops to its default and cannot).
+	optional bool optimize_gems = 15;
 	repeated BulkEnchantSelection allowed_enchants = 16;
 	bool optimize_enchants = 17;
 }

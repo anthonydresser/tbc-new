@@ -11,8 +11,11 @@ import { refreshBulkCombinations } from './run';
 import {
 	type BulkFrozenSlot,
 	createBulkSettingsProto,
+	setBulkAllowedEnchants,
 	setBulkFrozenItem,
 	setBulkFrozenWeaponSlot,
+	setBulkOptimizeEnchants,
+	setBulkOptimizeGems,
 	setBulkStatConstraints,
 	setBulkUseLegacyBulkSim,
 	setBulkWeaponTypeFilter,
@@ -42,6 +45,10 @@ const loadSettings = (player: Player<any>) => {
 		setBulkWeaponTypeFilter(player, ItemSlot.ItemSlotOffHand, settings.freezeOffhandWeaponSlots);
 		setBulkUseLegacyBulkSim(player, settings.useLegacyBulkSim);
 		setBulkStatConstraints(player, settings.statConstraints);
+		// `optimize_gems` is presence-tracked exactly so "off" survives; absent means the default.
+		setBulkOptimizeGems(player, settings.optimizeGems ?? true);
+		setBulkOptimizeEnchants(player, settings.optimizeEnchants);
+		setBulkAllowedEnchants(player, settings.allowedEnchants);
 	}
 };
 

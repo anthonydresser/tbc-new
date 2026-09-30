@@ -506,10 +506,12 @@ export class Player<SpecType extends Spec> {
 	}
 
 	// Returns all random suffixes that this player would be interested in for the given base item.
+	// Not filtered by EP: zero/negative-EP resistance suffixes ("of Shadow Protection") are
+	// legitimate picks when the user is chasing a resistance stat.
 	getRandomSuffixes(item: Item): Array<ItemRandomSuffix> {
 		return item.randomSuffixOptions
 			.map(id => this.sim.db.getRandomSuffixById(id))
-			.filter((suffix): suffix is ItemRandomSuffix => !!suffix && this.computeRandomSuffixEP(suffix) > 0);
+			.filter((suffix): suffix is ItemRandomSuffix => !!suffix);
 	}
 
 	// Returns all enchants that this player can wear in the given slot.
@@ -1163,6 +1165,14 @@ export class Player<SpecType extends Spec> {
 		const ep = epFromStats + epFromEffect + bonusEP;
 		this.gemEPCache.set(gem.id, ep);
 		return ep;
+	}
+
+	// EP of an equipped item as it actually sits: the item ranking plus the stats of the gems
+	// currently socketed in it. Used for the marginal-EP comparisons of enchant optimization,
+	// where the gems are the same between the two enchant options and only differ in effect.
+	computeEquippedItemEP(equippedItem: EquippedItem, slot: ItemSlot): number {
+		const gemStats = equippedItem.curEquippedGems().reduce((stats, gem) => stats.add(new Stats(gem.stats)), new Stats());
+		return this.computeItemEP(equippedItem.item, slot) + this.computeStatsEP(gemStats);
 	}
 
 	computeEnchantEP(enchant: Enchant): number {

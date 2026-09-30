@@ -33,6 +33,9 @@ const initialBulkSlice = (): BulkSlice => ({
 	started: false,
 	results: null,
 	runGear: null,
+	optimizeGems: true,
+	optimizeEnchants: false,
+	allowedEnchants: [],
 	v: { settings: 0, items: 0 },
 });
 

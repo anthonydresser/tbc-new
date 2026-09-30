@@ -405,6 +405,9 @@ export class Sim {
 		bulkSettings?: BulkSettings,
 		onCacheRestoreProgress?: (progress: BulkSimReforgeCacheProgress) => void,
 		abortSignal?: AbortSignal,
+		// Post-optimization candidate processing (enchant re-selection, constraint filtering).
+		// Only supported on the concurrent wasm path; the native path ignores it.
+		prepareCandidates?: (candidates: BulkGearCandidate[]) => Promise<BulkGearCandidate[]>,
 	): Promise<BulkSimResult | ErrorOutcome> {
 		this.requireRunnableSetup();
 
@@ -588,7 +591,7 @@ export class Sim {
 						writeCacheEntriesIncrementally(pendingCandidates.splice(0));
 					}
 				};
-				result = await runConcurrentBulkSim(bulkRequest, this.workerPool, onProgress, signals, onReforgeCandidateOptimized);
+				result = await runConcurrentBulkSim(bulkRequest, this.workerPool, onProgress, signals, onReforgeCandidateOptimized, prepareCandidates);
 				writeCacheEntriesIncrementally(pendingCandidates.splice(0));
 			} else {
 				// Wrap onProgress to also write partial reforge candidates to cache incrementally

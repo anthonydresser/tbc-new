@@ -18,8 +18,9 @@ import { bulkCombinationsLimit } from '../../model/limits';
 import { frozenItemSlot } from '../../model/picker_groups';
 import { runBulkBatch } from '../../model/run';
 import { canRunBatch } from '../../model/selectors';
-import { setBulkFrozenItem, setBulkFrozenWeaponSlot, setBulkUseLegacyBulkSim } from '../../model/settings';
+import { setBulkFrozenItem, setBulkFrozenWeaponSlot, setBulkOptimizeGems, setBulkUseLegacyBulkSim } from '../../model/settings';
 import { BulkStatConstraints } from '../BulkStatConstraints';
+import { BulkEnchants } from './BulkEnchants';
 import { CombinationsCount } from './CombinationsCount';
 import { FreezeWeaponTypes } from './FreezeWeaponTypes';
 
@@ -54,6 +55,7 @@ export const BulkSettings = () => {
 	const frozenItems = useBulkState(slice => slice.frozenItems);
 	const frozenWeaponSlot = useBulkState(slice => slice.frozenWeaponSlot);
 	const useLegacyBulkSim = useBulkState(slice => slice.useLegacyBulkSim);
+	const optimizeGems = useBulkState(slice => slice.optimizeGems);
 	const canRun = useBulkState(slice => canRunBatch(slice, bulkCombinationsLimit(player.sim.isNative)));
 	const gear = usePlayerStore('gear');
 	const [openGroups, setOpenGroups] = useBulkSettingsGroups();
@@ -111,6 +113,21 @@ export const BulkSettings = () => {
 								/>
 							</div>
 							<BulkStatConstraints />
+							{host.reforger && (
+								<div>
+									<BooleanPicker
+										modObject={player}
+										config={{
+											id: 'bulk-optimize-gems',
+											label: i18n.t('bulk_tab.settings.optimize_gems.label'),
+											labelTooltip: i18n.t('bulk_tab.settings.optimize_gems.tooltip'),
+											layout: 'inline',
+											value: optimizeGems,
+											onChange: (newValue: boolean) => setBulkOptimizeGems(player, newValue),
+										}}
+									/>
+								</div>
+							)}
 						</AccordionItem>
 						{host.reforger && (
 							<AccordionItem
@@ -154,6 +171,12 @@ export const BulkSettings = () => {
 									<FreezeWeaponTypes slot={ItemSlot.ItemSlotOffHand} />
 								</>
 							)}
+						</AccordionItem>
+						<AccordionItem
+							value={BULK_SETTINGS_GROUP.enchants}
+							title={i18n.t('bulk_tab.settings.groups.enchants')}
+							testId="bulk-settings-group-enchants">
+							<BulkEnchants />
 						</AccordionItem>
 					</Accordion>
 				</div>
