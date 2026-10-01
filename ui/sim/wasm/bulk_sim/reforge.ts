@@ -19,11 +19,12 @@ export const optimizeReforgeCandidates = async (
 	if (!request.reforgeRequest || !request.baseRequest?.raid) {
 		return { request, aborted: false };
 	}
-	// The batch's stat constraints become rows of every candidate's model.
-	const reforgeRequest = ReforgeOptimizeRequest.create({
-		...request.reforgeRequest,
-		statConstraints: request.bulkSettings?.statConstraints ?? [],
-	});
+	// The batch's stat constraints become rows of every candidate's model. sim.ts sets them on the
+	// gem optimizer's request, the copy the cache key is made from; the batch settings' copy is the
+	// fallback for a request that did not.
+	const reforgeRequest = request.reforgeRequest.statConstraints.length
+		? request.reforgeRequest
+		: ReforgeOptimizeRequest.create({ ...request.reforgeRequest, statConstraints: request.bulkSettings?.statConstraints ?? [] });
 
 	const candidates = request.candidates.filter(candidate => candidate.gear);
 	const optimizedCandidates: BulkGearCandidate[] = request.optimizedCandidates;

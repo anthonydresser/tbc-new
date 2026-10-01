@@ -316,3 +316,32 @@ func TestBulkSimWithoutGemOptimizerDoesNotCheckEquippedGear(t *testing.T) {
 		t.Fatalf("the equipped gear should still be simmed as the baseline, got %+v", result.Baseline)
 	}
 }
+
+// The solver reads the stat constraints from the gem optimizer's own request, the copy the
+// client's gem cache key is made from, so the two cannot drift apart. The batch settings' copy is
+// a fallback for a request that set none there.
+func TestBulkSimReforgeOptimizerStatConstraintSource(t *testing.T) {
+	staminaAtLeast := func(value float64) *proto.BulkStatConstraint {
+		return &proto.BulkStatConstraint{
+			UnitStat: &proto.BulkStatConstraint_Stat{Stat: proto.Stat_StatStamina},
+			Op:       proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual,
+			Value:    value,
+		}
+	}
+	solverConstraints := func(reforgeConstraints []*proto.BulkStatConstraint, settingsConstraints []*proto.BulkStatConstraint) []*proto.BulkStatConstraint {
+		return newBulkSimReforgeOptimizer(&proto.BulkSimRequest{
+			BaseRequest:    &proto.RaidSimRequest{Raid: &proto.Raid{}},
+			ReforgeRequest: &proto.ReforgeOptimizeRequest{StatConstraints: reforgeConstraints},
+			BulkSettings:   &proto.BulkSettings{StatConstraints: settingsConstraints},
+		}).templateRequest.StatConstraints
+	}
+
+	own := solverConstraints([]*proto.BulkStatConstraint{staminaAtLeast(500)}, []*proto.BulkStatConstraint{staminaAtLeast(1000)})
+	if len(own) != 1 || own[0].Value != 500 {
+		t.Fatalf("the solver should be given the gem optimizer request's own constraints, got %v", own)
+	}
+	fallback := solverConstraints(nil, []*proto.BulkStatConstraint{staminaAtLeast(1000)})
+	if len(fallback) != 1 || fallback[0].Value != 1000 {
+		t.Fatalf("a request with none of its own should be given the batch settings' constraints, got %v", fallback)
+	}
+}

@@ -383,8 +383,12 @@ func newBulkSimReforgeOptimizer(request *proto.BulkSimRequest) *bulkSimReforgeOp
 		templateRequest.Settings = &proto.ReforgeSettings{}
 	}
 	templateRequest.Mode = proto.ReforgeOptimizeMode_ReforgeOptimizeModeBulk
-	// The batch's stat constraints become rows of every candidate's model.
-	templateRequest.StatConstraints = request.GetBulkSettings().GetStatConstraints()
+	// The batch's stat constraints become rows of every candidate's model. The client sets them on
+	// the gem optimizer's request, the copy its cache key is made from; the batch settings' copy is
+	// the fallback for a request that did not.
+	if len(templateRequest.StatConstraints) == 0 {
+		templateRequest.StatConstraints = request.GetBulkSettings().GetStatConstraints()
+	}
 	templateRaid := googleProto.Clone(request.GetBaseRequest().GetRaid()).(*proto.Raid)
 	return &bulkSimReforgeOptimizer{
 		templateRequest:    templateRequest,

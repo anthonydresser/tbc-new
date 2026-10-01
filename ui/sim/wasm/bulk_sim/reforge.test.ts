@@ -37,4 +37,34 @@ describe('optimizeReforgeCandidates', () => {
 		// Not reported as optimized: those entries go into the 14-day gem cache.
 		expect(next.optimizedCandidates).toEqual([]);
 	});
+
+	// The solver reads the constraints from the gem optimizer's own request, the copy the gem cache
+	// key is made from, so the two cannot drift apart. The batch settings' copy is a fallback for a
+	// request that set none there.
+	describe('the stat constraints the solver is given', () => {
+		const staminaAtLeast = (value: number) => BulkStatConstraint.create({ unitStat: { oneofKind: 'stat', stat: Stat.StatStamina }, value });
+		const solverConstraints = async (reforgeConstraints: BulkStatConstraint[], settingsConstraints: BulkStatConstraint[]) => {
+			optimizeReforgeGear.mockReset().mockResolvedValue({ gear: gear(24030), infeasibleStatConstraints: false });
+			await optimizeReforgeCandidates(
+				BulkSimRequest.create({
+					baseRequest: RaidSimRequest.create({ raid: Raid.create({ parties: [{ players: [{ equipment: gear(24030) }] }] }) }),
+					candidates: [BulkGearCandidate.create({ index: 0, gear: gear(24033) })],
+					reforgeRequest: ReforgeOptimizeRequest.create({ gemOptions: [{ id: 24030 }], statConstraints: reforgeConstraints }),
+					bulkSettings: { statConstraints: settingsConstraints },
+				}),
+				workerPool,
+				vi.fn(),
+				signals,
+			);
+			return (optimizeReforgeGear.mock.calls[0][1] as ReforgeOptimizeRequest).statConstraints;
+		};
+
+		it("are the gem optimizer request's own", async () => {
+			expect(await solverConstraints([staminaAtLeast(500)], [staminaAtLeast(1000)])).toEqual([staminaAtLeast(500)]);
+		});
+
+		it("fall back to the batch settings' when the request has none", async () => {
+			expect(await solverConstraints([], [staminaAtLeast(1000)])).toEqual([staminaAtLeast(1000)]);
+		});
+	});
 });
