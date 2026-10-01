@@ -85,7 +85,8 @@ func defenseFloorMargin(unitStat stats.UnitStat, op proto.BulkStatConstraintOp, 
 		return 0
 	}
 	switch proto.PseudoStat(unitStat.PseudoStatIdx()) {
-	case proto.PseudoStat_PseudoStatReducedCritTakenPercent, proto.PseudoStat_PseudoStatDodgePercent, proto.PseudoStat_PseudoStatParryPercent:
+	case proto.PseudoStat_PseudoStatReducedCritTakenPercent, proto.PseudoStat_PseudoStatDodgePercent,
+		proto.PseudoStat_PseudoStatParryPercent, proto.PseudoStat_PseudoStatBlockPercent:
 		if variablesCarryKey(variables, statCoeffKey(proto.Stat_StatDefenseRating)) {
 			return core.MissDodgeParryBlockCritChancePerDefense
 		}

@@ -104,15 +104,17 @@ var tankPercentStats = []proto.PseudoStat{
 	proto.PseudoStat_PseudoStatReducedCritTakenPercent,
 	proto.PseudoStat_PseudoStatDodgePercent,
 	proto.PseudoStat_PseudoStatParryPercent,
+	proto.PseudoStat_PseudoStatBlockPercent,
 }
 
-// The model's stat accounting has to agree with the character sheet for crit reduction, dodge and
-// parry, the tank stats the sheet derives from ratings rather than from stat dependencies. Checked
-// against the sim itself by adding the ratings as bonus stats: exact for dodge, parry, agility and
-// resilience, and within one defense point for defense, which the sheet floors.
+// The model's stat accounting has to agree with the character sheet for crit reduction, dodge,
+// parry and block, the tank stats the sheet derives from ratings rather than from stat
+// dependencies. Checked against the sim itself by adding the ratings as bonus stats: exact for
+// dodge, parry, block, agility and resilience, and within one defense point for defense, which the
+// sheet floors.
 func TestResolveStatDeltaTankStatsMatchSheet(t *testing.T) {
 	sim.RegisterAll()
-	request := loadPreset(t, "tank-caps.test.json") // Protection Warrior: can parry, agility gives dodge.
+	request := loadPreset(t, "tank-caps.test.json") // Protection Warrior: can parry and block, agility gives dodge.
 	optimizer, err := newReforgeOptimizer(request, simsignals.CreateSignals())
 	if err != nil {
 		t.Fatalf("newReforgeOptimizer: %v", err)
@@ -133,7 +135,7 @@ func TestResolveStatDeltaTankStatsMatchSheet(t *testing.T) {
 		ratings   map[stats.Stat]float64
 		tolerance float64
 	}{
-		{"dodge, parry, agility and resilience", map[stats.Stat]float64{stats.DodgeRating: 40, stats.ParryRating: 25, stats.Agility: 30, stats.ResilienceRating: 20}, 1e-9},
+		{"dodge, parry, block, agility and resilience", map[stats.Stat]float64{stats.DodgeRating: 40, stats.ParryRating: 25, stats.BlockRating: 30, stats.Agility: 30, stats.ResilienceRating: 20}, 1e-9},
 		{"defense", map[stats.Stat]float64{stats.DefenseRating: 20}, core.MissDodgeParryBlockCritChancePerDefense + 1e-9},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
@@ -157,7 +159,7 @@ func TestResolveStatDeltaTankStatsMatchSheet(t *testing.T) {
 	}
 }
 
-// Constraints on crit reduction, dodge and parry are met by choosing gems. They used to be judged
+// Constraints on crit reduction, dodge, parry and block are met by choosing gems. They used to be judged
 // on the gem-stripped base alone, which made every raised threshold infeasible.
 func TestStatConstraintsOnTankStats(t *testing.T) {
 	sim.RegisterAll()
