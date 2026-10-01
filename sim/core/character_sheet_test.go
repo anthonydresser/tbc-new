@@ -64,10 +64,13 @@ func TestWithCharacterSheetDebuffs(t *testing.T) {
 	}
 }
 
-// The same table as ui/sim/player/debuff_stats.test.ts.
+// A class that registers reports from the talent string whether the character applies Expose
+// Weakness themselves. sim/hunter registers the hunter and tests its talent parsing; here a stand-in
+// does, so core needs no class's talent layout.
 func TestCharacterSheetExposeWeaknessAgility(t *testing.T) {
-	// The Survival tree's 21st talent is Expose Weakness (proto field 62 = 21 + 20 + 21).
-	const exposeWeaknessTalents = "--000000000000000000001"
+	RegisterCharacterSheetExposeWeakness(proto.Class_ClassHunter, func(talentsString string) bool { return talentsString == "takes it" })
+	t.Cleanup(func() { delete(ownExposeWeaknessByClass, proto.Class_ClassHunter) })
+
 	debuffs := &proto.Debuffs{ExposeWeaknessUptime: 1, ExposeWeaknessHunterAgility: 100}
 	for _, tc := range []struct {
 		name             string
@@ -75,11 +78,10 @@ func TestCharacterSheetExposeWeaknessAgility(t *testing.T) {
 		characterAgility float64
 		want             float64
 	}{
-		{"a hunter with the talent is credited their own agility", &proto.Player{Class: proto.Class_ClassHunter, TalentsString: exposeWeaknessTalents}, 700, 700},
-		{"a hunter without the talent is credited the configured agility", &proto.Player{Class: proto.Class_ClassHunter, TalentsString: "502-0550201205"}, 700, 100},
-		{"another class is credited the configured agility", &proto.Player{Class: proto.Class_ClassMage, TalentsString: exposeWeaknessTalents}, 700, 100},
-		{"unknown own agility falls back to the configured agility", &proto.Player{Class: proto.Class_ClassHunter, TalentsString: exposeWeaknessTalents}, 0, 100},
-		{"a malformed talent string falls back to the configured agility", &proto.Player{Class: proto.Class_ClassHunter, TalentsString: "9-9-9-9-9-9-9-9-9-9-9-9-9"}, 700, 100},
+		{"a character who applies it is credited their own agility", &proto.Player{Class: proto.Class_ClassHunter, TalentsString: "takes it"}, 700, 700},
+		{"one who does not is credited the configured agility", &proto.Player{Class: proto.Class_ClassHunter, TalentsString: "does not"}, 700, 100},
+		{"a class that registered nothing is credited the configured agility", &proto.Player{Class: proto.Class_ClassMage, TalentsString: "takes it"}, 700, 100},
+		{"unknown own agility falls back to the configured agility", &proto.Player{Class: proto.Class_ClassHunter, TalentsString: "takes it"}, 0, 100},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			if got := CharacterSheetExposeWeaknessAgility(debuffs, tc.player, tc.characterAgility); got != tc.want {

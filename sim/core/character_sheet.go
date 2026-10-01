@@ -5,34 +5,26 @@ import (
 	"github.com/wowsims/tbc/sim/core/stats"
 )
 
-// HunterTalentTreeSizes is the hunter's talent tree layout, here because the character sheet
-// reads one hunter talent; sim/hunter takes its copy from this.
-var HunterTalentTreeSizes = [3]int{21, 20, 24}
+var ownExposeWeaknessByClass = map[proto.Class]func(talentsString string) bool{}
 
-// CharacterSheetExposeWeaknessAgility returns the agility the stats panel credits Expose
-// Weakness with: the character's own for a hunter who applies it with their own talent, else the
-// agility configured for the debuff. characterAgility is the character's final agility, or 0 when
-// it is not known, which falls back to the configured value as the panel does. Mirrors
-// characterSheetExposeWeaknessAgility in ui/sim/player/debuff_stats.ts.
-func CharacterSheetExposeWeaknessAgility(debuffs *proto.Debuffs, player *proto.Player, characterAgility float64) float64 {
-	configured := debuffs.GetExposeWeaknessHunterAgility()
-	if player.GetClass() != proto.Class_ClassHunter || characterAgility <= 0 || !hunterTakesExposeWeakness(player.GetTalentsString()) {
-		return configured
-	}
-	return characterAgility
+// RegisterCharacterSheetExposeWeakness lets a class report whether a talent string applies Expose
+// Weakness itself, in which case the sheet credits the character's own agility.
+func RegisterCharacterSheetExposeWeakness(class proto.Class, appliesOwn func(talentsString string) bool) {
+	ownExposeWeaknessByClass[class] = appliesOwn
 }
 
-func hunterTakesExposeWeakness(talentsString string) (taken bool) {
-	// A malformed string is the sim's problem to report, not the sheet's: it just credits the
-	// configured value.
-	defer func() {
-		if recover() != nil {
-			taken = false
-		}
-	}()
-	talents := &proto.HunterTalents{}
-	FillTalentsProto(talents.ProtoReflect(), talentsString, HunterTalentTreeSizes)
-	return talents.ExposeWeakness > 0
+// CharacterSheetExposeWeaknessAgility returns the agility the stats panel credits Expose
+// Weakness with: the character's own for one who applies it with their own talent (see
+// RegisterCharacterSheetExposeWeakness), else the agility configured for the debuff.
+// characterAgility is the character's final agility, or 0 when it is not known, which falls back
+// to the configured value as the panel does. Mirrors characterSheetExposeWeaknessAgility in
+// ui/sim/player/debuff_stats.ts.
+func CharacterSheetExposeWeaknessAgility(debuffs *proto.Debuffs, player *proto.Player, characterAgility float64) float64 {
+	appliesOwn := ownExposeWeaknessByClass[player.GetClass()]
+	if appliesOwn == nil || characterAgility <= 0 || !appliesOwn(player.GetTalentsString()) {
+		return debuffs.GetExposeWeaknessHunterAgility()
+	}
+	return characterAgility
 }
 
 // CharacterSheetDebuffStats returns what the stats panel adds to a character's final stats for the

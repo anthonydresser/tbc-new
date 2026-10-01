@@ -56,7 +56,7 @@ describe('characterSheetDebuffStats', () => {
 	});
 });
 
-// The same table as sim/core/character_sheet_test.go.
+// The same table as sim/hunter/character_sheet_test.go.
 describe('characterSheetExposeWeaknessAgility', () => {
 	// The Survival tree's 21st talent is Expose Weakness (proto field 62 = 21 + 20 + 21).
 	const exposeWeaknessTalents = '--' + '0'.repeat(20) + '1';
