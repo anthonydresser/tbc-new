@@ -26,8 +26,7 @@ export const statConstraintPasses = (constraint: BulkStatConstraint, statValue: 
 };
 
 // Reads the constrained Stat or PseudoStat out of a final-stats proto, as
-// returned by the server's compute-stats API. A constraint with no target
-// (not producible from the UI) reads as 0.
+// returned by the server's compute-stats API.
 export const constraintStatValue = (constraint: BulkStatConstraint, finalStats: UnitStats): number => {
 	switch (constraint.unitStat.oneofKind) {
 		case 'stat':
@@ -39,5 +38,9 @@ export const constraintStatValue = (constraint: BulkStatConstraint, finalStats: 
 	}
 };
 
+// A constraint with no stat set (not producible from the UI) is skipped, as on the server and in
+// the gem optimizer.
 export const finalStatsPassConstraints = (constraints: BulkStatConstraint[], finalStats: UnitStats): boolean =>
-	constraints.every(constraint => statConstraintPasses(constraint, constraintStatValue(constraint, finalStats)));
+	constraints.every(
+		constraint => constraint.unitStat.oneofKind === undefined || statConstraintPasses(constraint, constraintStatValue(constraint, finalStats)),
+	);

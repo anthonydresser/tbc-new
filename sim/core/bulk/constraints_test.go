@@ -61,8 +61,13 @@ func TestBulkStatConstraints(t *testing.T) {
 	if !bulkFinalStatsPassConstraints(nil, &proto.UnitStats{}) {
 		t.Fatal("no constraints always pass")
 	}
-	if got := bulkConstraintStatValue(&proto.BulkStatConstraint{}, finalStats(1, 1)); got != 0 {
-		t.Fatalf("unset target reads as 0, got %v", got)
+	// A constraint with no stat set is skipped, as the gem optimizer skips it, not judged as 0.
+	noTarget := &proto.BulkStatConstraint{Op: proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThan, Value: 100}
+	if !bulkFinalStatsPassConstraints([]*proto.BulkStatConstraint{noTarget}, finalStats(1, 1)) {
+		t.Fatal("a constraint with no stat set should be skipped")
+	}
+	if bulkFinalStatsPassConstraints(append([]*proto.BulkStatConstraint{noTarget}, constraints...), finalStats(175, 5.6)) {
+		t.Fatal("the constraints after one with no stat set should still be judged")
 	}
 	if got := bulkConstraintStatValue(constraints[0], nil); got != 0 {
 		t.Fatalf("missing stats read as 0, got %v", got)

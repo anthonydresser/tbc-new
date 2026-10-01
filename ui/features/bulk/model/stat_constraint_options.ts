@@ -7,8 +7,8 @@ import { displayStatOrder, UnitStat } from '@sim/proto/stats';
 // operators, and the option-value encoding of a stat. Stats and operators are labelled with the
 // translated names the rest of the UI uses (see statConstraintLabel and statConstraintOpLabel).
 
-// The Stat or PseudoStat a constraint applies to. Legacy rows saved before the
-// oneof existed carry a bare stat, which the oneof still decodes.
+// The Stat or PseudoStat a constraint applies to. A row with no stat set, which the picker never
+// produces, is shown as the default stat; the checks and the gem optimizer skip it.
 export const constraintUnitStat = (constraint: BulkStatConstraint): UnitStat => {
 	if (constraint.unitStat.oneofKind === 'pseudoStat') {
 		return UnitStat.fromPseudoStat(constraint.unitStat.pseudoStat);

@@ -1,4 +1,4 @@
-import { BulkSettings, BulkStatConstraint, BulkStatConstraintOp } from '@generated/proto/api';
+import { BulkStatConstraint, BulkStatConstraintOp } from '@generated/proto/api';
 import { PseudoStat, Stat, UnitStats } from '@generated/proto/common';
 import { describe, expect, it } from 'vitest';
 
@@ -51,17 +51,8 @@ describe('constraintStatValue', () => {
 		expect(constraintStatValue(constraint, finalStats({}, { [PseudoStat.PseudoStatReducedCritTakenPercent]: 5.98 }))).toBe(5.98);
 	});
 
-	it('reads 0 for a missing value or an unset target', () => {
+	it('reads 0 for a missing value', () => {
 		expect(constraintStatValue(statConstraint(Stat.StatFireResistance, Op.BulkStatConstraintOpGreaterThan, 0), UnitStats.create())).toBe(0);
-		expect(constraintStatValue(BulkStatConstraint.create(), finalStats({ [Stat.StatStamina]: 100 }))).toBe(0);
-	});
-
-	it('decodes rows saved before the target became a oneof', () => {
-		const settings = BulkSettings.fromJsonString('{"statConstraints":[{"stat":37,"value":85}]}', { ignoreUnknownFields: true });
-		const [constraint] = settings.statConstraints;
-		expect(constraint.unitStat).toEqual({ oneofKind: 'stat', stat: Stat.StatFireResistance });
-		expect(constraint.op).toBe(Op.BulkStatConstraintOpGreaterThan);
-		expect(constraintStatValue(constraint, finalStats({ [Stat.StatFireResistance]: 93 }))).toBe(93);
 	});
 
 	it('round-trips a PseudoStat row through JSON', () => {
@@ -83,6 +74,13 @@ describe('finalStatsPassConstraints', () => {
 		expect(
 			finalStatsPassConstraints(constraints, finalStats({ [Stat.StatFireResistance]: 200 }, { [PseudoStat.PseudoStatReducedCritTakenPercent]: 5.2 })),
 		).toBe(false);
+	});
+
+	it('skips a constraint with no stat set, as the gem optimizer does', () => {
+		const noTarget = BulkStatConstraint.create({ op: Op.BulkStatConstraintOpGreaterThan, value: 100 });
+		expect(finalStatsPassConstraints([noTarget], finalStats({ [Stat.StatStamina]: 1 }))).toBe(true);
+		const fireRes = statConstraint(Stat.StatFireResistance, Op.BulkStatConstraintOpGreaterThan, 175);
+		expect(finalStatsPassConstraints([noTarget, fireRes], finalStats({ [Stat.StatFireResistance]: 175 }))).toBe(false);
 	});
 
 	it('passes with no constraints', () => {

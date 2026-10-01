@@ -33,8 +33,7 @@ func bulkStatConstraintPasses(constraint *proto.BulkStatConstraint, value float6
 	return false
 }
 
-// The constrained Stat or PseudoStat read out of a final-stats proto. A
-// constraint with no target reads as 0, as in the UI.
+// The constrained Stat or PseudoStat read out of a final-stats proto.
 func bulkConstraintStatValue(constraint *proto.BulkStatConstraint, finalStats *proto.UnitStats) float64 {
 	if finalStats == nil {
 		return 0
@@ -54,6 +53,10 @@ func bulkConstraintStatValue(constraint *proto.BulkStatConstraint, finalStats *p
 
 func bulkFinalStatsPassConstraints(constraints []*proto.BulkStatConstraint, finalStats *proto.UnitStats) bool {
 	for _, constraint := range constraints {
+		// A constraint with no stat set is skipped, as in the UI and the gem optimizer.
+		if constraint.GetUnitStat() == nil {
+			continue
+		}
 		if !bulkStatConstraintPasses(constraint, bulkConstraintStatValue(constraint, finalStats)) {
 			return false
 		}
