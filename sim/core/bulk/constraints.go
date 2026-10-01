@@ -82,7 +82,8 @@ func bulkSimCandidateFinalStats(request *proto.BulkSimRequest, candidate BulkSim
 	// Read before computing: building the character rewrites the raid's debuffs (a hunter with
 	// Expose Weakness clears the raid's copy of it), and the panel shows the configured ones.
 	debuffs := googleProto.Clone(raid.GetDebuffs()).(*proto.Debuffs)
-	result := core.ComputeStats(&proto.ComputeStatsRequest{Raid: raid, Encounter: request.BaseRequest.Encounter})
+	// Only the final stats are read, which the rotation and its prepull run do not change.
+	result := core.ComputeStats(&proto.ComputeStatsRequest{Raid: raid, Encounter: request.BaseRequest.Encounter, SkipRotation: true})
 	if result.ErrorResult != "" {
 		return nil, &proto.ErrorOutcome{Message: result.ErrorResult}
 	}

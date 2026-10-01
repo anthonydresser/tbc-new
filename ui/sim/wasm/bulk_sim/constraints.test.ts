@@ -107,6 +107,15 @@ describe('filterBulkSimCandidatesByConstraints', () => {
 		}
 	});
 
+	// The check reads only the final stats, so it asks for them without the rotation: building it,
+	// and the prepull run that goes with it, changes no stat and would be paid for every gear set.
+	it('computes the stats without building the rotation', async () => {
+		vi.mocked(workerPool.computeStats).mockClear();
+		await check(0);
+		expect(workerPool.computeStats).toHaveBeenCalledTimes(1);
+		expect(vi.mocked(workerPool.computeStats).mock.calls[0][0].skipRotation).toBe(true);
+	});
+
 	// Each candidate's weapon stone is derived from the base character's, not from the candidate
 	// checked before it: a stone dropped for a shield must come back for the next dual-wield set.
 	it("adjusts each candidate's weapon stone from the base character's", async () => {

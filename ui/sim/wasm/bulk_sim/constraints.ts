@@ -61,6 +61,8 @@ export const filterBulkSimCandidatesByConstraints = async (
 	const scratch = ComputeStatsRequest.create({
 		raid: Raid.clone(request.baseRequest!.raid!),
 		encounter: request.baseRequest!.encounter,
+		// Only the final stats are read, which the rotation and its prepull run do not change.
+		skipRotation: true,
 	});
 	const debuffs = request.baseRequest!.raid!.debuffs ?? Debuffs.create();
 	const basePlayer = request.baseRequest!.raid!.parties[0]?.players[0];
