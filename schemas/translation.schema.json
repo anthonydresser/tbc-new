@@ -3631,11 +3631,50 @@
 					"type": "object",
 					"properties": {
 						"import_favorites": { "type": "string" },
+						"copy_enchants": { "type": "string" },
+						"import_bis_list": { "type": "string" },
 						"clear_items": { "type": "string" },
 						"simulate": { "type": "string" }
 					},
 					"additionalProperties": false,
-					"required": ["import_favorites", "clear_items", "simulate"]
+					"required": ["import_favorites", "copy_enchants", "import_bis_list", "clear_items", "simulate"]
+				},
+				"import_bis_list": {
+					"type": "object",
+					"properties": {
+						"title": { "type": "string" },
+						"description": { "type": "string" },
+						"instructions": { "type": "string" },
+						"example_summary": { "type": "string" },
+						"imported": { "type": "string" },
+						"imported_with_skipped": { "type": "string" },
+						"imported_with_warnings": { "type": "string" },
+						"more_errors": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": [
+						"title",
+						"description",
+						"instructions",
+						"example_summary",
+						"imported",
+						"imported_with_skipped",
+						"imported_with_warnings",
+						"more_errors"
+					]
+				},
+				"presets": {
+					"type": "object",
+					"properties": {
+						"label": { "type": "string" },
+						"select_phase": { "type": "string" },
+						"phase_option": { "type": "string" },
+						"load": { "type": "string" },
+						"load_failed": { "type": "string" },
+						"loaded_with_warnings": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["label", "select_phase", "phase_option", "load", "load_failed", "loaded_with_warnings"]
 				},
 				"search": {
 					"type": "object",
@@ -3704,10 +3743,20 @@
 						"item_not_found": { "type": "string" },
 						"item_not_equippable": { "type": "string" },
 						"sim_cancelled": { "type": "string" },
+						"enchants_copied": { "type": "string" },
+						"enchants_no_match": { "type": "string" },
 						"busy_while_running": { "type": "string" }
 					},
 					"additionalProperties": false,
-					"required": ["item_duplicate", "item_not_found", "item_not_equippable", "sim_cancelled", "busy_while_running"]
+					"required": [
+						"item_duplicate",
+						"item_not_found",
+						"item_not_equippable",
+						"sim_cancelled",
+						"enchants_copied",
+						"enchants_no_match",
+						"busy_while_running"
+					]
 				},
 				"results": {
 					"type": "object",
@@ -3753,7 +3802,21 @@
 				}
 			},
 			"additionalProperties": false,
-			"required": ["title", "description", "tabs", "actions", "search", "picker", "settings", "saved_runs", "progress", "notifications", "results"]
+			"required": [
+				"title",
+				"description",
+				"tabs",
+				"actions",
+				"import_bis_list",
+				"presets",
+				"search",
+				"picker",
+				"settings",
+				"saved_runs",
+				"progress",
+				"notifications",
+				"results"
+			]
 		},
 		"rotation_tab": {
 			"type": "object",
