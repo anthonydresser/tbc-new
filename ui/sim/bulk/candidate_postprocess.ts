@@ -13,9 +13,7 @@ import { canEquipEnchant, enchantAppliesToItem } from '../proto/items';
 export const bulkEnchantSelectionKey = (enchant: Enchant): string => `${enchant.effectId}-${enchant.type}`;
 
 export const resolveBulkAllowedEnchants = (db: Database, selections: ReadonlyArray<BulkEnchantSelection>): Enchant[] =>
-	selections
-		.map(selection => db.enchantEffectIdToEnchant(selection.effectId, selection.type))
-		.filter((enchant): enchant is Enchant => enchant != null);
+	selections.map(selection => db.enchantEffectIdToEnchant(selection.effectId, selection.type)).filter((enchant): enchant is Enchant => enchant != null);
 
 // Re-selects the best allow-listed enchant per slot by marginal EP: each candidate is valued
 // against the gear as it stands after the earlier slots have been enchanted, so interactions
@@ -27,7 +25,9 @@ export const optimizeBulkEnchantsForGear = (player: Player<any>, gear: Gear, all
 	for (const slot of gear.getItemSlots()) {
 		if (!gear.getEquippedItem(slot)) continue;
 		const applicableEnchants = allowedEnchants.filter(
-			enchant => enchantAppliesToItem(enchant, gear.getEquippedItem(slot)!.item) && canEquipEnchant(enchant, player.getPlayerSpec(), player.hasProfession(Profession.Enchanting)),
+			enchant =>
+				enchantAppliesToItem(enchant, gear.getEquippedItem(slot)!.item) &&
+				canEquipEnchant(enchant, player.getPlayerSpec(), player.hasProfession(Profession.Enchanting)),
 		);
 		if (!applicableEnchants.length) continue;
 

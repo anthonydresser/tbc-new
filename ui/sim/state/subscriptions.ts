@@ -261,3 +261,12 @@ export function subscribeBulkField(owner: BulkOwner, field: 'settings' | 'items'
 export function subscribeBulkChange(owner: BulkOwner): StoreSubscribe {
 	return subscribeAll([subscribeBulkField(owner, 'settings'), subscribeBulkField(owner, 'items')]);
 }
+
+// Upgrade finder state (per player); same owner shape as bulk.
+export function subscribeUpgradeField(owner: BulkOwner, field: 'settings' | 'results'): StoreSubscribe {
+	const storeKey = owner.storeKey;
+	return cached(owner, `upgrades:${field}`, () => fromSelector(owner.sim.store, s => s.upgrades[storeKey]?.v[field]));
+}
+export function subscribeUpgradeChange(owner: BulkOwner): StoreSubscribe {
+	return subscribeAll([subscribeUpgradeField(owner, 'settings'), subscribeUpgradeField(owner, 'results')]);
+}

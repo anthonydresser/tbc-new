@@ -13,6 +13,7 @@ import type { ResultsPanelHandle } from '@features/results/model/results_panel_h
 import { WarningsRegistry } from '@features/results/model/warnings';
 import { applyEmptyAplRotation, applyIndividualDefaults } from '@features/settings/model/apply_defaults';
 import * as OtherInputs from '@features/settings/model/other_inputs';
+import { initUpgrades } from '@features/upgrades/model/init';
 import { type ErrorOutcome, ErrorOutcomeType } from '@generated/proto/api';
 import { Spec, Stat } from '@generated/proto/common';
 import { IndividualSimSettings } from '@generated/proto/ui';
@@ -155,6 +156,7 @@ export class SimHostObject<SpecType extends Spec> implements IndividualSimHost<S
 		});
 
 		initBulk(this);
+		initUpgrades(this);
 
 		// Declarative behaviour slots. These run last, after every model the React tree
 		// reads exists, but still synchronously, so `loadSettings()` (queued
