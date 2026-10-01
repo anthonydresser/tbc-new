@@ -200,6 +200,14 @@ func (o *reforgeOptimizer) statConstraintsCauseInfeasibility(model *lpModel, max
 	if len(o.statConstraintRowKeys) == 0 {
 		return false
 	}
+	solution, err := solveLPModel(o.withoutStatConstraintRows(model), time.Duration(max(maxSeconds, minSolveSeconds)*float64(time.Second)), 0)
+	return err == nil && solution.status == "optimal"
+}
+
+// withoutStatConstraintRows returns the model without the stat constraints' rows, as a pure
+// feasibility problem: with no objective the solver reports optimal at the first solution it finds
+// instead of running out the clock proving the best one.
+func (o *reforgeOptimizer) withoutStatConstraintRows(model *lpModel) *lpModel {
 	relaxed := newLPConstraints()
 	model.constraints.each(func(name string, row lpConstraint) {
 		if !o.statConstraintRowKeys[name] {
@@ -208,6 +216,7 @@ func (o *reforgeOptimizer) statConstraintsCauseInfeasibility(model *lpModel, max
 	})
 	relaxedModel := *model
 	relaxedModel.constraints = relaxed
-	solution, err := solveLPModel(&relaxedModel, time.Duration(max(maxSeconds, minSolveSeconds)*float64(time.Second)), 0)
-	return err == nil && solution.status == "optimal"
+	// Only feasibility is in question. No variable carries the empty key, so the objective is 0.
+	relaxedModel.objective = ""
+	return &relaxedModel
 }

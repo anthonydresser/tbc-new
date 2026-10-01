@@ -5,6 +5,7 @@ package reforgeoptimizer
 import (
 	"math"
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/wowsims/tbc/sim"
@@ -432,5 +433,35 @@ func TestStrictStatConstraintExcludesTheThreshold(t *testing.T) {
 	}
 	if tested == 0 {
 		t.Fatal("the free solve raises no stat; the fixture is unsuitable")
+	}
+}
+
+// Blaming an infeasible model on the stat constraints asks one thing of the model without their
+// rows: does it have a solution at all. So that model is solved with no objective, which the
+// solver finishes at the first solution it finds. With the objective left in, it would go on to
+// look for the best one, could run out of time doing so, and a timeout does not blame the
+// constraints: the candidate would be reported as a failed solve.
+func TestStatConstraintBlameSolveHasNoObjective(t *testing.T) {
+	variables := newLPVariables()
+	variables.set("gemA", map[string]float64{scoreCoeffKey: 5, "socket": 1, "StatConstraint_StatStamina": 12})
+	variables.set("gemB", map[string]float64{scoreCoeffKey: 9, "socket": 1})
+	constraints := newLPConstraints()
+	constraints.set("socket", lessEq(1))
+	constraints.set("StatConstraint_StatStamina", greaterEq(100))
+	model := &lpModel{direction: "maximize", objective: scoreCoeffKey, variables: variables, constraints: constraints, binaries: true}
+	optimizer := &reforgeOptimizer{statConstraintRowKeys: map[string]bool{"StatConstraint_StatStamina": true}}
+
+	relaxed := optimizer.withoutStatConstraintRows(model)
+	if relaxed.constraints.has("StatConstraint_StatStamina") || !relaxed.constraints.has("socket") {
+		t.Fatalf("only the stat constraint rows should be removed, got rows %v", relaxed.constraints.order)
+	}
+	lpText, _ := modelToLPFormat(relaxed)
+	if !strings.Contains(lpText, " obj: 0\n") {
+		t.Fatalf("the relaxed model should have no objective, got:\n%s", lpText)
+	}
+
+	// The model it was made from is the one the caller goes on using: it keeps its objective and rows.
+	if model.objective != scoreCoeffKey || !model.constraints.has("StatConstraint_StatStamina") {
+		t.Fatalf("the original model was changed: objective %q, rows %v", model.objective, model.constraints.order)
 	}
 }
