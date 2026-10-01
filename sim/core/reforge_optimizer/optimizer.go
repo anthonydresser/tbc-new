@@ -133,6 +133,9 @@ type reforgeOptimizer struct {
 	baseStats         core.UnitStats
 	// capBaseStats adds the raid's debuffs on top of baseStats; caps are evaluated against it.
 	capBaseStats core.UnitStats
+	// The attack power the sheet credits per point of the character's own agility through Expose
+	// Weakness: 0 unless the character is a hunter who applies it with their own talent.
+	exposeWeaknessAPPerAgility float64
 
 	// The keys of the rows the stat constraints added to the model. Used to tell whether an
 	// infeasible model is the constraints' doing.
@@ -172,6 +175,12 @@ func newReforgeOptimizer(request *proto.ReforgeOptimizeRequest, signals simsigna
 	baseStats := protoToCoreUnitStats(baseResult.RaidStats.Parties[0].Players[0].FinalStats)
 	originalEquipment := core.ProtoToEquipment(originalGear)
 
+	debuffStats := buildDebuffUnitStats(request.Raid, baseStats)
+	oneMoreAgility := baseStats
+	oneMoreAgility.Stats[stats.Agility]++
+	// Expose Weakness credits a hunter's own final agility, so gem agility moves AP/RAP too.
+	exposeWeaknessAPPerAgility := buildDebuffUnitStats(request.Raid, oneMoreAgility).Stats[stats.AttackPower] - debuffStats.Stats[stats.AttackPower]
+
 	return &reforgeOptimizer{
 		request:  request,
 		settings: settings,
@@ -190,7 +199,9 @@ func newReforgeOptimizer(request *proto.ReforgeOptimizeRequest, signals simsigna
 		baseStrippedGear:  baseStrippedGear,
 		originalEquipment: &originalEquipment,
 		baseStats:         baseStats,
-		capBaseStats:      addUnitStats(baseStats, buildDebuffUnitStats(request.Raid, baseStats)),
+		capBaseStats:      addUnitStats(baseStats, debuffStats),
+
+		exposeWeaknessAPPerAgility: exposeWeaknessAPPerAgility,
 	}, nil
 }
 

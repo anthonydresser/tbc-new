@@ -149,8 +149,14 @@ func (o *reforgeOptimizer) applyPositiveReforgeStats(coeffs map[string]float64, 
 // (Intellect -> SpellCrit%, Agility -> PhysicalCrit%/Dodge%, the haste speed multiplier) counts
 // toward the caps. The racial stat multipliers live in the dependency manager, so rawStats must be
 // passed through unscaled.
+// Expose Weakness is a debuff on the target, not a dependency, so the attack power the sheet
+// credits a hunter's own agility through it is added here.
 func (o *reforgeOptimizer) resolveCapCoeffs(rawDelta stats.Stats) map[string]float64 {
 	resolved := resolveStatDelta(o.statDeps, o.baseStats, rawUnitStatsFromStats(rawDelta))
+	if ap := o.exposeWeaknessAPPerAgility * resolved.Stats[stats.Agility]; ap != 0 {
+		resolved.Stats[stats.AttackPower] += ap
+		resolved.Stats[stats.RangedAttackPower] += ap
+	}
 	coeffs := map[string]float64{}
 	eachUnitStat(resolved, func(unitStat stats.UnitStat, value float64) {
 		if value != 0 {

@@ -465,3 +465,85 @@ func TestStatConstraintBlameSolveHasNoObjective(t *testing.T) {
 		t.Fatalf("the original model was changed: objective %q, rows %v", model.objective, model.constraints.order)
 	}
 }
+
+// The sheet credits a hunter who applies Expose Weakness with their own talent 0.25 attack power
+// per point of their own agility, so for that hunter an agility gem moves the sheet's attack power
+// by that much more than the stat dependencies give. The model has to credit the same, or it and
+// the batch's final-stats check disagree about what the gems reach.
+func TestAgilityMovesSheetAttackPowerThroughOwnExposeWeakness(t *testing.T) {
+	sim.RegisterAll()
+	// The rogue fixture's raid and optimizer settings, with a Survival hunter in the rogue's place.
+	request := loadPreset(t, "gem-limits.test.json")
+	if request.Raid.Debuffs.GetExposeWeaknessUptime() == 0 || request.Raid.Debuffs.GetExposeWeaknessHunterAgility() == 0 {
+		t.Fatal("the fixture's raid should have Expose Weakness up")
+	}
+	request.Raid.Parties[0].Players[0] = core.WithSpec(&proto.Player{
+		Class:         proto.Class_ClassHunter,
+		Race:          proto.Race_RaceOrc,
+		Equipment:     core.GetGearSet("../../../ui/specs/hunter/dps/gear_sets/phase_2/bm", "2h_6p").GearSet,
+		Consumables:   &proto.ConsumesSpec{},
+		Buffs:         core.FullIndividualBuffs,
+		TalentsString: "502-0550201205-333200022003223005103", // Survival, with Expose Weakness.
+		Rotation:      core.GetAplRotation("../../../ui/specs/hunter/dps/apls", "default").Rotation,
+	}, &proto.Player_Hunter{Hunter: &proto.Hunter{Options: &proto.Hunter_Options{ClassOptions: &proto.HunterOptions{
+		Ammo:        proto.HunterOptions_AdamantiteStinger,
+		PetType:     proto.HunterOptions_Ravager,
+		PetUptime:   100.0,
+		QuiverBonus: proto.HunterOptions_Speed15,
+	}}}})
+	// Computing a hunter's stats clears the debuff's settings from the raid it is given.
+	debuffs := googleProto.Clone(request.Raid.Debuffs).(*proto.Debuffs)
+
+	optimizer, err := newReforgeOptimizer(request, simsignals.CreateSignals())
+	if err != nil {
+		t.Fatalf("newReforgeOptimizer: %v", err)
+	}
+	// The gem-stripped gear's stats with the given bonus stats: the final stats, and those as the
+	// sheet shows them, with the debuffs' share.
+	statsWith := func(bonus stats.Stats) (finalStats core.UnitStats, sheet core.UnitStats) {
+		raid := googleProto.Clone(optimizer.baseRaidProto).(*proto.Raid)
+		player := raid.Parties[0].Players[0]
+		player.BonusStats = &proto.UnitStats{Stats: bonus[:], PseudoStats: make([]float64, stats.PseudoStatsLen)}
+		result := computeReforgeStats(&proto.ComputeStatsRequest{Raid: raid})
+		if result.ErrorResult != "" {
+			t.Fatalf("ComputeStats: %s", result.ErrorResult)
+		}
+		final := result.RaidStats.Parties[0].Players[0].FinalStats
+		return protoToCoreUnitStats(final), protoToCoreUnitStats(core.WithCharacterSheetDebuffs(final, debuffs, player))
+	}
+	baseFinal, baseSheet := statsWith(stats.Stats{})
+	if got := optimizer.capBaseStats.Stats[stats.RangedAttackPower]; math.Abs(got-baseSheet.Stats[stats.RangedAttackPower]) > 1e-6 {
+		t.Fatalf("the model starts from %.2f ranged attack power, the sheet shows %.2f", got, baseSheet.Stats[stats.RangedAttackPower])
+	}
+
+	gemAgility := stats.Stats{stats.Agility: 30}
+	final, sheet := statsWith(gemAgility)
+	coeffs := optimizer.resolveCapCoeffs(gemAgility)
+	dependencies := resolveStatDelta(optimizer.statDeps, optimizer.baseStats, rawUnitStatsFromStats(gemAgility))
+	for _, stat := range []stats.Stat{stats.AttackPower, stats.RangedAttackPower} {
+		// What the agility moves on the sheet beyond what it moves in the final stats.
+		sheetShare := (sheet.Stats[stat] - baseSheet.Stats[stat]) - (final.Stats[stat] - baseFinal.Stats[stat])
+		if sheetShare < 30*0.25 {
+			t.Fatalf("%s: the sheet credits only %.3f through Expose Weakness; the case is unsuitable", stat.StatName(), sheetShare)
+		}
+		// Likewise in the model, beyond the stat dependencies. The sheet floors agility to whole
+		// points, so the two can be a point of agility apart.
+		modelShare := coeffs[coeffKeyForUnitStat(stats.UnitStatFromStat(stat))] - dependencies.Stats[stat]
+		if math.Abs(modelShare-sheetShare) > 0.25 {
+			t.Fatalf("%s: through Expose Weakness the model credits the agility %.3f, the sheet %.3f", stat.StatName(), modelShare, sheetShare)
+		}
+	}
+
+	// Anyone else is credited the agility configured for the debuff, whatever their own: the rogue.
+	rogue, err := newReforgeOptimizer(loadPreset(t, "gem-limits.test.json"), simsignals.CreateSignals())
+	if err != nil {
+		t.Fatalf("newReforgeOptimizer: %v", err)
+	}
+	resolved := resolveStatDelta(rogue.statDeps, rogue.baseStats, rawUnitStatsFromStats(gemAgility))
+	rogueCoeffs := rogue.resolveCapCoeffs(gemAgility)
+	for _, stat := range []stats.Stat{stats.AttackPower, stats.RangedAttackPower} {
+		if got, want := rogueCoeffs[coeffKeyForUnitStat(stats.UnitStatFromStat(stat))], resolved.Stats[stat]; got != want {
+			t.Fatalf("%s: a rogue's agility is credited %.3f, want only the stat dependencies' %.3f", stat.StatName(), got, want)
+		}
+	}
+}
