@@ -132,6 +132,8 @@ func runBulkSimAsync(request *proto.BulkSimRequest, progress chan *proto.Progres
 		return
 	}
 	if request.GetReforgeRequest() == nil {
+		// As after the gem pre-pass: no duplicates, and the equipped gear is simmed as the baseline.
+		request.Candidates = dedupeBulkSimReforgeCandidates(bulk.GetBulkSimBaselineGear(request), request.GetCandidates())
 		unregister()
 		bulk.BulkSimAsync(request, progress, requestId)
 		return

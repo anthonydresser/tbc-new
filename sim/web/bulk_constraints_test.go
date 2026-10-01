@@ -263,3 +263,56 @@ func TestBulkSimWithStatConstraintsIsDeterministic(t *testing.T) {
 		}
 	}
 }
+
+// Without the gem optimizer the server checks the same gear sets as with it, and as the browser
+// does: duplicates and the equipped gear, which is simmed as the baseline, are not candidates. The
+// candidate generator always includes the all-equipped combination, and it used to be counted as
+// checked, and as skipped when it failed a constraint, while the results still showed it as the
+// baseline.
+func TestBulkSimWithoutGemOptimizerDoesNotCheckEquippedGear(t *testing.T) {
+	const infernoweaveRobe = 30762
+	player, baseRequest := mageBulkBaseRequest()
+	robeGear := googleProto.Clone(player.Equipment).(*proto.EquipmentSpec)
+	robeGear.Items[proto.ItemSlot_ItemSlotChest] = &proto.ItemSpec{Id: infernoweaveRobe}
+
+	request := &proto.BulkSimRequest{
+		BaseRequest: baseRequest,
+		Candidates: []*proto.BulkGearCandidate{
+			{Index: 0, Gear: googleProto.Clone(player.Equipment).(*proto.EquipmentSpec)},
+			{Index: 1, Gear: robeGear},
+			{Index: 2, Gear: googleProto.Clone(robeGear).(*proto.EquipmentSpec)},
+		},
+		TopResults:          5,
+		HighStageIterations: 50,
+		BulkSettings: &proto.BulkSettings{
+			UseLegacyBulkSim: true,
+			// Out of reach for every gear set here, the equipped one included.
+			StatConstraints: []*proto.BulkStatConstraint{{
+				UnitStat: &proto.BulkStatConstraint_Stat{Stat: proto.Stat_StatFireResistance},
+				Op:       proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual,
+				Value:    10000,
+			}},
+		},
+	}
+
+	progress := make(chan *proto.ProgressMetrics, 100)
+	go runBulkSimAsync(request, progress, "bulk-constraints-test-no-gem-optimizer")
+	var result *proto.BulkSimResult
+	for update := range progress {
+		if update.FinalBulkSimResult != nil {
+			result = update.FinalBulkSimResult
+		}
+	}
+	if result == nil {
+		t.Fatal("the batch ended without a result")
+	}
+	if result.Error != nil {
+		t.Fatalf("batch failed: %s", result.Error.Message)
+	}
+	if result.CheckedByConstraints != 1 || result.SkippedByConstraints != 1 {
+		t.Fatalf("skipped %d of %d gear sets checked, want 1 of 1: the robe, once", result.SkippedByConstraints, result.CheckedByConstraints)
+	}
+	if result.Baseline == nil || result.Baseline.DpsMetrics.GetAvg() <= 0 {
+		t.Fatalf("the equipped gear should still be simmed as the baseline, got %+v", result.Baseline)
+	}
+}
