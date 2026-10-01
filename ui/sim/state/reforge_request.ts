@@ -1,8 +1,8 @@
 // Reforge-solve request/cache-key helpers, extracted from the ReforgeOptimizer
 // component so the domain layer (sim.ts, bulk sim, reforge cache) does not
 // depend on the view layer.
-import { BulkStatConstraint, Player as PlayerProtoMessageType, ReforgeOptimizeMode, ReforgeOptimizeRequest } from '@generated/proto/api';
-import { Debuffs, GemColor, ItemQuality, PartyBuffs, Profession, RaidBuffs, Stat } from '@generated/proto/common';
+import { Player as PlayerProtoMessageType, ReforgeOptimizeMode, ReforgeOptimizeRequest } from '@generated/proto/api';
+import { Debuffs, GemColor, ItemQuality, PartyBuffs, Profession, RaidBuffs } from '@generated/proto/common';
 import { UIGem as Gem } from '@generated/proto/ui';
 
 import { ReforgeGearCache } from '../cache/reforge_cache';
@@ -37,35 +37,15 @@ function cacheRelevantPlayerProto(player: Player<any>): PlayerProtoMessageType {
 // The optimizer config a solve depends on: everything except per-run identity
 // (requestId, debug, mode) and the raid, which is keyed separately. Gem options are
 // order-normalized so equal sets hash equally.
-const RESISTANCE_STATS: ReadonlySet<Stat> = new Set([
-	Stat.StatArcaneResistance,
-	Stat.StatFireResistance,
-	Stat.StatFrostResistance,
-	Stat.StatNatureResistance,
-	Stat.StatShadowResistance,
-]);
-
-// Whether a batch stat constraint can change the gems the optimizer chooses, and so belongs in the
-// cache key. It can only as a row of the model, and a row needs a gem that moves the stat. Nothing
-// but a gem carrying a resistance moves one, and the optimizer only uses a gem if the spec gems for
-// every stat it carries, so a resistance constraint without both is decided on the stats alone:
-// changing it cannot change the gems. Any other stat can be moved through stat dependencies, which
-// the key does not model, so those constraints are kept.
-const constraintCanChangeGems = (constraint: BulkStatConstraint, reforgeRequest: ReforgeOptimizeRequest): boolean => {
-	if (constraint.unitStat.oneofKind !== 'stat' || !RESISTANCE_STATS.has(constraint.unitStat.stat)) return true;
-	const stat = constraint.unitStat.stat;
-	const gemmedStats = reforgeRequest.settings?.epStats ?? [];
-	if (!gemmedStats.length) return true; // An older client leaves the optimizer to derive them.
-	return gemmedStats.includes(stat) && reforgeRequest.gemOptions.some(gem => (gem.stats[stat] ?? 0) > 0);
-};
-
 export function cacheRelevantReforgeRequest(reforgeRequest: ReforgeOptimizeRequest): ReforgeOptimizeRequest {
 	const configForHash = ReforgeOptimizeRequest.clone({ ...reforgeRequest, raid: undefined } as ReforgeOptimizeRequest);
 	configForHash.requestId = '';
 	configForHash.debug = false;
 	configForHash.mode = ReforgeOptimizeMode.ReforgeOptimizeModeSingle;
 	configForHash.gemOptions = configForHash.gemOptions.sort((a, b) => a.id - b.id);
-	configForHash.statConstraints = configForHash.statConstraints.filter(constraint => constraintCanChangeGems(constraint, reforgeRequest));
+	// Every stat constraint stays in the key, resistances included. A resistance constraint the gems
+	// cannot move still decides whether the solve is infeasible, and an infeasible candidate keeps
+	// its own gems, which the gear key does not see.
 	return configForHash;
 }
 
