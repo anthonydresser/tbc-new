@@ -3704,6 +3704,7 @@
 						"iterations": { "type": "string" },
 						"sim_count": { "type": "string" },
 						"sim_count_singular": { "type": "string" },
+						"sim_count_bis_reference": { "type": "string" },
 						"optimize_gems": {
 							"type": "object",
 							"properties": {
@@ -3712,29 +3713,59 @@
 							},
 							"additionalProperties": false,
 							"required": ["label", "tooltip"]
+						},
+						"compare_bis": {
+							"type": "object",
+							"properties": {
+								"label": { "type": "string" },
+								"tooltip": { "type": "string" },
+								"select_placeholder": { "type": "string" },
+								"presets_group": { "type": "string" },
+								"saved_group": { "type": "string" }
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip", "select_placeholder", "presets_group", "saved_group"]
 						}
 					},
 					"additionalProperties": false,
-					"required": ["fallback_gems", "gem_selector_title", "remove_gem", "iterations", "sim_count", "sim_count_singular", "optimize_gems"]
+					"required": [
+						"fallback_gems",
+						"gem_selector_title",
+						"remove_gem",
+						"iterations",
+						"sim_count",
+						"sim_count_singular",
+						"sim_count_bis_reference",
+						"optimize_gems",
+						"compare_bis"
+					]
 				},
 				"saved_runs": {
 					"type": "object",
 					"properties": {
+						"title": { "type": "string" },
+						"run": { "type": "string" },
+						"name": { "type": "string" },
+						"save": { "type": "string" },
+						"loaded": { "type": "string" },
+						"unsaved_changes_confirm": { "type": "string" },
 						"storage_full": { "type": "string" },
 						"items_not_restored": { "type": "string" }
 					},
 					"additionalProperties": false,
-					"required": ["storage_full", "items_not_restored"]
+					"required": ["title", "run", "name", "save", "loaded", "unsaved_changes_confirm", "storage_full", "items_not_restored"]
 				},
 				"progress": {
 					"type": "object",
 					"properties": {
 						"baseline": { "type": "string" },
 						"item": { "type": "string" },
-						"optimize_gems": { "type": "string" }
+						"optimize_gems": { "type": "string" },
+						"bis_reference": { "type": "string" },
+						"item_on_bis": { "type": "string" }
 					},
 					"additionalProperties": false,
-					"required": ["baseline", "item", "optimize_gems"]
+					"required": ["baseline", "item", "optimize_gems", "bis_reference", "item_on_bis"]
 				},
 				"notifications": {
 					"type": "object",
@@ -3745,7 +3776,8 @@
 						"sim_cancelled": { "type": "string" },
 						"enchants_copied": { "type": "string" },
 						"enchants_no_match": { "type": "string" },
-						"busy_while_running": { "type": "string" }
+						"busy_while_running": { "type": "string" },
+						"bis_set_missing": { "type": "string" }
 					},
 					"additionalProperties": false,
 					"required": [
@@ -3755,7 +3787,8 @@
 						"sim_cancelled",
 						"enchants_copied",
 						"enchants_no_match",
-						"busy_while_running"
+						"busy_while_running",
+						"bis_set_missing"
 					]
 				},
 				"results": {
@@ -3777,7 +3810,12 @@
 						"current_gear": { "type": "string" },
 						"gear_diff_title": { "type": "string" },
 						"gear_diff_empty": { "type": "string" },
-						"empty_slot": { "type": "string" }
+						"empty_slot": { "type": "string" },
+						"delta_vs_bis": { "type": "string" },
+						"bis_reference_row": { "type": "string" },
+						"export_addon_button": { "type": "string" },
+						"export_addon_tooltip_disabled": { "type": "string" },
+						"export_addon_title": { "type": "string" }
 					},
 					"additionalProperties": false,
 					"required": [
@@ -3797,7 +3835,12 @@
 						"current_gear",
 						"gear_diff_title",
 						"gear_diff_empty",
-						"empty_slot"
+						"empty_slot",
+						"delta_vs_bis",
+						"bis_reference_row",
+						"export_addon_button",
+						"export_addon_tooltip_disabled",
+						"export_addon_title"
 					]
 				}
 			},

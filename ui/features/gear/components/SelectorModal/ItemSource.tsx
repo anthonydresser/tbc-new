@@ -61,6 +61,18 @@ export const ItemSource = ({ item, sim }: ItemSourceProps): ReactNode => {
 			return null;
 		}
 
+		if (src.category === 'Token') {
+			return (
+				<SourceLink href={npc ? ActionId.makeNpcUrl(npc.id) : ActionId.makeZoneUrl(zone.id)}>
+					<span>
+						{zone.name}
+						<br />
+						{npc ? `${npc.name} (Token)` : 'Token'}
+					</span>
+				</SourceLink>
+			);
+		}
+
 		const category = src.category ? ` - ${src.category}` : '';
 		if (npc) {
 			return (

@@ -4,7 +4,7 @@ import i18n from '@i18n/config';
 import type { Player } from '@sim/player/player';
 import { canEquipItem, getEligibleItemSlots } from '@sim/proto/items';
 import { FALLBACK_GEM_COLORS, patchUpgradeState, upgradeState } from '@sim/settings/upgrade_settings';
-import type { UpgradeCandidate } from '@sim/upgrade/types';
+import type { UpgradeCandidate, UpgradeResult } from '@sim/upgrade/types';
 import { toastManager } from '@ui-kit/Toast';
 
 // The sim loop iterates the candidate list live, so mutating it mid-run would
@@ -87,9 +87,29 @@ export const setCandidateEnchant = (player: Player<any>, index: number, enchant:
 export const getUpgradeCandidateSimCount = (player: Player<any>): number =>
 	upgradeState(player).candidates.reduce((sum, candidate) => sum + upgradeEligibleSlots(player, candidate).length, 0);
 
-// Baseline + one sim per candidate per eligible slot. A BiS reference turns each of
-// those into two and adds one more; see the BiS-comparison module.
-export const getUpgradeTotalSimCount = (player: Player<any>): number => 1 + getUpgradeCandidateSimCount(player);
+// A reference is in effect only when both the toggle and a set name are present; the
+// run loop resolves the name and warns instead of failing when the set is gone.
+export const hasBisReferenceSim = (player: Player<any>): boolean => {
+	const { compareBisEnabled, bisReferenceName } = upgradeState(player);
+	return compareBisEnabled && !!bisReferenceName;
+};
+
+// Baseline + one sim per candidate per eligible slot. A BiS reference doubles each
+// of those (every candidate is also simmed on the reference set) and adds one more
+// for the reference set itself.
+export const getUpgradeTotalSimCount = (player: Player<any>): number =>
+	1 + getUpgradeCandidateSimCount(player) * (hasBisReferenceSim(player) ? 2 : 1) + (hasBisReferenceSim(player) ? 1 : 0);
+
+// Some candidates can appear in the results more than once (e.g. imported with
+// different enchants). Only the single best instance of each item is shown/exported.
+export const getDisplayedUpgradeResults = (results: Array<UpgradeResult>): Array<UpgradeResult> => {
+	const bestResultByItemId = new Map<number, UpgradeResult>();
+	for (const result of results) {
+		const existing = bestResultByItemId.get(result.item.item.id);
+		if (!existing || result.delta > existing.delta) bestResultByItemId.set(result.item.item.id, result);
+	}
+	return Array.from(bestResultByItemId.values()).sort((a, b) => b.delta - a.delta);
+};
 
 export const getDefaultGemsByColor = (player: Player<any>): Map<GemColor, Gem | null> => {
 	const gemsByColor = new Map<GemColor, Gem | null>();

@@ -33,9 +33,13 @@ const initialUpgradeSlice = (): UpgradeSlice => ({
 	candidates: [],
 	fallbackGemIds: Array.from({ length: FALLBACK_GEM_COLORS.length }, () => 0),
 	optimizeGems: false,
+	compareBisEnabled: false,
+	bisReferenceName: '',
+	bisReferenceIsPreset: false,
 	isRunning: false,
 	runGear: null,
 	baseline: null,
+	bisResult: null,
 	results: null,
 	v: { settings: 0, results: 0 },
 });
@@ -90,11 +94,11 @@ export const serializeUpgradeRunState = (player: Player<any>, name = ''): SavedU
 		}),
 		fallbackGems: state.fallbackGemIds.slice(),
 		optimizeGems: state.optimizeGems,
-		compareBisEnabled: false,
-		bisReferenceName: '',
-		bisReferenceIsPreset: false,
+		compareBisEnabled: state.compareBisEnabled,
+		bisReferenceName: state.bisReferenceName,
+		bisReferenceIsPreset: state.bisReferenceIsPreset,
 		baselineResult: gearResultToJson(state.baseline),
-		bisResult: null,
+		bisResult: gearResultToJson(state.bisResult),
 		upgradeResults: (state.results ?? []).map(result => ({
 			item: ItemSpec.toJson(result.item.asSpec()) as Record<string, unknown>,
 			slot: result.slot,
@@ -212,6 +216,7 @@ export const applyUpgradeRunState = async (player: Player<any>, run: SavedUpgrad
 	const fallbackGemIds = Array.from({ length: FALLBACK_GEM_COLORS.length }, (_, idx) => run.fallbackGems?.[idx] ?? 0);
 
 	const baseline = parseStoredGearResult(player, run.baselineResult);
+	const bisResult = parseStoredGearResult(player, run.bisResult);
 
 	let droppedResults = 0;
 	const results: UpgradeResult[] = [];
@@ -249,7 +254,11 @@ export const applyUpgradeRunState = async (player: Player<any>, run: SavedUpgrad
 			candidates,
 			fallbackGemIds,
 			optimizeGems: run.optimizeGems ?? false,
+			compareBisEnabled: run.compareBisEnabled ?? false,
+			bisReferenceName: run.bisReferenceName ?? '',
+			bisReferenceIsPreset: run.bisReferenceIsPreset ?? false,
 			baseline,
+			bisResult,
 			results,
 		},
 		results.length ? ['settings', 'results'] : ['settings'],
@@ -290,4 +299,36 @@ export const loadStoredUpgradeRunState = (player: Player<any>): SavedUpgradeRun 
 		}
 		return null;
 	}
+};
+
+// ---------------------------------------------------------------------------
+// Named saved runs (stored by spec under UPGRADE_SAVED_RUNS_STORAGE_KEY)
+
+// Validates and normalizes a JSON blob into a SavedUpgradeRun; throws on a non-run
+// shape so one corrupt entry cannot sink the rest of the list (the saved-data hook
+// skips entries whose codec's fromJson throws).
+export const upgradeRunFromJson = (obj: any): SavedUpgradeRun => {
+	if (!obj || !Array.isArray(obj.items)) {
+		throw new Error('Invalid saved upgrade run data');
+	}
+	return {
+		name: obj.name ?? '',
+		timestamp: obj.timestamp ?? 0,
+		items: obj.items,
+		fallbackGems: obj.fallbackGems ?? [],
+		optimizeGems: obj.optimizeGems ?? false,
+		compareBisEnabled: obj.compareBisEnabled ?? false,
+		bisReferenceName: obj.bisReferenceName ?? '',
+		bisReferenceIsPreset: obj.bisReferenceIsPreset ?? false,
+		baselineResult: obj.baselineResult ?? null,
+		bisResult: obj.bisResult ?? null,
+		upgradeResults: obj.upgradeResults ?? [],
+	};
+};
+
+// Name and timestamp are bookkeeping, not content: a renamed save of the same run is
+// the same run, which is what decides the active chip and the unsaved-changes guard.
+export const upgradeRunsEqual = (a: SavedUpgradeRun, b: SavedUpgradeRun): boolean => {
+	const normalize = ({ name: _name, timestamp: _timestamp, ...rest }: SavedUpgradeRun) => JSON.stringify(rest);
+	return normalize(a) === normalize(b);
 };

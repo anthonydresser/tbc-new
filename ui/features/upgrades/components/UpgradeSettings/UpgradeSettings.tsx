@@ -8,13 +8,16 @@ import { TabPanelColumns } from '@ui-kit/TabPanelColumns';
 import { useStore } from 'zustand';
 
 import { useUpgradeState } from '../../hooks/useUpgradeState';
-import { getUpgradeCandidateSimCount, setUpgradeOptimizeGems } from '../../model/items';
+import { getUpgradeCandidateSimCount, hasBisReferenceSim, setUpgradeOptimizeGems } from '../../model/items';
 import { runUpgradeSim } from '../../model/run';
+import { CompareBisPicker } from '../CompareBisPicker/CompareBisPicker';
 import { FallbackGemsPicker } from '../FallbackGemsPicker/FallbackGemsPicker';
+import { SavedUpgradeRuns } from '../SavedUpgradeRuns/SavedUpgradeRuns';
 
 /**
  * The finder's right column: how many sims the current candidates add up to, the run
- * button, the per-socket fallback gems, and the gem-optimizer toggle.
+ * button, the per-socket fallback gems, the gem-optimizer toggle, the BiS comparison
+ * picker, and the saved runs.
  */
 export const UpgradeSettings = () => {
 	const host = useSimHost();
@@ -27,6 +30,8 @@ export const UpgradeSettings = () => {
 	usePlayerStore('gear');
 
 	const candidateSims = getUpgradeCandidateSimCount(player);
+	const hasBis = hasBisReferenceSim(player);
+	const totalSimCount = candidateSims * (hasBis ? 2 : 1) + (hasBis ? 1 : 0);
 	const canRun = candidates.length > 0 && iterations > 0 && !isRunning;
 
 	return (
@@ -37,9 +42,10 @@ export const UpgradeSettings = () => {
 						{candidateSims === 1
 							? i18n.t('upgrade_tab.settings.sim_count_singular')
 							: i18n.t('upgrade_tab.settings.sim_count', { count: candidateSims })}
+						{hasBis && ` ${i18n.t('upgrade_tab.settings.sim_count_bis_reference')}`}
 						<br />
 						<small className="text-base">
-							{formatToNumber(iterations * Math.max(candidateSims, 0))} {i18n.t('upgrade_tab.settings.iterations')}
+							{formatToNumber(iterations * Math.max(totalSimCount, 0))} {i18n.t('upgrade_tab.settings.iterations')}
 						</small>
 					</div>
 					<Button data-testid="upgrade-settings-btn" disabled={!canRun} onClick={() => void runUpgradeSim(host)}>
@@ -59,6 +65,8 @@ export const UpgradeSettings = () => {
 							}}
 						/>
 					</div>
+					<CompareBisPicker />
+					<SavedUpgradeRuns />
 				</div>
 			</div>
 		</TabPanelColumns.Right>
