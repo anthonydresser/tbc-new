@@ -509,9 +509,7 @@ export class Player<SpecType extends Spec> {
 	// Not filtered by EP: zero/negative-EP resistance suffixes ("of Shadow Protection") are
 	// legitimate picks when the user is chasing a resistance stat.
 	getRandomSuffixes(item: Item): Array<ItemRandomSuffix> {
-		return item.randomSuffixOptions
-			.map(id => this.sim.db.getRandomSuffixById(id))
-			.filter((suffix): suffix is ItemRandomSuffix => !!suffix);
+		return item.randomSuffixOptions.map(id => this.sim.db.getRandomSuffixById(id)).filter((suffix): suffix is ItemRandomSuffix => !!suffix);
 	}
 
 	// Returns all enchants that this player can wear in the given slot.

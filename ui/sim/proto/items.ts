@@ -1,7 +1,7 @@
 // What a player may equip: item and enchant eligibility, weapon-type rules and
 // the gear identity keys the reforge cache is keyed on.
-import { EnchantType, EquipmentSpec, HandType, ItemSlot, ItemType, Profession, RangedWeaponType, Spec, Stat, WeaponType } from '@generated/proto/common';
 import type { ReforgeSettings as ReforgeSettingsProto } from '@generated/proto/api';
+import { EnchantType, EquipmentSpec, HandType, ItemSlot, ItemType, Profession, RangedWeaponType, Spec, Stat, WeaponType } from '@generated/proto/common';
 import { UIEnchant as Enchant, UIGem as Gem, UIItem as Item } from '@generated/proto/ui';
 
 import { PlayerSpec } from '../player/player_spec';

@@ -3307,7 +3307,17 @@
 								}
 							},
 							"additionalProperties": false,
-							"required": ["title", "optimize_label", "optimize_tooltip", "allowlist_label", "add_enchant", "remove_tooltip", "note", "ep_column", "name_column"]
+							"required": [
+								"title",
+								"optimize_label",
+								"optimize_tooltip",
+								"allowlist_label",
+								"add_enchant",
+								"remove_tooltip",
+								"note",
+								"ep_column",
+								"name_column"
+							]
 						},
 						"iterations": {
 							"type": "string"
@@ -3602,6 +3612,148 @@
 				"results",
 				"import_modal"
 			]
+		},
+		"upgrade_tab": {
+			"type": "object",
+			"properties": {
+				"title": { "type": "string" },
+				"description": { "type": "string" },
+				"tabs": {
+					"type": "object",
+					"properties": {
+						"setup": { "type": "string" },
+						"results": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["setup", "results"]
+				},
+				"actions": {
+					"type": "object",
+					"properties": {
+						"import_favorites": { "type": "string" },
+						"clear_items": { "type": "string" },
+						"simulate": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["import_favorites", "clear_items", "simulate"]
+				},
+				"search": {
+					"type": "object",
+					"properties": {
+						"title": { "type": "string" },
+						"item_added": { "type": "string" },
+						"item_removed": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["title", "item_added", "item_removed"]
+				},
+				"picker": {
+					"type": "object",
+					"properties": {
+						"no_items": { "type": "string" },
+						"add_enchant": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["no_items", "add_enchant"]
+				},
+				"settings": {
+					"type": "object",
+					"properties": {
+						"fallback_gems": { "type": "string" },
+						"gem_selector_title": { "type": "string" },
+						"remove_gem": { "type": "string" },
+						"iterations": { "type": "string" },
+						"sim_count": { "type": "string" },
+						"sim_count_singular": { "type": "string" },
+						"optimize_gems": {
+							"type": "object",
+							"properties": {
+								"label": { "type": "string" },
+								"tooltip": { "type": "string" }
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						}
+					},
+					"additionalProperties": false,
+					"required": ["fallback_gems", "gem_selector_title", "remove_gem", "iterations", "sim_count", "sim_count_singular", "optimize_gems"]
+				},
+				"saved_runs": {
+					"type": "object",
+					"properties": {
+						"storage_full": { "type": "string" },
+						"items_not_restored": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["storage_full", "items_not_restored"]
+				},
+				"progress": {
+					"type": "object",
+					"properties": {
+						"baseline": { "type": "string" },
+						"item": { "type": "string" },
+						"optimize_gems": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["baseline", "item", "optimize_gems"]
+				},
+				"notifications": {
+					"type": "object",
+					"properties": {
+						"item_duplicate": { "type": "string" },
+						"item_not_found": { "type": "string" },
+						"item_not_equippable": { "type": "string" },
+						"sim_cancelled": { "type": "string" },
+						"busy_while_running": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["item_duplicate", "item_not_found", "item_not_equippable", "sim_cancelled", "busy_while_running"]
+				},
+				"results": {
+					"type": "object",
+					"properties": {
+						"run_simulation": { "type": "string" },
+						"rank": { "type": "string" },
+						"item": { "type": "string" },
+						"slot": { "type": "string" },
+						"dps": { "type": "string" },
+						"delta": { "type": "string" },
+						"source": { "type": "string" },
+						"action": { "type": "string" },
+						"equip_button": { "type": "string" },
+						"diff_button": { "type": "string" },
+						"remove_tooltip": { "type": "string" },
+						"item_removed": { "type": "string" },
+						"gear_equipped": { "type": "string" },
+						"current_gear": { "type": "string" },
+						"gear_diff_title": { "type": "string" },
+						"gear_diff_empty": { "type": "string" },
+						"empty_slot": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": [
+						"run_simulation",
+						"rank",
+						"item",
+						"slot",
+						"dps",
+						"delta",
+						"source",
+						"action",
+						"equip_button",
+						"diff_button",
+						"remove_tooltip",
+						"item_removed",
+						"gear_equipped",
+						"current_gear",
+						"gear_diff_title",
+						"gear_diff_empty",
+						"empty_slot"
+					]
+				}
+			},
+			"additionalProperties": false,
+			"required": ["title", "description", "tabs", "actions", "search", "picker", "settings", "saved_runs", "progress", "notifications", "results"]
 		},
 		"rotation_tab": {
 			"type": "object",
@@ -9175,6 +9327,7 @@
 		"settings_tab",
 		"talents_tab",
 		"bulk_tab",
+		"upgrade_tab",
 		"rotation_tab",
 		"results_tab",
 		"import",

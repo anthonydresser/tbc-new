@@ -1019,6 +1019,74 @@
 			"description_line1": "Import bag items from a JSON file, which can be created by the WowSimsExporter in-game AddOn.",
 			"description_line2": "To import, upload the file or paste the text below, then click, 'Import'."
 		}
+	},	"upgrade_tab": {
+		"title": "Upgrade Finder",
+		"description": "Add items you are considering and sim each one individually against your current gear to find the biggest single-item DPS upgrade.",
+		"tabs": {
+			"setup": "Setup",
+			"results": "Results"
+		},
+		"actions": {
+			"import_favorites": "Import Favorites",
+			"clear_items": "Clear Items",
+			"simulate": "Find Upgrades"
+		},
+		"search": {
+			"title": "Item Search",
+			"item_added": "{{itemName}} was added to the upgrade list.",
+			"item_removed": "{{itemName}} was removed from the upgrade list."
+		},
+		"picker": {
+			"no_items": "No items selected. Add items using the search box above.",
+			"add_enchant": "Add enchant"
+		},
+		"settings": {
+			"fallback_gems": "Fallback Gems",
+			"gem_selector_title": "Choose fallback Gem",
+			"remove_gem": "Remove gem",
+			"iterations": "Iterations",
+			"sim_count": "{{count}} candidate sims",
+			"sim_count_singular": "1 candidate sim",
+			"optimize_gems": {
+				"label": "Optimize gems per item",
+				"tooltip": "Re-solve the optimal gem configuration for each candidate item before simming. Slower, but more accurate when a new item changes gemming choices."
+			}
+		},
+		"saved_runs": {
+			"storage_full": "Browser storage is full, so the upgrade finder state could not be saved. Delete some saved runs to free up space.",
+			"items_not_restored": "{{count}} item(s) from the saved run could not be restored and were skipped. The saved run itself is unchanged."
+		},
+		"progress": {
+			"baseline": "Running baseline simulation",
+			"item": "Simming {{itemName}}",
+			"optimize_gems": "Optimizing gems for {{itemName}}"
+		},
+		"notifications": {
+			"item_duplicate": "That item is already in the upgrade list.",
+			"item_not_found": "Item could not be found in the database.",
+			"item_not_equippable": "That item cannot be equipped by this character.",
+			"sim_cancelled": "Upgrade finder cancelled.",
+			"busy_while_running": "Finish or cancel the running simulation before changing the item list."
+		},
+		"results": {
+			"run_simulation": "Run a simulation to view results",
+			"rank": "Rank",
+			"item": "Item",
+			"slot": "Slot",
+			"dps": "DPS",
+			"delta": "Delta",
+			"source": "Source",
+			"action": "Action",
+			"equip_button": "Equip",
+			"diff_button": "Diff",
+			"remove_tooltip": "Remove item from upgrade list",
+			"item_removed": "Removed {{itemName}} from the upgrade list.",
+			"gear_equipped": "Upgrade equipped!",
+			"current_gear": "Current Gear",
+			"gear_diff_title": "Gear changes with {{itemName}}",
+			"gear_diff_empty": "No gear changes detected.",
+			"empty_slot": "Empty"
+		}
 	},
 	"rotation_tab": {
 		"title": "Rotation",

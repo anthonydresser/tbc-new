@@ -32,6 +32,7 @@ import { CURRENT_PHASE } from '../constants/other';
 import type { EquippedItem } from '../proto/equipped_item';
 import type { Gear, ItemSwapGear } from '../proto/gear';
 import type { StatCap, Stats } from '../proto/stats';
+import type { UpgradeCandidate, UpgradeGearResult, UpgradeResult } from '../upgrade/types';
 
 // Presentation flags (owned by UISettings).
 export interface UISlice {
@@ -231,6 +232,25 @@ export interface BulkSlice {
 	v: { settings: number; items: number };
 }
 
+// Upgrade finder tab, one slice per player. `settings` covers the user-authored run
+// definition (candidates, fallback gems, optimize-gems); `results` covers what the
+// last run produced. Both feed the autosave, and the run loop bumps them itself as
+// it writes, so progress ticks never reach here.
+export interface UpgradeSlice {
+	candidates: Array<UpgradeCandidate>;
+	// One gem id per socket color (red/yellow/blue/meta/prismatic order); 0 = unset.
+	fallbackGemIds: Array<number>;
+	// Unlike bulk's (default ON) this one is default OFF: a candidate is shown as
+	// authored unless the user asks the optimizer to regem the whole set per sim.
+	optimizeGems: boolean;
+	isRunning: boolean;
+	// The gear the last run started from, restored when it ends or is cancelled.
+	runGear: Gear | null;
+	baseline: UpgradeGearResult | null;
+	results: Array<UpgradeResult> | null;
+	v: { settings: number; results: number };
+}
+
 // One user-visible operation, not one worker request: the combustion calculator
 // issues ten requests under one bar and one stop button. The values are in-memory store keys only,
 // so they are free to change; they read as they do to stay legible in a devtools store dump.
@@ -253,6 +273,7 @@ export interface SimState {
 	reforge: { [storeKey: number]: ReforgeSlice };
 	statWeights: { [storeKey: number]: StatWeightsSlice };
 	bulk: { [storeKey: number]: BulkSlice };
+	upgrades: { [storeKey: number]: UpgradeSlice };
 	sim: SimSettingsSlice;
 	ui: UISlice;
 	encounter: EncounterSlice;
@@ -303,6 +324,7 @@ const initialState = (): SimState => ({
 	reforge: {},
 	statWeights: {},
 	bulk: {},
+	upgrades: {},
 });
 
 export type SimStore = ReturnType<typeof createSimStore>;
@@ -334,7 +356,7 @@ export function patchSlice<N extends UnkeyedSlice>(store: SimStore, slice: N, pa
 // The slices keyed by a player's storeKey. Single source of truth: `KeyedSlice`
 // is derived from it, and deleteKeyed iterates it, so adding a keyed slice
 // cannot leave the disposal path behind.
-export const KEYED_SLICES = ['players', 'reforge', 'statWeights', 'bulk'] as const;
+export const KEYED_SLICES = ['players', 'reforge', 'statWeights', 'bulk', 'upgrades'] as const;
 type KeyedSlice = (typeof KEYED_SLICES)[number];
 type KeyedEntry<N extends KeyedSlice> = SimState[N][number];
 type Versions<N extends KeyedSlice> = KeyedEntry<N>['v'];

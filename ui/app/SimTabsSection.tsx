@@ -11,6 +11,7 @@ import { GearTabBody } from './tabs/GearTabBody';
 import { RotationTabPane } from './tabs/RotationTabPane';
 import { SettingsTabBody } from './tabs/SettingsTabBody';
 import { TalentsTabBody } from './tabs/TalentsTabBody';
+import { UpgradesTabBody } from './tabs/UpgradesTabBody';
 
 export interface SimTabsSectionProps {
 	host: SimHostObject<any>;
@@ -54,6 +55,11 @@ export const SimTabsSection = memo(({ host }: SimTabsSectionProps) => (
 				<SimTabDef id="bulk-tab" title={i18n.t('bulk_tab.title')} badge={i18n.t('bulk_tab.title_badge')}>
 					<SimTabPane id="bulk-tab" className="p-0">
 						<BulkTabBody />
+					</SimTabPane>
+				</SimTabDef>
+				<SimTabDef id="upgrade-tab" title={i18n.t('upgrade_tab.title')}>
+					<SimTabPane id="upgrade-tab" className="p-0">
+						<UpgradesTabBody />
 					</SimTabPane>
 				</SimTabDef>
 			</>
