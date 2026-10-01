@@ -22,9 +22,9 @@ import (
 // errStatConstraintsInfeasible reports that no gem choice can satisfy the constraints.
 var errStatConstraintsInfeasible = errors.New("No gem choice satisfies the batch's stat constraints.")
 
-// Strict comparisons are modelled as the inclusive bound moved by this much. Gem
-// contributions are whole stat points or percentages far coarser than this.
-const statConstraintStrictEpsilon = 1e-6
+// Strict comparisons are modelled as the inclusive bound moved by this much: far above HiGHS's
+// feasibility tolerance (1e-6), far below any gem's contribution.
+const statConstraintStrictEpsilon = 1e-4
 
 func statConstraintUnitStat(constraint *proto.BulkStatConstraint) (stats.UnitStat, bool) {
 	switch target := constraint.GetUnitStat().(type) {

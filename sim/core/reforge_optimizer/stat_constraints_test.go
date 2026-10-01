@@ -385,3 +385,52 @@ func TestStatConstraintRowsAreAddedInAFixedOrder(t *testing.T) {
 		t.Fatalf("listing the constraints in another order changed the order of their rows:\n got: %v\nwant: %v", got, want)
 	}
 }
+
+// A strict comparison must hold strictly on the gear the solver returns. The model has no strict
+// rows, so the bound is moved inward by a margin, and the margin has to be wider than the solver's
+// feasibility tolerance: otherwise gems that land exactly on the threshold are accepted. Here each
+// threshold is a value the gems reach exactly and the solver would rather not move away from.
+func TestStrictStatConstraintExcludesTheThreshold(t *testing.T) {
+	sim.RegisterAll()
+	request := loadPreset(t, "gem-pool-wide.test.json")
+	request.Debug = false
+	optimizer, err := newReforgeOptimizer(request, simsignals.CreateSignals())
+	if err != nil {
+		t.Fatalf("newReforgeOptimizer: %v", err)
+	}
+	base := optimizer.capBaseStats
+	// Constraints are judged on the sheet's values: final stats plus the sheet's debuffs.
+	sheet := func(finalStats core.UnitStats, stat stats.Stat) float64 {
+		return finalStats.Stats[stat] + base.Stats[stat] - optimizer.baseStats.Stats[stat]
+	}
+	unconstrained, _ := optimizedFinalStats(t, request)
+
+	tested := 0
+	for statIdx := 0; statIdx < int(stats.ProtoStatsLen); statIdx++ {
+		stat := stats.Stat(statIdx)
+		reached := sheet(unconstrained, stat)
+		if reached-base.Stats[statIdx] < 1 {
+			continue
+		}
+		tested++
+		t.Run(stat.StatName(), func(t *testing.T) {
+			// Below what the free solve reaches: the solver gives up as little as it can.
+			request.StatConstraints = []*proto.BulkStatConstraint{statConstraint(proto.Stat(stat), proto.BulkStatConstraintOp_BulkStatConstraintOpLessThan, reached)}
+			below, _ := optimizedFinalStats(t, request)
+			if got := sheet(below, stat); got >= reached {
+				t.Fatalf("%s = %v does not meet < %v", stat.StatName(), got, reached)
+			}
+
+			// Above the value that solve settled on, which the gems reach exactly.
+			floor := sheet(below, stat)
+			request.StatConstraints = []*proto.BulkStatConstraint{statConstraint(proto.Stat(stat), proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThan, floor)}
+			above, _ := optimizedFinalStats(t, request)
+			if got := sheet(above, stat); got <= floor {
+				t.Fatalf("%s = %v does not meet > %v", stat.StatName(), got, floor)
+			}
+		})
+	}
+	if tested == 0 {
+		t.Fatal("the free solve raises no stat; the fixture is unsuitable")
+	}
+}
