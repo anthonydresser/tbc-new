@@ -1,8 +1,10 @@
 // The upgrade finder's sim loop: one baseline sim of the worn gear, then one sim per
 // candidate per slot it fits (the best slot wins the row). Gem optimization is the
-// optional reforge pre-pass per candidate, like bulk's.
-import { type ItemSlot } from '@generated/proto/common';
+// optional reforge pre-pass per candidate, like bulk's. With a BiS reference set
+// selected, the loop also sims the reference set and swaps every candidate into it.
+import { EquipmentSpec, type ItemSlot } from '@generated/proto/common';
 import i18n from '@i18n/config';
+import type { Gear } from '@sim/proto/gear';
 import { frozenGemSocketSet } from '@sim/proto/items';
 import { patchUpgradeState, storeUpgradeRunState, upgradeState } from '@sim/settings/upgrade_settings';
 import type { IndividualSimHost } from '@sim/sim_host';
@@ -11,6 +13,7 @@ import type { UpgradeCandidate, UpgradeGearResult, UpgradeResult } from '@sim/up
 import { toastManager } from '@ui-kit/Toast';
 
 import { trackEvent } from '../../../tracking/utils';
+import { resolveBisReferenceGear } from './bis_reference';
 import { getDefaultGemsByColor, upgradeEligibleSlots } from './items';
 
 export interface UpgradeProgress {
@@ -178,8 +181,37 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 	if (state.isRunning) return;
 
 	const candidates = state.candidates;
-	const candidateSimCount = candidates.reduce((sum, candidate) => sum + upgradeEligibleSlots(player, candidate).length, 0);
-	const totalRuns = 1 + candidateSimCount;
+
+	// Resolve the BiS reference up front so a deleted/renamed set doesn't distort the
+	// progress total; warn and continue without the reference instead of failing.
+	let bisGear: Gear | null = null;
+	if (state.compareBisEnabled && state.bisReferenceName) {
+		bisGear = resolveBisReferenceGear(host);
+		if (!bisGear) {
+			toastManager.add({
+				delay: 4000,
+				variant: 'warning',
+				body: i18n.t('upgrade_tab.notifications.bis_set_missing', { name: state.bisReferenceName }),
+			});
+		}
+	}
+
+	// With a reference set, each candidate also gets simmed swapped onto that set —
+	// unless the swap reproduces the reference gear exactly (the reference set already
+	// wears that item), in which case the delta is 0 by definition and no sim is run.
+	const isBisIdentitySwap = (candidate: UpgradeCandidate, slot: ItemSlot): boolean => {
+		if (!bisGear) return true;
+		const bisCandidateGear = buildUpgradeCandidateGear(host, bisGear, candidate, slot, false);
+		return EquipmentSpec.equals(bisCandidateGear.asSpec(), bisGear.asSpec());
+	};
+
+	let candidateRuns = 0;
+	candidates.forEach(candidate => {
+		upgradeEligibleSlots(player, candidate).forEach(slot => {
+			candidateRuns += 1 + (bisGear && !isBisIdentitySwap(candidate, slot) ? 1 : 0);
+		});
+	});
+	const totalRuns = 1 + candidateRuns + (bisGear ? 1 : 0);
 	if (totalRuns <= 1) return;
 
 	trackEvent({
@@ -197,6 +229,7 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 
 	await sim.waitForInit();
 	let results: UpgradeGearResult | null = null;
+	let bisResult: UpgradeGearResult | null = null;
 	let upgradeResults: UpgradeResult[] = [];
 	let runError: unknown = null;
 	let originalGear = player.getGear();
@@ -212,6 +245,14 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 		const baselineDps = await runSingleGearSim(host, originalGear, abortSignal);
 		results = { gear: originalGear, dpsMetrics: baselineDps };
 		currentRun++;
+
+		if (bisGear) {
+			throwIfUpgradeAborted(host, abortSignal);
+			setSimulationProgress(host, currentRun, totalRuns, i18n.t('upgrade_tab.progress.bis_reference'));
+			const bisDpsMetrics = await runSingleGearSim(host, bisGear, abortSignal);
+			bisResult = { gear: bisGear, dpsMetrics: bisDpsMetrics };
+			currentRun++;
+		}
 
 		const candidateResults: UpgradeResult[] = [];
 
@@ -234,12 +275,37 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 				}
 				const dpsMetrics = await runSingleGearSim(host, candidateGear, abortSignal);
 
+				// The candidate's delta within the BiS reference set: the same item swap
+				// applied to the reference gear, without the fallback gems (so an identity
+				// swap reproduces the reference set exactly).
+				let bisDelta: number | undefined = undefined;
+				if (bisGear && bisResult) {
+					if (isBisIdentitySwap(candidate, slot)) {
+						bisDelta = 0;
+					} else {
+						let bisCandidateGear = buildUpgradeCandidateGear(host, bisGear, candidate, slot, false);
+						if (state.optimizeGems && host.reforger) {
+							bisCandidateGear = await runWithUpgradeAbort(host, host.reforger.optimizeReforges(bisCandidateGear), abortSignal);
+						}
+						setSimulationProgress(
+							host,
+							currentRun,
+							totalRuns,
+							i18n.t('upgrade_tab.progress.item_on_bis', { itemName: candidate.equippedItem.item.name }),
+						);
+						const bisMetrics = await runSingleGearSim(host, bisCandidateGear, abortSignal);
+						bisDelta = bisMetrics.avg - bisResult.dpsMetrics.avg;
+						currentRun++;
+					}
+				}
+
 				const result: UpgradeResult = {
 					item: candidate.equippedItem,
 					slot,
 					gear: candidateGear,
 					dpsMetrics,
 					delta: dpsMetrics.avg - baselineDps.avg,
+					bisDelta,
 				};
 
 				if (!bestResult || result.delta > bestResult.delta) {
@@ -276,7 +342,9 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 		}
 		run.isCancelling = false;
 		run.progress = null;
-		patchUpgradeState(player, results && !runError ? { isRunning: false, baseline: results, results: upgradeResults } : { isRunning: false }, ['results']);
+		patchUpgradeState(player, results && !runError ? { isRunning: false, baseline: results, bisResult, results: upgradeResults } : { isRunning: false }, [
+			'results',
+		]);
 		if (results && !runError) {
 			storeUpgradeRunState(player);
 		}

@@ -243,10 +243,17 @@ export interface UpgradeSlice {
 	// Unlike bulk's (default ON) this one is default OFF: a candidate is shown as
 	// authored unless the user asks the optimizer to regem the whole set per sim.
 	optimizeGems: boolean;
+	// The BiS comparison: one extra sim of the named reference set (an authored preset
+	// or a gear tab saved set), and each candidate also simmed swapped into it. The
+	// name is the user's pick; the boolean records which source the name resolved in.
+	compareBisEnabled: boolean;
+	bisReferenceName: string;
+	bisReferenceIsPreset: boolean;
 	isRunning: boolean;
 	// The gear the last run started from, restored when it ends or is cancelled.
 	runGear: Gear | null;
 	baseline: UpgradeGearResult | null;
+	bisResult: UpgradeGearResult | null;
 	results: Array<UpgradeResult> | null;
 	v: { settings: number; results: number };
 }
