@@ -134,7 +134,7 @@ func filterBulkSimCandidatesByConstraints(request *proto.BulkSimRequest, candida
 				mu.Lock()
 				completed++
 				done := completed
-				emit := done == len(candidates) || time.Since(lastEmit) >= BulkSimProgressThrottle
+				emit := time.Since(lastEmit) >= BulkSimProgressThrottle
 				if emit {
 					lastEmit = time.Now()
 				}
@@ -153,6 +153,9 @@ func filterBulkSimCandidatesByConstraints(request *proto.BulkSimRequest, candida
 	if firstErr != nil {
 		return nil, 0, firstErr
 	}
+	// The final frame is sent here, once every worker's send has returned: a worker's throttled
+	// frame is sent outside the lock, so sent from a worker it could be overtaken and arrive last.
+	emitBulkSimStageProgress(progress, proto.BulkSimStage_BulkSimStageConstraints, len(candidates), len(candidates), 0, 0, 0)
 	survivors = make([]BulkSimCandidate, 0, len(candidates))
 	for i, candidate := range candidates {
 		if passes[i] {
