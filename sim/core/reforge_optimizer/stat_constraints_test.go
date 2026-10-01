@@ -327,3 +327,59 @@ func TestStatConstraintAndSoftCapOnSameStat(t *testing.T) {
 		t.Fatalf("crit reduction %.3f exceeds the constraint's %.3f", got, ceiling)
 	}
 }
+
+// The solver breaks ties between equally scored gem choices by the text of the model it is given,
+// so the same request must build the same model every time: the stat constraint rows are added in
+// one order, whatever order the constraints are listed in.
+func TestStatConstraintRowsAreAddedInAFixedOrder(t *testing.T) {
+	sim.RegisterAll()
+	request := loadPreset(t, "gem-pool-wide.test.json")
+	atLeastZero := func(stat proto.Stat) *proto.BulkStatConstraint {
+		return statConstraint(stat, proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual, 0)
+	}
+	request.StatConstraints = []*proto.BulkStatConstraint{
+		atLeastZero(proto.Stat_StatStamina),
+		atLeastZero(proto.Stat_StatIntellect),
+		atLeastZero(proto.Stat_StatSpirit),
+		atLeastZero(proto.Stat_StatSpellDamage),
+		atLeastZero(proto.Stat_StatAgility),
+		atLeastZero(proto.Stat_StatStrength),
+	}
+
+	rowOrder := func(request *proto.ReforgeOptimizeRequest) []string {
+		optimizer, err := newReforgeOptimizer(request, simsignals.CreateSignals())
+		if err != nil {
+			t.Fatalf("newReforgeOptimizer: %v", err)
+		}
+		equipment := core.ProtoToEquipment(optimizer.baseStrippedGear)
+		weights := protoToCoreUnitStats(request.GetPreCapEpWeights())
+		variables := optimizer.buildYalpsVariables(equipment, weights, core.UnitStats{}, nil)
+		constraints := optimizer.buildYalpsConstraints(equipment)
+		if err := optimizer.addStatConstraintRows(variables, constraints); err != nil {
+			t.Fatalf("addStatConstraintRows: %v", err)
+		}
+		var order []string
+		constraints.each(func(name string, _ lpConstraint) {
+			if optimizer.statConstraintRowKeys[name] {
+				order = append(order, name)
+			}
+		})
+		return order
+	}
+
+	want := rowOrder(request)
+	if len(want) < 3 {
+		t.Fatalf("only %d constraint rows were added; the fixture's gems should move at least 3 of the stats", len(want))
+	}
+	for repeat := 0; repeat < 20; repeat++ {
+		if got := rowOrder(request); !slices.Equal(got, want) {
+			t.Fatalf("the rows were added in a different order on a repeat build:\n got: %v\nwant: %v", got, want)
+		}
+	}
+
+	reversed := googleProto.Clone(request).(*proto.ReforgeOptimizeRequest)
+	slices.Reverse(reversed.StatConstraints)
+	if got := rowOrder(reversed); !slices.Equal(got, want) {
+		t.Fatalf("listing the constraints in another order changed the order of their rows:\n got: %v\nwant: %v", got, want)
+	}
+}

@@ -2,6 +2,8 @@ package reforgeoptimizer
 
 import (
 	"errors"
+	"maps"
+	"slices"
 	"time"
 
 	"github.com/wowsims/tbc/sim/core"
@@ -170,6 +172,22 @@ func (o *reforgeOptimizer) statConstraintRows(variables *lpVariables) (map[strin
 		rows[rowKey] = tightenConstraint(rows[rowKey], bound)
 	}
 	return rows, nil
+}
+
+// addStatConstraintRows adds the request's stat constraints to the model as rows and records
+// their keys. The rows are added in key order: the solver breaks ties between equally scored
+// solutions by the text of the model, so the same request must always build the same text.
+func (o *reforgeOptimizer) addStatConstraintRows(variables *lpVariables, constraints *lpConstraints) error {
+	rows, err := o.statConstraintRows(variables)
+	if err != nil {
+		return err
+	}
+	o.statConstraintRowKeys = make(map[string]bool, len(rows))
+	for _, key := range slices.Sorted(maps.Keys(rows)) {
+		constraints.set(key, rows[key])
+		o.statConstraintRowKeys[key] = true
+	}
+	return nil
 }
 
 // statConstraintsCauseInfeasibility reports whether an infeasible model is infeasible because of

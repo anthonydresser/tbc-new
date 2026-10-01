@@ -212,14 +212,8 @@ func (o *reforgeOptimizer) optimizeReforges() (*proto.EquipmentSpec, float64, er
 	variables := o.buildYalpsVariables(equipment, weights, reforgeCaps, reforgeSoftCaps)
 	constraints := o.buildYalpsConstraints(equipment)
 	addStructuralConstraints(variables, constraints)
-	statConstraintRows, err := o.statConstraintRows(variables)
-	if err != nil {
+	if err := o.addStatConstraintRows(variables, constraints); err != nil {
 		return nil, 0, err
-	}
-	o.statConstraintRowKeys = make(map[string]bool, len(statConstraintRows))
-	for key, row := range statConstraintRows {
-		constraints.set(key, row)
-		o.statConstraintRowKeys[key] = true
 	}
 
 	timeoutSeconds := optimizerTimeout.Seconds()

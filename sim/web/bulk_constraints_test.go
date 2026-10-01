@@ -12,6 +12,36 @@ import (
 	googleProto "google.golang.org/protobuf/proto"
 )
 
+// An arcane mage in its preset gear, and the batch's base request for it: 50 iterations on a
+// fixed seed.
+func mageBulkBaseRequest() (*proto.Player, *proto.RaidSimRequest) {
+	player := core.WithSpec(&proto.Player{
+		Class:          proto.Class_ClassMage,
+		Race:           proto.Race_RaceTroll,
+		Equipment:      core.GetGearSet("../../ui/specs/mage/dps/gear_sets", "p1Arcane").GearSet,
+		Consumables:    &proto.ConsumesSpec{},
+		Buffs:          core.FullIndividualBuffs,
+		TalentsString:  "2500052300030150330125--053500031003001",
+		Profession1:    proto.Profession_Engineering,
+		Rotation:       core.GetAplRotation("../../ui/specs/mage/dps/apls", "arcane").Rotation,
+		ReactionTimeMs: 100,
+	}, &proto.Player_Mage{Mage: &proto.Mage{Options: &proto.Mage_Options{ClassOptions: &proto.MageOptions{DefaultMageArmor: proto.MageArmor_MageArmorMageArmor}}}})
+	return player, &proto.RaidSimRequest{
+		Raid:       core.SinglePlayerRaidProto(player, core.FullPartyBuffs, core.FullRaidBuffs, core.FullDebuffs),
+		Encounter:  core.MakeDefaultEncounterCombos()[0].Encounter,
+		SimOptions: &proto.SimOptions{Iterations: 50, RandomSeed: 1},
+	}
+}
+
+func reforgeGemOption(t *testing.T, id int32) *proto.ReforgeGemOption {
+	t.Helper()
+	gem, ok := core.GetGemByID(id)
+	if !ok {
+		t.Fatalf("gem %d is not in the database", id)
+	}
+	return &proto.ReforgeGemOption{Id: gem.ID, Name: gem.Name, Color: gem.Color, Stats: gem.Stats[:], Quality: proto.ItemQuality_ItemQualityRare, Phase: 1}
+}
+
 // A candidate the gem optimizer cannot bring within the stat constraints must still be judged on
 // its own gear: the optimizer starts from the gear with its gems removed and only offers the gems
 // in its pool, so "no gem choice meets the constraints" says nothing about the gems the candidate
@@ -31,22 +61,7 @@ func TestBulkSimInfeasibleGemModelKeepsCandidateGear(t *testing.T) {
 		t.Fatalf("gem %d should carry Stamina", solidStarOfElune)
 	}
 
-	player := core.WithSpec(&proto.Player{
-		Class:          proto.Class_ClassMage,
-		Race:           proto.Race_RaceTroll,
-		Equipment:      core.GetGearSet("../../ui/specs/mage/dps/gear_sets", "p1Arcane").GearSet,
-		Consumables:    &proto.ConsumesSpec{},
-		Buffs:          core.FullIndividualBuffs,
-		TalentsString:  "2500052300030150330125--053500031003001",
-		Profession1:    proto.Profession_Engineering,
-		Rotation:       core.GetAplRotation("../../ui/specs/mage/dps/apls", "arcane").Rotation,
-		ReactionTimeMs: 100,
-	}, &proto.Player_Mage{Mage: &proto.Mage{Options: &proto.Mage_Options{ClassOptions: &proto.MageOptions{DefaultMageArmor: proto.MageArmor_MageArmorMageArmor}}}})
-	baseRequest := &proto.RaidSimRequest{
-		Raid:       core.SinglePlayerRaidProto(player, core.FullPartyBuffs, core.FullRaidBuffs, core.FullDebuffs),
-		Encounter:  core.MakeDefaultEncounterCombos()[0].Encounter,
-		SimOptions: &proto.SimOptions{Iterations: 50, RandomSeed: 1},
-	}
+	player, baseRequest := mageBulkBaseRequest()
 
 	// The candidate: the equipped gear with every socketed gem swapped for a Stamina gem.
 	candidateGear := googleProto.Clone(player.Equipment).(*proto.EquipmentSpec)
@@ -73,7 +88,6 @@ func TestBulkSimInfeasibleGemModelKeepsCandidateGear(t *testing.T) {
 	// Exactly what the candidate's own gems give, well beyond anything a spell damage gem can.
 	floor := finalStamina(candidateGear)
 
-	ruby, _ := core.GetGemByID(runedLivingRuby)
 	weights := make([]float64, int(proto.Stat_StatPhysicalDamage)+1)
 	weights[proto.Stat_StatSpellDamage] = 1
 	request := &proto.BulkSimRequest{
@@ -96,9 +110,7 @@ func TestBulkSimInfeasibleGemModelKeepsCandidateGear(t *testing.T) {
 				MaxGemQuality: proto.ItemQuality_ItemQualityEpic,
 				EpStats:       []proto.Stat{proto.Stat_StatSpellDamage, proto.Stat_StatStamina},
 			},
-			GemOptions: []*proto.ReforgeGemOption{{
-				Id: ruby.ID, Name: ruby.Name, Color: ruby.Color, Stats: ruby.Stats[:], Quality: proto.ItemQuality_ItemQualityRare, Phase: 1,
-			}},
+			GemOptions: []*proto.ReforgeGemOption{reforgeGemOption(t, runedLivingRuby)},
 		},
 	}
 
@@ -129,5 +141,125 @@ func TestBulkSimInfeasibleGemModelKeepsCandidateGear(t *testing.T) {
 	result = bulk.BulkSim(request)
 	if result.Error != nil || result.SkippedByConstraints != 1 || len(result.TopResults) != 0 {
 		t.Fatalf("gear below the floor must be skipped: err %v skipped %d results %d", result.Error, result.SkippedByConstraints, len(result.TopResults))
+	}
+}
+
+// A batch on a fixed seed gives the same result every time it is run. Here the gem optimizer has
+// constraints on three stats to meet and only spell damage to score, so many gem layouts tie; the
+// solver breaks ties by the model it is handed, which must therefore be the same on every run.
+func TestBulkSimWithStatConstraintsIsDeterministic(t *testing.T) {
+	const (
+		runedLivingRuby       = 24030 // +9 spell damage: the only stat with a weight
+		solidStarOfElune      = 24033 // Stamina
+		brilliantDawnstone    = 24047 // Intellect
+		sparklingStarOfElune  = 24035 // Spirit
+		infernoweaveRobe      = 30762
+		constraintGemsPerStat = 2
+	)
+	player, baseRequest := mageBulkBaseRequest()
+
+	// The floors are measured from the gear with only spell damage gems, so each takes gems of its
+	// own stat to reach.
+	rubyGear := func(gear *proto.EquipmentSpec) *proto.EquipmentSpec {
+		gear = googleProto.Clone(gear).(*proto.EquipmentSpec)
+		for _, item := range gear.Items {
+			for i, gemID := range item.GetGems() {
+				if gem, ok := core.GetGemByID(gemID); ok && gem.Color != proto.GemColor_GemColorMeta {
+					item.Gems[i] = runedLivingRuby
+				}
+			}
+		}
+		return gear
+	}
+	finalStats := func(gear *proto.EquipmentSpec) []float64 {
+		raid := googleProto.Clone(baseRequest.Raid).(*proto.Raid)
+		raid.Parties[0].Players[0].Equipment = gear
+		return core.ComputeStats(&proto.ComputeStatsRequest{Raid: raid, Encounter: baseRequest.Encounter}).RaidStats.Parties[0].Players[0].FinalStats.Stats
+	}
+	robeGear := googleProto.Clone(player.Equipment).(*proto.EquipmentSpec)
+	robeGear.Items[proto.ItemSlot_ItemSlotChest] = &proto.ItemSpec{Id: infernoweaveRobe}
+	ringlessGear := googleProto.Clone(player.Equipment).(*proto.EquipmentSpec)
+	ringlessGear.Items[proto.ItemSlot_ItemSlotFinger2] = &proto.ItemSpec{}
+	candidateGear := []*proto.EquipmentSpec{rubyGear(player.Equipment), rubyGear(robeGear), rubyGear(ringlessGear)}
+
+	// Each floor is what the weakest candidate has, plus most of what two gems of the stat give.
+	floor := func(stat proto.Stat, gemID int32) *proto.BulkStatConstraint {
+		gem, _ := core.GetGemByID(gemID)
+		if gem.Stats[stat] <= 0 {
+			t.Fatalf("gem %d should carry %s", gemID, stat)
+		}
+		lowest := finalStats(candidateGear[0])[stat]
+		for _, gear := range candidateGear[1:] {
+			lowest = min(lowest, finalStats(gear)[stat])
+		}
+		return &proto.BulkStatConstraint{
+			UnitStat: &proto.BulkStatConstraint_Stat{Stat: stat},
+			Op:       proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual,
+			Value:    lowest + gem.Stats[stat]*(constraintGemsPerStat-0.5),
+		}
+	}
+
+	weights := make([]float64, int(proto.Stat_StatPhysicalDamage)+1)
+	weights[proto.Stat_StatSpellDamage] = 1
+	request := &proto.BulkSimRequest{
+		BaseRequest:         baseRequest,
+		TopResults:          5,
+		HighStageIterations: 50,
+		BulkSettings: &proto.BulkSettings{
+			UseLegacyBulkSim: true,
+			StatConstraints: []*proto.BulkStatConstraint{
+				floor(proto.Stat_StatStamina, solidStarOfElune),
+				floor(proto.Stat_StatIntellect, brilliantDawnstone),
+				floor(proto.Stat_StatSpirit, sparklingStarOfElune),
+			},
+		},
+		ReforgeRequest: &proto.ReforgeOptimizeRequest{
+			PreCapEpWeights: &proto.UnitStats{Stats: weights, PseudoStats: make([]float64, int(proto.PseudoStat_PseudoStatReducedCritTakenPercent)+1)},
+			Settings: &proto.ReforgeSettings{
+				MaxGemPhase:   5,
+				MaxGemQuality: proto.ItemQuality_ItemQualityEpic,
+				EpStats:       []proto.Stat{proto.Stat_StatSpellDamage, proto.Stat_StatStamina, proto.Stat_StatIntellect, proto.Stat_StatSpirit},
+			},
+			GemOptions: []*proto.ReforgeGemOption{
+				reforgeGemOption(t, runedLivingRuby),
+				reforgeGemOption(t, solidStarOfElune),
+				reforgeGemOption(t, brilliantDawnstone),
+				reforgeGemOption(t, sparklingStarOfElune),
+			},
+		},
+	}
+	for i, gear := range candidateGear {
+		request.Candidates = append(request.Candidates, &proto.BulkGearCandidate{Index: int32(i), Gear: gear})
+	}
+
+	run := func() *proto.BulkSimResult {
+		request := googleProto.Clone(request).(*proto.BulkSimRequest)
+		optimizeBulkSimReforgeCandidates(request, nil, simsignals.CreateSignals())
+		request.ReforgeRequest = nil
+		result := bulk.BulkSim(request)
+		if result.Error != nil {
+			t.Fatalf("batch failed: %s", result.Error.Message)
+		}
+		return result
+	}
+
+	first := run()
+	if first.SkippedByConstraints != 0 || len(first.TopResults) != len(candidateGear) {
+		t.Fatalf("the gems can meet every floor, so every candidate must be simmed: skipped %d, results %d", first.SkippedByConstraints, len(first.TopResults))
+	}
+	for repeat := 2; repeat <= 6; repeat++ {
+		again := run()
+		if len(again.TopResults) != len(first.TopResults) {
+			t.Fatalf("run %d simmed %d gear sets, the first run %d", repeat, len(again.TopResults), len(first.TopResults))
+		}
+		for i, result := range again.TopResults {
+			want := first.TopResults[i]
+			if !googleProto.Equal(result.Gear, want.Gear) {
+				t.Fatalf("run %d, result %d: the gear differs from the first run's\n got: %v\nwant: %v", repeat, i, result.Gear, want.Gear)
+			}
+			if result.DpsMetrics.Avg != want.DpsMetrics.Avg {
+				t.Fatalf("run %d, result %d: %v DPS, the first run %v", repeat, i, result.DpsMetrics.Avg, want.DpsMetrics.Avg)
+			}
+		}
 	}
 }
