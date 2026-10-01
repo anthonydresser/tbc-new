@@ -25,26 +25,6 @@ func TestBulkStatConstraints(t *testing.T) {
 		stats.PseudoStats[proto.PseudoStat_PseudoStatReducedCritTakenPercent] = critReduction
 		return stats
 	}
-	cases := []struct {
-		op    proto.BulkStatConstraintOp
-		value float64
-		want  bool
-	}{
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThan, 176, true},
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThan, 175, false},
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual, 175, true},
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual, 174, false},
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpLessThanOrEqual, 175, true},
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpLessThanOrEqual, 176, false},
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpLessThan, 174, true},
-		{proto.BulkStatConstraintOp_BulkStatConstraintOpLessThan, 175, false},
-	}
-	for _, c := range cases {
-		if got := bulkStatConstraintPasses(stat(proto.Stat_StatFireResistance, c.op, 175), c.value); got != c.want {
-			t.Fatalf("%v with threshold 175 and value %v: got %v, want %v", c.op, c.value, got, c.want)
-		}
-	}
-
 	constraints := []*proto.BulkStatConstraint{
 		stat(proto.Stat_StatFireResistance, proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThan, 175),
 		pseudo(proto.PseudoStat_PseudoStatReducedCritTakenPercent, proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual, 5.6),
@@ -69,8 +49,9 @@ func TestBulkStatConstraints(t *testing.T) {
 	if bulkFinalStatsPassConstraints(append([]*proto.BulkStatConstraint{noTarget}, constraints...), finalStats(175, 5.6)) {
 		t.Fatal("the constraints after one with no stat set should still be judged")
 	}
-	if got := bulkConstraintStatValue(constraints[0], nil); got != 0 {
-		t.Fatalf("missing stats read as 0, got %v", got)
+	// Missing stats read as 0.
+	if bulkFinalStatsPassConstraints(constraints, nil) {
+		t.Fatal("no stats should fail a > 175 constraint")
 	}
 }
 

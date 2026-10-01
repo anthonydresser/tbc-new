@@ -11,6 +11,7 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 	"github.com/wowsims/tbc/sim/core/proto"
 	"github.com/wowsims/tbc/sim/core/simsignals"
+	"github.com/wowsims/tbc/sim/core/stats"
 	googleProto "google.golang.org/protobuf/proto"
 )
 
@@ -19,45 +20,14 @@ import (
 // Final stats are the ones the character sheet shows, so a surviving candidate
 // displays matching numbers once equipped. Mirrors ui/core/wasm/bulk_sim/constraints.ts.
 
-func bulkStatConstraintPasses(constraint *proto.BulkStatConstraint, value float64) bool {
-	switch constraint.Op {
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThan:
-		return value > constraint.Value
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual:
-		return value >= constraint.Value
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThanOrEqual:
-		return value <= constraint.Value
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThan:
-		return value < constraint.Value
-	}
-	return false
-}
-
-// The constrained Stat or PseudoStat read out of a final-stats proto.
-func bulkConstraintStatValue(constraint *proto.BulkStatConstraint, finalStats *proto.UnitStats) float64 {
-	if finalStats == nil {
-		return 0
-	}
-	switch target := constraint.UnitStat.(type) {
-	case *proto.BulkStatConstraint_Stat:
-		if idx := int(target.Stat); idx < len(finalStats.Stats) {
-			return finalStats.Stats[idx]
-		}
-	case *proto.BulkStatConstraint_PseudoStat:
-		if idx := int(target.PseudoStat); idx < len(finalStats.PseudoStats) {
-			return finalStats.PseudoStats[idx]
-		}
-	}
-	return 0
-}
-
 func bulkFinalStatsPassConstraints(constraints []*proto.BulkStatConstraint, finalStats *proto.UnitStats) bool {
 	for _, constraint := range constraints {
 		// A constraint with no stat set is skipped, as in the UI and the gem optimizer.
-		if constraint.GetUnitStat() == nil {
+		unitStat, ok := stats.BulkStatConstraintUnitStat(constraint)
+		if !ok {
 			continue
 		}
-		if !bulkStatConstraintPasses(constraint, bulkConstraintStatValue(constraint, finalStats)) {
+		if !stats.BulkStatConstraintPasses(constraint.GetOp(), unitStat.ValueFromStatsProto(finalStats), constraint.GetValue()) {
 			return false
 		}
 	}

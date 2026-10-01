@@ -26,30 +26,6 @@ var errStatConstraintsInfeasible = errors.New("No gem choice satisfies the batch
 // feasibility tolerance (1e-6), far below any gem's contribution.
 const statConstraintStrictEpsilon = 1e-4
 
-func statConstraintUnitStat(constraint *proto.BulkStatConstraint) (stats.UnitStat, bool) {
-	switch target := constraint.GetUnitStat().(type) {
-	case *proto.BulkStatConstraint_Stat:
-		return stats.UnitStatFromStat(stats.Stat(target.Stat)), true
-	case *proto.BulkStatConstraint_PseudoStat:
-		return stats.UnitStatFromPseudoStat(target.PseudoStat), true
-	}
-	return 0, false
-}
-
-func statConstraintPasses(op proto.BulkStatConstraintOp, value float64, threshold float64) bool {
-	switch op {
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThan:
-		return value > threshold
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpGreaterThanOrEqual:
-		return value >= threshold
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThanOrEqual:
-		return value <= threshold
-	case proto.BulkStatConstraintOp_BulkStatConstraintOpLessThan:
-		return value < threshold
-	}
-	return false
-}
-
 // Tightens a row with another bound on the same stat: the larger of the minimums, the
 // smaller of the maximums.
 func tightenConstraint(row lpConstraint, bound lpConstraint) lpConstraint {
@@ -99,7 +75,7 @@ func defenseFloorMargin(unitStat stats.UnitStat, op proto.BulkStatConstraintOp, 
 func (o *reforgeOptimizer) constrainedStatKeys() []string {
 	var keys []string
 	for _, constraint := range o.request.GetStatConstraints() {
-		if unitStat, ok := statConstraintUnitStat(constraint); ok {
+		if unitStat, ok := stats.BulkStatConstraintUnitStat(constraint); ok {
 			keys = append(keys, coeffKeyForUnitStat(unitStat))
 		}
 	}
@@ -140,7 +116,7 @@ func statConstraintRowKey(statKey string) string {
 func (o *reforgeOptimizer) statConstraintRows(variables *lpVariables) (map[string]lpConstraint, error) {
 	rows := make(map[string]lpConstraint)
 	for _, constraint := range o.request.GetStatConstraints() {
-		unitStat, ok := statConstraintUnitStat(constraint)
+		unitStat, ok := stats.BulkStatConstraintUnitStat(constraint)
 		if !ok {
 			continue
 		}
@@ -151,7 +127,7 @@ func (o *reforgeOptimizer) statConstraintRows(variables *lpVariables) (map[strin
 		key := coeffKeyForUnitStat(unitStat)
 		base := getUnitStat(o.capBaseStats, unitStat)
 		if !variablesCarryKey(variables, key) {
-			if !statConstraintPasses(constraint.GetOp(), base, constraint.GetValue()) {
+			if !stats.BulkStatConstraintPasses(constraint.GetOp(), base, constraint.GetValue()) {
 				return nil, errStatConstraintsInfeasible
 			}
 			continue
