@@ -203,6 +203,72 @@ func TestMergeGems_BulkItemGemsWin(t *testing.T) {
 	}
 }
 
+func registerReplaceItemTestItems(ids ...int32) {
+	items := make([]*proto.SimItem, 0, len(ids))
+	for _, id := range ids {
+		items = append(items, &proto.SimItem{
+			Id:             id,
+			Name:           fmt.Sprintf("ReplaceItemTest-%d", id),
+			Type:           proto.ItemType_ItemTypeHead,
+			ScalingOptions: map[int32]*proto.ScalingItemProperties{0: {}},
+		})
+	}
+	core.AddToDatabase(&proto.SimDatabase{Items: items})
+}
+
+func TestReplaceItem_BulkItemEnchantWins(t *testing.T) {
+	registerReplaceItemTestItems(5002)
+	headEnchantID := int32(910010)
+	addBulkTestEnchant(headEnchantID, proto.ItemType_ItemTypeHead)
+	headEnchantAltID := int32(910011)
+	addBulkTestEnchant(headEnchantAltID, proto.ItemType_ItemTypeHead)
+
+	existing := core.Item{ID: 5001, Type: proto.ItemType_ItemTypeHead, Enchant: core.Enchant{EffectID: headEnchantID}}
+	option := bulkSimCandidateOption{
+		spec: &proto.ItemSpec{Id: 5002, Enchant: headEnchantAltID},
+		item: core.Item{ID: 5002, Type: proto.ItemType_ItemTypeHead},
+	}
+
+	replaced := replaceItem(existing, option)
+	if replaced.Enchant.EffectID != headEnchantAltID {
+		t.Fatalf("expected the enchant picked for the bulk item to win, got %d", replaced.Enchant.EffectID)
+	}
+}
+
+func TestReplaceItem_UnsetEnchantInheritsEquipped(t *testing.T) {
+	registerReplaceItemTestItems(5004)
+	headEnchantID := int32(910020)
+	addBulkTestEnchant(headEnchantID, proto.ItemType_ItemTypeHead)
+
+	existing := core.Item{ID: 5003, Type: proto.ItemType_ItemTypeHead, Enchant: core.Enchant{EffectID: headEnchantID}}
+	option := bulkSimCandidateOption{
+		spec: &proto.ItemSpec{Id: 5004},
+		item: core.Item{ID: 5004, Type: proto.ItemType_ItemTypeHead},
+	}
+
+	replaced := replaceItem(existing, option)
+	if replaced.Enchant.EffectID != headEnchantID {
+		t.Fatalf("expected the equipped enchant to carry over when the bulk item lists none, got %d", replaced.Enchant.EffectID)
+	}
+}
+
+func TestReplaceItem_InapplicableEnchantDropped(t *testing.T) {
+	registerReplaceItemTestItems(5006)
+	weaponEnchantID := int32(910030)
+	addBulkTestEnchant(weaponEnchantID, proto.ItemType_ItemTypeWeapon)
+
+	existing := core.Item{ID: 5005, Type: proto.ItemType_ItemTypeHead, Enchant: core.Enchant{EffectID: weaponEnchantID}}
+	option := bulkSimCandidateOption{
+		spec: &proto.ItemSpec{Id: 5006},
+		item: core.Item{ID: 5006, Type: proto.ItemType_ItemTypeHead},
+	}
+
+	replaced := replaceItem(existing, option)
+	if replaced.Enchant.EffectID != 0 {
+		t.Fatalf("expected an enchant that does not fit the new item to be dropped, got %d", replaced.Enchant.EffectID)
+	}
+}
+
 func oneHandOption(id int32, gems ...int32) bulkSimCandidateOption {
 	return bulkSimCandidateOption{
 		spec: &proto.ItemSpec{Id: id, Gems: gems},

@@ -12,9 +12,17 @@ func replaceItem(existing core.Item, option bulkSimCandidateOption) core.Item {
 	itemSpec.Id = option.spec.GetId()
 	itemSpec.RandomSuffix = option.spec.GetRandomSuffix()
 
-	if !enchantAppliesToItem(itemSpec.GetEnchant(), option.item) {
-		itemSpec.Enchant = 0
+	// An enchant listed on the batch entry wins; an entry without one inherits the equipped
+	// item's, and either way an enchant that does not fit the new item is dropped.
+	enchant := option.spec.GetEnchant()
+	if enchant == 0 {
+		enchant = itemSpec.GetEnchant()
 	}
+	if !enchantAppliesToItem(enchant, option.item) {
+		enchant = 0
+	}
+	itemSpec.Enchant = enchant
+
 	itemSpec.Gems = mergeGems(existing, option, option.item)
 
 	return core.NewItem(core.ItemSpec{
