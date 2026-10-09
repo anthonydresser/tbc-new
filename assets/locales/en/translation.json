@@ -1030,6 +1030,7 @@
 			"import_favorites": "Import Favorites",
 			"copy_enchants": "Copy Enchants",
 			"import_bis_list": "Import BiS List",
+			"import_addon_list": "Import Upgrade List",
 			"clear_items": "Clear Items",
 			"simulate": "Find Upgrades"
 		},
@@ -1042,6 +1043,16 @@
 			"imported_with_skipped": "Imported {{added}} BiS candidates ({{skipped}} duplicates skipped).",
 			"imported_with_warnings": "Imported {{count}} candidates with warnings:\n{{errors}}",
 			"more_errors": "... and {{count}} more issues"
+		},
+		"import_addon_list": {
+			"title": "Import Upgrade List",
+			"description": "Import an upgrade list exported by the WoWSimsUpgradeList in-game addon (or a saved copy of this sim's \"Export to Addon\" string). The imported items replace your current upgrade candidate list.",
+			"instructions": "In-game, open the addon with /wul, click Export, and copy the string (Ctrl+A, Ctrl+C). Paste it below. DPS values are not restored — run Find Upgrades afterwards to re-simulate.",
+			"example_summary": "Example addon export format",
+			"imported": "Imported {{count}} upgrade candidates.",
+			"imported_with_skipped": "Imported {{added}} upgrade candidates ({{skipped}} could not be imported).",
+			"results_not_restored": "Imported {{count}} candidates from '{{name}}'. Upgrade results are not restored — run Find Upgrades to re-simulate.",
+			"spec_mismatch": "This list was exported for '{{spec}}'; you are simming '{{currentSpec}}'. Candidates were imported anyway."
 		},
 		"presets": {
 			"label": "BiS Preset",
