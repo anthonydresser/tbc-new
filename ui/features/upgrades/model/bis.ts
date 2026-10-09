@@ -7,7 +7,7 @@ import i18n from '@i18n/config';
 import type { Player } from '@sim/player/player';
 import { enchantAppliesToItem } from '@sim/proto/items';
 import { patchUpgradeState, upgradeState } from '@sim/settings/upgrade_settings';
-import { type BisListParseError, parseBisListJson } from '@sim/upgrade/bis_list_parser';
+import { parseBisListJson } from '@sim/upgrade/bis_list_parser';
 import { type BisListPresetEntry, loadBisListPreset } from '@sim/upgrade/bis_list_presets';
 import { toastManager } from '@ui-kit/Toast';
 
@@ -15,7 +15,7 @@ import { addUpgradeCandidate, isUpgradeRunningGuard, upgradeEligibleSlots } from
 
 // A parse can collect hundreds of per-entry errors; a toast shows the first five and
 // a count of the rest. Shared by the import dialog and the preset loader.
-export const formatBisListErrors = (errors: BisListParseError[]): string => {
+export const formatBisListErrors = (errors: ReadonlyArray<{ message: string }>): string => {
 	const messages = errors.slice(0, 5).map(e => e.message);
 	if (errors.length > 5) {
 		messages.push(i18n.t('upgrade_tab.import_bis_list.more_errors', { count: errors.length - 5 }));

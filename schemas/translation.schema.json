@@ -3633,11 +3633,36 @@
 						"import_favorites": { "type": "string" },
 						"copy_enchants": { "type": "string" },
 						"import_bis_list": { "type": "string" },
+						"import_addon_list": { "type": "string" },
 						"clear_items": { "type": "string" },
 						"simulate": { "type": "string" }
 					},
 					"additionalProperties": false,
-					"required": ["import_favorites", "copy_enchants", "import_bis_list", "clear_items", "simulate"]
+					"required": ["import_favorites", "copy_enchants", "import_bis_list", "import_addon_list", "clear_items", "simulate"]
+				},
+				"import_addon_list": {
+					"type": "object",
+					"properties": {
+						"title": { "type": "string" },
+						"description": { "type": "string" },
+						"instructions": { "type": "string" },
+						"example_summary": { "type": "string" },
+						"imported": { "type": "string" },
+						"imported_with_skipped": { "type": "string" },
+						"results_not_restored": { "type": "string" },
+						"spec_mismatch": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": [
+						"title",
+						"description",
+						"instructions",
+						"example_summary",
+						"imported",
+						"imported_with_skipped",
+						"results_not_restored",
+						"spec_mismatch"
+					]
 				},
 				"import_bis_list": {
 					"type": "object",
@@ -3851,6 +3876,7 @@
 				"tabs",
 				"actions",
 				"import_bis_list",
+				"import_addon_list",
 				"presets",
 				"search",
 				"picker",

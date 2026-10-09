@@ -1,6 +1,7 @@
 import { Tabs } from '@base-ui/react/tabs';
 import { SelectorModal } from '@features/gear/components/SelectorModal';
 import { OpenSelectorModalContext, useSelectorModalState } from '@features/gear/hooks/useSelectorModal';
+import { AddonListImporterDialog } from '@features/upgrades/components/AddonListImport/AddonListImporterDialog';
 import { BisListImporterDialog } from '@features/upgrades/components/BisListImport/BisListImporterDialog';
 import { BisPresetControls } from '@features/upgrades/components/BisPresets/BisPresetControls';
 import { UpgradeCandidateList } from '@features/upgrades/components/UpgradeCandidateList/UpgradeCandidateList';
@@ -37,6 +38,7 @@ export const UpgradesTabBody = () => {
 
 	const [activeId, setActiveId] = useState<UpgradePaneId>('upgradeSetupTab');
 	const [bisImportOpen, setBisImportOpen] = useState(false);
+	const [addonImportOpen, setAddonImportOpen] = useState(false);
 	const selector = useSelectorModalState();
 	// Starting a run clears the results and drops back to setup; finishing one opens the results.
 	useEffect(() => setActiveId(results ? 'upgradeResultsTab' : 'upgradeSetupTab'), [results]);
@@ -68,6 +70,9 @@ export const UpgradesTabBody = () => {
 								<Button variant="secondary" onClick={() => setBisImportOpen(true)}>
 									<Icon name="list" className="mr-1" /> {i18n.t('upgrade_tab.actions.import_bis_list')}
 								</Button>
+								<Button variant="secondary" onClick={() => setAddonImportOpen(true)}>
+									<Icon name="file-arrow-up" className="mr-1" /> {i18n.t('upgrade_tab.actions.import_addon_list')}
+								</Button>
 								<BisPresetControls />
 								<Button variant="danger" className="ml-auto" onClick={() => clearUpgradeCandidates(host.player)}>
 									<Icon name="times" className="mr-1" />
@@ -86,6 +91,7 @@ export const UpgradesTabBody = () => {
 			<UpgradeSettings />
 			<SelectorModal state={selector} id="upgrade-selector-modal" rail={false} />
 			<BisListImporterDialog open={bisImportOpen} onOpenChange={setBisImportOpen} />
+			<AddonListImporterDialog open={addonImportOpen} onOpenChange={setAddonImportOpen} />
 			{isRunning && <UpgradeProgressDialog />}
 		</OpenSelectorModalContext>
 	);
