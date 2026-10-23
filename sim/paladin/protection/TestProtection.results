@@ -119,9 +119,9 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-Annihilator-12798"
  value: {
-  dps: 825.05889
-  tps: 1470.31741
-  dtps: 1293.49602
+  dps: 930.52469
+  tps: 1670.28938
+  dtps: 1291.18048
  }
 }
 dps_results: {
@@ -552,9 +552,9 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-Dragonmaw-28438"
  value: {
-  dps: 904.62498
-  tps: 1569.36484
-  dtps: 1279.45046
+  dps: 930.52469
+  tps: 1670.28938
+  dtps: 1291.18048
  }
 }
 dps_results: {
@@ -568,17 +568,17 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-Dragonstrike-28439"
  value: {
-  dps: 914.15366
-  tps: 1576.26993
-  dtps: 1253.32474
+  dps: 930.52469
+  tps: 1670.28938
+  dtps: 1291.18048
  }
 }
 dps_results: {
  key: "TestProtection-AllItems-DrakefistHammer-28437"
  value: {
-  dps: 901.99759
-  tps: 1567.00918
-  dtps: 1279.31172
+  dps: 930.52469
+  tps: 1670.28938
+  dtps: 1291.18048
  }
 }
 dps_results: {

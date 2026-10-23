@@ -550,10 +550,10 @@ dps_results: {
 dps_results: {
  key: "TestFeralBear-AllItems-Dragonmaw-28438"
  value: {
-  dps: 353.5658
-  tps: 547.42256
-  dtps: 1167.3796
-  hps: 69.44413
+  dps: 418.45366
+  tps: 646.03212
+  dtps: 1118.05732
+  hps: 74.57991
  }
 }
 dps_results: {
@@ -568,19 +568,19 @@ dps_results: {
 dps_results: {
  key: "TestFeralBear-AllItems-Dragonstrike-28439"
  value: {
-  dps: 361.99538
-  tps: 560.16219
-  dtps: 1163.66207
-  hps: 70.26507
+  dps: 418.45366
+  tps: 646.03212
+  dtps: 1118.05732
+  hps: 75.19947
  }
 }
 dps_results: {
  key: "TestFeralBear-AllItems-DrakefistHammer-28437"
  value: {
-  dps: 346.92472
-  tps: 537.14337
-  dtps: 1157.69905
-  hps: 69.312
+  dps: 418.45366
+  tps: 646.03212
+  dtps: 1118.05732
+  hps: 74.03324
  }
 }
 dps_results: {

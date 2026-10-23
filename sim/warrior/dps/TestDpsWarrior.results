@@ -119,8 +119,8 @@ dps_results: {
 dps_results: {
  key: "TestDpsWarrior-AllItems-Annihilator-12798"
  value: {
-  dps: 1896.48547
-  tps: 1010.18848
+  dps: 2166.63077
+  tps: 1147.29326
   dtps: 6.84366
  }
 }
@@ -495,16 +495,16 @@ dps_results: {
 dps_results: {
  key: "TestDpsWarrior-AllItems-Dragonstrike-28439"
  value: {
-  dps: 2107.18504
-  tps: 1113.2364
+  dps: 2166.63077
+  tps: 1147.29326
   dtps: 6.84366
  }
 }
 dps_results: {
  key: "TestDpsWarrior-AllItems-DrakefistHammer-28437"
  value: {
-  dps: 2100.49238
-  tps: 1112.07868
+  dps: 2166.63077
+  tps: 1147.29326
   dtps: 6.84366
  }
 }

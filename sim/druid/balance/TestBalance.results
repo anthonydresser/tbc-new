@@ -398,8 +398,8 @@ dps_results: {
 dps_results: {
  key: "TestBalance-AllItems-Dragonmaw-28438"
  value: {
-  dps: 1327.42843
-  tps: 889.43244
+  dps: 1512.09704
+  tps: 1018.63192
  }
 }
 dps_results: {
@@ -412,15 +412,15 @@ dps_results: {
 dps_results: {
  key: "TestBalance-AllItems-Dragonstrike-28439"
  value: {
-  dps: 1327.42843
-  tps: 889.43244
+  dps: 1512.09704
+  tps: 1018.63192
  }
 }
 dps_results: {
  key: "TestBalance-AllItems-DrakefistHammer-28437"
  value: {
-  dps: 1327.42843
-  tps: 889.43244
+  dps: 1512.09704
+  tps: 1018.63192
  }
 }
 dps_results: {

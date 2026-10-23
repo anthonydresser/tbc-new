@@ -412,8 +412,8 @@ dps_results: {
 dps_results: {
  key: "TestShadowPriest-AllItems-Dragonmaw-28438"
  value: {
-  dps: 1615.7752
-  tps: 837.87216
+  dps: 1761.31682
+  tps: 909.87189
  }
 }
 dps_results: {
@@ -426,15 +426,15 @@ dps_results: {
 dps_results: {
  key: "TestShadowPriest-AllItems-Dragonstrike-28439"
  value: {
-  dps: 1615.7752
-  tps: 837.87216
+  dps: 1761.31682
+  tps: 909.87189
  }
 }
 dps_results: {
  key: "TestShadowPriest-AllItems-DrakefistHammer-28437"
  value: {
-  dps: 1615.7752
-  tps: 837.87216
+  dps: 1761.31682
+  tps: 909.87189
  }
 }
 dps_results: {

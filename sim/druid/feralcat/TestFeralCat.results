@@ -541,10 +541,10 @@ dps_results: {
 dps_results: {
  key: "TestFeralCat-AllItems-Dragonmaw-28438"
  value: {
-  dps: 2219.93048
-  tps: 1133.94079
+  dps: 2523.04187
+  tps: 1283.90798
   dtps: 10.57974
-  hps: 65.95698
+  hps: 70.29938
  }
 }
 dps_results: {
@@ -559,19 +559,19 @@ dps_results: {
 dps_results: {
  key: "TestFeralCat-AllItems-Dragonstrike-28439"
  value: {
-  dps: 2238.09711
-  tps: 1142.97606
+  dps: 2523.04187
+  tps: 1283.90798
   dtps: 10.57974
-  hps: 66.98022
+  hps: 70.95449
  }
 }
 dps_results: {
  key: "TestFeralCat-AllItems-DrakefistHammer-28437"
  value: {
-  dps: 2198.23404
-  tps: 1123.28382
+  dps: 2523.04187
+  tps: 1283.90798
   dtps: 10.57974
-  hps: 65.065
+  hps: 69.70382
  }
 }
 dps_results: {

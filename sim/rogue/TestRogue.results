@@ -412,8 +412,8 @@ dps_results: {
 dps_results: {
  key: "TestRogue-AllItems-Dragonmaw-28438"
  value: {
-  dps: 1834.35061
-  tps: 911.67225
+  dps: 1873.3746
+  tps: 931.06717
  }
 }
 dps_results: {
@@ -426,15 +426,15 @@ dps_results: {
 dps_results: {
  key: "TestRogue-AllItems-Dragonstrike-28439"
  value: {
-  dps: 1845.17173
-  tps: 917.05035
+  dps: 1873.3746
+  tps: 931.06717
  }
 }
 dps_results: {
  key: "TestRogue-AllItems-DrakefistHammer-28437"
  value: {
-  dps: 1799.74585
-  tps: 894.47369
+  dps: 1873.3746
+  tps: 931.06717
  }
 }
 dps_results: {
