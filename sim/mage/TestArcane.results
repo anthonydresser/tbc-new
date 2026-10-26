@@ -1281,8 +1281,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-Average-Default"
  value: {
-  dps: 1974.41099
-  tps: 945.75697
+  dps: 1975.83645
+  tps: 946.41229
  }
 }
 dps_results: {
