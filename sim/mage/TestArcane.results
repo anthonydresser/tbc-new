@@ -104,8 +104,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-AncientDraeneiArcaneRelic-31615"
  value: {
-  dps: 1941.59737
-  tps: 961.07986
+  dps: 1933.41095
+  tps: 954.7897
  }
 }
 dps_results: {
@@ -426,8 +426,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-DraconicInfusedEmblem-22268"
  value: {
-  dps: 1926.64305
-  tps: 953.97604
+  dps: 1914.39515
+  tps: 944.94247
  }
 }
 dps_results: {
@@ -510,8 +510,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-EyeofMoam-21473"
  value: {
-  dps: 1923.30358
-  tps: 952.00208
+  dps: 1912.60377
+  tps: 943.97192
  }
 }
 dps_results: {
@@ -671,8 +671,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-HeavenlyInspiration-30293"
  value: {
-  dps: 1939.68107
-  tps: 961.20065
+  dps: 1927.22536
+  tps: 951.79845
  }
 }
 dps_results: {
@@ -685,8 +685,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-HibernationCrystal-20636"
  value: {
-  dps: 1935.81266
-  tps: 957.85523
+  dps: 1921.70111
+  tps: 948.54735
  }
 }
 dps_results: {
@@ -979,8 +979,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-Scryer'sBloodgem-29132"
  value: {
-  dps: 1936.54931
-  tps: 960.61684
+  dps: 1929.20963
+  tps: 954.40626
  }
 }
 dps_results: {
@@ -1078,8 +1078,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-Starkiller'sBauble-30340"
  value: {
-  dps: 1933.66476
-  tps: 959.23733
+  dps: 1926.22862
+  tps: 952.98173
  }
 }
 dps_results: {
@@ -1106,15 +1106,15 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-TalismanofAscendance-22678"
  value: {
-  dps: 1950.50699
-  tps: 965.63247
+  dps: 1934.3258
+  tps: 955.07181
  }
 }
 dps_results: {
  key: "TestArcane-AllItems-TalismanofEphemeralPower-18820"
  value: {
-  dps: 1934.91735
-  tps: 957.92029
+  dps: 1927.39369
+  tps: 951.75021
  }
 }
 dps_results: {
@@ -1134,8 +1134,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-TerokkarTabletofVim-25936"
  value: {
-  dps: 1928.93409
-  tps: 956.97493
+  dps: 1921.33976
+  tps: 950.64549
  }
 }
 dps_results: {
@@ -1218,8 +1218,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-VengeanceoftheIllidari-28040"
  value: {
-  dps: 1945.17057
-  tps: 962.71634
+  dps: 1936.17875
+  tps: 955.92892
  }
 }
 dps_results: {
@@ -1267,8 +1267,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-Xi'ri'sGift-29179"
  value: {
-  dps: 1952.04452
-  tps: 965.93952
+  dps: 1943.17171
+  tps: 959.21388
  }
 }
 dps_results: {
@@ -1281,8 +1281,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-Average-Default"
  value: {
-  dps: 1975.83645
-  tps: 946.41229
+  dps: 1976.1346
+  tps: 946.60211
  }
 }
 dps_results: {
