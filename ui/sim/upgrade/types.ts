@@ -31,6 +31,10 @@ export interface UpgradeResult {
 	// current gear (0 for the item the reference set already wears). Undefined when
 	// the run had no BiS reference.
 	bisDelta?: number;
+	// Set when no sim ran for this candidate: every slot it fits already wears the
+	// item and no second copy could be worn (unique-equipped or single-slot). Delta
+	// is 0 by definition; the row is a marker, and it is never exported.
+	equippedAlready?: boolean;
 }
 
 // The JSON blob: item/gear entries are protobuf-JSON objects (any), so they round
@@ -46,6 +50,7 @@ export interface SavedUpgradeRun {
 	bisReferenceName: string;
 	bisReferenceIsPreset: boolean;
 	hideOwnedResults: boolean;
+	hideNonUpgrades: boolean;
 	baselineResult: Record<string, unknown> | null;
 	bisResult: Record<string, unknown> | null;
 	upgradeResults: Array<Record<string, unknown>>;

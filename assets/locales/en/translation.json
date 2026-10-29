@@ -1096,6 +1096,10 @@
 				"label": "Hide owned items",
 				"tooltip": "Hide results for items already marked as owned in your inventory."
 			},
+			"hide_non_upgrades": {
+				"label": "Hide non-upgrades",
+				"tooltip": "Hide results that are not an upgrade over your current gear (delta ≤ 0), including items you're already wearing."
+			},
 			"compare_bis": {
 				"label": "Compare against gear set",
 				"tooltip": "Run one extra simulation of one of your gear sets (saved sets or presets) and show how each candidate's DPS compares against it.",
@@ -1153,7 +1157,8 @@
 			"bis_reference_row": "BiS: {{name}}",
 			"export_addon_button": "Export to Addon",
 			"export_addon_tooltip_disabled": "Run a simulation to export results.",
-			"export_addon_title": "WoWSims Upgrade List Export"
+			"export_addon_title": "WoWSims Upgrade List Export",
+			"equipped_badge": "EQUIPPED"
 		}
 	},
 	"rotation_tab": {

@@ -123,11 +123,12 @@ const UpgradeResultsTable = ({ baseline, bisResult, bisReferenceName, results, o
 	const player = host.player;
 	const activateTab = useActivateTab();
 	const hideOwned = useUpgradeState(slice => slice.hideOwnedResults);
+	const hideNonUpgrades = useUpgradeState(slice => slice.hideNonUpgrades);
 	const inventorySpecs = useInventoryState(slice => slice?.items);
 	const ownedIds = useMemo(() => new Set((inventorySpecs ?? []).map(spec => spec.id)), [inventorySpecs]);
 
 	const baselineAvg = baseline.dpsMetrics.avg;
-	const displayed = getVisibleUpgradeResults(getDisplayedUpgradeResults(results), ownedIds, hideOwned);
+	const displayed = getVisibleUpgradeResults(getDisplayedUpgradeResults(results), ownedIds, hideOwned, hideNonUpgrades);
 	const bisReferenceDelta = bisResult ? formatDeltaText(baselineAvg, bisResult.dpsMetrics.avg, 2, undefined, false, true) : null;
 
 	const removeResult = (result: UpgradeResult) => {
@@ -183,26 +184,41 @@ const UpgradeResultsTable = ({ baseline, bisResult, bisReferenceName, results, o
 							</td>
 							<td>{translateSlotName(result.slot)}</td>
 							<td>{formatToNumber(result.dpsMetrics.avg)}</td>
-							<td className={toneClass(delta.tone)} data-testid="upgrade-result-delta">
-								{delta.text}
-							</td>
+							{result.equippedAlready ? (
+								// No sim ran: the slot already wears the item and no second copy could
+								// be worn, so the swap would be the identity (delta 0 by definition).
+								<td data-testid="upgrade-result-delta">
+									<small className="text-muted" data-testid="upgrade-result-equipped">
+										{i18n.t('upgrade_tab.results.equipped_badge')}
+									</small>
+								</td>
+							) : (
+								<td className={toneClass(delta.tone)} data-testid="upgrade-result-delta">
+									{delta.text}
+								</td>
+							)}
 							{bisResult && <BisDeltaCell bisResult={bisResult} result={result} />}
 							<td>
 								<ItemSource item={result.item.item} sim={host.sim} />
 							</td>
 							<td>
-								<Button
-									size="sm"
-									onClick={() => {
-										player.setGear(result.gear);
-										activateTab('gear-tab');
-										toastManager.add({ variant: 'success', body: i18n.t('upgrade_tab.results.gear_equipped') });
-									}}>
-									{i18n.t('upgrade_tab.results.equip_button')}
-								</Button>
-								<Button size="sm" variant="secondary" className="ml-1" onClick={() => onShowDiff(result)}>
-									{i18n.t('upgrade_tab.results.diff_button')}
-								</Button>
+								{/* Marker rows hold the baseline gear, so Equip is a no-op and the diff is empty. */}
+								{!result.equippedAlready && (
+									<>
+										<Button
+											size="sm"
+											onClick={() => {
+												player.setGear(result.gear);
+												activateTab('gear-tab');
+												toastManager.add({ variant: 'success', body: i18n.t('upgrade_tab.results.gear_equipped') });
+											}}>
+											{i18n.t('upgrade_tab.results.equip_button')}
+										</Button>
+										<Button size="sm" variant="secondary" className="ml-1" onClick={() => onShowDiff(result)}>
+											{i18n.t('upgrade_tab.results.diff_button')}
+										</Button>
+									</>
+								)}
 								<Button
 									size="sm"
 									variant="danger"

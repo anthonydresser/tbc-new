@@ -16,12 +16,15 @@
 //
 //	WWSULv4|...                       (header shape follows the v2/v3 rule above)
 //	<slot>:<itemId>:<enchantName>:<gemIds>:<delta>:<vsBisDelta|>:<0|1>
+//
+// Only visible rows export: anything hidden by the owned or non-upgrades filters,
+// and the equipped-identity marker rows (which were never simmed), are excluded.
 import type { ExporterDefinition } from '@features/import-export';
 import i18n from '@i18n/config';
 import { inventoryItems } from '@sim/settings/inventory_settings';
 import { upgradeState } from '@sim/settings/upgrade_settings';
 
-import { getDisplayedUpgradeResults } from './items';
+import { getDisplayedUpgradeResults, getVisibleUpgradeResults } from './items';
 
 // Field delimiters and line breaks cannot come from item or enchant names.
 const sanitize = (s: string) => s.replace(/[|:\r\n]/g, ' ').trim();
@@ -37,8 +40,16 @@ export const UPGRADE_ADDON_EXPORTER: ExporterDefinition = {
 		const timestamp = Math.floor(Date.now() / 1000);
 		const bisDps = state.bisResult?.dpsMetrics.avg ?? null;
 
-		const displayed = getDisplayedUpgradeResults(state.results);
+		// The export mirrors the results table: rows hidden by the owned/non-upgrades
+		// filters stay out of the string, as do equipped-identity marker rows (no sim
+		// ran for them, so there is nothing meaningful to show in-game).
 		const ownedIds = new Set(inventoryItems(host.player).map(spec => spec.id));
+		const displayed = getVisibleUpgradeResults(
+			getDisplayedUpgradeResults(state.results).filter(result => !result.equippedAlready),
+			ownedIds,
+			state.hideOwnedResults,
+			state.hideNonUpgrades,
+		);
 		// The owned flag bumps the format; without it, v4 rows would confuse addons
 		// that only know v2/v3.
 		const hasOwned = displayed.some(result => ownedIds.has(result.item.item.id));

@@ -38,6 +38,7 @@ const initialUpgradeSlice = (): UpgradeSlice => ({
 	bisReferenceName: '',
 	bisReferenceIsPreset: false,
 	hideOwnedResults: false,
+	hideNonUpgrades: false,
 	isRunning: false,
 	runGear: null,
 	baseline: null,
@@ -92,6 +93,7 @@ export const serializeUpgradeRunState = (player: Player<any>, name = ''): SavedU
 		bisReferenceName: state.bisReferenceName,
 		bisReferenceIsPreset: state.bisReferenceIsPreset,
 		hideOwnedResults: state.hideOwnedResults,
+		hideNonUpgrades: state.hideNonUpgrades,
 		baselineResult: gearResultToJson(state.baseline),
 		bisResult: gearResultToJson(state.bisResult),
 		upgradeResults: (state.results ?? []).map(result => ({
@@ -101,6 +103,7 @@ export const serializeUpgradeRunState = (player: Player<any>, name = ''): SavedU
 			dpsMetrics: metricsToJson(result.dpsMetrics),
 			delta: result.delta,
 			bisDelta: result.bisDelta,
+			equippedAlready: result.equippedAlready || undefined,
 		})),
 	};
 };
@@ -237,6 +240,7 @@ export const applyUpgradeRunState = async (player: Player<any>, run: SavedUpgrad
 				delta: baseline ? dpsMetrics.avg - baseline.dpsMetrics.avg : ((resultJson.delta as number | undefined) ?? 0),
 				// Runs saved before the per-candidate reference sim have no stored bisDelta.
 				bisDelta: typeof resultJson.bisDelta === 'number' ? resultJson.bisDelta : undefined,
+				equippedAlready: resultJson.equippedAlready === true || undefined,
 			});
 		} catch (error) {
 			console.warn('Saved upgrade run: failed to restore result:', resultJson?.item, error);
@@ -254,6 +258,7 @@ export const applyUpgradeRunState = async (player: Player<any>, run: SavedUpgrad
 			bisReferenceName: run.bisReferenceName ?? '',
 			bisReferenceIsPreset: run.bisReferenceIsPreset ?? false,
 			hideOwnedResults: run.hideOwnedResults ?? false,
+			hideNonUpgrades: run.hideNonUpgrades ?? false,
 			baseline,
 			bisResult,
 			results,
@@ -284,6 +289,7 @@ export const loadStoredUpgradeRunState = (player: Player<any>): SavedUpgradeRun 
 			bisReferenceName: parsed.bisReferenceName ?? '',
 			bisReferenceIsPreset: parsed.bisReferenceIsPreset ?? false,
 			hideOwnedResults: parsed.hideOwnedResults ?? false,
+			hideNonUpgrades: parsed.hideNonUpgrades ?? false,
 			baselineResult: parsed.baselineResult ?? null,
 			bisResult: parsed.bisResult ?? null,
 			upgradeResults: parsed.upgradeResults ?? [],
@@ -319,6 +325,7 @@ export const upgradeRunFromJson = (obj: any): SavedUpgradeRun => {
 		bisReferenceName: obj.bisReferenceName ?? '',
 		bisReferenceIsPreset: obj.bisReferenceIsPreset ?? false,
 		hideOwnedResults: obj.hideOwnedResults ?? false,
+		hideNonUpgrades: obj.hideNonUpgrades ?? false,
 		baselineResult: obj.baselineResult ?? null,
 		bisResult: obj.bisResult ?? null,
 		upgradeResults: obj.upgradeResults ?? [],

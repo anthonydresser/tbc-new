@@ -8,7 +8,7 @@ import { TabPanelColumns } from '@ui-kit/TabPanelColumns';
 import { useStore } from 'zustand';
 
 import { useUpgradeState } from '../../hooks/useUpgradeState';
-import { getUpgradeCandidateSimCount, hasBisReferenceSim, setUpgradeHideOwnedResults, setUpgradeOptimizeGems } from '../../model/items';
+import { getUpgradeCandidateSimCount, hasBisReferenceSim, setUpgradeHideNonUpgrades, setUpgradeHideOwnedResults, setUpgradeOptimizeGems } from '../../model/items';
 import { runUpgradeSim } from '../../model/run';
 import { CompareBisPicker } from '../CompareBisPicker/CompareBisPicker';
 import { FallbackGemsPicker } from '../FallbackGemsPicker/FallbackGemsPicker';
@@ -25,6 +25,7 @@ export const UpgradeSettings = () => {
 	const candidates = useUpgradeState(slice => slice.candidates);
 	const optimizeGems = useUpgradeState(slice => slice.optimizeGems);
 	const hideOwnedResults = useUpgradeState(slice => slice.hideOwnedResults);
+	const hideNonUpgrades = useUpgradeState(slice => slice.hideNonUpgrades);
 	const isRunning = useUpgradeState(slice => slice.isRunning);
 	const iterations = useStore(player.sim.store, state => state.sim.iterations);
 	// Eligible slots are per-item and per-spec, so gear changes also move the count.
@@ -74,6 +75,17 @@ export const UpgradeSettings = () => {
 								layout: 'inline',
 								value: hideOwnedResults,
 								onChange: (newValue: boolean) => setUpgradeHideOwnedResults(player, newValue),
+							}}
+						/>
+						<BooleanPicker
+							modObject={player}
+							config={{
+								id: 'upgrade-hide-non-upgrades',
+								label: i18n.t('upgrade_tab.settings.hide_non_upgrades.label'),
+								labelTooltip: i18n.t('upgrade_tab.settings.hide_non_upgrades.tooltip'),
+								layout: 'inline',
+								value: hideNonUpgrades,
+								onChange: (newValue: boolean) => setUpgradeHideNonUpgrades(player, newValue),
 							}}
 						/>
 					</div>

@@ -1,15 +1,16 @@
-import { ItemSpec, ItemType } from '@generated/proto/common';
+import { ArmorType, ItemSlot, ItemSpec, ItemType } from '@generated/proto/common';
 import type { UIEnchant } from '@generated/proto/ui';
 import type { Player } from '@sim/player/player';
 import { PlayerSpecs } from '@sim/player/specs';
+import type { Gear } from '@sim/proto/gear';
 import { patchInventoryState, seedInventorySettings } from '@sim/settings/inventory_settings';
 import { seedUpgradeSettings, upgradeState } from '@sim/settings/upgrade_settings';
 import { createSimStore } from '@sim/state/sim_store';
-import type { UpgradeResult } from '@sim/upgrade/types';
+import type { UpgradeCandidate, UpgradeResult } from '@sim/upgrade/types';
 import { toastManager } from '@ui-kit/Toast';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { getVisibleUpgradeResults, importInventoryAsCandidates } from './items';
+import { getUpgradeSimSlots, getVisibleUpgradeResults, importInventoryAsCandidates } from './items';
 
 const STORE_KEY = 0;
 
@@ -96,5 +97,54 @@ describe('getVisibleUpgradeResults', () => {
 	it('drops results whose item id is owned when the filter is on', () => {
 		const results = [resultOf(100), resultOf(200), resultOf(300)];
 		expect(getVisibleUpgradeResults(results, new Set([100, 300]), true)).toEqual([resultOf(200)]);
+	});
+
+	it('drops results without a positive delta when hiding non-upgrades', () => {
+		const loss = { ...resultOf(100), delta: -5 };
+		const identity = { ...resultOf(200), delta: 0 };
+		const gain = { ...resultOf(300), delta: 12 };
+
+		expect(getVisibleUpgradeResults([loss, identity, gain], new Set(), false, true)).toEqual([gain]);
+		// The filter is independent of the owned filter.
+		expect(getVisibleUpgradeResults([loss, gain], new Set([300]), true, true)).toEqual([]);
+	});
+});
+
+describe('getUpgradeSimSlots', () => {
+	const T1 = ItemSlot.ItemSlotTrinket1;
+	const T2 = ItemSlot.ItemSlotTrinket2;
+	const F1 = ItemSlot.ItemSlotFinger1;
+	const F2 = ItemSlot.ItemSlotFinger2;
+
+	const candidateOf = (id: number, type: ItemType, unique = false): UpgradeCandidate => ({
+		spec: ItemSpec.create({ id }),
+		equippedItem: {
+			item: { id, name: `Item ${id}`, type, armorType: ArmorType.ArmorTypeCloth, classAllowlist: [], unique },
+		} as unknown as UpgradeCandidate['equippedItem'],
+		selectedEnchant: null,
+	});
+
+	const gearWearing = (worn: Partial<Record<ItemSlot, number>>): Gear =>
+		({
+			getEquippedItem: (slot: ItemSlot) => {
+				const id = worn[slot];
+				return id == null ? null : { item: { id, name: `Item ${id}` } };
+			},
+		}) as unknown as Gear;
+
+	it('simms every eligible slot when nothing worn matches', () => {
+		expect(getUpgradeSimSlots(player, gearWearing({}), candidateOf(100, ItemType.ItemTypeTrinket))).toEqual([T1, T2]);
+	});
+
+	it('drops a slot that already wears a unique item while keeping the other slot', () => {
+		expect(getUpgradeSimSlots(player, gearWearing({ [T1]: 100 }), candidateOf(100, ItemType.ItemTypeTrinket, true))).toEqual([T2]);
+	});
+
+	it('drops every slot when a single-slot item is already worn there', () => {
+		expect(getUpgradeSimSlots(player, gearWearing({ [ItemSlot.ItemSlotHead]: 100 }), candidateOf(100, ItemType.ItemTypeHead))).toEqual([]);
+	});
+
+	it('keeps both slots for a non-unique multi-slot item already worn in one', () => {
+		expect(getUpgradeSimSlots(player, gearWearing({ [F1]: 100 }), candidateOf(100, ItemType.ItemTypeFinger))).toEqual([F1, F2]);
 	});
 });

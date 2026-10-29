@@ -102,4 +102,45 @@ describe('UPGRADE_ADDON_EXPORTER', () => {
 		expect(lines[1]).toBe('0:100:::42.1::1');
 		expect(lines[2]).toBe('0:200:::12.0::0');
 	});
+
+	it('omits rows hidden by the owned or non-upgrades filters', () => {
+		patchInventoryState(player, { items: [ItemSpec.create({ id: 100 })] }, ['items']);
+		patchUpgradeState(
+			player,
+			{
+				baseline: { gear: null, dpsMetrics: { avg: 1523.4 } } as never,
+				results: [fakeResult(100, 42.1), fakeResult(200, -30.5), fakeResult(300, 0), fakeResult(400, 12.0)],
+				hideOwnedResults: true,
+				hideNonUpgrades: true,
+			},
+			['settings', 'results'],
+		);
+
+		const lines = exportLines({ player });
+		// 100 is owned and hidden, 200/300 are non-upgrades; only 400 remains, and
+		// with no displayed owned row the format drops back to v2.
+		expect(lines[0]).toMatch(/^WWSULv2\|/);
+		expect(lines).toHaveLength(2);
+		expect(lines[1]).toBe('0:400:::12.0');
+	});
+
+	it('never exports equipped-already marker rows, upgrade delta or not', () => {
+		patchUpgradeState(
+			player,
+			{
+				baseline: { gear: null, dpsMetrics: { avg: 1523.4 } } as never,
+				results: [
+					{ ...fakeResult(100, 0), equippedAlready: true } as UpgradeResult,
+					fakeResult(200, 12.0),
+					fakeResult(300, -4.0),
+				],
+				hideNonUpgrades: true,
+			},
+			['settings', 'results'],
+		);
+
+		const lines = exportLines({ player });
+		expect(lines).toHaveLength(2);
+		expect(lines[1]).toBe('0:200:::12.0');
+	});
 });

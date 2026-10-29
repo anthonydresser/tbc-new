@@ -2,6 +2,7 @@ import { GemColor, type ItemSlot, ItemSpec } from '@generated/proto/common';
 import type { UIGem as Gem } from '@generated/proto/ui';
 import i18n from '@i18n/config';
 import type { Player } from '@sim/player/player';
+import type { Gear } from '@sim/proto/gear';
 import { canEquipItem, getEligibleItemSlots } from '@sim/proto/items';
 import { inventoryItems } from '@sim/settings/inventory_settings';
 import { FALLBACK_GEM_COLORS, findEnchantForItem, patchUpgradeState, upgradeState } from '@sim/settings/upgrade_settings';
@@ -73,6 +74,9 @@ export const setUpgradeOptimizeGems = (player: Player<any>, optimizeGems: boolea
 
 export const setUpgradeHideOwnedResults = (player: Player<any>, hideOwnedResults: boolean) =>
 	patchUpgradeState(player, { hideOwnedResults }, ['settings']);
+
+export const setUpgradeHideNonUpgrades = (player: Player<any>, hideNonUpgrades: boolean) =>
+	patchUpgradeState(player, { hideNonUpgrades }, ['settings']);
 
 /**
  * Imports the inventory as candidates, preserving each entry's authored setup: the
@@ -153,10 +157,36 @@ export const getDisplayedUpgradeResults = (results: Array<UpgradeResult>): Array
 	return Array.from(bestResultByItemId.values()).sort((a, b) => b.delta - a.delta);
 };
 
-// The hide-owned filter, applied after getDisplayedUpgradeResults: ownership is
-// id-level, so every entry of an owned item disappears regardless of setup.
-export const getVisibleUpgradeResults = (results: Array<UpgradeResult>, ownedIds: Set<number>, hideOwned: boolean): Array<UpgradeResult> =>
-	hideOwned ? results.filter(result => !ownedIds.has(result.item.item.id)) : results;
+// The result-visibility filters, applied after getDisplayedUpgradeResults. Ownership
+// is id-level, so every entry of an owned item disappears regardless of setup; the
+// non-upgrades filter drops everything that isn't a gain, including the delta-0
+// equipped-identity marker rows.
+export const getVisibleUpgradeResults = (
+	results: Array<UpgradeResult>,
+	ownedIds: Set<number>,
+	hideOwned: boolean,
+	hideNonUpgrades = false,
+): Array<UpgradeResult> => {
+	if (!hideOwned && !hideNonUpgrades) return results;
+	return results.filter(result => {
+		if (hideOwned && ownedIds.has(result.item.item.id)) return false;
+		if (hideNonUpgrades && result.delta <= 0) return false;
+		return true;
+	});
+};
+
+// The slots a candidate is actually simmed in. A swap is pointless when the slot
+// already wears the item and no second copy could be worn elsewhere — i.e. the item
+// is unique-equipped, or it fits only this slot (a ring worn in Finger1 can still
+// be simmed in Finger2; a helm worn on the head cannot).
+export const getUpgradeSimSlots = (player: Player<any>, baseGear: Gear, candidate: UpgradeCandidate): ItemSlot[] => {
+	const slots = upgradeEligibleSlots(player, candidate);
+	return slots.filter(slot => {
+		const worn = baseGear.getEquippedItem(slot);
+		if (!worn || worn.item.id !== candidate.spec.id) return true;
+		return !candidate.equippedItem.item.unique && slots.length > 1;
+	});
+};
 
 export const getDefaultGemsByColor = (player: Player<any>): Map<GemColor, Gem | null> => {
 	const gemsByColor = new Map<GemColor, Gem | null>();

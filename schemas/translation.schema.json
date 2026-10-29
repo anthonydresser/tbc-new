@@ -3773,6 +3773,15 @@
 							"additionalProperties": false,
 							"required": ["label", "tooltip"]
 						},
+						"hide_non_upgrades": {
+							"type": "object",
+							"properties": {
+								"label": { "type": "string" },
+								"tooltip": { "type": "string" }
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
 						"compare_bis": {
 							"type": "object",
 							"properties": {
@@ -3797,6 +3806,7 @@
 						"sim_count_bis_reference",
 						"optimize_gems",
 						"hide_owned_results",
+						"hide_non_upgrades",
 						"compare_bis"
 					]
 				},
@@ -3875,7 +3885,8 @@
 						"bis_reference_row": { "type": "string" },
 						"export_addon_button": { "type": "string" },
 						"export_addon_tooltip_disabled": { "type": "string" },
-						"export_addon_title": { "type": "string" }
+						"export_addon_title": { "type": "string" },
+						"equipped_badge": { "type": "string" }
 					},
 					"additionalProperties": false,
 					"required": [
@@ -3900,7 +3911,8 @@
 						"bis_reference_row",
 						"export_addon_button",
 						"export_addon_tooltip_disabled",
-						"export_addon_title"
+						"export_addon_title",
+						"equipped_badge"
 					]
 				}
 			},

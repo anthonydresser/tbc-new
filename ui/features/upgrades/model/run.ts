@@ -14,7 +14,7 @@ import { toastManager } from '@ui-kit/Toast';
 
 import { trackEvent } from '../../../tracking/utils';
 import { resolveBisReferenceGear } from './bis_reference';
-import { getDefaultGemsByColor, upgradeEligibleSlots } from './items';
+import { getDefaultGemsByColor, getUpgradeSimSlots, upgradeEligibleSlots } from './items';
 
 export interface UpgradeProgress {
 	stage: string;
@@ -214,9 +214,13 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 		return EquipmentSpec.equals(bisCandidateGear.asSpec(), bisGear.asSpec());
 	};
 
+	// Captured before counting: equipped-identity slots (the slot already wears the
+	// item and no second copy could be worn) are not simmed and don't count.
+	const originalGear = player.getGear();
+
 	let candidateRuns = 0;
 	candidates.forEach(candidate => {
-		upgradeEligibleSlots(player, candidate).forEach(slot => {
+		getUpgradeSimSlots(player, originalGear, candidate).forEach(slot => {
 			candidateRuns += 1 + (bisGear && !isBisIdentitySwap(candidate, slot) ? 1 : 0);
 		});
 	});
@@ -241,12 +245,10 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 	let bisResult: UpgradeGearResult | null = null;
 	let upgradeResults: UpgradeResult[] = [];
 	let runError: unknown = null;
-	let originalGear = player.getGear();
 
 	try {
 		// The loop replaces any in-flight single sim or previous finder run.
 		await sim.signalManager.abortType(RequestTypes.IndividualSim | RequestTypes.BulkSim);
-		originalGear = player.getGear();
 		patchUpgradeState(player, { runGear: originalGear });
 
 		let currentRun = 1;
@@ -268,7 +270,25 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 		for (const candidate of candidates) {
 			let bestResult: UpgradeResult | null = null;
 
-			for (const slot of upgradeEligibleSlots(player, candidate)) {
+			const eligibleSlots = upgradeEligibleSlots(player, candidate);
+			const simSlots = getUpgradeSimSlots(player, originalGear, candidate);
+			if (eligibleSlots.length && !simSlots.length) {
+				// Every slot the item fits already wears it (or its only slot does), so
+				// any swap is the identity and its delta is 0 by definition: skip the
+				// sims and record a marker row instead. No bisDelta — that comparison
+				// was not simmed either.
+				candidateResults.push({
+					item: candidate.equippedItem,
+					slot: eligibleSlots[0],
+					gear: originalGear,
+					dpsMetrics: baselineDps,
+					delta: 0,
+					equippedAlready: true,
+				});
+				continue;
+			}
+
+			for (const slot of simSlots) {
 				throwIfUpgradeAborted(host, abortSignal);
 				setSimulationProgress(host, currentRun, totalRuns, i18n.t('upgrade_tab.progress.item', { itemName: candidate.equippedItem.item.name }));
 
