@@ -182,7 +182,14 @@ const parseStoredGearResult = (player: Player<any>, resultJson: any): UpgradeGea
 
 // Applies a stored run to the slice. Items and results that fail to resolve against
 // the database are dropped, not fatal, and the counts come back for the toast.
-export const applyUpgradeRunState = async (player: Player<any>, run: SavedUpgradeRun): Promise<{ droppedItems: number; droppedResults: number }> => {
+// `preserveViewFilters` skips the hide-* toggles: they only change what the results
+// table shows, so loading a named run over your current view leaves them alone.
+// (Session restore wants them back — that's your own blob, not a run switch.)
+export const applyUpgradeRunState = async (
+	player: Player<any>,
+	run: SavedUpgradeRun,
+	{ preserveViewFilters = false }: { preserveViewFilters?: boolean } = {},
+): Promise<{ droppedItems: number; droppedResults: number }> => {
 	const { db } = player.sim;
 	const runEquipment = gatherRunEquipment(run);
 	if (runEquipment.items.length) {
@@ -257,8 +264,12 @@ export const applyUpgradeRunState = async (player: Player<any>, run: SavedUpgrad
 			compareBisEnabled: run.compareBisEnabled ?? false,
 			bisReferenceName: run.bisReferenceName ?? '',
 			bisReferenceIsPreset: run.bisReferenceIsPreset ?? false,
-			hideOwnedResults: run.hideOwnedResults ?? false,
-			hideNonUpgrades: run.hideNonUpgrades ?? false,
+			...(preserveViewFilters
+				? {}
+				: {
+						hideOwnedResults: run.hideOwnedResults ?? false,
+						hideNonUpgrades: run.hideNonUpgrades ?? false,
+					}),
 			baseline,
 			bisResult,
 			results,

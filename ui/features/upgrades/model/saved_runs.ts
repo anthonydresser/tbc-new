@@ -32,7 +32,8 @@ export const loadUpgradeRun = async (
 		}
 	}
 
-	const { droppedItems, droppedResults } = await applyUpgradeRunState(player, run);
+	// The hide-* filters sit on top of the run as view state: switching runs keeps them.
+	const { droppedItems, droppedResults } = await applyUpgradeRunState(player, run, { preserveViewFilters: true });
 	// Persist immediately: a reloaded page should come back to the just-loaded run.
 	storeUpgradeRunState(player);
 
