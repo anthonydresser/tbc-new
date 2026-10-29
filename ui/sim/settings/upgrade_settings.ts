@@ -334,7 +334,10 @@ export const upgradeRunFromJson = (obj: any): SavedUpgradeRun => {
 
 // Name and timestamp are bookkeeping, not content: a renamed save of the same run is
 // the same run, which is what decides the active chip and the unsaved-changes guard.
+// Same for the hide-* filters: they only change what the results table shows, not
+// the run itself.
 export const upgradeRunsEqual = (a: SavedUpgradeRun, b: SavedUpgradeRun): boolean => {
-	const normalize = ({ name: _name, timestamp: _timestamp, ...rest }: SavedUpgradeRun) => JSON.stringify(rest);
+	const normalize = ({ name: _name, timestamp: _timestamp, hideOwnedResults: _hideOwned, hideNonUpgrades: _hideNonUpgrades, ...rest }: SavedUpgradeRun) =>
+		JSON.stringify(rest);
 	return normalize(a) === normalize(b);
 };
