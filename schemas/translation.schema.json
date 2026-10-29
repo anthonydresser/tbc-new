@@ -9490,10 +9490,9 @@
 			"properties": {
 				"title": { "type": "string" },
 				"owned_badge": { "type": "string" },
-				"dialog": {
+				"tab": {
 					"type": "object",
 					"properties": {
-						"title": { "type": "string" },
 						"empty": { "type": "string" },
 						"add_equipped_button": { "type": "string" },
 						"clear_button": { "type": "string" },
@@ -9501,7 +9500,7 @@
 						"remove_tooltip": { "type": "string" }
 					},
 					"additionalProperties": false,
-					"required": ["title", "empty", "add_equipped_button", "clear_button", "edit_tooltip", "remove_tooltip"]
+					"required": ["empty", "add_equipped_button", "clear_button", "edit_tooltip", "remove_tooltip"]
 				},
 				"search": {
 					"type": "object",
@@ -9526,7 +9525,7 @@
 				}
 			},
 			"additionalProperties": false,
-			"required": ["title", "owned_badge", "dialog", "search", "notifications"]
+			"required": ["title", "owned_badge", "tab", "search", "notifications"]
 		}
 	},
 	"additionalProperties": false,

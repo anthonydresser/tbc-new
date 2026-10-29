@@ -2742,9 +2742,8 @@
 	"inventory": {
 		"title": "Inventory",
 		"owned_badge": "OWNED",
-		"dialog": {
-			"title": "Owned Item Inventory",
-			"empty": "Nothing marked as owned yet. Use the box icon in an item picker, or add your equipped gear below.",
+		"tab": {
+			"empty": "Nothing marked as owned yet. Search above, use the box icon in an item picker, or add your equipped gear below.",
 			"add_equipped_button": "Add Equipped Gear",
 			"clear_button": "Clear All",
 			"edit_tooltip": "Edit this item's enchant and gems",

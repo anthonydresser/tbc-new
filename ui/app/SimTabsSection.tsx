@@ -8,6 +8,7 @@ import { SimTabDef } from './SimTabDef';
 import { SimTabs } from './SimTabs';
 import { BulkTabBody } from './tabs/BulkTabBody';
 import { GearTabBody } from './tabs/GearTabBody';
+import { InventoryTabBody } from './tabs/InventoryTabBody';
 import { RotationTabPane } from './tabs/RotationTabPane';
 import { SettingsTabBody } from './tabs/SettingsTabBody';
 import { TalentsTabBody } from './tabs/TalentsTabBody';
@@ -24,6 +25,12 @@ export const SimTabsSection = memo(({ host }: SimTabsSectionProps) => (
 		<SimTabDef id="gear-tab" title={i18n.t('gear_tab.title')}>
 			<SimTabPane id="gear-tab">
 				<GearTabBody />
+			</SimTabPane>
+		</SimTabDef>
+		{/* Outside the sim gate: the inventory is just as meaningful in a gear planner. */}
+		<SimTabDef id="inventory-tab" title={i18n.t('inventory.title')}>
+			<SimTabPane id="inventory-tab">
+				<InventoryTabBody />
 			</SimTabPane>
 		</SimTabDef>
 		<SimTabDef id="settings-tab" title={i18n.t('settings_tab.title')}>

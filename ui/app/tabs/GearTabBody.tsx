@@ -2,27 +2,25 @@ import { GearPicker } from '@features/gear/components/GearPicker';
 import { SelectorModal } from '@features/gear/components/SelectorModal';
 import { GemSummary } from '@features/gear/components/SummaryTable';
 import { OpenSelectorModalContext, useSelectorModalState } from '@features/gear/hooks/useSelectorModal';
-import { InventoryDialog } from '@features/inventory/components/InventoryDialog/InventoryDialog';
 import i18n from '@i18n/config';
 import { useSimReady } from '@sim/hooks/useSimReady';
 import { Button } from '@ui-kit/Button';
 import { Icon } from '@ui-kit/Icon';
+import { useActivateTab } from '@ui-kit/tab_activation';
 import { TabPanelColumns } from '@ui-kit/TabPanelColumns';
-import { useState } from 'react';
 
 import { GearPresets } from '../GearPresets';
 
 export const GearTabBody = () => {
 	const ready = useSimReady();
 	const selector = useSelectorModalState();
-	const [inventoryOpen, setInventoryOpen] = useState(false);
+	const activateTab = useActivateTab();
 
 	return (
 		<OpenSelectorModalContext value={selector.openTab}>
 			<TabPanelColumns.Left variant="auto-columns">
-				{/* Inside the OpenSelectorModalContext so the dialog's Edit buttons reuse this tab's modal. */}
 				<div className="flex justify-end">
-					<Button variant="secondary" data-testid="open-inventory-dialog" onClick={() => setInventoryOpen(true)}>
+					<Button variant="secondary" data-testid="open-inventory-tab" onClick={() => activateTab('inventory-tab')}>
 						<Icon name="box" className="mr-1" />
 						{i18n.t('inventory.title')}
 					</Button>
@@ -35,7 +33,6 @@ export const GearTabBody = () => {
 			<TabPanelColumns.Right>
 				<GearPresets />
 			</TabPanelColumns.Right>
-			<InventoryDialog open={inventoryOpen} onClose={() => setInventoryOpen(false)} />
 			<SelectorModal state={selector} />
 		</OpenSelectorModalContext>
 	);
