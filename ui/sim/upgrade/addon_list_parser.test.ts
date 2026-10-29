@@ -31,6 +31,16 @@ const V3_STRING = [
 	'0:28802::24027:12.0:-130.8',
 ].join('\n');
 
+const V4_STRING = [
+	'WWSULv4|Fury Warrior Upgrades|Fury Warrior|1755800000|1523.4|1680.0',
+	'14:30358:Enchant Weapon - Mongoose:24061,24061:42.1:-98.7:1',
+	'0:28802::24027:12.0:-130.8:0',
+].join('\n');
+
+const V4_NO_BIS_STRING = ['WWSULv4|Fury Warrior Upgrades|Fury Warrior|1755800000|1523.4', '14:30358:Enchant Weapon - Mongoose:24061:42.1::1'].join(
+	'\n',
+);
+
 describe('parseAddonListLines', () => {
 	it('parses a v2 string with empty enchant and empty gem fields', () => {
 		const result = parseAddonListLines(V2_STRING);
@@ -49,6 +59,14 @@ describe('parseAddonListLines', () => {
 		const result = parseAddonListLines(V3_STRING);
 		expect(result.errors).toEqual([]);
 		expect(result.rows).toHaveLength(2);
+	});
+
+	it('parses v4 rows that carry the owned flag, with and without a BiS run', () => {
+		for (const text of [V4_STRING, V4_NO_BIS_STRING]) {
+			const result = parseAddonListLines(text);
+			expect(result.errors).toEqual([]);
+			expect(result.rows.map(r => r.itemId)).toEqual(text === V4_STRING ? [30358, 28802] : [30358]);
+		}
 	});
 
 	it('tolerates CRLF line endings and surrounding whitespace', () => {
