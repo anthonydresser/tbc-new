@@ -3,9 +3,11 @@ import { useOpenSelectorModal } from '@features/gear/hooks/useSelectorModal';
 import { SelectorModalTabs } from '@features/gear/types';
 import i18n from '@i18n/config';
 import { translateSlotName } from '@i18n/localization';
+import { useInventoryState } from '@features/inventory/hooks/useInventoryState';
 import { usePlayer } from '@sim/context/SimHostContext';
 import { Button } from '@ui-kit/Button';
 import { Icon } from '@ui-kit/Icon';
+import { useMemo } from 'react';
 
 import { useUpgradeState } from '../../hooks/useUpgradeState';
 import { createUpgradeCandidateGearData } from '../../model/gear_data';
@@ -14,12 +16,15 @@ import { removeUpgradeCandidate, upgradeEligibleSlots } from '../../model/items'
 /**
  * The authored candidate rows: the item as the gear vocabulary renders it, the slots
  * it can be simmed in, its enchant override, and a remove control. Enchanting opens
- * the shared selector modal with a candidate-scoped gear data seam.
+ * the shared selector modal with a candidate-scoped gear data seam. Candidates that
+ * match an inventory entry by id get an OWNED badge.
  */
 export const UpgradeCandidateList = () => {
 	const player = usePlayer();
 	const openSelectorModal = useOpenSelectorModal();
 	const candidates = useUpgradeState(slice => slice.candidates);
+	const inventorySpecs = useInventoryState(slice => slice?.items);
+	const ownedIds = useMemo(() => new Set((inventorySpecs ?? []).map(spec => spec.id)), [inventorySpecs]);
 
 	if (!candidates.length) {
 		return <div data-testid="upgrade-no-items">{i18n.t('upgrade_tab.picker.no_items')}</div>;
@@ -37,7 +42,16 @@ export const UpgradeCandidateList = () => {
 							slot={slot}
 							item={candidate.selectedEnchant ? candidate.equippedItem.withEnchant(candidate.selectedEnchant) : candidate.equippedItem}
 							className="flex-1"
-							extraLabels={<small data-testid="upgrade-candidate-slots">{slotsLabel}</small>}
+							extraLabels={
+								<>
+									<small data-testid="upgrade-candidate-slots">{slotsLabel}</small>
+									{ownedIds.has(candidate.spec.id) && (
+										<small className="text-success" data-testid="upgrade-candidate-owned">
+											{i18n.t('inventory.owned_badge')}
+										</small>
+									)}
+								</>
+							}
 						/>
 						<Button
 							size="sm"

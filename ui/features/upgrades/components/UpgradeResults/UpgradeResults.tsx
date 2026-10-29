@@ -1,6 +1,7 @@
 import { ItemDetailCell } from '@features/gear/components/ItemCell';
 import { ItemSource } from '@features/gear/components/SelectorModal/ItemSource';
 import { Exporter } from '@features/import-export';
+import { useInventoryState } from '@features/inventory/hooks/useInventoryState';
 import i18n from '@i18n/config';
 import { translateSlotName } from '@i18n/localization';
 import { useSimHost } from '@sim/context/SimHostContext';
@@ -13,11 +14,11 @@ import { Icon } from '@ui-kit/Icon';
 import { useActivateTab } from '@ui-kit/tab_activation';
 import { toastManager } from '@ui-kit/Toast';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useUpgradeState } from '../../hooks/useUpgradeState';
 import { UPGRADE_ADDON_EXPORTER } from '../../model/addon_export';
-import { getDisplayedUpgradeResults, isUpgradeRunningGuard } from '../../model/items';
+import { getDisplayedUpgradeResults, getVisibleUpgradeResults, isUpgradeRunningGuard } from '../../model/items';
 
 const toneClass = (tone: ReturnType<typeof formatDeltaText>['tone']) => clsx((tone === 'positive' && 'text-success') || (tone === 'negative' && 'text-danger'));
 
@@ -121,9 +122,12 @@ const UpgradeResultsTable = ({ baseline, bisResult, bisReferenceName, results, o
 	const host = useSimHost();
 	const player = host.player;
 	const activateTab = useActivateTab();
+	const hideOwned = useUpgradeState(slice => slice.hideOwnedResults);
+	const inventorySpecs = useInventoryState(slice => slice?.items);
+	const ownedIds = useMemo(() => new Set((inventorySpecs ?? []).map(spec => spec.id)), [inventorySpecs]);
 
 	const baselineAvg = baseline.dpsMetrics.avg;
-	const displayed = getDisplayedUpgradeResults(results);
+	const displayed = getVisibleUpgradeResults(getDisplayedUpgradeResults(results), ownedIds, hideOwned);
 	const bisReferenceDelta = bisResult ? formatDeltaText(baselineAvg, bisResult.dpsMetrics.avg, 2, undefined, false, true) : null;
 
 	const removeResult = (result: UpgradeResult) => {
@@ -165,7 +169,17 @@ const UpgradeResultsTable = ({ baseline, bisResult, bisReferenceName, results, o
 						<tr key={`${result.item.item.id}-${result.slot}`} data-testid="upgrade-result-row">
 							<td>{index + 1}</td>
 							<td>
-								<ItemDetailCell slot={result.slot} item={result.item} />
+								<ItemDetailCell
+									slot={result.slot}
+									item={result.item}
+									extraLabels={
+										ownedIds.has(result.item.item.id) ? (
+											<small className="text-success" data-testid="upgrade-result-owned">
+												{i18n.t('inventory.owned_badge')}
+											</small>
+										) : null
+									}
+								/>
 							</td>
 							<td>{translateSlotName(result.slot)}</td>
 							<td>{formatToNumber(result.dpsMetrics.avg)}</td>

@@ -3,7 +3,8 @@ import type { UIGem as Gem } from '@generated/proto/ui';
 import i18n from '@i18n/config';
 import type { Player } from '@sim/player/player';
 import { canEquipItem, getEligibleItemSlots } from '@sim/proto/items';
-import { FALLBACK_GEM_COLORS, patchUpgradeState, upgradeState } from '@sim/settings/upgrade_settings';
+import { inventoryItems } from '@sim/settings/inventory_settings';
+import { FALLBACK_GEM_COLORS, findEnchantForItem, patchUpgradeState, upgradeState } from '@sim/settings/upgrade_settings';
 import type { UpgradeCandidate, UpgradeResult } from '@sim/upgrade/types';
 import { toastManager } from '@ui-kit/Toast';
 
@@ -70,6 +71,47 @@ export const setUpgradeFallbackGem = (player: Player<any>, socketIndex: number, 
 
 export const setUpgradeOptimizeGems = (player: Player<any>, optimizeGems: boolean) => patchUpgradeState(player, { optimizeGems }, ['settings']);
 
+export const setUpgradeHideOwnedResults = (player: Player<any>, hideOwnedResults: boolean) =>
+	patchUpgradeState(player, { hideOwnedResults }, ['settings']);
+
+/**
+ * Imports the inventory as candidates, preserving each entry's authored setup: the
+ * stored gems ride along on the ItemSpec itself, and the stored enchant id resolves
+ * to a UIEnchant the same way a saved run restores it. Unlike `import from
+ * favorites` — which feeds bare item ids through `addUpgradeCandidate` — entries
+ * here already carry their setup, so duplicate detection is full-spec equality.
+ */
+export const importInventoryAsCandidates = (player: Player<any>) => {
+	if (isUpgradeRunningGuard(player)) return;
+	const { db } = player.sim;
+	const imported: UpgradeCandidate[] = [];
+	let skipped = 0;
+
+	for (const spec of inventoryItems(player)) {
+		if (upgradeState(player).candidates.concat(imported).some(candidate => ItemSpec.equals(candidate.spec, spec))) {
+			skipped++;
+			continue;
+		}
+		const equippedItem = db.lookupItemSpec(spec)?.withDynamicStats();
+		if (!equippedItem || !upgradeEligibleSlots(player, { spec, equippedItem, selectedEnchant: null }).length) {
+			skipped++;
+			continue;
+		}
+		const selectedEnchant = spec.enchant ? findEnchantForItem(db, spec.id, spec.enchant) : null;
+		imported.push({ spec: ItemSpec.clone(spec), equippedItem, selectedEnchant });
+	}
+
+	if (imported.length) {
+		patchUpgradeState(player, { candidates: [...upgradeState(player).candidates, ...imported] }, ['settings']);
+	}
+	toastManager.add({
+		variant: skipped ? 'warning' : 'success',
+		body: skipped
+			? i18n.t('upgrade_tab.import_inventory.imported_with_skipped', { added: imported.length, skipped })
+			: i18n.t('upgrade_tab.import_inventory.imported', { added: imported.length }),
+	});
+};
+
 export const setCandidateEnchant = (player: Player<any>, index: number, enchant: UpgradeCandidate['selectedEnchant']) => {
 	if (isUpgradeRunningGuard(player)) return;
 	const { candidates } = upgradeState(player);
@@ -110,6 +152,11 @@ export const getDisplayedUpgradeResults = (results: Array<UpgradeResult>): Array
 	}
 	return Array.from(bestResultByItemId.values()).sort((a, b) => b.delta - a.delta);
 };
+
+// The hide-owned filter, applied after getDisplayedUpgradeResults: ownership is
+// id-level, so every entry of an owned item disappears regardless of setup.
+export const getVisibleUpgradeResults = (results: Array<UpgradeResult>, ownedIds: Set<number>, hideOwned: boolean): Array<UpgradeResult> =>
+	hideOwned ? results.filter(result => !ownedIds.has(result.item.item.id)) : results;
 
 export const getDefaultGemsByColor = (player: Player<any>): Map<GemColor, Gem | null> => {
 	const gemsByColor = new Map<GemColor, Gem | null>();

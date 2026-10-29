@@ -45,6 +45,7 @@ export interface SavedUpgradeRun {
 	compareBisEnabled: boolean;
 	bisReferenceName: string;
 	bisReferenceIsPreset: boolean;
+	hideOwnedResults: boolean;
 	baselineResult: Record<string, unknown> | null;
 	bisResult: Record<string, unknown> | null;
 	upgradeResults: Array<Record<string, unknown>>;

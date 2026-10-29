@@ -258,6 +258,8 @@ export interface UpgradeSlice {
 	compareBisEnabled: boolean;
 	bisReferenceName: string;
 	bisReferenceIsPreset: boolean;
+	// Hides results for items the player already owns (inventory id-level match).
+	hideOwnedResults: boolean;
 	isRunning: boolean;
 	// The gear the last run started from, restored when it ends or is cancelled.
 	runGear: Gear | null;

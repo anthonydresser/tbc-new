@@ -106,9 +106,11 @@ const runSingleGearSim = async (host: IndividualSimHost<any>, gear: UpgradeGearR
 
 /**
  * Substitutes a candidate into a base gear set: the slot's worn item is replaced, the
- * authored enchant and random suffix are carried over, and every unfrozen empty
- * socket gets its color's configured fallback gem. (The BiS-comparison variant passes
- * no fallback gems so an identity swap reproduces the reference set exactly.)
+ * authored enchant and random suffix are carried over, the candidate's authored gems
+ * are placed into their sockets (clamped to the item's socket count), and every
+ * remaining unfrozen empty socket gets its color's configured fallback gem. (The
+ * BiS-comparison variant passes no fallback gems so an identity swap reproduces the
+ * reference set exactly.)
  */
 export const buildUpgradeCandidateGear = (
 	host: IndividualSimHost<any>,
@@ -126,6 +128,13 @@ export const buildUpgradeCandidateGear = (
 	if (candidate.equippedItem.randomSuffix) {
 		updatedItem = updatedItem.withRandomSuffix(candidate.equippedItem.randomSuffix);
 	}
+	// withItem keeps the worn item's gems; candidates that author their own (inventory
+	// imports) get theirs back socket-for-socket before the fallback fill runs.
+	candidate.equippedItem.gems.forEach((gem, socketIdx) => {
+		if (gem && socketIdx < updatedItem.numPossibleSockets) {
+			updatedItem = updatedItem.withGem(gem, socketIdx);
+		}
+	});
 
 	let gear = baseGear.withEquippedItem(slot, updatedItem);
 	if (useFallbackGems) {

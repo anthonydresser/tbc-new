@@ -1031,11 +1031,16 @@
 		},
 		"actions": {
 			"import_favorites": "Import Favorites",
+			"import_inventory": "Import Inventory",
 			"copy_enchants": "Copy Enchants",
 			"import_bis_list": "Import BiS List",
 			"import_addon_list": "Import Upgrade List",
 			"clear_items": "Clear Items",
 			"simulate": "Find Upgrades"
+		},
+		"import_inventory": {
+			"imported": "Imported {{added}} owned items.",
+			"imported_with_skipped": "Imported {{added}} owned items ({{skipped}} duplicates or unusable entries skipped)."
 		},
 		"import_bis_list": {
 			"title": "Import BiS List",
@@ -1085,6 +1090,10 @@
 			"optimize_gems": {
 				"label": "Optimize gems per item",
 				"tooltip": "Re-solve the optimal gem configuration for each candidate item before simming. Slower, but more accurate when a new item changes gemming choices."
+			},
+			"hide_owned_results": {
+				"label": "Hide owned items",
+				"tooltip": "Hide results for items already marked as owned in your inventory."
 			},
 			"compare_bis": {
 				"label": "Compare against gear set",

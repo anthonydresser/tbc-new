@@ -3643,6 +3643,7 @@
 					"type": "object",
 					"properties": {
 						"import_favorites": { "type": "string" },
+						"import_inventory": { "type": "string" },
 						"copy_enchants": { "type": "string" },
 						"import_bis_list": { "type": "string" },
 						"import_addon_list": { "type": "string" },
@@ -3650,7 +3651,7 @@
 						"simulate": { "type": "string" }
 					},
 					"additionalProperties": false,
-					"required": ["import_favorites", "copy_enchants", "import_bis_list", "import_addon_list", "clear_items", "simulate"]
+					"required": ["import_favorites", "import_inventory", "copy_enchants", "import_bis_list", "import_addon_list", "clear_items", "simulate"]
 				},
 				"import_addon_list": {
 					"type": "object",
@@ -3675,6 +3676,15 @@
 						"results_not_restored",
 						"spec_mismatch"
 					]
+				},
+				"import_inventory": {
+					"type": "object",
+					"properties": {
+						"imported": { "type": "string" },
+						"imported_with_skipped": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["imported", "imported_with_skipped"]
 				},
 				"import_bis_list": {
 					"type": "object",
@@ -3751,6 +3761,15 @@
 							"additionalProperties": false,
 							"required": ["label", "tooltip"]
 						},
+						"hide_owned_results": {
+							"type": "object",
+							"properties": {
+								"label": { "type": "string" },
+								"tooltip": { "type": "string" }
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
 						"compare_bis": {
 							"type": "object",
 							"properties": {
@@ -3774,6 +3793,7 @@
 						"sim_count_singular",
 						"sim_count_bis_reference",
 						"optimize_gems",
+						"hide_owned_results",
 						"compare_bis"
 					]
 				},
@@ -3887,6 +3907,7 @@
 				"description",
 				"tabs",
 				"actions",
+				"import_inventory",
 				"import_bis_list",
 				"import_addon_list",
 				"presets",

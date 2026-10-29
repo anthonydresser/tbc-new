@@ -11,7 +11,7 @@ import { UpgradeResults } from '@features/upgrades/components/UpgradeResults/Upg
 import { UpgradeSettings } from '@features/upgrades/components/UpgradeSettings/UpgradeSettings';
 import { useUpgradeState } from '@features/upgrades/hooks/useUpgradeState';
 import { copyEquippedEnchantsToCandidates } from '@features/upgrades/model/bis';
-import { addUpgradeCandidate, clearUpgradeCandidates } from '@features/upgrades/model/items';
+import { addUpgradeCandidate, clearUpgradeCandidates, importInventoryAsCandidates } from '@features/upgrades/model/items';
 import { ItemSpec } from '@generated/proto/common';
 import i18n from '@i18n/config';
 import { useSimHost } from '@sim/context/SimHostContext';
@@ -63,6 +63,9 @@ export const UpgradesTabBody = () => {
 											.forEach(spec => addUpgradeCandidate(host.player, spec, true))
 									}>
 									<Icon name="download" style="base" className="mr-1" /> {i18n.t('upgrade_tab.actions.import_favorites')}
+								</Button>
+								<Button variant="secondary" data-testid="upgrade-import-inventory" onClick={() => importInventoryAsCandidates(host.player)}>
+									<Icon name="box" className="mr-1" /> {i18n.t('upgrade_tab.actions.import_inventory')}
 								</Button>
 								<Button variant="secondary" onClick={() => copyEquippedEnchantsToCandidates(host.player)}>
 									<Icon name="wand-magic-sparkles" className="mr-1" /> {i18n.t('upgrade_tab.actions.copy_enchants')}
