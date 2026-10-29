@@ -28,9 +28,12 @@ export interface ItemListRowProps {
 	itemEP: number;
 	favourited: boolean;
 	favouriteTooltipId: string;
+	owned: boolean;
+	ownedTooltipId: string;
 	compareTooltipId: string;
 	onEquip: () => void;
 	onToggleFavourite: () => void;
+	onToggleOwned: () => void;
 }
 
 export const ItemListRow = ({
@@ -42,9 +45,12 @@ export const ItemListRow = ({
 	itemEP,
 	favourited,
 	favouriteTooltipId,
+	owned,
+	ownedTooltipId,
 	compareTooltipId,
 	onEquip,
 	onToggleFavourite,
+	onToggleOwned,
 }: ItemListRowProps) => {
 	const host = useSimHost();
 	const { iconUrl, href } = useActionId(itemData.actionId);
@@ -117,6 +123,24 @@ export const ItemListRow = ({
 					<Icon name="star" style={favourited ? 'solid' : 'regular'} size="xl" />
 				</Button>
 			</div>
+			{isItemsTab && (
+				<div data-testid="selector-modal-list-item-owned-container">
+					<Button
+						iconOnly
+						aria-label="Owned"
+						className={clsx('relative z-1 w-8', owned && 'text-success')}
+						data-testid="selector-modal-list-item-owned"
+						data-tooltip-id={ownedTooltipId}
+						data-owned={String(owned)}
+						onClick={event => {
+							event.stopPropagation();
+							onToggleOwned();
+						}}>
+						{/* Box, not a second star: favorites bookmark the picker, the inventory is gear you own. */}
+						<Icon name="box" style={owned ? 'solid' : 'regular'} size="xl" />
+					</Button>
+				</div>
+			)}
 			{isItemsTab && (
 				<div data-testid="selector-modal-list-item-compare-container">
 					<Button

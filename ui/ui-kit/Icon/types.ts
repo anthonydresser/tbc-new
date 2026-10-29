@@ -9,6 +9,7 @@ export type IconName =
 	| 'arrows-rotate'
 	| 'ban'
 	| 'bars'
+	| 'box'
 	| 'bug'
 	| 'bullseye'
 	| 'calculator'

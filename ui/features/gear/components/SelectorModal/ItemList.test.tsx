@@ -228,9 +228,9 @@ describe('ItemList', () => {
 		expect(labelFor(SelectorModalTabs.Gem3)).toContain('remove_gem');
 	});
 
-	it('gives the ilvl, source and compare columns to the items tab alone', () => {
+	it('gives the ilvl, source, owned and compare columns to the items tab alone', () => {
 		const { container, unmount } = setup();
-		expect(headers(container)).toEqual(['ilvl-label', 'item-label', 'source-label', 'ep-label', 'favorite-label', 'compare-label']);
+		expect(headers(container)).toEqual(['ilvl-label', 'item-label', 'source-label', 'ep-label', 'favorite-label', 'owned-label', 'compare-label']);
 		unmount();
 
 		const enchants = setup({ label: SelectorModalTabs.Enchants });

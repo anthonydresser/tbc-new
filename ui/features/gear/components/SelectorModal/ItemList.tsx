@@ -1,4 +1,6 @@
-import { Class, ItemSlot } from '@generated/proto/common';
+import { toggleOwnedItem } from '@features/inventory/model/items';
+import { useInventoryState } from '@features/inventory/hooks/useInventoryState';
+import { Class, ItemSlot, ItemSpec } from '@generated/proto/common';
 import { UIEnchant as Enchant, UIGem as Gem, UIItem as Item } from '@generated/proto/ui';
 import i18n from '@i18n/config';
 import { SortDirection } from '@sim/constants/other';
@@ -49,6 +51,8 @@ export const ItemList = ({ tab, slot, equippedItem }: ItemListProps) => {
 	const [search, setSearch] = useState('');
 	const [sortBy, setSortBy] = useState(() => defaultSortBy(slot));
 	const [sortDirection, setSortDirection] = useState(SortDirection.DESC);
+	// Session-only working filter, like the search box: deliberately not persisted.
+	const [ownedOnly, setOwnedOnly] = useState(false);
 	const listRef = useRef<HTMLDivElement>(null);
 	const [filtersOpen, setFiltersOpen] = useState(false);
 	const tooltipId = useId();
@@ -60,6 +64,10 @@ export const ItemList = ({ tab, slot, equippedItem }: ItemListProps) => {
 	const showEPValues = useUiStore('showEPValues');
 
 	const isFavourited = useCallback((row: ItemDataFields<ItemListType>) => isItemFavourited(filters, label, row), [filters, label]);
+
+	// One Set per inventory change; rows receive booleans, never per-row scans of the list.
+	const inventorySpecs = useInventoryState(slice => slice?.items);
+	const ownedIds = useMemo(() => new Set((inventorySpecs ?? []).map(spec => spec.id)), [inventorySpecs]);
 
 	const itemsToDisplay = useMemo(() => {
 		let idxs = itemData.map((_, index) => index);
@@ -74,13 +82,14 @@ export const ItemList = ({ tab, slot, equippedItem }: ItemListProps) => {
 		}
 
 		idxs = idxs.filter(index => itemData[index].phase <= phase && matchesSearch(search, itemData[index], npcId => sim.db.getNpc(npcId)?.name));
+		if (ownedOnly && label === SelectorModalTabs.Items) idxs = idxs.filter(index => ownedIds.has(itemData[index].id));
 		return sortItemIdxs(idxs, itemData, { sortBy, sortDirection, computeEP, isFavourited });
 		// `filters` is named here even though the body never reads it: `player.filterItemData` and
 		// `player.filterGemData` reach `sim.getFilters()` internally, so a filter change has to
 		// rebuild this. The lint calls it unnecessary; deleting it leaves correctness resting on
 		// `isFavourited` happening to close over `filters` too.
 		// oxlint-disable-next-line react-hooks/exhaustive-deps
-	}, [itemData, player, sim, slot, label, socketColor, phase, search, sortBy, sortDirection, computeEP, isFavourited, filters]);
+	}, [itemData, player, sim, slot, label, socketColor, phase, search, sortBy, sortDirection, computeEP, isFavourited, filters, ownedOnly, ownedIds]);
 
 	const equipped = equippedToItem(equippedItem);
 	const equippedId = getItemIdByItemType(label, equipped);
@@ -96,6 +105,10 @@ export const ItemList = ({ tab, slot, equippedItem }: ItemListProps) => {
 		if (!applyFavourite(next, label, row, !isFavourited(row))) return;
 		sim.setFilters(next);
 	};
+
+	// Only wired up on the Items tab, whose rows carry no enchant/gems — the stored
+	// entry is the bare id. Enchant/gems get set later via the inventory dialog.
+	const toggleOwned = (row: ItemDataFields<ItemListType>) => toggleOwnedItem(player, ItemSpec.create({ id: row.id }));
 
 	const showEPOptions = ![ItemSlot.ItemSlotTrinket1, ItemSlot.ItemSlotTrinket2].includes(slot);
 	const showWeaponOptions =
@@ -120,6 +133,19 @@ export const ItemList = ({ tab, slot, equippedItem }: ItemListProps) => {
 							{i18n.t('gear_tab.gear_picker.filters_button')}
 						</Button>
 						<FiltersMenu slot={slot} open={filtersOpen} onOpenChange={setFiltersOpen} />
+						<div data-testid="selector-modal-owned-only">
+							<BooleanPicker
+								modObject={null}
+								config={{
+									id: 'owned-only-selector',
+									extraClassNames: ['mb-0'],
+									label: i18n.t('gear_tab.gear_picker.owned_only_label'),
+									layout: 'inline',
+									value: ownedOnly,
+									onChange: setOwnedOnly,
+								}}
+							/>
+						</div>
 					</>
 				)}
 				<div className="min-w-28" data-testid="selector-modal-phase-selector">
@@ -247,6 +273,7 @@ export const ItemList = ({ tab, slot, equippedItem }: ItemListProps) => {
 					</Button>
 				</h6>
 				<h6 className="w-8" data-testid="favorite-label" />
+				{label === SelectorModalTabs.Items && <h6 className="w-8" data-testid="owned-label" />}
 				{label === SelectorModalTabs.Items && <h6 className="w-8" data-testid="compare-label" />}
 			</div>
 			<div
@@ -272,9 +299,12 @@ export const ItemList = ({ tab, slot, equippedItem }: ItemListProps) => {
 								itemEP={computeEP(row.item)}
 								favourited={isFavourited(row)}
 								favouriteTooltipId={`${tooltipId}-favourite`}
+								owned={ownedIds.has(row.id)}
+								ownedTooltipId={`${tooltipId}-owned`}
 								compareTooltipId={`${tooltipId}-compare`}
 								onEquip={() => row.onEquip(row.item)}
 								onToggleFavourite={() => toggleFavourite(row)}
+								onToggleOwned={() => toggleOwned(row)}
 							/>
 						);
 					}}
@@ -285,6 +315,14 @@ export const ItemList = ({ tab, slot, equippedItem }: ItemListProps) => {
 				id={`${tooltipId}-favourite`}
 				render={({ activeAnchor }) =>
 					(activeAnchor as HTMLElement | null)?.dataset.favourited === 'true' ? 'Remove from favorites' : 'Add to favorites'
+				}
+			/>
+			<Tooltip
+				id={`${tooltipId}-owned`}
+				render={({ activeAnchor }) =>
+					(activeAnchor as HTMLElement | null)?.dataset.owned === 'true'
+						? i18n.t('gear_tab.gear_picker.owned_remove_tooltip')
+						: i18n.t('gear_tab.gear_picker.owned_add_tooltip')
 				}
 			/>
 			<Tooltip

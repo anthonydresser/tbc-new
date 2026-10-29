@@ -78,9 +78,12 @@ const renderRow = (
 		itemEP: 0,
 		favourited: false,
 		favouriteTooltipId: 'fav-tooltip',
+		owned: false,
+		ownedTooltipId: 'owned-tooltip',
 		compareTooltipId: 'compare-tooltip',
 		onEquip: vi.fn(),
 		onToggleFavourite: vi.fn(),
+		onToggleOwned: vi.fn(),
 		...overrides,
 	};
 
@@ -103,7 +106,7 @@ const renderRow = (
 };
 
 describe('ItemListRow', () => {
-	it('renders the six list cells in order on the items tab', () => {
+	it('renders the seven list cells in order on the items tab', () => {
 		const { wrapper } = renderRow();
 		expect(Array.from(wrapper.children).map(child => child.getAttribute('data-testid'))).toEqual([
 			'selector-modal-list-item-ilvl-container',
@@ -111,6 +114,7 @@ describe('ItemListRow', () => {
 			'selector-modal-list-item-source-container',
 			'selector-modal-list-item-ep',
 			'selector-modal-list-item-favorite-container',
+			'selector-modal-list-item-owned-container',
 			'selector-modal-list-item-compare-container',
 		]);
 	});

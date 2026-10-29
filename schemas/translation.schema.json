@@ -1324,6 +1324,15 @@
 						"filters_button": {
 							"type": "string"
 						},
+						"owned_only_label": {
+							"type": "string"
+						},
+						"owned_add_tooltip": {
+							"type": "string"
+						},
+						"owned_remove_tooltip": {
+							"type": "string"
+						},
 						"unequip_item": {
 							"type": "string"
 						},
@@ -1390,6 +1399,9 @@
 						"cooldowns",
 						"ep_tooltip",
 						"filters_button",
+						"owned_only_label",
+						"owned_add_tooltip",
+						"owned_remove_tooltip",
 						"unequip_item",
 						"table_headers",
 						"show_ep",

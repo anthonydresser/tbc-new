@@ -372,6 +372,9 @@
 			},
 			"ep_tooltip": "EP (Equivalence Points) is way of comparing items by multiplying the raw stats of an item with your current stat weights. More EP does not necessarily mean more DPS, as EP doesn't take into account stat caps and non-linear stat calculations.",
 			"filters_button": "Filters",
+			"owned_only_label": "Owned only",
+			"owned_add_tooltip": "Mark as owned (adds to your inventory)",
+			"owned_remove_tooltip": "Remove from inventory",
 			"unequip_item": "Unequip Item",
 			"table_headers": {
 				"ilvl": "ILvl",
