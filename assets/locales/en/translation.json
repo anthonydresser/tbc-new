@@ -2750,8 +2750,14 @@
 			"edit_tooltip": "Edit this item's enchant and gems",
 			"remove_tooltip": "Remove from inventory"
 		},
+		"search": {
+			"title": "Item Search",
+			"item_added": "{{itemName}} marked as owned."
+		},
 		"notifications": {
 			"equipped_added": "{{count}} equipped item(s) added to your inventory.",
+			"already_owned": "{{itemName}} is already in your inventory.",
+			"item_not_found": "That item could not be found.",
 			"items_not_restored": "{{count}} item(s) from your saved inventory could not be restored and were skipped. The saved inventory itself is unchanged.",
 			"storage_full": "Browser storage is full, so the inventory could not be saved. Delete some saved data to free up space."
 		}

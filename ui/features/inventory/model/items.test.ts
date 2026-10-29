@@ -15,7 +15,7 @@ import {
 import { createSimStore } from '@sim/state/sim_store';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { addEquippedGearToInventory, clearInventory, removeInventoryItem, toggleOwnedItem, updateInventoryItem } from './items';
+import { addEquippedGearToInventory, addOwnedItem, clearInventory, removeInventoryItem, toggleOwnedItem, updateInventoryItem } from './items';
 
 // The leftover-DB loader fetches over the network; the fake db resolves everything,
 // so the load decision never matters here.
@@ -37,7 +37,7 @@ beforeEach(() => {
 		storeKey: STORE_KEY,
 		sim: {
 			store,
-			db: { lookupItemSpec: (spec: ItemSpec) => (spec.id > 0 ? ({ item: { id: spec.id } } as unknown) : null) },
+			db: { lookupItemSpec: (spec: ItemSpec) => (spec.id > 0 ? ({ item: { id: spec.id, name: `item-${spec.id}` } } as unknown) : null) },
 			env: {
 				storage: {
 					getItem: (key: string) => storage[key] ?? null,
@@ -109,6 +109,24 @@ describe('inventory model', () => {
 		addEquippedGearToInventory(player);
 
 		expect(store.getState().inventory[STORE_KEY].v.items).toBe(before);
+	});
+
+	it('addOwnedItem adds a bare entry and returns true', () => {
+		expect(addOwnedItem(player, ItemSpec.create({ id: 100 }))).toBe(true);
+		expect(isItemOwned(player, 100)).toBe(true);
+		expect(inventoryItems(player).map(s => s.id)).toEqual([100]);
+	});
+
+	it('addOwnedItem is a no-op on an already-owned id — the stored setup survives', () => {
+		updateInventoryItem(player, 100, ItemSpec.create({ id: 100, enchant: 3000, gems: [5] }));
+
+		expect(addOwnedItem(player, ItemSpec.create({ id: 100 }))).toBe(false);
+		expect(inventoryItems(player)).toEqual([ItemSpec.create({ id: 100, enchant: 3000, gems: [5] })]);
+	});
+
+	it('addOwnedItem refuses an id the database cannot resolve', () => {
+		expect(addOwnedItem(player, ItemSpec.create({ id: -1 }))).toBe(false);
+		expect(inventoryItems(player)).toEqual([]);
 	});
 });
 

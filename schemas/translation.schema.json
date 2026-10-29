@@ -9503,19 +9503,30 @@
 					"additionalProperties": false,
 					"required": ["title", "empty", "add_equipped_button", "clear_button", "edit_tooltip", "remove_tooltip"]
 				},
+				"search": {
+					"type": "object",
+					"properties": {
+						"title": { "type": "string" },
+						"item_added": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["title", "item_added"]
+				},
 				"notifications": {
 					"type": "object",
 					"properties": {
 						"equipped_added": { "type": "string" },
+						"already_owned": { "type": "string" },
+						"item_not_found": { "type": "string" },
 						"items_not_restored": { "type": "string" },
 						"storage_full": { "type": "string" }
 					},
 					"additionalProperties": false,
-					"required": ["equipped_added", "items_not_restored", "storage_full"]
+					"required": ["equipped_added", "already_owned", "item_not_found", "items_not_restored", "storage_full"]
 				}
 			},
 			"additionalProperties": false,
-			"required": ["title", "owned_badge", "dialog", "notifications"]
+			"required": ["title", "owned_badge", "dialog", "search", "notifications"]
 		}
 	},
 	"additionalProperties": false,

@@ -30,6 +30,24 @@ export const removeInventoryItem = (player: Player<any>, itemId: number) => {
 
 export const clearInventory = (player: Player<any>) => setItems(player, []);
 
+// The tab's search pick: add-only, without the toggle's removal branch — an
+// already-owned item keeps its stored enchant/gems and just reports back.
+export const addOwnedItem = (player: Player<any>, spec: ItemSpec, silent = false): boolean => {
+	const equippedItem = player.sim.db.lookupItemSpec(spec);
+	if (!equippedItem) {
+		if (!silent) toastManager.add({ variant: 'error', body: i18n.t('inventory.notifications.item_not_found') });
+		return false;
+	}
+	const items = inventoryItems(player);
+	if (items.some(s => s.id === spec.id)) {
+		if (!silent) toastManager.add({ variant: 'error', body: i18n.t('inventory.notifications.already_owned', { itemName: equippedItem.item.name }) });
+		return false;
+	}
+	setItems(player, [...items.map(s => ItemSpec.clone(s)), ItemSpec.create({ id: spec.id, randomSuffix: spec.randomSuffix || undefined })]);
+	if (!silent) toastManager.add({ variant: 'success', body: i18n.t('inventory.search.item_added', { itemName: equippedItem.item.name }) });
+	return true;
+};
+
 // Replaces the setup stored for an item id (edit via the selector modal), or
 // appends it if the item isn't in the inventory yet.
 export const updateInventoryItem = (player: Player<any>, itemId: number, spec: ItemSpec) => {
