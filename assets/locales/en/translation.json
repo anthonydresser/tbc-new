@@ -2725,5 +2725,14 @@
 			"points_suffix": "Points",
 			"percent_suffix": "%"
 		}
+	},
+	"inventory": {
+		"title": "Inventory",
+		"owned_badge": "OWNED",
+		"notifications": {
+			"equipped_added": "{{count}} equipped item(s) added to your inventory.",
+			"items_not_restored": "{{count}} item(s) from your saved inventory could not be restored and were skipped. The saved inventory itself is unchanged.",
+			"storage_full": "Browser storage is full, so the inventory could not be saved. Delete some saved data to free up space."
+		}
 	}
 }

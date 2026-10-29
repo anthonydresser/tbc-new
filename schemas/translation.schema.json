@@ -9448,6 +9448,25 @@
 			},
 			"additionalProperties": false,
 			"required": ["iterations", "warnings", "buttons", "header", "results", "character_stats"]
+		},
+		"inventory": {
+			"type": "object",
+			"properties": {
+				"title": { "type": "string" },
+				"owned_badge": { "type": "string" },
+				"notifications": {
+					"type": "object",
+					"properties": {
+						"equipped_added": { "type": "string" },
+						"items_not_restored": { "type": "string" },
+						"storage_full": { "type": "string" }
+					},
+					"additionalProperties": false,
+					"required": ["equipped_added", "items_not_restored", "storage_full"]
+				}
+			},
+			"additionalProperties": false,
+			"required": ["title", "owned_badge", "notifications"]
 		}
 	},
 	"additionalProperties": false,
@@ -9465,7 +9484,8 @@
 		"import",
 		"export",
 		"info",
-		"sidebar"
+		"sidebar",
+		"inventory"
 	],
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"title": "Generated Schema",

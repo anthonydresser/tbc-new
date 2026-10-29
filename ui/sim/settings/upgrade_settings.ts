@@ -13,6 +13,7 @@ import type { UIEnchant } from '@generated/proto/ui';
 import type { Player } from '../player/player';
 import { Database } from '../proto/database';
 import { getEligibleItemSlots } from '../proto/items';
+import { sanitizeProtoJson } from '../state/proto_json';
 import { patchKeyed, seedKeyed, type UpgradeSlice } from '../state/sim_store';
 import { specStorageKey } from '../state/storage_keys';
 import type { SavedUpgradeRun, UpgradeGearResult, UpgradeResult } from '../upgrade/types';
@@ -65,16 +66,8 @@ const metricsToJson = (metrics: DistributionMetrics): Record<string, unknown> =>
 	return json;
 };
 
-// Strips keys whose value is undefined before feeding stored JSON to protobuf-ts
-// fromJson. Runs serialized by older builds (or copied in-memory without a
-// JSON.stringify round trip) can carry keys like "enchant": undefined, which
-// fromJson rejects.
-const sanitizeProtoJson = (json: any): any => {
-	if (!json || typeof json !== 'object' || Array.isArray(json)) return json;
-	const clean = Object.fromEntries(Object.entries(json as Record<string, any>).filter(([, value]) => value !== undefined));
-	if (Array.isArray(clean.items)) clean.items = clean.items.map((item: any) => sanitizeProtoJson(item));
-	return clean;
-};
+// sanitizeProtoJson lives in ../state/proto_json (shared with the inventory blob);
+// it strips undefined-valued keys that protobuf-ts fromJson rejects.
 
 const gearResultToJson = (result: UpgradeGearResult | null): Record<string, unknown> | null =>
 	result ? { gear: EquipmentSpec.toJson(result.gear.asSpec()) as Record<string, unknown>, dpsMetrics: metricsToJson(result.dpsMetrics) } : null;
@@ -160,7 +153,8 @@ const gatherRunEquipment = (run: SavedUpgradeRun): EquipmentSpec => {
 
 // Matches an effect/item/spell id against the enchants of every slot an item fits,
 // the way the pre-React tab resolved a stored enchant id back to an enchant.
-const findEnchantForItem = (db: Database, itemId: number, effectId: number): UIEnchant | null => {
+// Exported for the inventory → candidates import, which resolves enchants the same way.
+export const findEnchantForItem = (db: Database, itemId: number, effectId: number): UIEnchant | null => {
 	const item = db.lookupItemSpec(ItemSpec.create({ id: itemId }))?.item;
 	if (!item) return null;
 	for (const slot of getEligibleItemSlots(item)) {

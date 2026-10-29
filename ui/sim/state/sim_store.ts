@@ -232,6 +232,15 @@ export interface BulkSlice {
 	v: { settings: number; items: number };
 }
 
+// Inventory (owned items), one slice per player. One entry per item id; each
+// entry is a full ItemSpec so the stored enchant/gems/suffix survive import
+// into the batch and upgrade flows. Owned-ness is id-level: the entry's setup
+// is display/import state only.
+export interface InventorySlice {
+	items: ReadonlyArray<ItemSpec>;
+	v: { items: number };
+}
+
 // Upgrade finder tab, one slice per player. `settings` covers the user-authored run
 // definition (candidates, fallback gems, optimize-gems); `results` covers what the
 // last run produced. Both feed the autosave, and the run loop bumps them itself as
@@ -281,6 +290,7 @@ export interface SimState {
 	statWeights: { [storeKey: number]: StatWeightsSlice };
 	bulk: { [storeKey: number]: BulkSlice };
 	upgrades: { [storeKey: number]: UpgradeSlice };
+	inventory: { [storeKey: number]: InventorySlice };
 	sim: SimSettingsSlice;
 	ui: UISlice;
 	encounter: EncounterSlice;
@@ -332,6 +342,7 @@ const initialState = (): SimState => ({
 	statWeights: {},
 	bulk: {},
 	upgrades: {},
+	inventory: {},
 });
 
 export type SimStore = ReturnType<typeof createSimStore>;
@@ -363,7 +374,7 @@ export function patchSlice<N extends UnkeyedSlice>(store: SimStore, slice: N, pa
 // The slices keyed by a player's storeKey. Single source of truth: `KeyedSlice`
 // is derived from it, and deleteKeyed iterates it, so adding a keyed slice
 // cannot leave the disposal path behind.
-export const KEYED_SLICES = ['players', 'reforge', 'statWeights', 'bulk', 'upgrades'] as const;
+export const KEYED_SLICES = ['players', 'reforge', 'statWeights', 'bulk', 'upgrades', 'inventory'] as const;
 type KeyedSlice = (typeof KEYED_SLICES)[number];
 type KeyedEntry<N extends KeyedSlice> = SimState[N][number];
 type Versions<N extends KeyedSlice> = KeyedEntry<N>['v'];

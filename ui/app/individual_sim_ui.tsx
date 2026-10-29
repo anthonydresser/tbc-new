@@ -1,4 +1,5 @@
 import { initBulk } from '@features/bulk/model/init';
+import { initInventory } from '@features/inventory/model/init';
 import { watchTargetDummies } from '@features/encounter/model/target_dummies';
 import { repairTargetInputs } from '@features/encounter/model/target_inputs';
 import { registerSetBonusNotices } from '@features/gear/item_notices';
@@ -157,6 +158,7 @@ export class SimHostObject<SpecType extends Spec> implements IndividualSimHost<S
 
 		initBulk(this);
 		initUpgrades(this);
+		initInventory(this);
 
 		// Declarative behaviour slots. These run last, after every model the React tree
 		// reads exists, but still synchronously, so `loadSettings()` (queued

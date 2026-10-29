@@ -270,3 +270,12 @@ export function subscribeUpgradeField(owner: BulkOwner, field: 'settings' | 'res
 export function subscribeUpgradeChange(owner: BulkOwner): StoreSubscribe {
 	return subscribeAll([subscribeUpgradeField(owner, 'settings'), subscribeUpgradeField(owner, 'results')]);
 }
+
+// Inventory of owned items (per player); same owner shape as bulk.
+export function subscribeInventoryField(owner: BulkOwner, field: 'items'): StoreSubscribe {
+	const storeKey = owner.storeKey;
+	return cached(owner, `inventory:${field}`, () => fromSelector(owner.sim.store, s => s.inventory[storeKey]?.v[field]));
+}
+export function subscribeInventoryChange(owner: BulkOwner): StoreSubscribe {
+	return subscribeInventoryField(owner, 'items');
+}
