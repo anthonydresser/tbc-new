@@ -175,17 +175,17 @@ export const getVisibleUpgradeResults = (
 	});
 };
 
-// The slots a candidate is actually simmed in. A swap is pointless when the slot
-// already wears the item and no second copy could be worn elsewhere — i.e. the item
-// is unique-equipped, or it fits only this slot (a ring worn in Finger1 can still
-// be simmed in Finger2; a helm worn on the head cannot).
+// The slots a candidate is actually simmed in. Swapping into a slot that already
+// wears the item is the identity move — never useful. What remains is whether a
+// second copy could be worn in another slot (e.g. the Ring of Ancient Knowledge,
+// which is not unique-equipped): a unique item worn anywhere has no valid other
+// slot, while a non-unique ring worn in Finger1 is only worth simming in Finger2.
 export const getUpgradeSimSlots = (player: Player<any>, baseGear: Gear, candidate: UpgradeCandidate): ItemSlot[] => {
 	const slots = upgradeEligibleSlots(player, candidate);
-	return slots.filter(slot => {
-		const worn = baseGear.getEquippedItem(slot);
-		if (!worn || worn.item.id !== candidate.spec.id) return true;
-		return !candidate.equippedItem.item.unique && slots.length > 1;
-	});
+	const wornSlots = new Set(slots.filter(slot => baseGear.getEquippedItem(slot)?.item.id === candidate.spec.id));
+	if (!wornSlots.size) return slots;
+	if (candidate.equippedItem.item.unique) return [];
+	return slots.filter(slot => !wornSlots.has(slot));
 };
 
 export const getDefaultGemsByColor = (player: Player<any>): Map<GemColor, Gem | null> => {

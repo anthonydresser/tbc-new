@@ -136,15 +136,20 @@ describe('getUpgradeSimSlots', () => {
 		expect(getUpgradeSimSlots(player, gearWearing({}), candidateOf(100, ItemType.ItemTypeTrinket))).toEqual([T1, T2]);
 	});
 
-	it('drops a slot that already wears a unique item while keeping the other slot', () => {
-		expect(getUpgradeSimSlots(player, gearWearing({ [T1]: 100 }), candidateOf(100, ItemType.ItemTypeTrinket, true))).toEqual([T2]);
+	it('simms nothing when a unique-equipped item is worn in either of its slots', () => {
+		expect(getUpgradeSimSlots(player, gearWearing({ [T1]: 100 }), candidateOf(100, ItemType.ItemTypeTrinket, true))).toEqual([]);
+		expect(getUpgradeSimSlots(player, gearWearing({ [T2]: 100 }), candidateOf(100, ItemType.ItemTypeTrinket, true))).toEqual([]);
 	});
 
 	it('drops every slot when a single-slot item is already worn there', () => {
 		expect(getUpgradeSimSlots(player, gearWearing({ [ItemSlot.ItemSlotHead]: 100 }), candidateOf(100, ItemType.ItemTypeHead))).toEqual([]);
 	});
 
-	it('keeps both slots for a non-unique multi-slot item already worn in one', () => {
-		expect(getUpgradeSimSlots(player, gearWearing({ [F1]: 100 }), candidateOf(100, ItemType.ItemTypeFinger))).toEqual([F1, F2]);
+	it('simms a non-unique ring only in the slots not already wearing it', () => {
+		expect(getUpgradeSimSlots(player, gearWearing({ [F1]: 100 }), candidateOf(100, ItemType.ItemTypeFinger))).toEqual([F2]);
+	});
+
+	it('simms nothing when a non-unique ring is already worn in both slots', () => {
+		expect(getUpgradeSimSlots(player, gearWearing({ [F1]: 100, [F2]: 100 }), candidateOf(100, ItemType.ItemTypeFinger))).toEqual([]);
 	});
 });

@@ -31,9 +31,10 @@ export interface UpgradeResult {
 	// current gear (0 for the item the reference set already wears). Undefined when
 	// the run had no BiS reference.
 	bisDelta?: number;
-	// Set when no sim ran for this candidate: every slot it fits already wears the
-	// item and no second copy could be worn (unique-equipped or single-slot). Delta
-	// is 0 by definition; the row is a marker, and it is never exported.
+	// Set when no sim ran for this candidate: every remaining slot it fits already
+	// wears the item and no second copy could be worn anywhere (it is
+	// unique-equipped, or it fits only slots that already wear it). Delta is 0 by
+	// definition; the row is a marker, and it is never exported.
 	equippedAlready?: boolean;
 }
 
