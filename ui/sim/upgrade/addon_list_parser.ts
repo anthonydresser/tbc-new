@@ -8,9 +8,11 @@
 //	WWSULv3 adds |<bisDps> to the header and :<vsBisDelta> to each row.
 //	WWSULv4 appends :<ownedFlag 0|1> to each row; when there is no BiS run the
 //	vs-BiS field goes out empty (":delta::flag") so the flag keeps its position.
+//	WWSULv5 appends :<zoneId,...> (drop zones; empty for non-drop items) to each
+//	row, forcing owned and vs-BiS fields to always be positionally present.
 //
-// Deltas, baseline, BiS DPS and the owned flag are metadata for the in-game
-// display; they are parsed but intentionally discarded — the import only
+// Deltas, baseline, BiS DPS, the owned flag and zone ids are metadata for the
+// in-game display; they are parsed but intentionally discarded — the import only
 // repopulates candidates.
 import { EquipmentSpec, ItemSlot, ItemSpec } from '@generated/proto/common';
 import type { UIEnchant } from '@generated/proto/ui';
@@ -49,12 +51,12 @@ interface ParsedAddonList {
 }
 
 const HEADER_PATTERN = /^WWSULv(\d+)$/;
-const SUPPORTED_FORMAT_VERSION = 4;
-// The optional v3 :<vsBisDelta> and v4 :<ownedFlag> suffixes are matched loosely
-// (the vs-BiS field may be empty in a v4 row without a BiS run) because they do
-// not need to agree with the header version — the row grammar is otherwise
-// identical and both are discarded anyway.
-const ITEM_LINE_PATTERN = /^(\d{1,2}):(\d+):([^:]*):([^:]*):(-?\d+(?:\.\d+)?)(?::(?:-?\d+(?:\.\d+)?)?)?(?::[01])?$/;
+const SUPPORTED_FORMAT_VERSION = 5;
+// The optional v3 :<vsBisDelta>, v4 :<ownedFlag> and v5 :<zoneIds> suffixes are
+// matched loosely (the vs-BiS and zones fields may be empty) because they do not
+// need to agree with the header version — the row grammar is otherwise identical
+// and all three are discarded anyway.
+const ITEM_LINE_PATTERN = /^(\d{1,2}):(\d+):([^:]*):([^:]*):(-?\d+(?:\.\d+)?)(?::(?:-?\d+(?:\.\d+)?)?)?(?::[01])?(?::(?:\d+(?:,\d+)*)?)?$/;
 
 // Pure grammar pass: text in, header + rows + errors out. No database access.
 export const parseAddonListLines = (data: string): ParsedAddonList => {
@@ -205,8 +207,8 @@ export async function parseAddonUpgradeList(data: string): Promise<AddonListPars
 
 export function addonListStringExample(): string {
 	return [
-		'WWSULv4|Fury Warrior Upgrades|Fury Warrior|1755800000|1523.4|1680.0',
-		'14:30358:Enchant Weapon - Mongoose:24061,24061:42.1:-98.7:1',
-		'0:28802::24027:12.0:-130.8:0',
+		'WWSULv5|Fury Warrior Upgrades|Fury Warrior|1755800000|1523.4|1680.0',
+		'14:30358:Enchant Weapon - Mongoose:24061,24061:42.1:-98.7:1:3959',
+		'0:28802::24027:12.0:-130.8:0:3959,3606',
 	].join('\n');
 }

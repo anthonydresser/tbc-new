@@ -41,6 +41,17 @@ const V4_NO_BIS_STRING = ['WWSULv4|Fury Warrior Upgrades|Fury Warrior|1755800000
 	'\n',
 );
 
+const V5_STRING = [
+	'WWSULv5|Fury Warrior Upgrades|Fury Warrior|1755800000|1523.4|1680.0',
+	'14:30358:Enchant Weapon - Mongoose:24061,24061:42.1:-98.7:1:3959',
+	'0:28802::24027:12.0:-130.8:0:3959,3606',
+	'1:28603:::3.4::0:',
+].join('\n');
+
+const V5_NO_BIS_STRING = ['WWSULv5|Fury Warrior Upgrades|Fury Warrior|1755800000|1523.4', '14:30358:Enchant Weapon - Mongoose:24061:42.1::1:3959'].join(
+	'\n',
+);
+
 describe('parseAddonListLines', () => {
 	it('parses a v2 string with empty enchant and empty gem fields', () => {
 		const result = parseAddonListLines(V2_STRING);
@@ -66,6 +77,20 @@ describe('parseAddonListLines', () => {
 			const result = parseAddonListLines(text);
 			expect(result.errors).toEqual([]);
 			expect(result.rows.map(r => r.itemId)).toEqual(text === V4_STRING ? [30358, 28802] : [30358]);
+		}
+	});
+
+	it('parses v5 rows that carry drop-zone ids, including empty zone lists', () => {
+		for (const text of [V5_STRING, V5_NO_BIS_STRING]) {
+			const result = parseAddonListLines(text);
+			expect(result.errors).toEqual([]);
+			if (text === V5_STRING) {
+				expect(result.rows.map(r => r.itemId)).toEqual([30358, 28802, 28603]);
+				expect(result.rows[2].enchantName).toBe('');
+				expect(result.rows[2].gemIds).toEqual([]);
+			} else {
+				expect(result.rows.map(r => r.itemId)).toEqual([30358]);
+			}
 		}
 	});
 

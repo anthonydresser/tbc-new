@@ -15,9 +15,16 @@ const STORE_KEY = 0;
 
 let player: Player<any>;
 
-const fakeResult = (itemId: number, delta: number, bisDelta?: number): UpgradeResult =>
+const fakeResult = (itemId: number, delta: number, bisDelta?: number, zoneIds: Array<number> = []): UpgradeResult =>
 	({
-		item: { item: { id: itemId }, enchant: null, gems: [] },
+		item: {
+			item: {
+				id: itemId,
+				sources: zoneIds.map(zoneId => ({ source: { oneofKind: 'drop', drop: { zoneId } } })),
+			},
+			enchant: null,
+			gems: [],
+		},
 		slot: 0,
 		dpsMetrics: { avg: 1600 },
 		delta,
@@ -142,5 +149,41 @@ describe('UPGRADE_ADDON_EXPORTER', () => {
 		const lines = exportLines({ player });
 		expect(lines).toHaveLength(2);
 		expect(lines[1]).toBe('0:200:::12.0');
+	});
+
+	it('bumps to v5 with a trailing zone-id list when a displayed result drops somewhere', () => {
+		patchUpgradeState(
+			player,
+			{
+				baseline: { gear: null, dpsMetrics: { avg: 1523.4 } } as never,
+				results: [fakeResult(100, 42.1, undefined, [3959]), fakeResult(200, 12.0, undefined, [3959, 3606]), fakeResult(300, 5.0)],
+			},
+			['results'],
+		);
+
+		const lines = exportLines({ player });
+		// v5 rows always carry the vs-BiS field (empty without a BiS run), the owned
+		// flag, and the zone list (empty for non-drop items like 300).
+		expect(lines[0]).toMatch(/^WWSULv5\|Fury Warrior Upgrades\|Fury Warrior\|\d+\|1523\.4$/);
+		expect(lines[1]).toBe('0:100:::42.1::0:3959');
+		expect(lines[2]).toBe('0:200:::12.0::0:3959,3606');
+		expect(lines[3]).toBe('0:300:::5.0::0:');
+	});
+
+	it('keeps the zones behind the vs-BiS and owned positions with a BiS run', () => {
+		patchInventoryState(player, { items: [ItemSpec.create({ id: 100 })] }, ['items']);
+		patchUpgradeState(
+			player,
+			{
+				baseline: { gear: null, dpsMetrics: { avg: 1523.4 } } as never,
+				bisResult: { gear: null, dpsMetrics: { avg: 1680 } } as never,
+				results: [fakeResult(100, 42.1, -98.7, [3959])],
+			},
+			['results'],
+		);
+
+		const lines = exportLines({ player });
+		expect(lines[0]).toMatch(/^WWSULv5\|.*\|1680\.0$/);
+		expect(lines[1]).toBe('0:100:::42.1:-98.7:1:3959');
 	});
 });

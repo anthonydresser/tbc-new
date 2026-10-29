@@ -17,6 +17,13 @@
 //	WWSULv4|...                       (header shape follows the v2/v3 rule above)
 //	<slot>:<itemId>:<enchantName>:<gemIds>:<delta>:<vsBisDelta|>:<0|1>
 //
+// When any displayed result drops in a zone the version bumps to v5 and every row
+// carries a trailing comma list of drop-zone ids (empty for non-drop items, e.g.
+// crafted or badge gear); the addon uses them for its "current zone only" filter:
+//
+//	WWSULv5|...                       (header shape follows the v2/v3 rule above)
+//	<slot>:<itemId>:<enchantName>:<gemIds>:<delta>:<vsBisDelta|>:<0|1>:<zoneId,...|>
+//
 // Only visible rows export: anything hidden by the owned or non-upgrades filters,
 // and the equipped-identity marker rows (which were never simmed), are excluded.
 import type { ExporterDefinition } from '@features/import-export';
@@ -50,10 +57,20 @@ export const UPGRADE_ADDON_EXPORTER: ExporterDefinition = {
 			state.hideOwnedResults,
 			state.hideNonUpgrades,
 		);
-		// The owned flag bumps the format; without it, v4 rows would confuse addons
-		// that only know v2/v3.
+		// The zone list bumps the format so the addon's current-zone filter can
+		// trust trailing positions: in v5, the vs-BiS and owned fields always get
+		// emitted (empty when absent) so zones stay last.
+		const zoneIdsOf = (result: (typeof displayed)[number]): Array<number> => {
+			const ids = new Set<number>();
+			for (const source of result.item.item.sources ?? []) {
+				if (source.source.oneofKind === 'drop' && source.source.drop.zoneId > 0) ids.add(source.source.drop.zoneId);
+			}
+			return [...ids];
+		};
+		const hasZones = displayed.some(result => zoneIdsOf(result).length > 0);
 		const hasOwned = displayed.some(result => ownedIds.has(result.item.item.id));
-		const version = hasOwned ? 4 : bisDps == null ? 2 : 3;
+		// v5 implies the owned and vs-BiS fields always exist, even if all-0/empty.
+		const version = hasZones ? 5 : hasOwned ? 4 : bisDps == null ? 2 : 3;
 
 		const header =
 			bisDps == null
@@ -72,9 +89,10 @@ export const UPGRADE_ADDON_EXPORTER: ExporterDefinition = {
 			// Runs from before the per-candidate reference sim have no bisDelta; fall
 			// back to the absolute difference for the export. The field stays present
 			// (empty) in v4-without-bis so the owned flag keeps its position.
-			const bisField = bisDps == null ? (hasOwned ? '' : null) : (result.bisDelta ?? result.dpsMetrics.avg - bisDps).toFixed(1);
-			const ownedField = hasOwned ? (ownedIds.has(result.item.item.id) ? '1' : '0') : null;
-			return [line, bisField, ownedField].filter(part => part != null).join(':');
+			const bisField = bisDps == null ? (version >= 4 ? '' : null) : (result.bisDelta ?? result.dpsMetrics.avg - bisDps).toFixed(1);
+			const ownedField = version >= 4 ? (ownedIds.has(result.item.item.id) ? '1' : '0') : null;
+			const zonesField = version >= 5 ? zoneIdsOf(result).join(',') : null;
+			return [line, bisField, ownedField, zonesField].filter(part => part != null).join(':');
 		});
 		return [header, ...lines].join('\n');
 	},
