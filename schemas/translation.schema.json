@@ -3185,6 +3185,9 @@
 						"import_favorites": {
 							"type": "string"
 						},
+						"import_inventory": {
+							"type": "string"
+						},
 						"clear_items": {
 							"type": "string"
 						},
@@ -3193,7 +3196,7 @@
 						}
 					},
 					"additionalProperties": false,
-					"required": ["import_bags", "import_favorites", "clear_items", "simulate_batch"]
+					"required": ["import_bags", "import_favorites", "import_inventory", "clear_items", "simulate_batch"]
 				},
 				"search": {
 					"type": "object",

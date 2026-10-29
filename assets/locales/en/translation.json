@@ -904,6 +904,7 @@
 		"actions": {
 			"import_bags": "Import From Bags",
 			"import_favorites": "Import Favorites",
+			"import_inventory": "Import From Inventory",
 			"clear_items": "Clear Items",
 			"simulate_batch": "Simulate Batch"
 		},

@@ -12,6 +12,7 @@ import { BulkGearImporterDialog } from '@features/import-export';
 import { ItemSpec } from '@generated/proto/common';
 import i18n from '@i18n/config';
 import { REPO_RELEASES_URL } from '@sim/constants/other';
+import { inventoryItems } from '@sim/settings/inventory_settings';
 import { useSimHost } from '@sim/context/SimHostContext';
 import { useSimReady } from '@sim/hooks/useSimReady';
 import { Button } from '@ui-kit/Button';
@@ -73,6 +74,12 @@ export const BulkTabBody = () => {
 										)
 									}>
 									<Icon name="download" style="base" className="mr-1" /> {i18n.t('bulk_tab.actions.import_favorites')}
+								</Button>
+								<Button
+									variant="secondary"
+									data-testid="bulk-import-inventory"
+									onClick={() => addBulkItems(host.player, inventoryItems(host.player).slice())}>
+									<Icon name="box" className="mr-1" /> {i18n.t('bulk_tab.actions.import_inventory')}
 								</Button>
 								<Button variant="danger" className="ml-auto" onClick={() => clearBulkItems(host.player)}>
 									<Icon name="times" className="mr-1" />
