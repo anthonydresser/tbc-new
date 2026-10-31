@@ -9,6 +9,8 @@ import { FALLBACK_GEM_COLORS, findEnchantForItem, patchUpgradeState, upgradeStat
 import type { UpgradeCandidate, UpgradeResult } from '@sim/upgrade/types';
 import { toastManager } from '@ui-kit/Toast';
 
+import { planInventoryCombos } from './inventory_combos';
+
 // The sim loop iterates the candidate list live, so mutating it mid-run would
 // silently drop items from the results.
 export const isUpgradeRunningGuard = (player: Player<any>, silent = false): boolean => {
@@ -72,6 +74,9 @@ export const setUpgradeFallbackGem = (player: Player<any>, socketIndex: number, 
 
 export const setUpgradeOptimizeGems = (player: Player<any>, optimizeGems: boolean) => patchUpgradeState(player, { optimizeGems }, ['settings']);
 
+export const setUpgradeIncludeInventoryCombos = (player: Player<any>, includeInventoryCombos: boolean) =>
+	patchUpgradeState(player, { includeInventoryCombos }, ['settings']);
+
 export const setUpgradeHideOwnedResults = (player: Player<any>, hideOwnedResults: boolean) =>
 	patchUpgradeState(player, { hideOwnedResults }, ['settings']);
 
@@ -130,8 +135,21 @@ export const setCandidateEnchant = (player: Player<any>, index: number, enchant:
 	);
 };
 
-export const getUpgradeCandidateSimCount = (player: Player<any>): number =>
-	upgradeState(player).candidates.reduce((sum, candidate) => sum + upgradeEligibleSlots(player, candidate).length, 0);
+export const getUpgradeCandidateSimCount = (player: Player<any>): number => {
+	const state = upgradeState(player);
+	if (!state.includeInventoryCombos) return state.candidates.reduce((sum, candidate) => sum + upgradeEligibleSlots(player, candidate).length, 0);
+	// One entry per planned combination; the plain swap builder is enough here because
+	// gems/enchants never change how many sets a family enumerates.
+	const baseGear = player.getGear();
+	const plan = planInventoryCombos(
+		player,
+		baseGear,
+		state.candidates,
+		(candidate, slot) => baseGear.withEquippedItem(slot, candidate.equippedItem),
+		getDefaultGemsByColor(player),
+	);
+	return plan.totalCombos;
+};
 
 // A reference is in effect only when both the toggle and a set name are present; the
 // run loop resolves the name and warns instead of failing when the set is gone.
@@ -140,9 +158,12 @@ export const hasBisReferenceSim = (player: Player<any>): boolean => {
 	return compareBisEnabled && !!bisReferenceName;
 };
 
-// Baseline + one sim per candidate per eligible slot. A BiS reference doubles each
-// of those (every candidate is also simmed on the reference set) and adds one more
-// for the reference set itself.
+// Baseline plus the candidate work: single-swap mode sims each candidate once per
+// eligible slot; inventory-combo mode plans the whole cross product and one bulk run
+// covers each family, but the count shows the combos being evaluated. A BiS reference
+// doubles each of those (every candidate is also simmed on the reference set) and
+// adds one more for the reference set itself. The count is approximate in combo mode
+// — weapon-combo validation can void a few planned sets.
 export const getUpgradeTotalSimCount = (player: Player<any>): number =>
 	1 + getUpgradeCandidateSimCount(player) * (hasBisReferenceSim(player) ? 2 : 1) + (hasBisReferenceSim(player) ? 1 : 0);
 

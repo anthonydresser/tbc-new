@@ -1,4 +1,5 @@
 import i18n from '@i18n/config';
+import { useInventoryState } from '@features/inventory/hooks/useInventoryState';
 import { useSimHost } from '@sim/context/SimHostContext';
 import { usePlayerStore } from '@sim/hooks/usePlayerStore';
 import { formatToNumber } from '@sim/utils/format';
@@ -8,7 +9,14 @@ import { TabPanelColumns } from '@ui-kit/TabPanelColumns';
 import { useStore } from 'zustand';
 
 import { useUpgradeState } from '../../hooks/useUpgradeState';
-import { getUpgradeCandidateSimCount, hasBisReferenceSim, setUpgradeHideNonUpgrades, setUpgradeHideOwnedResults, setUpgradeOptimizeGems } from '../../model/items';
+import {
+	getUpgradeCandidateSimCount,
+	hasBisReferenceSim,
+	setUpgradeHideNonUpgrades,
+	setUpgradeHideOwnedResults,
+	setUpgradeIncludeInventoryCombos,
+	setUpgradeOptimizeGems,
+} from '../../model/items';
 import { runUpgradeSim } from '../../model/run';
 import { CompareBisPicker } from '../CompareBisPicker/CompareBisPicker';
 import { FallbackGemsPicker } from '../FallbackGemsPicker/FallbackGemsPicker';
@@ -24,12 +32,15 @@ export const UpgradeSettings = () => {
 	const player = host.player;
 	const candidates = useUpgradeState(slice => slice.candidates);
 	const optimizeGems = useUpgradeState(slice => slice.optimizeGems);
+	const includeInventoryCombos = useUpgradeState(slice => slice.includeInventoryCombos);
 	const hideOwnedResults = useUpgradeState(slice => slice.hideOwnedResults);
 	const hideNonUpgrades = useUpgradeState(slice => slice.hideNonUpgrades);
 	const isRunning = useUpgradeState(slice => slice.isRunning);
 	const iterations = useStore(player.sim.store, state => state.sim.iterations);
-	// Eligible slots are per-item and per-spec, so gear changes also move the count.
+	// Eligible slots are per-item and per-spec, so gear changes also move the count;
+	// in inventory-combo mode, owned items do too.
 	usePlayerStore('gear');
+	useInventoryState(slice => slice?.v.items);
 
 	const candidateSims = getUpgradeCandidateSimCount(player);
 	const hasBis = hasBisReferenceSim(player);
@@ -64,6 +75,17 @@ export const UpgradeSettings = () => {
 								layout: 'inline',
 								value: optimizeGems,
 								onChange: (newValue: boolean) => setUpgradeOptimizeGems(player, newValue),
+							}}
+						/>
+						<BooleanPicker
+							modObject={player}
+							config={{
+								id: 'upgrade-include-inventory-combos',
+								label: i18n.t('upgrade_tab.settings.include_inventory_combos.label'),
+								labelTooltip: i18n.t('upgrade_tab.settings.include_inventory_combos.tooltip'),
+								layout: 'inline',
+								value: includeInventoryCombos,
+								onChange: (newValue: boolean) => setUpgradeIncludeInventoryCombos(player, newValue),
 							}}
 						/>
 						<BooleanPicker

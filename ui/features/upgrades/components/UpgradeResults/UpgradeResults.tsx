@@ -182,7 +182,24 @@ const UpgradeResultsTable = ({ baseline, bisResult, bisReferenceName, results, o
 									}
 								/>
 							</td>
-							<td>{translateSlotName(result.slot)}</td>
+							<td>
+								{translateSlotName(result.slot)}
+								{/* Set by the inventory-combo search: slots beyond the candidate's own
+								    that the winning combination also swapped from owned items. */}
+								{result.swappedSlots?.length ? (
+									<>
+										{' '}
+										<small
+											className="text-success"
+											data-testid="upgrade-result-swaps"
+											title={i18n.t('upgrade_tab.results.swaps_tooltip', {
+												slots: result.swappedSlots.map(translateSlotName).join(', '),
+											})}>
+											{i18n.t('upgrade_tab.results.swaps_badge')}
+										</small>
+									</>
+								) : null}
+							</td>
 							<td>{formatToNumber(result.dpsMetrics.avg)}</td>
 							{result.equippedAlready ? (
 								// No sim ran: the slot already wears the item and no second copy could

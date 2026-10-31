@@ -10,7 +10,7 @@ import type { UpgradeCandidate, UpgradeResult } from '@sim/upgrade/types';
 import { toastManager } from '@ui-kit/Toast';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { getUpgradeSimSlots, getVisibleUpgradeResults, importInventoryAsCandidates } from './items';
+import { getUpgradeCandidateSimCount, getUpgradeSimSlots, getVisibleUpgradeResults, importInventoryAsCandidates, setUpgradeIncludeInventoryCombos } from './items';
 
 const STORE_KEY = 0;
 
@@ -23,10 +23,10 @@ let player: Player<any>;
 // fake db only has to resolve ids and serve enchants.
 const fakeEquippedItem = (spec: ItemSpec) => {
 	const equippedItem = {
-		item: { id: spec.id, name: `Item ${spec.id}`, type: ItemType.ItemTypeTrinket, classAllowlist: [] },
+		item: { id: spec.id, name: `Item ${spec.id}`, type: ItemType.ItemTypeTrinket, classAllowlist: [], unique: false, limitCategory: 0 },
 		withDynamicStats: () => equippedItem,
 	};
-	return equippedItem;
+	return equippedItem as unknown as UpgradeCandidate['equippedItem'];
 };
 
 beforeEach(() => {
@@ -151,5 +151,49 @@ describe('getUpgradeSimSlots', () => {
 
 	it('simms nothing when a non-unique ring is already worn in both slots', () => {
 		expect(getUpgradeSimSlots(player, gearWearing({ [F1]: 100, [F2]: 100 }), candidateOf(100, ItemType.ItemTypeFinger))).toEqual([]);
+	});
+});
+
+describe('getUpgradeCandidateSimCount', () => {
+	const T1 = ItemSlot.ItemSlotTrinket1;
+	const T2 = ItemSlot.ItemSlotTrinket2;
+
+	// Map-backed gear covering exactly the planner's surface (the fake db resolves
+	// every id as a trinket, so counts come purely from slots, not item types).
+	// Map-backed gear covering exactly the planner's surface; equipped values are
+	// stored whole so withEquippedItem stays an id-agnostic map clone.
+	const gearOfSlots = (slots: Map<ItemSlot, any>): Gear => {
+		const gear = {
+			getItemSlots: () => [...slots.keys()],
+			getEquippedItem: (slot: ItemSlot) => slots.get(slot) ?? null,
+			withEquippedItem: (slot: ItemSlot, item: any) => {
+				const next = new Map(slots);
+				if (item === null) next.delete(slot);
+				else next.set(slot, item);
+				return gearOfSlots(next);
+			},
+			fillSocketsWithGems: () => gear,
+		};
+		return gear as unknown as Gear;
+	};
+	const mapGear = (worn: Array<[ItemSlot, number]>): Gear => gearOfSlots(new Map(worn.map(([slot, id]) => [slot, { item: { id } }])));
+
+	it('counts one sim per eligible slot with the option off', () => {
+		upgradeState(player).candidates = [
+			{ spec: ItemSpec.create({ id: 100 }), equippedItem: fakeEquippedItem(ItemSpec.create({ id: 100 })), selectedEnchant: null },
+		];
+		expect(getUpgradeCandidateSimCount(player)).toBe(2); // T1 + T2
+	});
+
+	it('counts planned combinations with the option on', () => {
+		(player as any).getGear = () => mapGear([]);
+		patchInventoryState(player, { items: [ItemSpec.create({ id: 200 })] }, ['items']);
+		upgradeState(player).candidates = [
+			{ spec: ItemSpec.create({ id: 100 }), equippedItem: fakeEquippedItem(ItemSpec.create({ id: 100 })), selectedEnchant: null },
+		];
+		setUpgradeIncludeInventoryCombos(player, true);
+		// Plain swap per slot (2) plus the owned trinket swapped into the other slot
+		// while the candidate occupies this one (1 per slot).
+		expect(getUpgradeCandidateSimCount(player)).toBe(4);
 	});
 });

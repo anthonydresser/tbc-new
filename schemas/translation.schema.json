@@ -3764,6 +3764,15 @@
 							"additionalProperties": false,
 							"required": ["label", "tooltip"]
 						},
+						"include_inventory_combos": {
+							"type": "object",
+							"properties": {
+								"label": { "type": "string" },
+								"tooltip": { "type": "string" }
+							},
+							"additionalProperties": false,
+							"required": ["label", "tooltip"]
+						},
 						"hide_owned_results": {
 							"type": "object",
 							"properties": {
@@ -3805,6 +3814,7 @@
 						"sim_count_singular",
 						"sim_count_bis_reference",
 						"optimize_gems",
+						"include_inventory_combos",
 						"hide_owned_results",
 						"hide_non_upgrades",
 						"compare_bis"
@@ -3889,7 +3899,9 @@
 						"export_addon_button": { "type": "string" },
 						"export_addon_tooltip_disabled": { "type": "string" },
 						"export_addon_title": { "type": "string" },
-						"equipped_badge": { "type": "string" }
+						"equipped_badge": { "type": "string" },
+						"swaps_badge": { "type": "string" },
+						"swaps_tooltip": { "type": "string" }
 					},
 					"additionalProperties": false,
 					"required": [
@@ -3915,7 +3927,9 @@
 						"export_addon_button",
 						"export_addon_tooltip_disabled",
 						"export_addon_title",
-						"equipped_badge"
+						"equipped_badge",
+						"swaps_badge",
+						"swaps_tooltip"
 					]
 				}
 			},

@@ -1092,6 +1092,10 @@
 				"label": "Optimize gems per item",
 				"tooltip": "Re-solve the optimal gem configuration for each candidate item before simming. Slower, but more accurate when a new item changes gemming choices."
 			},
+			"include_inventory_combos": {
+				"label": "Include inventory combinations",
+				"tooltip": "Batch sim each candidate together with combinations of owned inventory items swapped into other slots; the best combination wins the row. Gem handling still follows the Optimize gems option. Significantly slower with a large inventory."
+			},
 			"hide_owned_results": {
 				"label": "Hide owned items",
 				"tooltip": "Hide results for items already marked as owned in your inventory."
@@ -1160,7 +1164,9 @@
 			"export_addon_button": "Export to Addon",
 			"export_addon_tooltip_disabled": "Run a simulation to export results.",
 			"export_addon_title": "WoWSims Upgrade List Export",
-			"equipped_badge": "EQUIPPED"
+			"equipped_badge": "EQUIPPED",
+			"swaps_badge": "+SWAPS",
+			"swaps_tooltip": "The best result also swaps these slots with owned inventory items: {{slots}}"
 		}
 	},
 	"rotation_tab": {
