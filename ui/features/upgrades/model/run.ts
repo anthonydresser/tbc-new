@@ -4,6 +4,7 @@
 // selected, the loop also sims the reference set and swaps every candidate into it.
 import { EquipmentSpec, type ItemSlot } from '@generated/proto/common';
 import i18n from '@i18n/config';
+import { cleanBulkDpsMetrics } from '@sim/bulk/utils';
 import type { Gear } from '@sim/proto/gear';
 import { frozenGemSocketSet } from '@sim/proto/items';
 import { patchUpgradeState, storeUpgradeRunState, upgradeState } from '@sim/settings/upgrade_settings';
@@ -14,6 +15,7 @@ import { toastManager } from '@ui-kit/Toast';
 
 import { trackEvent } from '../../../tracking/utils';
 import { resolveBisReferenceGear } from './bis_reference';
+import { bestComboResultForCandidate, planInventoryCombos } from './inventory_combos';
 import { getDefaultGemsByColor, getUpgradeSimSlots, upgradeEligibleSlots } from './items';
 
 export interface UpgradeProgress {
@@ -160,8 +162,11 @@ const abortUpgradeSimWork = async (host: IndividualSimHost<any>) => {
 
 	run.abortPromise = (async () => {
 		// Upgrade sims register as IndividualSim (via runGearSim); the gem pre-pass
-		// registers as ReforgeOptimize. Aborting more would cancel an unrelated run.
-		const abortTasks: Promise<unknown>[] = [host.sim.signalManager.abortType(RequestTypes.IndividualSim | RequestTypes.ReforgeOptimize)];
+		// registers as ReforgeOptimize; the inventory-combos mode runs its batch
+		// through BulkSim. Aborting more would cancel an unrelated run.
+		const abortTasks: Promise<unknown>[] = [
+			host.sim.signalManager.abortType(RequestTypes.IndividualSim | RequestTypes.ReforgeOptimize | RequestTypes.BulkSim),
+		];
 		if (host.reforger) {
 			abortTasks.push(host.reforger.abortReforgeOptimization());
 		}
@@ -218,9 +223,41 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 	// item and no second copy could be worn) are not simmed and don't count.
 	const originalGear = player.getGear();
 
+	// With inventory combos on, each candidate's combo family runs as ONE bulk call,
+	// so it counts as one run regardless of family size. The plan is a snapshot of the
+	// inventory and gear at run start; a mid-run gear edit can only skew bulk's
+	// internal baseline, never a displayed delta (those use the run's own baseline sim).
+	const frozenSockets = host.reforger ? new Set(frozenGemSocketSet(host.reforger.settings.toProto())) : undefined;
+	const comboPlan = state.includeInventoryCombos
+		? planInventoryCombos(
+				player,
+				originalGear,
+				candidates,
+				(candidate, slot) => buildUpgradeCandidateGear(host, originalGear, candidate, slot, true),
+				getDefaultGemsByColor(player),
+				frozenSockets,
+			)
+		: null;
+	if (comboPlan?.truncated) {
+		toastManager.add({
+			delay: 4000,
+			variant: 'warning',
+			body: i18n.t('upgrade_tab.notifications.combos_capped'),
+		});
+	}
+
 	let candidateRuns = 0;
-	candidates.forEach(candidate => {
-		getUpgradeSimSlots(player, originalGear, candidate).forEach(slot => {
+	candidates.forEach((candidate, candidateIndex) => {
+		const simSlots = getUpgradeSimSlots(player, originalGear, candidate);
+		const comboEntries = comboPlan?.byCandidate[candidateIndex] ?? [];
+		if (comboEntries.length > 1) {
+			// The bulk call is one run; the BiS swap sims only the winning slot, which is
+			// unknown up front, so count one unless every slot is an identity swap.
+			candidateRuns += 1;
+			if (bisGear && simSlots.some(slot => !isBisIdentitySwap(candidate, slot))) candidateRuns += 1;
+			return;
+		}
+		simSlots.forEach(slot => {
 			candidateRuns += 1 + (bisGear && !isBisIdentitySwap(candidate, slot) ? 1 : 0);
 		});
 	});
@@ -267,7 +304,82 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 
 		const candidateResults: UpgradeResult[] = [];
 
-		for (const candidate of candidates) {
+		for (const [candidateIndex, candidate] of candidates.entries()) {
+			// Inventory-combo mode: one bulk call covers the plain swap and every planned
+			// inventory-swap combination of this candidate (topResults is capped and
+			// staged culling drops losers, so each candidate gets its own call). The best
+			// combo wins the row; its plan entry already carries the gear, the winning
+			// slot and which other slots changed — nothing is re-derived from the result.
+			const comboEntries = comboPlan?.byCandidate[candidateIndex] ?? [];
+			if (comboEntries.length > 1) {
+				throwIfUpgradeAborted(host, abortSignal);
+				setSimulationProgress(
+					host,
+					currentRun,
+					totalRuns,
+					i18n.t('upgrade_tab.progress.combos', { itemName: candidate.equippedItem.item.name }),
+				);
+				// Gem optimization applies iff the upgrade finder's own toggle is on
+				// (the bulk gem pre-pass consumes the same reforge config).
+				const reforgeConfig =
+					state.optimizeGems && host.reforger ? host.reforger.getReforgeOptimizeConfig(originalGear) : undefined;
+				// bulkSettings is deliberately omitted: on a native backend it would switch
+				// candidate generation to the backend and discard our planned gear sets.
+				const bulkResult = await runWithUpgradeAbort(
+					host,
+					sim.runBulkSim(
+						comboEntries.map(entry => entry.gear),
+						() => {},
+						reforgeConfig,
+						undefined,
+						undefined,
+						abortSignal,
+					),
+					abortSignal,
+				);
+				if (!bulkResult || 'type' in bulkResult) {
+					throw new Error(bulkResult?.message);
+				}
+				const best = bestComboResultForCandidate(bulkResult.topResults, comboEntries);
+				if (best) {
+					// BiS comparison stays single-swap (no combos on the reference set), on
+					// the winning slot. A pre-count sim slot that turns out identity here
+					// merely leaves the progress total one short.
+					let bisDelta: number | undefined = undefined;
+					const slot = best.entry.slot;
+					if (bisGear && bisResult) {
+						if (isBisIdentitySwap(candidate, slot)) {
+							bisDelta = 0;
+						} else {
+							let bisCandidateGear = buildUpgradeCandidateGear(host, bisGear, candidate, slot, false);
+							if (state.optimizeGems && host.reforger) {
+								bisCandidateGear = await runWithUpgradeAbort(host, host.reforger.optimizeReforges(bisCandidateGear), abortSignal);
+							}
+							setSimulationProgress(
+								host,
+								currentRun + 1,
+								totalRuns,
+								i18n.t('upgrade_tab.progress.item_on_bis', { itemName: candidate.equippedItem.item.name }),
+							);
+							const bisMetrics = await runSingleGearSim(host, bisCandidateGear, abortSignal);
+							bisDelta = bisMetrics.avg - bisResult.dpsMetrics.avg;
+							currentRun++;
+						}
+					}
+					candidateResults.push({
+						item: candidate.equippedItem,
+						slot,
+						gear: best.entry.gear,
+						dpsMetrics: cleanBulkDpsMetrics(best.dpsMetrics),
+						delta: best.dpsMetrics.avg - baselineDps.avg,
+						bisDelta,
+						swappedSlots: best.entry.swappedSlots.length ? best.entry.swappedSlots : undefined,
+					});
+				}
+				currentRun++;
+				continue;
+			}
+
 			let bestResult: UpgradeResult | null = null;
 
 			const eligibleSlots = upgradeEligibleSlots(player, candidate);

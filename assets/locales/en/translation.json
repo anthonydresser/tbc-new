@@ -1123,7 +1123,8 @@
 			"item": "Simming {{itemName}}",
 			"optimize_gems": "Optimizing gems for {{itemName}}",
 			"bis_reference": "Simming reference set",
-			"item_on_bis": "Simming {{itemName}} on reference set"
+			"item_on_bis": "Simming {{itemName}} on reference set",
+			"combos": "Evaluating gear combinations for {{itemName}}"
 		},
 		"notifications": {
 			"item_duplicate": "That item is already in the upgrade list.",
@@ -1133,7 +1134,8 @@
 			"enchants_copied": "Copied {{applied}} enchants from equipped gear ({{skipped}} already matched).",
 			"enchants_no_match": "No applicable enchants found on currently equipped gear.",
 			"busy_while_running": "Finish or cancel the running simulation before changing the item list.",
-			"bis_set_missing": "The selected gear set \"{{name}}\" no longer exists; results will not include a BiS comparison."
+			"bis_set_missing": "The selected gear set \"{{name}}\" no longer exists; results will not include a BiS comparison.",
+			"combos_capped": "Too many owned-item combinations: the search was capped, so the best combination found may improve with fewer inventory slots populated."
 		},
 		"results": {
 			"run_simulation": "Run a simulation to view results",

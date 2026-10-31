@@ -275,7 +275,7 @@ describe('bestComboResultForCandidate', () => {
 		const entries = plan.byCandidate[0];
 		const best = bestComboResultForCandidate([topOf(0, 10), topOf(2, 99), topOf(1, 50)], entries);
 		expect(best!.entry).toBe(entries[2]);
-		expect(best!.dpsAvg).toBe(99);
+		expect(best!.dpsMetrics.avg).toBe(99);
 	});
 
 	it('ignores results that resolve to no plan entry or metrics, and tolerates emptiness', () => {

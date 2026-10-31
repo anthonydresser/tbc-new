@@ -3,7 +3,7 @@
 // within hard caps. The upgrade run loop hands each candidate's combo family to one
 // `runBulkSim` call, so a weak inventory combo is culled cheaply by the bulk staging
 // while the candidate's best survives to full iterations.
-import type { BulkGearResult } from '@generated/proto/api';
+import type { BulkGearResult, DistributionMetrics } from '@generated/proto/api';
 import { GemColor, type ItemSlot } from '@generated/proto/common';
 import type { UIGem as Gem } from '@generated/proto/ui';
 import type { Player } from '@sim/player/player';
@@ -221,14 +221,14 @@ export const planInventoryCombos = (
 export const bestComboResultForCandidate = (
 	topResults: Array<BulkGearResult>,
 	planEntries: Array<InventoryComboPlanEntry>,
-): { entry: InventoryComboPlanEntry; dpsAvg: number } | null => {
-	let best: { entry: InventoryComboPlanEntry; dpsAvg: number } | null = null;
+): { entry: InventoryComboPlanEntry; dpsMetrics: DistributionMetrics } | null => {
+	let best: { entry: InventoryComboPlanEntry; dpsMetrics: DistributionMetrics } | null = null;
 	for (const topResult of topResults) {
-		const dpsAvg = topResult.dpsMetrics?.avg;
-		if (dpsAvg == null) continue;
+		const dpsMetrics = topResult.dpsMetrics;
+		if (!dpsMetrics) continue;
 		const entry = planEntries[topResult.candidateIndex];
 		if (!entry) continue;
-		if (!best || dpsAvg > best.dpsAvg) best = { entry, dpsAvg };
+		if (!best || dpsMetrics.avg > best.dpsMetrics.avg) best = { entry, dpsMetrics };
 	}
 	return best;
 };
