@@ -252,6 +252,9 @@ export interface UpgradeSlice {
 	// Unlike bulk's (default ON) this one is default OFF: a candidate is shown as
 	// authored unless the user asks the optimizer to regem the whole set per sim.
 	optimizeGems: boolean;
+	// When on, candidates are simmed against multi-slot combinations with owned
+	// inventory items (best combo wins the row); when off, single swap only.
+	includeInventoryCombos: boolean;
 	// The BiS comparison: one extra sim of the named reference set (an authored preset
 	// or a gear tab saved set), and each candidate also simmed swapped into it. The
 	// name is the user's pick; the boolean records which source the name resolved in.

@@ -34,6 +34,7 @@ const initialUpgradeSlice = (): UpgradeSlice => ({
 	candidates: [],
 	fallbackGemIds: Array.from({ length: FALLBACK_GEM_COLORS.length }, () => 0),
 	optimizeGems: false,
+	includeInventoryCombos: false,
 	compareBisEnabled: false,
 	bisReferenceName: '',
 	bisReferenceIsPreset: false,
@@ -89,6 +90,7 @@ export const serializeUpgradeRunState = (player: Player<any>, name = ''): SavedU
 		}),
 		fallbackGems: state.fallbackGemIds.slice(),
 		optimizeGems: state.optimizeGems,
+		includeInventoryCombos: state.includeInventoryCombos,
 		compareBisEnabled: state.compareBisEnabled,
 		bisReferenceName: state.bisReferenceName,
 		bisReferenceIsPreset: state.bisReferenceIsPreset,
@@ -104,6 +106,7 @@ export const serializeUpgradeRunState = (player: Player<any>, name = ''): SavedU
 			delta: result.delta,
 			bisDelta: result.bisDelta,
 			equippedAlready: result.equippedAlready || undefined,
+			swappedSlots: result.swappedSlots,
 		})),
 	};
 };
@@ -248,6 +251,8 @@ export const applyUpgradeRunState = async (
 				// Runs saved before the per-candidate reference sim have no stored bisDelta.
 				bisDelta: typeof resultJson.bisDelta === 'number' ? resultJson.bisDelta : undefined,
 				equippedAlready: resultJson.equippedAlready === true || undefined,
+				// Saved before the inventory-combo feature.
+				swappedSlots: Array.isArray(resultJson.swappedSlots) ? (resultJson.swappedSlots as ItemSlot[]) : undefined,
 			});
 		} catch (error) {
 			console.warn('Saved upgrade run: failed to restore result:', resultJson?.item, error);
@@ -261,6 +266,7 @@ export const applyUpgradeRunState = async (
 			candidates,
 			fallbackGemIds,
 			optimizeGems: run.optimizeGems ?? false,
+			includeInventoryCombos: run.includeInventoryCombos ?? false,
 			compareBisEnabled: run.compareBisEnabled ?? false,
 			bisReferenceName: run.bisReferenceName ?? '',
 			bisReferenceIsPreset: run.bisReferenceIsPreset ?? false,
@@ -296,6 +302,7 @@ export const loadStoredUpgradeRunState = (player: Player<any>): SavedUpgradeRun 
 			items: parsed.items,
 			fallbackGems: parsed.fallbackGems ?? [],
 			optimizeGems: parsed.optimizeGems ?? false,
+			includeInventoryCombos: parsed.includeInventoryCombos ?? false,
 			compareBisEnabled: parsed.compareBisEnabled ?? false,
 			bisReferenceName: parsed.bisReferenceName ?? '',
 			bisReferenceIsPreset: parsed.bisReferenceIsPreset ?? false,
@@ -332,6 +339,7 @@ export const upgradeRunFromJson = (obj: any): SavedUpgradeRun => {
 		items: obj.items,
 		fallbackGems: obj.fallbackGems ?? [],
 		optimizeGems: obj.optimizeGems ?? false,
+		includeInventoryCombos: obj.includeInventoryCombos ?? false,
 		compareBisEnabled: obj.compareBisEnabled ?? false,
 		bisReferenceName: obj.bisReferenceName ?? '',
 		bisReferenceIsPreset: obj.bisReferenceIsPreset ?? false,

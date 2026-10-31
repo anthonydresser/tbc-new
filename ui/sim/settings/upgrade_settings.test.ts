@@ -10,6 +10,7 @@ const baseRun = (overrides: Partial<SavedUpgradeRun> = {}): SavedUpgradeRun => (
 	items: [ItemSpec.toJson(ItemSpec.create({ id: 100 })) as Record<string, any>],
 	fallbackGems: [0, 0, 0, 0, 0],
 	optimizeGems: false,
+	includeInventoryCombos: false,
 	compareBisEnabled: false,
 	bisReferenceName: '',
 	bisReferenceIsPreset: false,

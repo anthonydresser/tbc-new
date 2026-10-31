@@ -36,6 +36,11 @@ export interface UpgradeResult {
 	// unique-equipped, or it fits only slots that already wear it). Delta is 0 by
 	// definition; the row is a marker, and it is never exported.
 	equippedAlready?: boolean;
+	// Slots beyond `slot` that the winning gear set changed via the inventory-combo
+	// search (empty/absent when the win was the plain single swap). Explicit field,
+	// not diff-derived: diffing result gear vs baseline is ambiguous for two
+	// identical non-unique rings.
+	swappedSlots?: Array<ItemSlot>;
 }
 
 // The JSON blob: item/gear entries are protobuf-JSON objects (any), so they round
@@ -47,6 +52,7 @@ export interface SavedUpgradeRun {
 	items: Array<Record<string, unknown>>;
 	fallbackGems: Array<number>;
 	optimizeGems: boolean;
+	includeInventoryCombos: boolean;
 	compareBisEnabled: boolean;
 	bisReferenceName: string;
 	bisReferenceIsPreset: boolean;
