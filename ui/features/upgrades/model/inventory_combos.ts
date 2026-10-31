@@ -4,7 +4,7 @@
 // `runBulkSim` call, so a weak inventory combo is culled cheaply by the bulk staging
 // while the candidate's best survives to full iterations.
 import type { BulkGearResult, DistributionMetrics } from '@generated/proto/api';
-import { GemColor, type ItemSlot } from '@generated/proto/common';
+import { GemColor, ItemSlot, ItemSpec } from '@generated/proto/common';
 import type { UIGem as Gem } from '@generated/proto/ui';
 import type { Player } from '@sim/player/player';
 import type { EquippedItem } from '@sim/proto/equipped_item';
@@ -23,6 +23,33 @@ export const INVENTORY_COMBO_MAX_TOTAL = 500;
 // conflicts/skips kept the produced count low (conflicting items can make the
 // family large while producing nothing).
 export const INVENTORY_COMBO_MAX_SCANS_PER_CANDIDATE = 512;
+
+// Fingers are interchangeable, as are trinkets: ring A in Finger1 + ring B in
+// Finger2 sims the exact same gear set as A in Finger2 + B in Finger1. Combos that
+// differ only in the ordering inside one of these pairs collapse to one entry.
+const INTERCHANGEABLE_SLOTS: ReadonlyArray<ReadonlyArray<ItemSlot>> = [
+	[ItemSlot.ItemSlotFinger1, ItemSlot.ItemSlotFinger2],
+	[ItemSlot.ItemSlotTrinket1, ItemSlot.ItemSlotTrinket2],
+];
+
+/**
+ * Canonical identity of a combo independent of interchangeable slot order: per
+ * interchangeable group, the sorted list of item specs in the group; every other
+ * slot contributes a slot-keyed entry. Two combos with the same key are one sim.
+ */
+const comboIdentityKey = (gear: Gear): string => {
+	const interchangeable = new Set<ItemSlot>(INTERCHANGEABLE_SLOTS.flatMap(group => [...group]));
+	const itemKey = (slot: ItemSlot): string => {
+		const item = gear.getEquippedItem(slot);
+		return item ? ItemSpec.toJsonString(item.asSpec()) : 'empty';
+	};
+	const parts: Array<string> = INTERCHANGEABLE_SLOTS.map(group => group.map(itemKey).sort().join('&'));
+	for (const slot of gear.getItemSlots()) {
+		if (interchangeable.has(slot)) continue;
+		parts.push(`${slot}:${itemKey(slot)}`);
+	}
+	return parts.join('|');
+};
 
 export interface InventoryComboPlanEntry {
 	candidateIndex: number;
@@ -142,8 +169,14 @@ export const planInventoryCombos = (
 		// Plain swaps for every sim slot come first: when the combo cap cuts the
 		// enumeration short, the new results still contain the old behavior's set.
 		const simSlots = getUpgradeSimSlots(player, baseGear, candidate);
+		// Seen gear sets of this family; interchangeable slot pairs never double-sim.
+		const seenComboKeys = new Set<string>();
 		for (const slot of simSlots) {
-			entries.push({ candidateIndex, slot, gear: buildCandidateGear(candidate, slot), swappedSlots: [] });
+			const gear = buildCandidateGear(candidate, slot);
+			const key = comboIdentityKey(gear);
+			if (seenComboKeys.has(key)) continue;
+			seenComboKeys.add(key);
+			entries.push({ candidateIndex, slot, gear, swappedSlots: [] });
 			totalCombos++;
 		}
 
@@ -198,6 +231,13 @@ export const planInventoryCombos = (
 				comboGear = comboGear.fillSocketsWithGems(fallbackGems, frozenSockets);
 
 				if (!isComboIntact(baseGear, comboGear, candidate.spec.id, slot, swapped)) continue;
+
+				// Interchangeable pair permutations of an already-planned set are the
+				// same sim (e.g. candidate in Finger1 + owned ring in Finger2 vs. the
+				// reverse); the first encountered orientation wins.
+				const key = comboIdentityKey(comboGear);
+				if (seenComboKeys.has(key)) continue;
+				seenComboKeys.add(key);
 
 				entries.push({ candidateIndex, slot, gear: comboGear, swappedSlots: swapped.map(([s]) => s) });
 				totalCombos++;

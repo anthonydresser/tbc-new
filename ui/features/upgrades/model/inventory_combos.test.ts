@@ -50,6 +50,7 @@ const fakeGearOf = (worn: Array<[ItemSlot, EquippedItem]>, fillCount = 0): FakeG
 const fakeEquippedItemOf = (id: number): EquippedItem => {
 	const def = itemDefs[id];
 	const equippedItem = {
+		asSpec: () => ItemSpec.create({ id }),
 		item: {
 			id,
 			name: `Item ${id}`,
@@ -138,15 +139,13 @@ describe('planInventoryCombos', () => {
 	const buildCandidateGear = (baseGear: Gear) => (candidate: UpgradeCandidate, slot: ItemSlot) =>
 		baseGear.withEquippedItem(slot, candidate.equippedItem) as FakeGear;
 
-	it('without an inventory, yields exactly the plain swaps per sim slot', () => {
+	it('without an inventory, collapses interchangeable plain swaps to one', () => {
 		itemDefs[200] = { type: ItemType.ItemTypeTrinket };
 		const baseGear = fakeGearOf([]);
 		const plan = planInventoryCombos(player, baseGear, [candidateOf(200)], buildCandidateGear(baseGear), NO_FILL);
-		expect(plan.totalCombos).toBe(2); // T1 and T2 plain swaps
-		expect(plan.byCandidate[0].map(e => [e.slot, e.swappedSlots])).toEqual([
-			[T1, []],
-			[T2, []],
-		]);
+		// T1 and T2 plain swaps are the same gear set; the first orientation wins.
+		expect(plan.totalCombos).toBe(1);
+		expect(plan.byCandidate[0].map(e => [e.slot, e.swappedSlots])).toEqual([[T1, []]]);
 		expect(plan.truncated).toBe(false);
 	});
 
@@ -156,10 +155,11 @@ describe('planInventoryCombos', () => {
 		own([100]); // one ring
 		const baseGear = fakeGearOf([[HEAD, fakeEquippedItemOf(201)]]);
 		const plan = planInventoryCombos(player, baseGear, [candidateOf(200)], buildCandidateGear(baseGear), NO_FILL);
-		// plain + ring-in-F1 + ring-in-F2 + the same (non-unique) ring in both fingers
-		expect(plan.byCandidate[0].length).toBe(4);
+		// plain + ring-in-one-finger (F2 orientation wins; F1 is the same set) + the
+		// same (non-unique) ring in both fingers
+		expect(plan.byCandidate[0].length).toBe(3);
 		expect(plan.byCandidate[0][0].swappedSlots).toEqual([]);
-		expect(plan.byCandidate[0].slice(1).map(e => e.swappedSlots)).toEqual([[F2], [F1], [F1, F2]]);
+		expect(plan.byCandidate[0].slice(1).map(e => e.swappedSlots)).toEqual([[F2], [F1, F2]]);
 		for (const entry of plan.byCandidate[0].slice(1)) {
 			expect((entry.gear as FakeGear).fillCount).toBe(1);
 		}
@@ -170,8 +170,8 @@ describe('planInventoryCombos', () => {
 		own([100, 101]); // two non-unique rings
 		const baseGear = fakeGearOf([]);
 		const plan = planInventoryCombos(player, baseGear, [candidateOf(200)], buildCandidateGear(baseGear), NO_FILL);
-		// plain + (3x3 - 1) ring combinations
-		expect(plan.byCandidate[0].length).toBe(9);
+		// plain + unordered ring multisets: {100}, {101}, {100,100}, {100,101}, {101,101}
+		expect(plan.byCandidate[0].length).toBe(6);
 		expect(plan.byCandidate[0].some(e => e.swappedSlots.length === 2)).toBe(true);
 	});
 
@@ -196,10 +196,7 @@ describe('planInventoryCombos', () => {
 		// Candidate IS the same unique ring: candidate slot occupied by it, so swapping
 		// the other finger to the same id must not appear.
 		const planF1 = planInventoryCombos(player, baseGear, [candidateOf(100)], buildCandidateGear(baseGear), NO_FILL);
-		expect(planF1.byCandidate[0].map(e => [e.slot, e.swappedSlots])).toEqual([
-			[F1, []],
-			[F2, []],
-		]);
+		expect(planF1.byCandidate[0].map(e => [e.slot, e.swappedSlots])).toEqual([[F1, []]]);
 	});
 
 	it('skips combos conflicting on a shared limit category', () => {
@@ -224,11 +221,10 @@ describe('planInventoryCombos', () => {
 		own([100]);
 		const baseGear = fakeGearOf([]);
 		const plan = planInventoryCombos(player, baseGear, [candidateOf(100)], buildCandidateGear(baseGear), NO_FILL);
+		// The second finger's orientations are the same gear sets and dedupe away.
 		expect(plan.byCandidate[0].map(e => [e.slot, e.swappedSlots])).toEqual([
 			[F1, []],
-			[F2, []],
 			[F1, [F2]],
-			[F2, [F1]],
 		]);
 	});
 

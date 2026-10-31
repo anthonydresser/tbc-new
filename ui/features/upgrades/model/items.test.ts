@@ -23,6 +23,7 @@ let player: Player<any>;
 // fake db only has to resolve ids and serve enchants.
 const fakeEquippedItem = (spec: ItemSpec) => {
 	const equippedItem = {
+		asSpec: () => ItemSpec.create({ id: spec.id }),
 		item: { id: spec.id, name: `Item ${spec.id}`, type: ItemType.ItemTypeTrinket, classAllowlist: [], unique: false, limitCategory: 0 },
 		withDynamicStats: () => equippedItem,
 	};
@@ -176,7 +177,8 @@ describe('getUpgradeCandidateSimCount', () => {
 		};
 		return gear as unknown as Gear;
 	};
-	const mapGear = (worn: Array<[ItemSlot, number]>): Gear => gearOfSlots(new Map(worn.map(([slot, id]) => [slot, { item: { id } }])));
+	const mapGear = (worn: Array<[ItemSlot, number]>): Gear =>
+		gearOfSlots(new Map(worn.map(([slot, id]) => [slot, { item: { id }, asSpec: () => ItemSpec.create({ id }) }])));
 
 	it('counts one sim per eligible slot with the option off', () => {
 		upgradeState(player).candidates = [
@@ -192,8 +194,8 @@ describe('getUpgradeCandidateSimCount', () => {
 			{ spec: ItemSpec.create({ id: 100 }), equippedItem: fakeEquippedItem(ItemSpec.create({ id: 100 })), selectedEnchant: null },
 		];
 		setUpgradeIncludeInventoryCombos(player, true);
-		// Plain swap per slot (2) plus the owned trinket swapped into the other slot
-		// while the candidate occupies this one (1 per slot).
-		expect(getUpgradeCandidateSimCount(player)).toBe(4);
+		// Interchangeable trinket slots dedupe: one plain swap plus one combo with the
+		// owned trinket in the other slot.
+		expect(getUpgradeCandidateSimCount(player)).toBe(2);
 	});
 });

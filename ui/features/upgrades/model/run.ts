@@ -250,7 +250,7 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 	candidates.forEach((candidate, candidateIndex) => {
 		const simSlots = getUpgradeSimSlots(player, originalGear, candidate);
 		const comboEntries = comboPlan?.byCandidate[candidateIndex] ?? [];
-		if (comboEntries.length > 1) {
+		if (comboEntries.length >= 1) {
 			// The bulk call is one run; the BiS swap sims only the winning slot, which is
 			// unknown up front, so count one unless every slot is an identity swap.
 			candidateRuns += 1;
@@ -311,7 +311,10 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 			// combo wins the row; its plan entry already carries the gear, the winning
 			// slot and which other slots changed — nothing is re-derived from the result.
 			const comboEntries = comboPlan?.byCandidate[candidateIndex] ?? [];
-			if (comboEntries.length > 1) {
+			// >= 1, not > 1: interchangeable pairs (rings/trinkets) can dedupe a family
+			// down to a single entry, and that one must still go through the plan path —
+			// falling through to the sequential per-slot path would sim both orientations.
+			if (comboEntries.length >= 1) {
 				throwIfUpgradeAborted(host, abortSignal);
 				setSimulationProgress(
 					host,
