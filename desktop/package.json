@@ -1,0 +1,35 @@
+{
+	"name": "wowsimtbc-desktop",
+	"private": true,
+	"version": "0.1.0",
+	"description": "Electron shell around the wowsimtbc standalone server binary",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron .",
+		"dist": "electron-builder"
+	},
+	"build": {
+		"appId": "com.wowsims.tbc",
+		"productName": "WoWSims TBC",
+		"files": [
+			"main.js",
+			"package.json"
+		],
+		"extraResources": [
+			{
+				"from": "../wowsimtbc-windows.exe",
+				"to": "bin/wowsimtbc.exe"
+			}
+		],
+		"win": {
+			"target": [
+				"portable"
+			]
+		}
+	},
+	"devDependencies": {
+		"electron": "^33.0.0",
+		"electron-builder": "^25.0.0",
+		"electron-packager": "^17.1.2"
+	}
+}
