@@ -7,17 +7,18 @@ import { usePlayerStore } from '@sim/hooks/usePlayerStore';
 import { Accordion, AccordionItem } from '@ui-kit/Accordion';
 import { BooleanPicker } from '@ui-kit/BooleanPicker';
 import { Button } from '@ui-kit/Button';
+import { ConfirmPopover } from '@ui-kit/ConfirmPopover';
 import { EnumPicker } from '@ui-kit/EnumPicker';
 import { TabPanelColumns } from '@ui-kit/TabPanelColumns';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { trackEvent } from '../../../../tracking/utils';
 import { BULK_SETTINGS_GROUP, useBulkSettingsGroups } from '../../hooks/useBulkSettingsGroups';
 import { useBulkState } from '../../hooks/useBulkState';
-import { bulkCombinationsLimit } from '../../model/limits';
+import { bulkCombinationsLimit, bulkIterationsLimit } from '../../model/limits';
 import { frozenItemSlot } from '../../model/picker_groups';
 import { runBulkBatch } from '../../model/run';
-import { canRunBatch } from '../../model/selectors';
+import { batchNeedsConfirm, canRunBatch } from '../../model/selectors';
 import { setBulkFrozenItem, setBulkFrozenWeaponSlot, setBulkOptimizeGems, setBulkUseLegacyBulkSim } from '../../model/settings';
 import { BulkStatConstraints } from '../BulkStatConstraints';
 import { BulkEnchants } from './BulkEnchants';
@@ -56,9 +57,14 @@ export const BulkSettings = () => {
 	const frozenWeaponSlot = useBulkState(slice => slice.frozenWeaponSlot);
 	const useLegacyBulkSim = useBulkState(slice => slice.useLegacyBulkSim);
 	const optimizeGems = useBulkState(slice => slice.optimizeGems);
-	const canRun = useBulkState(slice => canRunBatch(slice, bulkCombinationsLimit(player.sim.isNative)));
+	const canRun = useBulkState(slice => canRunBatch(slice));
+	const needsConfirm = useBulkState(slice =>
+		batchNeedsConfirm(slice, bulkCombinationsLimit(player.sim.isNative), bulkIterationsLimit(player.sim.isNative)),
+	);
 	const gear = usePlayerStore('gear');
 	const [openGroups, setOpenGroups] = useBulkSettingsGroups();
+	const [confirmOpen, setConfirmOpen] = useState(false);
+	const runButtonRef = useRef<HTMLDivElement>(null);
 
 	// Clearing a frozen item whose slot no longer holds it writes to the store; that is not safe
 	// during render, so it runs in an effect after render instead.
@@ -87,9 +93,23 @@ export const BulkSettings = () => {
 			<div className="sticky top-sim-header pt-6 lg:max-h-bulk-settings-max-h lg:overflow-y-auto">
 				<div className="grid gap-6 border border-border bg-background p-4" data-testid="bulk-settings-container">
 					<CombinationsCount />
-					<Button data-testid="bulk-settings-btn" disabled={!canRun} onClick={() => void runBulkBatch(host)}>
-						{i18n.t('bulk_tab.actions.simulate_batch')}
-					</Button>
+					<div ref={runButtonRef}>
+						<Button
+							data-testid="bulk-settings-btn"
+							disabled={!canRun}
+							onClick={() => (needsConfirm ? setConfirmOpen(true) : void runBulkBatch(host))}>
+							{i18n.t('bulk_tab.actions.simulate_batch')}
+						</Button>
+					</div>
+					<ConfirmPopover
+						open={confirmOpen}
+						onOpenChange={setConfirmOpen}
+						anchor={runButtonRef}
+						confirmLabel={i18n.t('bulk_tab.warning.over_limit_confirm')}
+						onConfirm={() => void runBulkBatch(host)}
+						testId="bulk-over-limit-confirm">
+						{i18n.t('bulk_tab.warning.over_limit_message')}
+					</ConfirmPopover>
 					<Accordion value={openGroups} onValueChange={setOpenGroups}>
 						<AccordionItem
 							value={BULK_SETTINGS_GROUP.options}

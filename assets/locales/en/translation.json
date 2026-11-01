@@ -1000,7 +1000,9 @@
 			"failed_to_remove_item": "Failed to remove item, please report this issue."
 		},
 		"warning": {
-			"iterations_limit": "Simming over {{limit}} iterations in the sim will take a long time or may not run at all. For larger batch sims we recommend downloading the executable and running on your machine."
+			"iterations_limit": "Simming over {{limit}} iterations in the sim will take a long time or may not run at all. For larger batch sims we recommend downloading the executable and running on your machine.",
+			"over_limit_message": "This batch is above the recommended size for this sim and may take a very long time or fail to complete. Run it anyway?",
+			"over_limit_confirm": "Run anyway"
 		},
 		"picker": {
 			"no_items": "No items selected.",
@@ -1023,7 +1025,8 @@
 			"description_line1": "Import bag items from a JSON file, which can be created by the WowSimsExporter in-game AddOn.",
 			"description_line2": "To import, upload the file or paste the text below, then click, 'Import'."
 		}
-	},	"upgrade_tab": {
+	},
+	"upgrade_tab": {
 		"title": "Upgrade Finder",
 		"description": "Add items you are considering and sim each one individually against your current gear to find the biggest single-item DPS upgrade.",
 		"tabs": {
