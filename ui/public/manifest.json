@@ -1,0 +1,23 @@
+{
+	"id": "/tbc/",
+	"name": "WoWSims — The Burning Crusade",
+	"short_name": "WoWSims TBC",
+	"description": "Gear, rotation and DPS/TPS simulator for World of Warcraft: The Burning Crusade.",
+	"start_url": "/tbc/",
+	"scope": "/tbc/",
+	"display": "standalone",
+	"background_color": "#000000",
+	"theme_color": "#0f0f0f",
+	"icons": [
+		{
+			"src": "/tbc/assets/favicon_io/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/tbc/assets/favicon_io/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	]
+}

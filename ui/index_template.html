@@ -5,8 +5,15 @@
 		<meta charset="utf-8" />
 
 		<link rel="icon" type="image/x-icon" href="/tbc/assets/favicon_io/favicon.ico" />
+		<link rel="manifest" href="/tbc/manifest.json" />
 
 		<meta name="description" content="" />
+		<script>
+			// PWA install support: the worker is a network pass-through (no caching).
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', () => navigator.serviceWorker.register('/tbc/sw.js'));
+			}
+		</script>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<link rel="preload" href="/tbc/assets/database/db.json" as="fetch" crossorigin="anonymous" />
