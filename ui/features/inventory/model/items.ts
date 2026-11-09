@@ -4,9 +4,7 @@
 // toggling and upserts converge regardless of the stored setup.
 import { ItemSpec } from '@generated/proto/common';
 import i18n from '@i18n/config';
-
 import type { Player } from '@sim/player/player';
-
 import { inventoryItems, patchInventoryState } from '@sim/settings/inventory_settings';
 import { toastManager } from '@ui-kit/Toast';
 
@@ -25,7 +23,12 @@ export const toggleOwnedItem = (player: Player<any>, spec: ItemSpec) => {
 };
 
 export const removeInventoryItem = (player: Player<any>, itemId: number) => {
-	setItems(player, inventoryItems(player).filter(s => s.id !== itemId).map(s => ItemSpec.clone(s)) as ItemSpec[]);
+	setItems(
+		player,
+		inventoryItems(player)
+			.filter(s => s.id !== itemId)
+			.map(s => ItemSpec.clone(s)) as ItemSpec[],
+	);
 };
 
 export const clearInventory = (player: Player<any>) => setItems(player, []);

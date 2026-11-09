@@ -10,7 +10,13 @@ import type { UpgradeCandidate, UpgradeResult } from '@sim/upgrade/types';
 import { toastManager } from '@ui-kit/Toast';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { getUpgradeCandidateSimCount, getUpgradeSimSlots, getVisibleUpgradeResults, importInventoryAsCandidates, setUpgradeIncludeInventoryCombos } from './items';
+import {
+	getUpgradeCandidateSimCount,
+	getUpgradeSimSlots,
+	getVisibleUpgradeResults,
+	importInventoryAsCandidates,
+	setUpgradeIncludeInventoryCombos,
+} from './items';
 
 const STORE_KEY = 0;
 
@@ -21,10 +27,15 @@ let player: Player<any>;
 
 // A trinket passes canEquipItem for every spec without class or weapon checks, so the
 // fake db only has to resolve ids and serve enchants.
+// `_item` mirrors `item`: the planner/counter read identity fields straight off the
+// underlying proto (skipping the `item` getter's defensive clone).
 const fakeEquippedItem = (spec: ItemSpec) => {
+	const item = { id: spec.id, name: `Item ${spec.id}`, type: ItemType.ItemTypeTrinket, classAllowlist: [], unique: false, limitCategory: 0, handType: 0 };
 	const equippedItem = {
+		id: spec.id,
 		asSpec: () => ItemSpec.create({ id: spec.id }),
-		item: { id: spec.id, name: `Item ${spec.id}`, type: ItemType.ItemTypeTrinket, classAllowlist: [], unique: false, limitCategory: 0 },
+		item,
+		_item: item,
 		withDynamicStats: () => equippedItem,
 	};
 	return equippedItem as unknown as UpgradeCandidate['equippedItem'];
@@ -88,7 +99,7 @@ describe('importInventoryAsCandidates', () => {
 });
 
 describe('getVisibleUpgradeResults', () => {
-	const resultOf = (id: number): UpgradeResult => ({ item: { item: { id } }, slot: 0, delta: id } as unknown as UpgradeResult);
+	const resultOf = (id: number): UpgradeResult => ({ item: { item: { id } }, slot: 0, delta: id }) as unknown as UpgradeResult;
 
 	it('returns every result when the filter is off, even for owned items', () => {
 		const results = [resultOf(100), resultOf(200)];
@@ -117,19 +128,20 @@ describe('getUpgradeSimSlots', () => {
 	const F1 = ItemSlot.ItemSlotFinger1;
 	const F2 = ItemSlot.ItemSlotFinger2;
 
-	const candidateOf = (id: number, type: ItemType, unique = false): UpgradeCandidate => ({
-		spec: ItemSpec.create({ id }),
-		equippedItem: {
-			item: { id, name: `Item ${id}`, type, armorType: ArmorType.ArmorTypeCloth, classAllowlist: [], unique },
-		} as unknown as UpgradeCandidate['equippedItem'],
-		selectedEnchant: null,
-	});
+	const candidateOf = (id: number, type: ItemType, unique = false): UpgradeCandidate => {
+		const item = { id, name: `Item ${id}`, type, armorType: ArmorType.ArmorTypeCloth, classAllowlist: [], unique };
+		return {
+			spec: ItemSpec.create({ id }),
+			equippedItem: { id, item, _item: item } as unknown as UpgradeCandidate['equippedItem'],
+			selectedEnchant: null,
+		};
+	};
 
 	const gearWearing = (worn: Partial<Record<ItemSlot, number>>): Gear =>
 		({
 			getEquippedItem: (slot: ItemSlot) => {
 				const id = worn[slot];
-				return id == null ? null : { item: { id, name: `Item ${id}` } };
+				return id == null ? null : { id, item: { id, name: `Item ${id}` } };
 			},
 		}) as unknown as Gear;
 
@@ -156,9 +168,6 @@ describe('getUpgradeSimSlots', () => {
 });
 
 describe('getUpgradeCandidateSimCount', () => {
-	const T1 = ItemSlot.ItemSlotTrinket1;
-	const T2 = ItemSlot.ItemSlotTrinket2;
-
 	// Map-backed gear covering exactly the planner's surface (the fake db resolves
 	// every id as a trinket, so counts come purely from slots, not item types).
 	// Map-backed gear covering exactly the planner's surface; equipped values are
@@ -178,7 +187,14 @@ describe('getUpgradeCandidateSimCount', () => {
 		return gear as unknown as Gear;
 	};
 	const mapGear = (worn: Array<[ItemSlot, number]>): Gear =>
-		gearOfSlots(new Map(worn.map(([slot, id]) => [slot, { item: { id }, asSpec: () => ItemSpec.create({ id }) }])));
+		gearOfSlots(
+			new Map(
+				worn.map(([slot, id]) => [
+					slot,
+					{ id, item: { id }, _item: { id, unique: false, limitCategory: 0, handType: 0 }, asSpec: () => ItemSpec.create({ id }) },
+				]),
+			),
+		);
 
 	it('counts one sim per eligible slot with the option off', () => {
 		upgradeState(player).candidates = [

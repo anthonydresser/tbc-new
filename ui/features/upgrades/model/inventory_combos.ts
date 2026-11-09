@@ -4,7 +4,7 @@
 // `runBulkSim` call, so a weak inventory combo is culled cheaply by the bulk staging
 // while the candidate's best survives to full iterations.
 import type { BulkGearResult, DistributionMetrics } from '@generated/proto/api';
-import { GemColor, ItemSlot, ItemSpec } from '@generated/proto/common';
+import { EquipmentSpec, GemColor, HandType, ItemSlot, ItemSpec } from '@generated/proto/common';
 import type { UIGem as Gem } from '@generated/proto/ui';
 import type { Player } from '@sim/player/player';
 import type { EquippedItem } from '@sim/proto/equipped_item';
@@ -87,13 +87,17 @@ export const collectInventoryOptionsBySlot = (
 	for (const spec of inventoryItems(player)) {
 		const equippedItem = player.sim.db.lookupItemSpec(spec)?.withDynamicStats();
 		if (!equippedItem) continue;
-		for (const slot of getEligibleItemSlots(equippedItem.item)) {
-			if (!canEquipItem(equippedItem.item, player.getPlayerSpec(), slot)) continue;
-			if (baseGear.getEquippedItem(slot)?.item.id === equippedItem.item.id) continue;
+		// `_item` instead of the `item` getter: these are read-only identity/eligibility
+		// checks, and the getter's defensive proto clone made this loop (and the
+		// enumeration below) the dominant cost of a gear-set switch.
+		const item = equippedItem._item;
+		for (const slot of getEligibleItemSlots(item)) {
+			if (!canEquipItem(item, player.getPlayerSpec(), slot)) continue;
+			if (baseGear.getEquippedItem(slot)?.id === item.id) continue;
 			const seen = seenBySlot.get(slot) ?? new Set<number>();
 			seenBySlot.set(slot, seen);
-			if (seen.has(equippedItem.item.id)) continue;
-			seen.add(equippedItem.item.id);
+			if (seen.has(item.id)) continue;
+			seen.add(item.id);
 			const options = optionsBySlot.get(slot) ?? [];
 			optionsBySlot.set(slot, options);
 			if (options.length >= INVENTORY_COMBO_MAX_OPTIONS_PER_SLOT) {
@@ -109,8 +113,9 @@ export const collectInventoryOptionsBySlot = (
 // Two items can't share a gear set when they are the same unique item, or are bound
 // to the same limit category (weapon-effect groups). `withEquippedItem` would
 // otherwise silently clear the conflicting slot and sim a set with an empty slot.
+// `_item` instead of the cloning `item` getter — read-only identity checks.
 const itemsConflict = (a: EquippedItem, b: EquippedItem): boolean =>
-	(a.item.unique && a.item.id === b.item.id) || (a.item.limitCategory !== 0 && a.item.limitCategory === b.item.limitCategory);
+	(a._item.unique && a._item.id === b._item.id) || (a._item.limitCategory !== 0 && a._item.limitCategory === b._item.limitCategory);
 
 /**
  * Sanity-checks a built combo: the intended items are in place and no other slot
@@ -125,18 +130,111 @@ export const isComboIntact = (
 	candidateSlot: ItemSlot,
 	swapped: Array<[ItemSlot, EquippedItem]>,
 ): boolean => {
-	if (comboGear.getEquippedItem(candidateSlot)?.item.id !== candidateId) return false;
+	if (comboGear.getEquippedItem(candidateSlot)?.id !== candidateId) return false;
 	for (const slot of baseGear.getItemSlots()) {
 		if (slot === candidateSlot) continue;
 		const swappedItem = swapped.find(([s]) => s === slot)?.[1];
 		if (swappedItem) {
-			if (comboGear.getEquippedItem(slot)?.item.id !== swappedItem.item.id) return false;
+			if (comboGear.getEquippedItem(slot)?.id !== swappedItem.id) return false;
 			continue;
 		}
 		const wore = baseGear.getEquippedItem(slot);
-		if ((wore?.item.id ?? null) !== (comboGear.getEquippedItem(slot)?.item.id ?? null)) return false;
+		if ((wore?.id ?? null) !== (comboGear.getEquippedItem(slot)?.id ?? null)) return false;
 	}
 	return true;
+};
+
+/**
+ * The enumeration shared by the planner (`planInventoryCombos`, which builds gear
+ * sets) and the render-time counter (`countInventoryCombos`, which only counts) —
+ * one iterator so the two can never drift apart. Per candidate: plain swaps for
+ * every sim slot first, then the mixed-radix cross product of inventory options on
+ * the other slots, rejecting positions with uniqueness/limit-category conflicts,
+ * all under the INVENTORY_COMBO_MAX_* caps. The hooks consume each position and
+ * report whether it counted, which is what the caps see.
+ */
+const enumerateComboPositions = (
+	candidates: Array<UpgradeCandidate>,
+	optionsBySlot: Map<ItemSlot, Array<EquippedItem>>,
+	simSlotsFor: (candidate: UpgradeCandidate) => Array<ItemSlot>,
+	hooks: {
+		beginCandidate: (candidateIndex: number, candidate: UpgradeCandidate) => void;
+		acceptPlain: (candidateIndex: number, slot: ItemSlot) => boolean;
+		acceptCombo: (candidateIndex: number, slot: ItemSlot, chosen: Array<{ slot: ItemSlot; item: EquippedItem }>) => boolean;
+	},
+): { totalCombos: number; truncated: boolean } => {
+	let totalCombos = 0;
+	let truncated = false;
+
+	for (let candidateIndex = 0; candidateIndex < candidates.length; candidateIndex++) {
+		const candidate = candidates[candidateIndex];
+		hooks.beginCandidate(candidateIndex, candidate);
+		const simSlots = simSlotsFor(candidate);
+
+		// Plain swaps first: when the combo cap cuts the enumeration short, the
+		// accepted set still contains the old single-swap behavior.
+		let accepted = 0;
+		for (const slot of simSlots) {
+			if (hooks.acceptPlain(candidateIndex, slot)) {
+				accepted++;
+				totalCombos++;
+			}
+		}
+
+		for (const slot of simSlots) {
+			// Inventory choices for every slot that has options and isn't the
+			// candidate's own. An empty choice matrix means just the plain swap.
+			const choiceSlots: Array<Array<{ slot: ItemSlot; item: EquippedItem | null }>> = [];
+			for (const [otherSlot, options] of optionsBySlot) {
+				if (otherSlot === slot) continue;
+				choiceSlots.push([{ slot: otherSlot, item: null }, ...options.map(item => ({ slot: otherSlot, item }))]);
+			}
+			if (!choiceSlots.length) continue;
+
+			// Mixed-radix enumeration of the cross product, skipping the all-no-op
+			// position (that IS the plain swap) and stopping at the caps.
+			const digits = choiceSlots.map(choices => choices.length);
+			for (let combo = 1; accepted < INVENTORY_COMBO_MAX_COMBOS_PER_CANDIDATE && totalCombos < INVENTORY_COMBO_MAX_TOTAL; combo++) {
+				if (combo > INVENTORY_COMBO_MAX_SCANS_PER_CANDIDATE) {
+					truncated = true;
+					break;
+				}
+				let remainder = combo;
+				const picked: Array<{ slot: ItemSlot; item: EquippedItem | null }> = new Array(digits.length);
+				for (let d = digits.length - 1; d >= 0; d--) {
+					picked[d] = choiceSlots[d][remainder % digits[d]];
+					remainder = Math.floor(remainder / digits[d]);
+				}
+				if (remainder !== 0) break; // wrapped past the highest radix: product exhausted
+
+				// Uniqueness/limit-category conflicts among the candidate and the
+				// chosen inventory items disqualify the combo outright.
+				const chosenItems = picked.filter(p => p.item !== null).map(p => p.item!);
+				if (chosenItems.some(item => itemsConflict(item, candidate.equippedItem))) continue;
+				let conflicting = false;
+				for (let i = 0; !conflicting && i < chosenItems.length; i++) {
+					for (let j = i + 1; j < chosenItems.length; j++) {
+						if (itemsConflict(chosenItems[i], chosenItems[j])) {
+							conflicting = true;
+							break;
+						}
+					}
+				}
+				if (conflicting) continue;
+
+				if (hooks.acceptCombo(candidateIndex, slot, picked.filter(p => p.item !== null) as Array<{ slot: ItemSlot; item: EquippedItem }>)) {
+					accepted++;
+					totalCombos++;
+				}
+			}
+			if (accepted >= INVENTORY_COMBO_MAX_COMBOS_PER_CANDIDATE || totalCombos >= INVENTORY_COMBO_MAX_TOTAL) {
+				truncated = true;
+			}
+			if (totalCombos >= INVENTORY_COMBO_MAX_TOTAL) break;
+		}
+		if (totalCombos >= INVENTORY_COMBO_MAX_TOTAL) break;
+	}
+	return { totalCombos, truncated };
 };
 
 /**
@@ -158,98 +256,158 @@ export const planInventoryCombos = (
 ): InventoryComboPlan => {
 	const { optionsBySlot, cappedSlots } = collectInventoryOptionsBySlot(player, baseGear);
 	const byCandidate: Array<Array<InventoryComboPlanEntry>> = [];
-	let totalCombos = 0;
-	let truncated = false;
+	let entries: Array<InventoryComboPlanEntry> = [];
+	// Seen gear sets of this family; interchangeable slot pairs never double-sim.
+	let seenComboKeys = new Set<string>();
 
-	for (let candidateIndex = 0; candidateIndex < candidates.length; candidateIndex++) {
-		const candidate = candidates[candidateIndex];
-		const entries: Array<InventoryComboPlanEntry> = [];
-		byCandidate.push(entries);
+	const record = (candidateIndex: number, slot: ItemSlot, gear: Gear, swappedSlots: Array<ItemSlot>): boolean => {
+		const key = comboIdentityKey(gear);
+		if (seenComboKeys.has(key)) return false;
+		seenComboKeys.add(key);
+		entries.push({ candidateIndex, slot, gear, swappedSlots });
+		return true;
+	};
 
-		// Plain swaps for every sim slot come first: when the combo cap cuts the
-		// enumeration short, the new results still contain the old behavior's set.
-		const simSlots = getUpgradeSimSlots(player, baseGear, candidate);
-		// Seen gear sets of this family; interchangeable slot pairs never double-sim.
-		const seenComboKeys = new Set<string>();
-		for (const slot of simSlots) {
-			const gear = buildCandidateGear(candidate, slot);
-			const key = comboIdentityKey(gear);
-			if (seenComboKeys.has(key)) continue;
-			seenComboKeys.add(key);
-			entries.push({ candidateIndex, slot, gear, swappedSlots: [] });
-			totalCombos++;
-		}
-
-		for (const slot of simSlots) {
-			// Inventory choices for every slot that has options and isn't the
-			// candidate's own. An empty choice matrix means just the plain swap.
-			const choiceSlots: Array<Array<{ slot: ItemSlot; item: EquippedItem | null }>> = [];
-			for (const [otherSlot, options] of optionsBySlot) {
-				if (otherSlot === slot) continue;
-				choiceSlots.push([{ slot: otherSlot, item: null }, ...options.map(item => ({ slot: otherSlot, item }))]);
+	const { totalCombos, truncated } = enumerateComboPositions(candidates, optionsBySlot, candidate => getUpgradeSimSlots(player, baseGear, candidate), {
+		beginCandidate: candidateIndex => {
+			entries = [];
+			byCandidate[candidateIndex] = entries;
+			seenComboKeys = new Set<string>();
+		},
+		acceptPlain: (candidateIndex, slot) => record(candidateIndex, slot, buildCandidateGear(candidates[candidateIndex], slot), []),
+		acceptCombo: (candidateIndex, slot, chosen) => {
+			const candidate = candidates[candidateIndex];
+			let comboGear = buildCandidateGear(candidate, slot);
+			for (const { slot: swappedSlot, item } of chosen) {
+				comboGear = comboGear.withEquippedItem(swappedSlot, item);
 			}
-			if (!choiceSlots.length) continue;
+			// One fill at the end: authored gems on inventory items survive, only
+			// still-empty unfrozen sockets get the fallback gem.
+			comboGear = comboGear.fillSocketsWithGems(fallbackGems, frozenSockets);
 
-			// Mixed-radix enumeration of the cross product, skipping the all-no-op
-			// position (that IS the plain swap) and stopping at the caps.
-			const digits = choiceSlots.map(choices => choices.length);
-			for (let combo = 1; entries.length < INVENTORY_COMBO_MAX_COMBOS_PER_CANDIDATE && totalCombos < INVENTORY_COMBO_MAX_TOTAL; combo++) {
-				if (combo > INVENTORY_COMBO_MAX_SCANS_PER_CANDIDATE) {
-					truncated = true;
-					break;
-				}
-				let remainder = combo;
-				const picked: Array<{ slot: ItemSlot; item: EquippedItem | null }> = new Array(digits.length);
-				for (let d = digits.length - 1; d >= 0; d--) {
-					picked[d] = choiceSlots[d][remainder % digits[d]];
-					remainder = Math.floor(remainder / digits[d]);
-				}
-				if (remainder !== 0) break; // wrapped past the highest radix: product exhausted
+			const swapped = chosen.map(c => [c.slot, c.item] as [ItemSlot, EquippedItem]);
+			if (!isComboIntact(baseGear, comboGear, candidate.spec.id, slot, swapped)) return false;
 
-				// Uniqueness/limit-category conflicts among the candidate and the
-				// chosen inventory items disqualify the combo outright.
-				const chosen = picked.filter(p => p.item).map(p => p.item!);
-				if (chosen.some(item => itemsConflict(item, candidate.equippedItem))) continue;
-				let conflicting = false;
-				for (let i = 0; !conflicting && i < chosen.length; i++) {
-					for (let j = i + 1; j < chosen.length; j++) {
-						if (itemsConflict(chosen[i], chosen[j])) {
-							conflicting = true;
-							break;
-						}
-					}
-				}
-				if (conflicting) continue;
-
-				const swapped = picked.filter(p => p.item !== null).map(p => [p.slot, p.item!] as [ItemSlot, EquippedItem]);
-				let comboGear = buildCandidateGear(candidate, slot);
-				for (const [swappedSlot, item] of swapped) {
-					comboGear = comboGear.withEquippedItem(swappedSlot, item);
-				}
-				// One fill at the end: authored gems on inventory items survive, only
-				// still-empty unfrozen sockets get the fallback gem.
-				comboGear = comboGear.fillSocketsWithGems(fallbackGems, frozenSockets);
-
-				if (!isComboIntact(baseGear, comboGear, candidate.spec.id, slot, swapped)) continue;
-
-				// Interchangeable pair permutations of an already-planned set are the
-				// same sim (e.g. candidate in Finger1 + owned ring in Finger2 vs. the
-				// reverse); the first encountered orientation wins.
-				const key = comboIdentityKey(comboGear);
-				if (seenComboKeys.has(key)) continue;
-				seenComboKeys.add(key);
-
-				entries.push({ candidateIndex, slot, gear: comboGear, swappedSlots: swapped.map(([s]) => s) });
-				totalCombos++;
-			}
-			if (entries.length >= INVENTORY_COMBO_MAX_COMBOS_PER_CANDIDATE || totalCombos >= INVENTORY_COMBO_MAX_TOTAL) {
-				truncated = true;
-			}
-			if (totalCombos >= INVENTORY_COMBO_MAX_TOTAL) break;
-		}
-		if (totalCombos >= INVENTORY_COMBO_MAX_TOTAL) break;
-	}
+			// Interchangeable pair permutations of an already-planned set are the
+			// same sim (e.g. candidate in Finger1 + owned ring in Finger2 vs. the
+			// reverse); the first encountered orientation wins.
+			return record(
+				candidateIndex,
+				slot,
+				comboGear,
+				chosen.map(c => c.slot),
+			);
+		},
+	});
 	return { byCandidate, totalCombos, truncated, cappedSlots };
+};
+
+// Identity-only view of an equipped item for the counting pass, read straight off
+// the underlying proto — the `item` getter returns a defensive clone, and the
+// counter runs synchronously in render on every gear change.
+interface SlotOccupancy {
+	id: number;
+	unique: boolean;
+	limitCategory: number;
+	handType: HandType;
+}
+const occupancyOf = (item: EquippedItem | null | undefined): SlotOccupancy | null => {
+	if (!item) return null;
+	const proto = item._item;
+	return { id: proto.id, unique: proto.unique, limitCategory: proto.limitCategory, handType: proto.handType };
+};
+
+// Mirrors Gear.withEquippedItemInternal (gear.ts) at the item-id level: unique /
+// limit-category clears BEFORE the assignment, weapon-combo validation AFTER.
+const simulateSwap = (occupancy: Map<ItemSlot, SlotOccupancy | null>, slot: ItemSlot, next: SlotOccupancy): void => {
+	if (next.unique || next.limitCategory !== 0) {
+		for (const [otherSlot, worn] of occupancy) {
+			if (worn !== null && ((next.limitCategory !== 0 && worn.limitCategory === next.limitCategory) || (next.unique && worn.id === next.id))) {
+				occupancy.set(otherSlot, null);
+			}
+		}
+	}
+	occupancy.set(slot, next);
+
+	const mainHand = occupancy.get(ItemSlot.ItemSlotMainHand) ?? null;
+	const offHand = occupancy.get(ItemSlot.ItemSlotOffHand) ?? null;
+	// !validWeaponCombo: either hand holding a two-hander invalidates the pair.
+	if (mainHand?.handType === HandType.HandTypeTwoHand || offHand?.handType === HandType.HandTypeTwoHand) {
+		if (slot === ItemSlot.ItemSlotOffHand) {
+			if (offHand?.handType === HandType.HandTypeTwoHand) occupancy.set(ItemSlot.ItemSlotOffHand, null);
+			occupancy.set(ItemSlot.ItemSlotMainHand, null);
+		} else {
+			occupancy.set(ItemSlot.ItemSlotOffHand, null);
+		}
+	}
+};
+
+// Clone-free comboIdentityKey equivalent: same interchangeable-pair collapse, but
+// per-slot bare ids. Per-slot inventory options are deduped by id
+// (collectInventoryOptionsBySlot), so within one candidate's enumeration a slot id
+// pins the authored spec — ids alone carry the same distinguishment.
+const comboOccupancyKey = (occupancy: Map<ItemSlot, SlotOccupancy | null>, slots: Array<ItemSlot>): string => {
+	const interchangeable = new Set<ItemSlot>(INTERCHANGEABLE_SLOTS.flatMap(group => [...group]));
+	const idAt = (slot: ItemSlot): string => `${occupancy.get(slot)?.id ?? 0}`;
+	const parts: Array<string> = INTERCHANGEABLE_SLOTS.map(group => group.map(idAt).sort().join('&'));
+	for (const slot of slots) {
+		if (interchangeable.has(slot)) continue;
+		parts.push(`${slot}:${idAt(slot)}`);
+	}
+	return parts.join('|');
+};
+
+/**
+ * Counts the exact combinations `planInventoryCombos` would enumerate, without
+ * materializing any Gear/EquippedItem protos: slot occupancy is simulated at the
+ * item-id level (`simulateSwap` replicates the planner's slot-clearing rules), and
+ * identity keys are id strings. Backs the always-rendered sim-count label, where
+ * building hundreds of gear sets on every gear change froze the UI for seconds.
+ */
+export const countInventoryCombos = (player: Player<any>, baseGear: Gear, candidates: Array<UpgradeCandidate>): number => {
+	const { optionsBySlot } = collectInventoryOptionsBySlot(player, baseGear);
+	const slots = baseGear.getItemSlots();
+	const baseOccupancy = new Map<ItemSlot, SlotOccupancy | null>(slots.map(slot => [slot, occupancyOf(baseGear.getEquippedItem(slot))]));
+	let candidateOccupancy: SlotOccupancy | null = null;
+	let seenComboKeys = new Set<string>();
+
+	return enumerateComboPositions(candidates, optionsBySlot, candidate => getUpgradeSimSlots(player, baseGear, candidate), {
+		beginCandidate: (_candidateIndex, candidate) => {
+			candidateOccupancy = occupancyOf(candidate.equippedItem);
+			seenComboKeys = new Set<string>();
+		},
+		acceptPlain: (_candidateIndex, slot) => {
+			const occupancy = new Map(baseOccupancy);
+			simulateSwap(occupancy, slot, candidateOccupancy!);
+			const key = comboOccupancyKey(occupancy, slots);
+			if (seenComboKeys.has(key)) return false;
+			seenComboKeys.add(key);
+			return true;
+		},
+		acceptCombo: (_candidateIndex, slot, chosen) => {
+			const occupancy = new Map(baseOccupancy);
+			simulateSwap(occupancy, slot, candidateOccupancy!);
+			for (const { slot: swappedSlot, item } of chosen) {
+				simulateSwap(occupancy, swappedSlot, occupancyOf(item)!);
+			}
+			// Same sanity check as isComboIntact: every intended item is in place and
+			// every untouched slot kept its base item.
+			if (occupancy.get(slot)?.id !== candidateOccupancy!.id) return false;
+			for (const otherSlot of slots) {
+				if (otherSlot === slot) continue;
+				const chosenItem = chosen.find(c => c.slot === otherSlot)?.item;
+				if (chosenItem) {
+					if (occupancy.get(otherSlot)?.id !== chosenItem.id) return false;
+					continue;
+				}
+				if ((occupancy.get(otherSlot)?.id ?? null) !== (baseOccupancy.get(otherSlot)?.id ?? null)) return false;
+			}
+			const key = comboOccupancyKey(occupancy, slots);
+			if (seenComboKeys.has(key)) return false;
+			seenComboKeys.add(key);
+			return true;
+		},
+	}).totalCombos;
 };
 
 /**
@@ -257,18 +415,24 @@ export const planInventoryCombos = (
  * result mapped back through the plan (`candidateIndex` is our own enumeration
  * index). Returns null when the run produced nothing usable — the caller keeps the
  * candidate out of the results rather than inventing a delta.
+ *
+ * `optimizedSpec` is the backend's gear for the winning combo: with the gem
+ * pre-pass on it carries the re-gemmed set (and without it, what was submitted).
+ * Either way its enchants were run through `Sim.prepareGear`, which strips ring
+ * enchants for non-enchanters, so consumers restoring it must copy the enchants
+ * back from the plan entry's gear.
  */
 export const bestComboResultForCandidate = (
 	topResults: Array<BulkGearResult>,
 	planEntries: Array<InventoryComboPlanEntry>,
-): { entry: InventoryComboPlanEntry; dpsMetrics: DistributionMetrics } | null => {
-	let best: { entry: InventoryComboPlanEntry; dpsMetrics: DistributionMetrics } | null = null;
+): { entry: InventoryComboPlanEntry; dpsMetrics: DistributionMetrics; optimizedSpec: EquipmentSpec | undefined } | null => {
+	let best: { entry: InventoryComboPlanEntry; dpsMetrics: DistributionMetrics; optimizedSpec: EquipmentSpec | undefined } | null = null;
 	for (const topResult of topResults) {
 		const dpsMetrics = topResult.dpsMetrics;
 		if (!dpsMetrics) continue;
 		const entry = planEntries[topResult.candidateIndex];
 		if (!entry) continue;
-		if (!best || dpsMetrics.avg > best.dpsMetrics.avg) best = { entry, dpsMetrics };
+		if (!best || dpsMetrics.avg > best.dpsMetrics.avg) best = { entry, dpsMetrics, optimizedSpec: topResult.gear };
 	}
 	return best;
 };

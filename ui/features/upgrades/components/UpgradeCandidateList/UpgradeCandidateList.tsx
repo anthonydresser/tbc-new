@@ -1,9 +1,9 @@
 import { ItemDetailCell } from '@features/gear/components/ItemCell';
 import { useOpenSelectorModal } from '@features/gear/hooks/useSelectorModal';
 import { SelectorModalTabs } from '@features/gear/types';
+import { useInventoryState } from '@features/inventory/hooks/useInventoryState';
 import i18n from '@i18n/config';
 import { translateSlotName } from '@i18n/localization';
-import { useInventoryState } from '@features/inventory/hooks/useInventoryState';
 import { usePlayer } from '@sim/context/SimHostContext';
 import { Button } from '@ui-kit/Button';
 import { Icon } from '@ui-kit/Icon';

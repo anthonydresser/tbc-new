@@ -1,8 +1,8 @@
 import { ItemSpec } from '@generated/proto/common';
 import { describe, expect, it } from 'vitest';
 
-import { upgradeRunsEqual } from './upgrade_settings';
 import type { SavedUpgradeRun } from '../upgrade/types';
+import { upgradeRunsEqual } from './upgrade_settings';
 
 const baseRun = (overrides: Partial<SavedUpgradeRun> = {}): SavedUpgradeRun => ({
 	name: 'Fury Warrior Upgrades',

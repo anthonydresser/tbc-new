@@ -1,5 +1,5 @@
-import { toggleOwnedItem } from '@features/inventory/model/items';
 import { useInventoryState } from '@features/inventory/hooks/useInventoryState';
+import { toggleOwnedItem } from '@features/inventory/model/items';
 import { Class, ItemSlot, ItemSpec } from '@generated/proto/common';
 import { UIEnchant as Enchant, UIGem as Gem, UIItem as Item } from '@generated/proto/ui';
 import i18n from '@i18n/config';

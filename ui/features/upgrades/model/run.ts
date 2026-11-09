@@ -316,16 +316,10 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 			// falling through to the sequential per-slot path would sim both orientations.
 			if (comboEntries.length >= 1) {
 				throwIfUpgradeAborted(host, abortSignal);
-				setSimulationProgress(
-					host,
-					currentRun,
-					totalRuns,
-					i18n.t('upgrade_tab.progress.combos', { itemName: candidate.equippedItem.item.name }),
-				);
+				setSimulationProgress(host, currentRun, totalRuns, i18n.t('upgrade_tab.progress.combos', { itemName: candidate.equippedItem.item.name }));
 				// Gem optimization applies iff the upgrade finder's own toggle is on
 				// (the bulk gem pre-pass consumes the same reforge config).
-				const reforgeConfig =
-					state.optimizeGems && host.reforger ? host.reforger.getReforgeOptimizeConfig(originalGear) : undefined;
+				const reforgeConfig = state.optimizeGems && host.reforger ? host.reforger.getReforgeOptimizeConfig(originalGear) : undefined;
 				// bulkSettings is deliberately omitted: on a native backend it would switch
 				// candidate generation to the backend and discard our planned gear sets.
 				const bulkResult = await runWithUpgradeAbort(
@@ -345,6 +339,24 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 				}
 				const best = bestComboResultForCandidate(bulkResult.topResults, comboEntries);
 				if (best) {
+					// The simmed set is the backend's optimized gear when the gem pre-pass ran;
+					// the plan entry's gear only carries authored+fallback gems. Enchants come
+					// from the plan gear regardless: prepareGear stripped ring enchants for a
+					// non-enchanter before the solve, and equipping the result must not wipe the
+					// enchants authored on inventory (or baseline) items.
+					let resultGear = best.entry.gear;
+					if (reforgeConfig && best.optimizedSpec) {
+						let optimizedGear = sim.db.lookupEquipmentSpec(best.optimizedSpec);
+						for (const slot of best.entry.gear.getItemSlots()) {
+							const planned = best.entry.gear.getEquippedItem(slot);
+							const optimizedItem = optimizedGear.getEquippedItem(slot);
+							if (!planned || !optimizedItem) continue;
+							if ((planned._enchant?.effectId ?? 0) !== (optimizedItem._enchant?.effectId ?? 0)) {
+								optimizedGear = optimizedGear.withEquippedItem(slot, optimizedItem.withEnchant(planned.enchant));
+							}
+						}
+						resultGear = optimizedGear;
+					}
 					// BiS comparison stays single-swap (no combos on the reference set), on
 					// the winning slot. A pre-count sim slot that turns out identity here
 					// merely leaves the progress total one short.
@@ -372,7 +384,7 @@ export const runUpgradeSim = async (host: IndividualSimHost<any>) => {
 					candidateResults.push({
 						item: candidate.equippedItem,
 						slot,
-						gear: best.entry.gear,
+						gear: resultGear,
 						dpsMetrics: cleanBulkDpsMetrics(best.dpsMetrics),
 						delta: best.dpsMetrics.avg - baselineDps.avg,
 						bisDelta,

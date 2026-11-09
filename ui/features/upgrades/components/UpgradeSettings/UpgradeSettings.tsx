@@ -1,5 +1,5 @@
-import i18n from '@i18n/config';
 import { useInventoryState } from '@features/inventory/hooks/useInventoryState';
+import i18n from '@i18n/config';
 import { useSimHost } from '@sim/context/SimHostContext';
 import { usePlayerStore } from '@sim/hooks/usePlayerStore';
 import { formatToNumber } from '@sim/utils/format';

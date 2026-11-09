@@ -9,7 +9,7 @@ import { FALLBACK_GEM_COLORS, findEnchantForItem, patchUpgradeState, upgradeStat
 import type { UpgradeCandidate, UpgradeResult } from '@sim/upgrade/types';
 import { toastManager } from '@ui-kit/Toast';
 
-import { planInventoryCombos } from './inventory_combos';
+import { countInventoryCombos } from './inventory_combos';
 
 // The sim loop iterates the candidate list live, so mutating it mid-run would
 // silently drop items from the results.
@@ -77,11 +77,9 @@ export const setUpgradeOptimizeGems = (player: Player<any>, optimizeGems: boolea
 export const setUpgradeIncludeInventoryCombos = (player: Player<any>, includeInventoryCombos: boolean) =>
 	patchUpgradeState(player, { includeInventoryCombos }, ['settings']);
 
-export const setUpgradeHideOwnedResults = (player: Player<any>, hideOwnedResults: boolean) =>
-	patchUpgradeState(player, { hideOwnedResults }, ['settings']);
+export const setUpgradeHideOwnedResults = (player: Player<any>, hideOwnedResults: boolean) => patchUpgradeState(player, { hideOwnedResults }, ['settings']);
 
-export const setUpgradeHideNonUpgrades = (player: Player<any>, hideNonUpgrades: boolean) =>
-	patchUpgradeState(player, { hideNonUpgrades }, ['settings']);
+export const setUpgradeHideNonUpgrades = (player: Player<any>, hideNonUpgrades: boolean) => patchUpgradeState(player, { hideNonUpgrades }, ['settings']);
 
 /**
  * Imports the inventory as candidates, preserving each entry's authored setup: the
@@ -97,7 +95,11 @@ export const importInventoryAsCandidates = (player: Player<any>) => {
 	let skipped = 0;
 
 	for (const spec of inventoryItems(player)) {
-		if (upgradeState(player).candidates.concat(imported).some(candidate => ItemSpec.equals(candidate.spec, spec))) {
+		if (
+			upgradeState(player)
+				.candidates.concat(imported)
+				.some(candidate => ItemSpec.equals(candidate.spec, spec))
+		) {
 			skipped++;
 			continue;
 		}
@@ -138,17 +140,10 @@ export const setCandidateEnchant = (player: Player<any>, index: number, enchant:
 export const getUpgradeCandidateSimCount = (player: Player<any>): number => {
 	const state = upgradeState(player);
 	if (!state.includeInventoryCombos) return state.candidates.reduce((sum, candidate) => sum + upgradeEligibleSlots(player, candidate).length, 0);
-	// One entry per planned combination; the plain swap builder is enough here because
-	// gems/enchants never change how many sets a family enumerates.
-	const baseGear = player.getGear();
-	const plan = planInventoryCombos(
-		player,
-		baseGear,
-		state.candidates,
-		(candidate, slot) => baseGear.withEquippedItem(slot, candidate.equippedItem),
-		getDefaultGemsByColor(player),
-	);
-	return plan.totalCombos;
+	// Counts the exact combinations planInventoryCombos would enumerate, without
+	// building gear sets: this runs in render on every gear change, and materializing
+	// Gear protos for hundreds of combos froze the UI on every gear-set switch.
+	return countInventoryCombos(player, player.getGear(), state.candidates);
 };
 
 // A reference is in effect only when both the toggle and a set name are present; the
@@ -203,9 +198,10 @@ export const getVisibleUpgradeResults = (
 // slot, while a non-unique ring worn in Finger1 is only worth simming in Finger2.
 export const getUpgradeSimSlots = (player: Player<any>, baseGear: Gear, candidate: UpgradeCandidate): ItemSlot[] => {
 	const slots = upgradeEligibleSlots(player, candidate);
-	const wornSlots = new Set(slots.filter(slot => baseGear.getEquippedItem(slot)?.item.id === candidate.spec.id));
+	const wornSlots = new Set(slots.filter(slot => baseGear.getEquippedItem(slot)?.id === candidate.spec.id));
 	if (!wornSlots.size) return slots;
-	if (candidate.equippedItem.item.unique) return [];
+	// `_item.unique`: read-only identity check; the `item` getter returns a defensive clone.
+	if (candidate.equippedItem._item.unique) return [];
 	return slots.filter(slot => !wornSlots.has(slot));
 };
 
