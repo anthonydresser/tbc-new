@@ -3,6 +3,7 @@
 // this shell is purely the chrome around it.
 const { app, BrowserWindow } = require('electron');
 const { spawn } = require('child_process');
+const fs = require('fs');
 const net = require('net');
 const path = require('path');
 
@@ -28,6 +29,33 @@ const freePort = () =>
 			probe.close(() => resolve(port));
 		});
 	});
+
+// Saved gear sets/settings live in localStorage, which is scoped to the ORIGIN —
+// and the port is part of the origin. A fresh random port per launch would
+// silently discard everything the user saved, so we reuse the port from the last
+// run whenever it's still free, only falling back to ephemeral on a collision
+// (dev server, second instance), and record what we actually used.
+const portFile = () => path.join(app.getPath('userData'), 'server-port');
+
+const canListen = port =>
+	new Promise(resolve => {
+		const probe = net.createServer();
+		probe.on('error', () => resolve(false));
+		probe.listen(port, '127.0.0.1', () => {
+			probe.close(() => resolve(true));
+		});
+	});
+
+const pickPort = async () => {
+	let saved = 0;
+	try {
+		saved = parseInt(fs.readFileSync(portFile(), 'utf8'), 10) || 0;
+	} catch {
+		// First launch or unreadable file: no saved port.
+	}
+	if (saved && (await canListen(saved))) return saved;
+	return freePort();
+};
 
 const waitForServer = (baseUrl, timeoutMs = 30000) =>
 	new Promise((resolve, reject) => {
@@ -57,7 +85,7 @@ const waitForServer = (baseUrl, timeoutMs = 30000) =>
 	});
 
 app.whenReady().then(async () => {
-	const port = await freePort();
+	const port = await pickPort();
 	const baseUrl = `http://127.0.0.1:${port}/`;
 
 	serverProcess = spawn(serverBinary(), ['--host', `127.0.0.1:${port}`, '--launch=false', '--nvc'], {
@@ -84,6 +112,9 @@ app.whenReady().then(async () => {
 	win.loadURL('about:blank');
 	win.webContents.insertText(''); // no-op, keeps the blank window from idling white
 	await waitForServer(baseUrl);
+	// The server actually bound this port — remember it so the next launch reuses
+	// the same origin and saved data survives.
+	fs.writeFile(portFile(), String(port), () => {});
 	win.loadURL(baseUrl);
 });
 
