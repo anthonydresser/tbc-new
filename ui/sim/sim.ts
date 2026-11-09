@@ -697,6 +697,12 @@ export class Sim {
 	async updateCharacterStats() {
 		const version = ++this.characterStatsVersion;
 		await this.waitForInit();
+		// Yield one macrotask before building the request: getModifiedRaidProto +
+		// ComputeStatsRequest.toBinary cost ~50-90ms of main-thread proto churn, which
+		// otherwise runs inside the gear-change microtask chain and delays paint.
+		await sleep(0);
+		// The yield also makes skipping superseded invocations cheap.
+		if (version !== this.characterStatsVersion) return;
 		// Capture the current players so we avoid issues if something changes while
 		// request is in-flight.
 

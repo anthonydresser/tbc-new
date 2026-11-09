@@ -43,6 +43,7 @@ export function loadIndividualSettings(
 	const env = opts.player.sim.env;
 	// Declared before the batch: its flush can already schedule a persist.
 	let persistTimer: ReturnType<typeof setTimeout> | null = null;
+	let cancelIdlePersist: (() => void) | null = null;
 	opts.player.sim.applyLoadedSettings(() =>
 		batch(() => {
 			host.applyDefaults();
@@ -93,9 +94,27 @@ export function loadIndividualSettings(
 		if (persistTimer == null) return;
 		clearTimeout(persistTimer);
 		persistTimer = null;
-		persist();
+		// The serialize+localStorage write is ~50ms — park it on an idle callback
+		// so it doesn't land in the critical path right as a gear change settles.
+		cancelIdlePersist?.();
+		cancelIdlePersist = env.scheduleIdle(() => {
+			cancelIdlePersist = null;
+			persist();
+		}, 2000);
 	}
-	env.onPageHide(flushPersist);
+	env.onPageHide(() => {
+		// An idle callback is not guaranteed to run before unload, so a pending
+		// debounce or idle continuation is written synchronously here instead.
+		if (persistTimer != null) {
+			clearTimeout(persistTimer);
+			persistTimer = null;
+			persist();
+		} else if (cancelIdlePersist != null) {
+			cancelIdlePersist();
+			cancelIdlePersist = null;
+			persist();
+		}
+	});
 
 	function persist() {
 		const jsonStr = IndividualSimSettings.toJsonString(host.toProto());

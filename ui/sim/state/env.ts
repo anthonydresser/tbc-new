@@ -26,4 +26,9 @@ export interface Env {
 
 	// Registers a "page is going away" callback; returns an unsubscribe.
 	onPageHide(fn: () => void): () => void;
+
+	// Schedules `fn` for an idle period (browser: window.requestIdleCallback),
+	// with `timeoutMs` capping the deferral; returns a cancel. For work that must
+	// not sit in an input handler's critical path (serialization, storage writes).
+	scheduleIdle(fn: () => void, timeoutMs: number): () => void;
 }

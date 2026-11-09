@@ -10,7 +10,7 @@ import { EquipmentSpec, ItemSpec } from '@generated/proto/common';
 import type { Player } from '../player/player';
 import { Database } from '../proto/database';
 import { sanitizeProtoJson } from '../state/proto_json';
-import { patchKeyed, seedKeyed, type InventorySlice } from '../state/sim_store';
+import { type InventorySlice, patchKeyed, seedKeyed } from '../state/sim_store';
 import { specStorageKey } from '../state/storage_keys';
 
 export const INVENTORY_STORAGE_KEY = 'inventory.v1';

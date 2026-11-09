@@ -40,6 +40,10 @@ const makeEnv = (): Env => ({
 	location: { hash: '', search: '', href: 'http://localhost/', hostname: 'localhost', setHash: () => {} },
 	hardwareConcurrency: 1,
 	onPageHide: () => () => {},
+	scheduleIdle: fn => {
+		fn();
+		return () => {};
+	},
 });
 
 // A stand-in for the request `makeRaidSimRequest` builds: every option the merged call acts on is
@@ -224,8 +228,10 @@ describe('Sim.updateCharacterStats', () => {
 		mocks.computeStats.mockReset();
 	});
 
-	// The hazard: both calls build a request from current state, and whichever reply lands last
-	// writes. Without a guard the older one can land last and overwrite the newer stats.
+	// The hazard: a request already in flight settles after a newer recompute has
+	// started, and without a guard the older reply lands last and overwrites the
+	// newer stats. (An invocation superseded BEFORE its request is built never
+	// reaches computeStats at all — see the pre-build version check.)
 	it('discards a reply that a newer recompute has already superseded', async () => {
 		const sim = makeStatsSim();
 		const player = { setCurrentStats: vi.fn(), updateMetadata: vi.fn(async () => false) };
@@ -237,6 +243,7 @@ describe('Sim.updateCharacterStats', () => {
 			.mockImplementationOnce(() => Promise.resolve(statsResult(200)));
 
 		const stale = sim.updateCharacterStats();
+		await vi.waitFor(() => expect(mocks.computeStats).toHaveBeenCalledTimes(1));
 		const fresh = sim.updateCharacterStats();
 		await fresh;
 		settleFirst(statsResult(100));
@@ -270,6 +277,7 @@ describe('Sim.updateCharacterStats', () => {
 			.mockImplementationOnce(() => Promise.resolve(statsResult(400)));
 
 		const stale = sim.updateCharacterStats();
+		await vi.waitFor(() => expect(mocks.computeStats).toHaveBeenCalledTimes(1));
 		const fresh = sim.updateCharacterStats();
 		await fresh;
 		settleFirst({ errorResult: 'boom' });

@@ -45,4 +45,12 @@ export const browserEnv: Env = {
 		window.addEventListener('pagehide', fn);
 		return () => window.removeEventListener('pagehide', fn);
 	},
+	scheduleIdle(fn: () => void, timeoutMs: number) {
+		if (typeof window.requestIdleCallback === 'function') {
+			const handle = window.requestIdleCallback(() => fn(), { timeout: timeoutMs });
+			return () => window.cancelIdleCallback(handle);
+		}
+		const handle = window.setTimeout(fn, 50);
+		return () => window.clearTimeout(handle);
+	},
 };
